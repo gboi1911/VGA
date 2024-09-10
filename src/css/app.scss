@@ -1,5 +1,6 @@
 .page {
   padding: 16px 16px 96px 16px;
+  margin-top: 36px;
 }
 
 .section-container {
@@ -11,4 +12,25 @@
 
 .zaui-list-item {
   cursor: pointer;
+}
+
+.bg-theme-image {
+  background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/15549a14589707.5628669c64769.png'); 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  height: 100vh;
+}
+
+.bg-theme-image1 {
+  background-image: url('https://wallpapercave.com/wp/wp3611712.jpg'); 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  height: 100vh;
+}
+
+.bg-theme-image2 {
+  background-image: url('https://wallpapercave.com/wp/wp2458320.png'); 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  height: 100vh;
 }

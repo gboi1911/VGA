@@ -2,14 +2,14 @@
   "app": {
     "title": "VGA",
     "headerTitle": "zmp-blank-templates",
-    "headerColor": "#1843EF",
+    "headerColor": "#006AF5",
     "textColor": "white",
     "textAlign": "left",
     "statusBarColor": "#1843EF",
     "leftButton": "back",
-    "statusBar": "normal",
-    "actionBarHidden": false,
-    "hideAndroidBottomNavigationBar": false,
+    "statusBar": "hidden",
+    "actionBarHidden": true,
+    "hideAndroidBottomNavigationBar": true,
     "hideIOSSafeAreaBottom": false
   },
   "debug": false,

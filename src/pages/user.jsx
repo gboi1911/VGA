@@ -39,10 +39,7 @@ const UserPage = () => {
             <Text.Title>{displayName || user.name}</Text.Title>
           </Box>
           <Box ml={4}>
-            <Button
-              onClick={() => {
-                navigate("/form");
-              }}
+            <Button              
               size="small"
               icon={<Icon icon="zi-edit" />}
             />
