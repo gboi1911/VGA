@@ -1,19 +1,29 @@
 const url = import.meta.env.VITE_APP_BASE_API;
 import axios from "axios";
 
-export const getMBTITest = async (id) => {
+export const getMBTITestQuestions = async (id) => {
     try {
-        const response = await axios.get(`${url}/mbti-tests/${id}`);
+        const response = await axios.get(`${url}/personal-test/all-question-by-test-id${id}`);
         return response; 
       } catch (error) {
-        console.error('Error in getMBTITest:', error);
+        console.error('Error in getMBTITestQuestions:', error);
         throw error; 
       }
     };
 
-export const postMBTIAnswers = async (payload) => {
+export const getMBTITestAnswers = async (id) => {
   try {
-    const response = await axios.post(`${url}/mbti-tests`, payload);
+    const response = await axios.get(`${url}/personal-test/answer-by-question-id${id}`);
+    return response;
+  } catch (error) {
+    console.error('Error in getMBTITestAnswers:', error);
+    throw error;
+  }
+}    
+
+export const postMBTIResult = async (payload) => {
+  try {
+    const response = await axios.post(`${url}/personal-test/result-personal-test`, payload);
     return response.data; 
   } catch (error) {
     console.error('Error posting answers:', error);

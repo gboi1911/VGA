@@ -1,27 +1,33 @@
 // src/pages/TestPage.js
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Page, Box, Button, Text, Modal, Tabs } from 'zmp-ui';
 import { useNavigate } from 'react-router-dom';
 
 const TestPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [testType, setTestType] = useState('mbti');
   const navigate = useNavigate();
-  const handleStartTest = () => {
+
+  const handleStartTest = useCallback((type) => {
+    setTestType(type); 
     setIsModalVisible(true);
-    console.log('Test Started');
-  };
+    console.log('Test Started', type);
+  }, []);
 
-  const handleYes = () => {
+  const handleYes = useCallback(() => {
     setIsModalVisible(false);
-    console.log('User clicked Yes');
-    navigate('/testExecute');
-  };
+    console.log('User clicked Yes for', testType);    
+    if (testType === 'mbti') {
+      navigate('/testExecute');
+    } else if (testType === 'holland') {
+      navigate('/testExecuteHolland');
+    }
+  }, [testType, navigate]);
 
-  const handleNo = () => {
+  const handleNo = useCallback(() => {
     setIsModalVisible(false);
     console.log('User clicked No');
-    // Add logic for No action here
-  };
+  }, []);
 
   return (
     <Page className="page bg-theme-image1">
@@ -43,7 +49,7 @@ const TestPage = () => {
               </Text>
               <Button
                 fullWidth           
-                onClick={handleStartTest}
+                onClick={() => handleStartTest('mbti')}
               >
                 Bắt đầu
               </Button>
@@ -67,7 +73,7 @@ Lý thuyết lựa chọn nghề nghiệp Holland chia con người ra 6 loại 
             </Text>
             <Button
               fullWidth           
-              onClick={handleStartTest}
+              onClick={() => handleStartTest('holland')}
             >
               Bắt đầu
             </Button>
@@ -81,7 +87,12 @@ Lý thuyết lựa chọn nghề nghiệp Holland chia con người ra 6 loại 
         title="Thông báo"
       >
         <div className="p-4">
-          <Text className="text-lg">Thực hiện bài kiểm tra này sẽ tốn 20 gold. Bạn đã sẵn sàng ?</Text>
+          <Text
+           className="text-lg"
+           style={{
+            textAlign:"center"
+           }}
+           >Thực hiện bài kiểm tra này sẽ tốn 20 gold. Bạn đã sẵn sàng ?</Text>
           <div className="flex justify-end mt-4">
             <Button
               className="mr-2"

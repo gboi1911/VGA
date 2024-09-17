@@ -7,8 +7,10 @@ import TestPage from '../pages/test';
 import ExpertPage from '../pages/expert';
 import User from '../pages/user';
 import MainLayout from '../layout';
-import TestExecute from '../pages/testExecute';
-import TestResult from '../pages/testResult';
+import TestExecute from '../pages/mbtiTest/testExecute';
+import TestResult from '../pages/mbtiTest/testResult'; 
+import TestExecuteHolland from '../pages/hollandTest/testExecuteHolland';
+import TestResultHolland from '../pages/hollandTest/testResultHolland';
 
 
 const MyApp = () => {
@@ -25,6 +27,8 @@ const MyApp = () => {
               <Route path="test" element={<TestPage></TestPage>}></Route>      
               <Route path='testExecute' element={<TestExecute></TestExecute>}/>             
               <Route path='testResult' element={<TestResult></TestResult>}/> 
+              <Route path='testExecuteHolland' element={<TestExecuteHolland></TestExecuteHolland>}/>
+              <Route path='testResultHolland' element={<TestResultHolland></TestResultHolland>}/>
             </Route>             
           </AnimationRoutes>
         </ZMPRouter>

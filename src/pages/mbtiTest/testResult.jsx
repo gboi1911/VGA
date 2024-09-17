@@ -17,8 +17,8 @@ const TestResult = () => {
                 alt='image'          
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 role='presentation'/>
-                <Text bold size="xLarge" style={{textAlign:"center", color:"green"}}>INFJ</Text>
-                <Text style={{color:"#339966"}}>{resultData}</Text>
+                <Text bold size="xLarge" style={{textAlign:"center", color:"green"}}>{resultData.name}</Text>
+                <Text style={{color:"#339966"}}>{resultData.des}</Text>
             </Box>
             <div className="flex justify-center items-center mt-6 mb-12">
             <Button 
