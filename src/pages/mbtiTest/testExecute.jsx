@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Page, Box, Text, Radio, Button, Icon, Modal } from 'zmp-ui';
+import { Page, Box, Text, Radio, Button, Icon, Modal, Spinner } from 'zmp-ui';
 import { useNavigate } from 'react-router-dom';
 import { getMBTITestQuestions, getMBTITestAnswers, postMBTIResult } from '../../api/test';
 
@@ -16,7 +16,7 @@ const TestExecute = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await getMBTITestQuestions(1);
+        const response = await getMBTITestQuestions('d7eae2f2-ff5c-4b5d-8c6c-4b5e21d8a57c');
         if (response && response.data) {
           const fetchedQuestions = response.data.map((q) => ({
             id: q.id,
@@ -108,8 +108,8 @@ const TestExecute = () => {
     const listAnswerId = Object.values(answers); // Get the list of selected answer IDs
     
     const requestData = {
-      "student-id": "4976d084-1b15-4e3f-a184-2a8493cfbb6c", // Replace with actual student ID
-      "personal-test-id": 1, // Replace with actual test ID
+      "student-id": "2AFF7FBC-767A-475B-B3D2-5EC7F2E458F0", // Replace with actual student ID
+      "personal-test-id": "d7eae2f2-ff5c-4b5d-8c6c-4b5e21d8a57c", // Replace with actual test ID
       "list-question-id": listQuestionId,
       "list-answer-id": listAnswerId,
       "date": new Date().toISOString() // Current date
@@ -118,7 +118,6 @@ const TestExecute = () => {
     try {
       const response = await postMBTIResult(requestData);
       if (response && response.data) {
-        // Navigate to the TestResult page and pass the result data
         navigate('/testResult', { state: { resultData: response.data } });
       } else {
         console.error('Error: No response data');
@@ -126,100 +125,118 @@ const TestExecute = () => {
     } catch (error) {
       console.error('Error posting test results:', error);
     }
-    console.log('Test completed');
   };
 
-  if (!questions.length) {
-    return <Text>Loading questions...</Text>;
+  if (!questions.length || loading) {
+    return (
+      <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Spinner />
+        <Text>Loading questions...</Text>
+      </Box>
+    );
   }
 
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <Page className="page relative bg-theme-image">            
-      <Box>
+    <Page className="page bg-theme-image" style={{minHeight: '100vh' }}>
+      <Box style={{ padding: '8px' }}>
+        <Box>
         <img
           src="https://wallpapercave.com/wp/wp1949793.jpg" 
           alt='image'          
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px" }}
           role='presentation'
         />
       </Box>
-      <Box className="mb-4 p-4">
-        <div className="flex flex-col space-x-1 mt-8">
-          <Text bold>Question {currentQuestionIndex + 1} of {questions.length}:</Text>
-          <Text 
-            className="mb-2 mt-2"
-            style={{
-              border: '2px solid #CC6699', 
-              padding: '10px',             
-              borderRadius: '8px',         
-              backgroundColor: '#f9f9f9',  
-              textAlign: 'center'          
-            }}
-          >{currentQuestion.content}</Text>
-        </div>
-        <div className="flex flex-col space-y-2 mt-4">
-          {Array.isArray(currentQuestion.answers) && currentQuestion.answers.map((choice) => (
-            <label key={choice.id} className="flex items-center space-x-2">
-              <Radio
-                checked={answers[currentQuestion.id] === choice.id}
-                onChange={() => handleChoiceChange(currentQuestion.id, choice)}
-              />
-              <Text>{choice.content}</Text>
-            </label>
-          ))}
-        </div>
+        <Box style={{marginTop: '12px',  backgroundColor: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+          <Text style={{ fontWeight: 'bold', fontSize: '18px', color: '#2c5282', marginBottom: '12px' }}>
+            Question {currentQuestionIndex + 1} of {questions.length}
+          </Text>
+          <Text style={{ color: '#4a5568', fontSize: '16px', marginBottom: '24px' }}>
+            {currentQuestion.content}
+          </Text>
+          <Box>
+            {Array.isArray(currentQuestion.answers) && currentQuestion.answers.map((choice) => (
+              <label key={choice.id} style={{
+                display: 'block', 
+                padding: '12px', 
+                border: '1px solid #cbd5e0', 
+                borderRadius: '8px', 
+                marginBottom: '12px', 
+                backgroundColor: '#ebf4ff',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s ease-in-out'
+              }}>
+                <Radio
+                  checked={answers[currentQuestion.id] === choice.id}
+                  onChange={() => handleChoiceChange(currentQuestion.id, choice)}
+                />
+                <Text style={{ marginLeft: '8px', color: '#2b6cb0' }}>{choice.content}</Text>
+              </label>
+            ))}
+          </Box>
+        </Box>
       </Box>
-      <div className="flex justify-between mt-12">
-        {currentQuestionIndex > 0 && ( 
+
+      <Box style={{ display: 'flex', justifyContent: 'space-between', padding: '16px' }}>
+        {currentQuestionIndex > 0 && (
           <Button
             style={{
-              backgroundColor: '#FF6699',
+              backgroundColor: '#1c92d2',
               color: 'white',
-              borderRadius: '8px',
               padding: '10px 20px',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center'
             }}
-            type="primary"
             onClick={handleBackQuestion}
           >
-            <Icon icon="zi-chevron-left" /> Quay lại
+            <Icon icon="zi-chevron-left" />
+            <span style={{ marginLeft: '8px' }}>Back</span>
           </Button>
         )}
         {currentQuestionIndex === questions.length - 1 ? (
           <Button
             style={{
-              backgroundColor: '#339966',
+              backgroundColor: '#3bb77e',
               color: 'white',
-              borderRadius: '8px',
               padding: '10px 20px',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center'
             }}
-            type="primary"
             onClick={handleFinish}
           >
-            Hoàn thành
+            Finish
           </Button>
-        ) : 
+        ) : (
           <Button
-          style={{
-            backgroundColor: '#339966',
-            color: 'white',
-            borderRadius: '8px',
-            padding: '10px 20px',
-          }}
-          type="primary"
-          onClick={handleNextQuestion}>
-          <Icon icon="zi-chevron-right" />  Tiếp theo
-            </Button>}
-      </div>
+            style={{
+              backgroundColor: '#1c92d2',
+              color: 'white',
+              padding: '10px 20px',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+            onClick={handleNextQuestion}
+          >
+            <span style={{ marginRight: '8px' }}>Next</span>
+            <Icon icon="zi-chevron-right" />
+          </Button>
+        )}
+      </Box>
+
       <Modal
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
-        title='Lưu ý'>
-        <Text>Vui lòng chọn đáp án trước khi sang câu hỏi kế tiếp</Text>
-        <div className='flex justify-center items-center mt-4'>
-          <Button onClick={() => setIsModalVisible(false)}>Ok</Button>
-        </div>
+        title="Notice"
+      >
+        <Text>Please select an answer before proceeding to the next question.</Text>
+        <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '16px' }}>
+          <Button onClick={() => setIsModalVisible(false)}>OK</Button>
+        </Box>
       </Modal>
     </Page>
   );

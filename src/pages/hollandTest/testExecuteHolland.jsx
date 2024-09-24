@@ -13,7 +13,7 @@ const TestExecuteHolland = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await getMBTITestQuestions(3); // Replace with your correct API call
+        const response = await getMBTITestQuestions('c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7');
         if (response && response.data) {
           const fetchedQuestions = response.data.map((q) => ({
             id: q.id,
@@ -48,7 +48,6 @@ const TestExecuteHolland = () => {
       if (nextIndex < questions.length) {
         return nextIndex;
       } else {
-        // Set state to indicate test completion
         setTestCompleted(true);
         return prevIndex;
       }
@@ -59,16 +58,16 @@ const TestExecuteHolland = () => {
     if (testCompleted) {
       const postResults = async () => {
         const payload = {
-          "student-id": "4976d084-1b15-4e3f-a184-2a8493cfbb6c", // Replace with actual student ID
-          "personal-test-id": 3, // Assuming this is the test ID
+          "student-id": "2AFF7FBC-767A-475B-B3D2-5EC7F2E458F0",
+          "personal-test-id": "C8F6E5A3-4B3C-4D3A-8F5E-1C9A7D40D0B7" ,
           "list-question-id": selectedQuestionIds,
-          "list-answer-id": [], // Assuming answers are not required in this case
-          "date": new Date().toISOString(), // Current date in ISO format
+          "list-answer-id": [],
+          "date": new Date().toISOString(),
         };
-  
+
         try {
-          const response = await postMBTIResult(payload); // Assuming postMBTIResult is the API function
-          if (response && response.data) {                      
+          const response = await postMBTIResult(payload);
+          if (response && response.data) {
             navigate("/testResultHolland", { state: { resultData: response.data } });
           } else {
             console.error("Failed to submit test results:", response);
@@ -77,17 +76,17 @@ const TestExecuteHolland = () => {
           console.error("Error submitting test results:", error);
         }
       };
-  
+
       postResults();
     }
   }, [testCompleted, selectedQuestionIds, navigate]);
 
   if (!currentQuestion) {
-    return <Text>Loading...</Text>; // Show loading while waiting for questions
+    return <Text>Loading...</Text>;
   }
 
   return (
-    <Page className="page relative bg-theme-image3">
+    <Page className="page bg-theme-image3" style={{ position: "relative", fontFamily: "Arial, sans-serif" }}>
       <Box>
         <img
           src="https://www.premiumschools.org/wp-content/uploads/2021/09/Happiest-Careers-That-Pay-Well-Divider.png"
@@ -96,71 +95,96 @@ const TestExecuteHolland = () => {
           role="presentation"
         />
       </Box>
-      <Box>
-        <div className="flex flex-col space-x-1 mt-8">
-          <Text bold>
-            Question {currentQuestionIndex + 1} of {questions.length}:
-          </Text>
-          <Text
-            className="mb-2 mt-2"
-            style={{
-              border: "2px solid #CC6699",
-              padding: "10px",
-              borderRadius: "8px",
-              backgroundColor: "#f9f9f9",
-              textAlign: "center",
-            }}
-          >
-            {currentQuestion.content}
-          </Text>
-        </div>
+      <Box
+        style={{
+          padding: "20px",
+          backgroundColor: "rgba(255, 255, 255, 0.9)",
+          borderRadius: "10px",
+          margin: "20px auto",
+          maxWidth: "600px",
+          textAlign: "center",
+        }}
+      >
+        <Text
+          style={{ fontWeight: 'bold', fontSize: '18px', color: '#2c5282', marginBottom: '12px' }}
+        >
+          Question {currentQuestionIndex + 1} of {questions.length}
+        </Text>
+        <Text
+          style={{
+            border: "2px solid #0066cc",
+            padding: "15px",
+            borderRadius: "8px",
+            backgroundColor: "#f2f2f2",
+            color: "#333",
+            fontSize: "1.1em",
+          }}
+        >
+          {currentQuestion.content}
+        </Text>
       </Box>
-      <div className="flex justify-center mt-12 space-x-4">
-        {testCompleted ? (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          marginTop: "30px",
+        }}
+      >
+        <Button
+          style={{
+            backgroundColor: "#28a745",
+            color: "#fff",
+            borderRadius: "10px",
+            padding: "12px 24px",
+            fontSize: "1em",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "transform 0.2s",
+          }}
+          onClick={handleYes}
+          onMouseOver={(e) => (e.target.style.transform = "scale(1.05)")}
+          onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
+        >
+          Đúng
+        </Button>
+        <Button
+          style={{
+            backgroundColor: "#dc3545",
+            color: "#fff",
+            borderRadius: "10px",
+            padding: "12px 24px",
+            fontSize: "1em",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "transform 0.2s",
+          }}
+          onClick={handleNo}
+          onMouseOver={(e) => (e.target.style.transform = "scale(1.05)")}
+          onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
+        >
+          Sai
+        </Button>
+      </div>
+      {testCompleted && (
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "20px",
+          }}
+        >
           <Button
-            className="transition-transform transform hover:scale-105"
             style={{
               backgroundColor: "#007bff",
-              color: "white",
-              borderRadius: "8px",
-              padding: "10px 20px",
+              color: "#fff",
+              borderRadius: "10px",
+              padding: "12px 24px",
+              fontSize: "1em",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
-            type="info"
             onClick={() => navigate("/testResultHolland", { state: { resultData: response.data } })}
           >
             Finish
           </Button>
-        ) : (
-          <>
-            <Button
-              className="transition-transform transform hover:scale-105"
-              style={{
-                backgroundColor: "#33cc33",
-                color: "white",
-                borderRadius: "8px",
-                padding: "10px 20px",
-              }}
-              type="primary"
-              onClick={handleYes}
-            >
-              Yes
-            </Button>
-            <Button
-              className="transition-transform transform hover:scale-105"
-              style={{
-                backgroundColor: "#FF6666",
-                color: "white",
-                borderRadius: "8px",
-                padding: "10px 20px",
-              }}
-              type="danger"
-              onClick={handleNo}
-            >
-              No
-            </Button>
-          </>
-        )}
-      </div>
+        </div>
+      )}
     </Page>
   );
 };
