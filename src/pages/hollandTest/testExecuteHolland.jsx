@@ -108,7 +108,7 @@ const TestExecuteHolland = () => {
         <Text
           style={{ fontWeight: 'bold', fontSize: '18px', color: '#2c5282', marginBottom: '12px' }}
         >
-          Question {currentQuestionIndex + 1} of {questions.length}
+          Câu hỏi: {currentQuestionIndex + 1} trên {questions.length}
         </Text>
         <Text
           style={{
@@ -172,7 +172,7 @@ const TestExecuteHolland = () => {
         >
           <Button
             style={{
-              backgroundColor: "#007bff",
+              backgroundColor: "#0066CC",
               color: "#fff",
               borderRadius: "10px",
               padding: "12px 24px",
@@ -181,7 +181,7 @@ const TestExecuteHolland = () => {
             }}
             onClick={() => navigate("/testResultHolland", { state: { resultData: response.data } })}
           >
-            Finish
+            Hoàn thành
           </Button>
         </div>
       )}

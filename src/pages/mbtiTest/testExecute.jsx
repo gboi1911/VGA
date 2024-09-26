@@ -151,7 +151,7 @@ const TestExecute = () => {
       </Box>
         <Box style={{marginTop: '12px',  backgroundColor: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
           <Text style={{ fontWeight: 'bold', fontSize: '18px', color: '#2c5282', marginBottom: '12px' }}>
-            Question {currentQuestionIndex + 1} of {questions.length}
+            Câu hỏi: {currentQuestionIndex + 1} trên {questions.length}
           </Text>
           <Text style={{ color: '#4a5568', fontSize: '16px', marginBottom: '24px' }}>
             {currentQuestion.content}
@@ -183,17 +183,17 @@ const TestExecute = () => {
         {currentQuestionIndex > 0 && (
           <Button
             style={{
-              backgroundColor: '#1c92d2',
+              backgroundColor: '#0066CC',
               color: 'white',
-              padding: '10px 20px',
+              padding: '',
               borderRadius: '8px',
               display: 'flex',
-              alignItems: 'center'
+              alignItems: 'center', 
+              justifyContent: 'center'
             }}
             onClick={handleBackQuestion}
           >
             <Icon icon="zi-chevron-left" />
-            <span style={{ marginLeft: '8px' }}>Back</span>
           </Button>
         )}
         {currentQuestionIndex === questions.length - 1 ? (
@@ -204,25 +204,26 @@ const TestExecute = () => {
               padding: '10px 20px',
               borderRadius: '8px',
               display: 'flex',
-              alignItems: 'center'
+              alignItems: 'center', 
+              justifyContent: 'center'
             }}
             onClick={handleFinish}
           >
-            Finish
+            Hoàn thành
           </Button>
         ) : (
           <Button
             style={{
-              backgroundColor: '#1c92d2',
+              backgroundColor: '#0066CC',
               color: 'white',
-              padding: '10px 20px',
               borderRadius: '8px',
               display: 'flex',
-              alignItems: 'center'
+              alignItems: 'center', 
+              justifyContent: 'center'
             }}
             onClick={handleNextQuestion}
           >
-            <span style={{ marginRight: '8px' }}>Next</span>
+            <span></span>
             <Icon icon="zi-chevron-right" />
           </Button>
         )}

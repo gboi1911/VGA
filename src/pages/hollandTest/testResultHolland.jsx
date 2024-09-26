@@ -26,8 +26,6 @@ const TestResultHolland = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundImage: "url('https://image.slidesdocs.com/responsive-images/background/virtual-learning-made-easy-an-illustration-of-a-student-engaged-in-an-online-classroom-powerpoint-background_7e7cee49f8__960_540.jpg')",
-        backgroundSize: "cover",
         minHeight: "100vh",
       }}
     >
@@ -56,7 +54,7 @@ const TestResultHolland = () => {
           bold
           size="xLarge"
           style={{
-            color: "#27AE60",
+            color: "#26936D",
             fontSize: "2em",
             marginTop: "20px",
           }}
@@ -76,7 +74,7 @@ const TestResultHolland = () => {
         </Text>
         <Button
           style={{
-            backgroundColor: "#FF7675",
+            backgroundColor: "#FF6600",
             color: "#FFF",
             borderRadius: "8px",
             padding: "12px 24px",

@@ -50,6 +50,9 @@ const TestPage = () => {
               <Button
                 fullWidth           
                 onClick={() => handleStartTest('mbti')}
+                style={{
+                  backgroundColor: "#0066CC"
+                }}
               >
                 Bắt đầu
               </Button>
@@ -74,6 +77,9 @@ Lý thuyết lựa chọn nghề nghiệp Holland chia con người ra 6 loại 
             <Button
               fullWidth           
               onClick={() => handleStartTest('holland')}
+              style={{
+                backgroundColor: "#0066CC"
+              }}
             >
               Bắt đầu
             </Button>
@@ -98,6 +104,9 @@ Lý thuyết lựa chọn nghề nghiệp Holland chia con người ra 6 loại 
               className="mr-2"
               type="primary"
               onClick={handleYes}
+              style={{
+                backgroundColor: "#0066CC"
+              }}
             >
               Yes
             </Button>

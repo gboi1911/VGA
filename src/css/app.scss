@@ -14,31 +14,7 @@
   cursor: pointer;
 }
 
-.bg-theme-image {
-  background-image: url('https://wallpapercave.com/wp/wp2458169.png'); 
-  background-position: center; 
-  background-repeat: no-repeat; 
-  height: 100vh;
-}
-
-.bg-theme-image1 {
-  background-image: url('https://wallpapercave.com/wp/wp3611712.jpg'); 
-  background-position: center; 
-  background-repeat: no-repeat; 
-  height: 100vh;
-}
-
-.bg-theme-image2 {
-  background-image: url('https://wallpapercave.com/wp/wp2458320.png'); 
-  background-position: center; 
-  background-repeat: no-repeat; 
-  height: 100vh;
-}
-
-.bg-theme-image3 {
-  background-image: url('https://img.freepik.com/free-vector/mobile-wallpaper-with-fluid-shapes_79603-599.jpg?size=626&ext=jpg'); 
-  background-position: center; 
-  background-repeat: no-repeat; 
-  height: 100vh;
-  background-size: cover;
+.custom-header {
+  background-color: #0066CC;
+  color: #FFFFFF;
 }

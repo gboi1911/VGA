@@ -17,8 +17,6 @@ const TestResult = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundImage: "url('https://www.phucanh.vn/media/news/1210_huong-dan-cach-cai-hinh-nen-dong-cho-may-tinh-1.jpg')",
-                backgroundSize: "contain",
                 minHeight: "100vh",
             }}
         >
@@ -67,7 +65,7 @@ const TestResult = () => {
                 </Text>
                 <Button
                     style={{
-                        backgroundColor: "#FF7675",
+                        backgroundColor: "#FF6600",
                         color: "#FFF",
                         borderRadius: "8px",
                         padding: "12px 24px",
