@@ -43,7 +43,7 @@ const experts = [
 
 const ExpertPage = () => {
   return (
-    <Page className="page p-4 bg-gray-100">
+    <Page className="page p-4 bg-gray-100 w-full">
       {/* Title Section */}
       <Box className="mb-6">
         <Text
