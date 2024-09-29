@@ -18,3 +18,9 @@
   background-color: #0066CC;
   color: #FFFFFF;
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
