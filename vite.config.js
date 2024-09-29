@@ -1,16 +1,23 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-export default defineConfig({
-  root: "./src",
-  base: "",
-  plugins: [react()],
-  optimizeDeps: {
-    include: ["zmp-sdk"],  // Ensure `zmp-sdk` is optimized correctly
-  },
-  resolve: {
-    alias: {
-      // You can add aliases if needed
-    },
-  },
+export default defineConfig(async () => {
+  const tsconfigPaths = (await import('vite-tsconfig-paths')).default;
+
+  return {
+    root: "./src",
+    base: "",
+    plugins: [
+      tsconfigPaths(),
+      react(),
+      {
+        name: "override-config",
+        config: () => ({
+          build: {
+            target: "esnext",
+          },
+        }),
+      },
+    ],
+  };
 });

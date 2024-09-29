@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route} from 'react-router-dom'
 import { App, ZMPRouter, AnimationRoutes, SnackbarProvider} from 'zmp-ui'; 
 import { RecoilRoot } from 'recoil';
@@ -11,10 +11,24 @@ import TestExecute from '../pages/mbtiTest/testExecute';
 import TestResult from '../pages/mbtiTest/testResult'; 
 import TestExecuteHolland from '../pages/hollandTest/testExecuteHolland';
 import TestResultHolland from '../pages/hollandTest/testResultHolland';
-
-
+import { getDataAccessToken } from 'api/zalo';
 
 const MyApp = () => {
+  const [accessToken, setAccessToken] = useState(null);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const token = await getDataAccessToken();
+        setAccessToken(token); // Store the token once fetched
+      } catch (error) {
+        console.error('Error fetching token:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
+
   return (
     <RecoilRoot>
       <App >        
