@@ -11,6 +11,7 @@ import TestExecute from '../pages/mbtiTest/testExecute';
 import TestResult from '../pages/mbtiTest/testResult'; 
 import TestExecuteHolland from '../pages/hollandTest/testExecuteHolland';
 import TestResultHolland from '../pages/hollandTest/testResultHolland';
+import ExpertDetailPage from 'pages/expertDetail';
 import { getDataAccessToken } from 'api/zalo';
 
 const MyApp = () => {
@@ -38,6 +39,7 @@ const MyApp = () => {
             <Route path='/' element={<MainLayout/>}>
               <Route path="home" element={<HomePage></HomePage>}></Route>              
               <Route path="expert" element={<ExpertPage></ExpertPage>}></Route>
+              <Route path='expertDetail/:id' element={<ExpertDetailPage></ExpertDetailPage>}></Route>
               <Route path="user" element={<User></User>}></Route>
               <Route path="test" element={<TestPage></TestPage>}></Route>      
               <Route path='testExecute' element={<TestExecute></TestExecute>}/>             
