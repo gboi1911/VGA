@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Page, Box, Text, Button } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
-import { getMBTITestQuestions, postMBTIResult } from "../../api/test"; // Adjust API imports as needed
+import { getTestData, postMBTIResult } from "../../api/test"; // Adjust API imports as needed
 
 const TestExecuteHolland = () => {
   const [questions, setQuestions] = useState([]);
@@ -13,9 +13,9 @@ const TestExecuteHolland = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await getMBTITestQuestions('c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7');
-        if (response && response.data) {
-          const fetchedQuestions = response.data.map((q) => ({
+        const response = await getTestData('c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7');
+        if (response && response.data && response.data.questionModels) {
+          const fetchedQuestions = response.data.questionModels.map((q) => ({
             id: q.id,
             content: q.content,
           }));
@@ -54,14 +54,14 @@ const TestExecuteHolland = () => {
     });
   };
 
-  useEffect(() => {
+  const handleFinish = () => {
     if (testCompleted) {
       const postResults = async () => {
         const payload = {
-          "student-id": "2AFF7FBC-767A-475B-B3D2-5EC7F2E458F0",
-          "personal-test-id": "C8F6E5A3-4B3C-4D3A-8F5E-1C9A7D40D0B7" ,
-          "list-question-id": selectedQuestionIds,
-          "list-answer-id": [],
+          "studentId": "81787e20-9c9d-4700-9303-042d41f9fa4c",
+          "personalTestId": "c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7" ,
+          "listQuestionId": selectedQuestionIds,
+          "listAnswerId": [],
           "date": new Date().toISOString(),
         };
 
@@ -79,7 +79,7 @@ const TestExecuteHolland = () => {
 
       postResults();
     }
-  }, [testCompleted, selectedQuestionIds, navigate]);
+  }
 
   if (!currentQuestion) {
     return <Text>Loading...</Text>;
@@ -179,7 +179,7 @@ const TestExecuteHolland = () => {
               fontSize: "1em",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
-            onClick={() => navigate("/testResultHolland", { state: { resultData: response.data } })}
+            onClick={handleFinish}
           >
             Hoàn thành
           </Button>
