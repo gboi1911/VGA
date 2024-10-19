@@ -1,59 +1,170 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Avatar, List, Text, Box, Page, Button } from "zmp-ui";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Avatar,
-  List,
-  Text,
-  Box,
-  Page,
-  Button,
-  Icon,
-  useNavigate,
-} from "zmp-ui";
-import { useRecoilValue } from "recoil";
-import { displayNameState, userState } from "../state";
+  faCoins,
+  faTransgender,
+  faSchool,
+  faGraduationCap,
+} from "@fortawesome/free-solid-svg-icons";
+import { getStudentInfo, getSchoolName } from "api/userInfo";
 
-const UserPage = () => {
-  const { userInfo: user } = useRecoilValue(userState);
-  const displayName = useRecoilValue(displayNameState);
-  const navigate = useNavigate();
+const UserPage = ({ studentId }) => {
+  const [userInfo, setUserInfo] = useState(null);
+  const [schoolName, setSchoolName] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const data = await getStudentInfo(studentId);
+        setUserInfo(data);
+        console.log("Student info: ", data);
+
+        // Call fetchSchoolName after userInfo is set
+        const highSchoolId = data.data.highSchoolId;
+        console.log("Highschool ID:", highSchoolId);
+        const schoolName = await getSchoolName(highSchoolId);
+        setSchoolName(schoolName);
+        console.log("School info: ", schoolName);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
+  if (!userInfo) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Page className="page">
+      {/* User Info Section (First Box) */}
       <Box
-        flex
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "20px",
+          padding: "20px",
+          borderRadius: "5px",
+          backgroundColor: "white", // White background
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+        }}
       >
-        <Box>
-          <Avatar
-            story="default"
-            size={96}
-            online
-            src={user.avatar.startsWith("http") ? user.avatar : undefined}
-          >
-            {user.avatar}
-          </Avatar>
-        </Box>
-        <Box flex flexDirection="row" alignItems="center" ml={8}>
-          <Box>
-            <Text.Title>{displayName || user.name}</Text.Title>
-          </Box>
-          <Box ml={4}>
-            <Button              
-              size="small"
-              icon={<Icon icon="zi-edit" />}
-            />
-          </Box>
-        </Box>
+        <Avatar
+          src={userInfo.avatar}
+          size="large"
+          style={{ width: "80px", height: "80px" }}
+        />
+        <Text size="large" style={{ fontWeight: "bold", fontSize: "20px" }}>
+          {userInfo.data.name}
+        </Text>
       </Box>
-      <Box m={0} p={0} mt={4}>
-        <div className="section-container">
-          <List>
-            <List.Item title="Name" subTitle={user.name} />
-            <List.Item title="Display Name" subTitle={displayName} />
-            <List.Item title="ID" subTitle={user.id} />
-          </List>
-        </div>
+
+      {/* Gold Info Section (Second Box) */}
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "10px",
+          backgroundImage:
+            "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-3bjkd32XySUSA_7HFCvui8pjysieOdWfUA&s)",
+          gap: "120px",
+          borderRadius: "5px",
+          backgroundColor: "white", // White background
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          borderBottom: "1px solid #ddd", // Divider line
+          marginTop: "10px",
+        }}
+      >
+        <Box
+          style={{
+            display: "flex",
+            backgroundColor: "white",
+            borderRadius: "20px",
+            marginLeft: "30px",
+            padding: "10px",
+            boxShadow: "inset -2px 2px 4px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <Text size="large">{userInfo.goldBalance} 100</Text>
+          <FontAwesomeIcon
+            icon={faCoins}
+            size="large"
+            style={{
+              marginRight: "10px",
+              color: "#FFD700",
+              marginLeft: "15px",
+            }}
+          />
+        </Box>
+        <Button style={{ backgroundColor: "#FF6600", color: "white" }}>
+          Mua
+        </Button>
+      </Box>
+
+      {/* User Details Section (Following Boxes) */}
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "10px",
+          borderRadius: "5px",
+          backgroundColor: "white", // White background
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          borderBottom: "1px solid #ddd", // Divider line
+          marginTop: "10px",
+        }}
+      >
+        <FontAwesomeIcon
+          icon={faTransgender}
+          size="large"
+          style={{ marginRight: "10px" }}
+        />
+        <Text bold>Giới tính: </Text>
+        <Text style={{ marginLeft: "5px" }}>
+          {userInfo.data.gender ? "Nam" : "Nữ"}
+        </Text>
+      </Box>
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "10px",
+          borderRadius: "5px",
+          backgroundColor: "white", // White background
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          borderBottom: "1px solid #ddd", // Divider line
+          marginTop: "10px",
+        }}
+      >
+        <FontAwesomeIcon
+          icon={faSchool}
+          size="large"
+          style={{ marginRight: "10px" }}
+        />
+        {schoolName && <Text size="large">{schoolName.data.name}</Text>}
+        {!schoolName && <Text>Đang lấy thông tin trường...</Text>}
+      </Box>
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "10px",
+          borderRadius: "5px",
+          backgroundColor: "white", // White background
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          marginTop: "10px",
+        }}
+      >
+        <FontAwesomeIcon
+          icon={faGraduationCap}
+          size="large"
+          style={{ marginRight: "10px" }}
+        />
+        <Text bold>Năm tốt nghiệp: </Text>
+        <Text style={{ marginLeft: "5px" }}>{userInfo.data.schoolYears}</Text>
       </Box>
     </Page>
   );

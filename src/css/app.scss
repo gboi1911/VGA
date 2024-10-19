@@ -1,11 +1,14 @@
 .page {
-  padding: 16px;
-  margin-top: 42px; /* Consider changing this to reduce header overlap */
+  // padding: 16px;
+  margin-top: 42px; /* Adjust to prevent header overlap */
   width: 100%;
   max-width: 600px;
   overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
   display: flex;
   flex-direction: column;
+  min-height: 100vh; /* Ensure page takes up full viewport height */
+  box-sizing: border-box; /* Ensure padding and border don't increase element's width/height */
 }
 
 .section-container {
@@ -20,8 +23,19 @@
 }
 
 .custom-header {
-  background-color: #0066CC;
-  color: #FFFFFF;
+  background-color: #0066cc;
+  color: #ffffff;
+  position: fixed; /* Keep header fixed at the top */
+  top: 0;
+  width: 100%;
+  max-width: 600px;
+  height: 42px; /* Adjust the height as necessary */
+  z-index: 1000; /* Ensure the header is above other content */
+}
+
+.zaui-page {
+  margin-bottom: 48px;
+  margin-top: 90px;
 }
 
 .grid {
@@ -32,8 +46,12 @@
 
 @media (max-width: 768px) {
   .page {
-    padding: 8px; /* Adjust padding for smaller screens */
-    margin-top: 90px; /* Adjust margin for smaller screens */
+    padding: 8px;
+    // margin-top: 90px;
+    // min-height: 100vh;
+    // overflow-y: auto;
+    // overflow-x: hidden;
+    // display: flex;
+    // flex-direction: column;
   }
 }
-

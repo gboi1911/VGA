@@ -547,21 +547,20 @@ const TestResultHolland = () => {
         <Box>
           {displayedGroups.map((group, index) => (
             <Box key={index} className="career-group-section">
-              <Text bold className="mt-12" style={{ fontSize: "2em" }}>
+              <Text
+                bold
+                className="mt-12"
+                style={{ fontSize: "2em", lineHeight: "1" }}
+              >
                 {careerGroupData[group].name}
               </Text>
               <img src={careerGroupData[group].image} alt={`${group} image`} />
-              <Progress
-                completed={resultData?.percent.percentage}
-                maxCompleted={100}
-                showLabel
-              />
               <div
                 style={{
                   backgroundColor: "#EBE6E0",
                   borderRadius: "8px",
                   padding: "10px",
-                  marginTop: "1em",
+                  marginTop: "10px",
                 }}
               >
                 <Text>{careerGroupData[group].characterist[0].content}</Text>
@@ -572,12 +571,12 @@ const TestResultHolland = () => {
               >
                 {expandedGroupIndex === index ? (
                   <>
-                    Ẩn nội dung
+                    Ẩn
                     <Icon icon="zi-chevron-up" />
                   </>
                 ) : (
                   <>
-                    Hiện nội dung
+                    Xem thêm
                     <Icon icon="zi-chevron-down" />
                   </>
                 )}
