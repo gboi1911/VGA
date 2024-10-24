@@ -3,7 +3,7 @@ import { Page, Box, Text, Button, Progress, Icon } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test"; // Điều chỉnh API nếu cần
 
-const TestExecuteHolland = () => {
+const TestExecuteHolland = ({ studentId }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
@@ -82,7 +82,7 @@ const TestExecuteHolland = () => {
     if (testCompleted) {
       const postResults = async () => {
         const payload = {
-          studentId: "81787e20-9c9d-4700-9303-042d41f9fa4c",
+          studentId: studentId,
           personalTestId: "c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7",
           listQuestionId: selectedQuestionIds,
           listAnswerId: [], // Thêm câu trả lời nếu có

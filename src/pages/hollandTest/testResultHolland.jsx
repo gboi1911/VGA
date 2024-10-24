@@ -462,7 +462,9 @@ const TestResultHolland = () => {
   const displayedGroups = percentData.map((item) => groupMapping[item.group]);
 
   const handleBack = () => {
-    navigate("/ratingMajor");
+    navigate("/ratingMajor", {
+      state: { resultData: resultData },
+    });
   };
 
   const toggleExpand = (index) => {
@@ -476,12 +478,11 @@ const TestResultHolland = () => {
   if (!resultData) {
     return (
       <Page
-        className="page bg-theme-image2"
+        className="page"
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "100vh",
         }}
       >
         <Text size="large" style={{ color: "red", textAlign: "center" }}>
@@ -720,7 +721,7 @@ const TestResultHolland = () => {
           onMouseOver={(e) => (e.target.style.transform = "scale(1.05)")}
           onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
         >
-          Kết thúc
+          Tiếp theo
         </Button>
       </Box>
     </Page>

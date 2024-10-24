@@ -59,7 +59,9 @@ const MyApp = () => {
           phone: phone,
           image_Url: "string",
         });
-        setStudentId(resposneLogin.data.studentId);
+        console.log(resposneLogin);
+        const stId = resposneLogin.data.studentId;
+        setStudentId(stId);
 
         const tokenAPI = resposneLogin.data.accessToken;
         localStorage.setItem("token", tokenAPI);
@@ -70,6 +72,8 @@ const MyApp = () => {
 
     fetchToken();
   }, []);
+
+  console.log(studentId);
 
   return (
     <RecoilRoot>
@@ -87,7 +91,7 @@ const MyApp = () => {
               <Route path="/testResult" element={<TestResult />} />
               <Route
                 path="/testExecuteHolland"
-                element={<TestExecuteHolland />}
+                element={<TestExecuteHolland studentId={studentId} />}
               />
               <Route path="/ratingMajor" element={<RatingMajor />} />
               <Route path="testResultHolland" element={<TestResultHolland />} />
