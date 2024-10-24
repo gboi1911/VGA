@@ -37,3 +37,13 @@ export const postMBTIResult = async (payload) => {
     throw error;
   }
 };
+
+export const getRatingMajor = async (id) => {
+  try {
+    const response = await axios.get(`${url}/majors-by-personality/${id}`);
+    return response;
+  } catch (error) {
+    console.log("Error in get data rating major:", error);
+    throw error;
+  }
+};

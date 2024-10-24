@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Page, Box, Text, Calendar, Button } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,49 +8,70 @@ import {
   faEnvelope,
   faAddressCard,
 } from "@fortawesome/free-solid-svg-icons";
+import { getDay, postBook } from "api/expert";
+import moment from "moment";
 
 const ExpertDetailPage = () => {
   const location = useLocation();
   const { expert } = location.state || {};
-
   const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState("");
+  const [time, setTime] = useState(""); // Default time is empty
+  const [availableDays, setAvailableDays] = useState([]);
+  const [consultationTimes, setConsultationTimes] = useState([]);
 
   if (!expert) {
     return <Text>Error: Expert not found</Text>;
   }
 
-  const availableDays = ["2024-09-29", "2024-09-30", "2024-10-01"];
-  const timeSlots = [
-    "09:00 AM",
-    "10:00 AM",
-    "11:00 AM",
-    "01:00 PM",
-    "02:00 PM",
-    "03:00 PM",
-    "04:00 PM",
-  ];
+  useEffect(() => {
+    const fetchExpertDay = async () => {
+      try {
+        const data = await getDay(expert.id);
+        console.log("Get data consultant day successful", data);
+
+        const days = data.consultationDay.map((day) => ({
+          id: day.id,
+          date: day.day,
+          consultationTimes: day.consultationTimes,
+        }));
+
+        setAvailableDays(days);
+
+        // Optionally, you can clear time when fetching data
+        setTime(""); // Reset time when fetching new data
+      } catch (error) {
+        console.log("Error in fetch expert day:", error);
+      }
+    };
+
+    fetchExpertDay();
+  }, [expert.id]);
 
   const isDateAvailable = (date) => {
-    const formattedDate = date.toISOString().split("T")[0];
-    return availableDays.includes(formattedDate);
+    const formattedDate = moment(date).format("YYYY-MM-DD");
+    return availableDays.some((day) => day.date === formattedDate);
+  };
+
+  const handleDateSelect = (newDate) => {
+    setDate(newDate);
+    const formattedDate = moment(newDate).format("YYYY-MM-DD");
+
+    const selectedDayData = availableDays.find(
+      (day) => day.date === formattedDate
+    );
+
+    if (selectedDayData) {
+      setConsultationTimes(selectedDayData.consultationTimes);
+      setTime(""); // Clear time when a new date is selected
+    } else {
+      setConsultationTimes([]);
+      setTime(""); // Clear the time if no consultation times are available
+    }
   };
 
   const handleConfirm = () => {
     alert(`Xác nhận lịch hẹn vào ngày ${date.toDateString()} slot ${time}`);
   };
-
-  const dateString = expert.dateOfBirth;
-
-  // Parse the ISO 8601 string into a Date object
-  const dateObject = new Date(dateString);
-
-  // Format the date as "dd-mm-yyyy"
-  const formattedDate = dateObject.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
 
   return (
     <Page className="page">
@@ -72,7 +93,7 @@ const ExpertDetailPage = () => {
         />
         <Box style={{ marginLeft: "10px" }}>
           <Text
-            className="text-purple-800"
+            className="text-orange-700"
             size="xLarge"
             bold
             style={{ textAlign: "center" }}
@@ -84,7 +105,7 @@ const ExpertDetailPage = () => {
               icon={faBirthdayCake}
               style={{ marginRight: "5px" }}
             />{" "}
-            {formattedDate}
+            {new Date(expert.dateOfBirth).toLocaleDateString("en-GB")}
           </Text>
           <Text className="text-gray-600 mt-2">
             <FontAwesomeIcon icon={faStar} style={{ marginRight: "5px" }} />{" "}
@@ -126,11 +147,12 @@ const ExpertDetailPage = () => {
 
         <Calendar
           value={date}
-          onChange={setDate}
+          onSelect={handleDateSelect}
           className="calendar"
           tileClassName={({ date }) =>
             isDateAvailable(date) ? "bg-green-200" : "bg-red-200"
           }
+          disabledDate={(date) => !isDateAvailable(date)}
         />
 
         <Box style={{ display: "flex" }}>
@@ -143,13 +165,22 @@ const ExpertDetailPage = () => {
             onChange={(e) => setTime(e.target.value)}
           >
             <option value="" disabled>
-              Chọn Thời Gian
+              {date ? "Chọn Thời Gian" : "Chưa có ngày nào được chọn"}
             </option>
-            {timeSlots.map((slot, index) => (
-              <option key={index} value={slot}>
-                {slot}
+            {consultationTimes.length > 0 ? (
+              consultationTimes.map((slot, index) => (
+                <option
+                  key={index}
+                  value={`${slot.startTime} - ${slot.endTime}`}
+                >
+                  {`${slot.startTime} - ${slot.endTime}`}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>
+                Không có thời gian nào
               </option>
-            ))}
+            )}
           </select>
         </Box>
 

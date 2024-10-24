@@ -52,7 +52,7 @@ const BottomNavigationPage = (props) => {
         activeIcon={<Icon icon="zi-home" />}
       />
       <BottomNavigation.Item
-        label="Bài test"
+        label="Bài kiểm tra"
         key="test"
         icon={<Icon icon="zi-quote" />}
         activeIcon={<Icon icon="zi-quote-solid" />}

@@ -11,6 +11,7 @@ import TestResult from "../pages/mbtiTest/testResult";
 import TestExecuteHolland from "../pages/hollandTest/testExecuteHolland";
 import TestResultHolland from "../pages/hollandTest/testResultHolland";
 import ExpertDetailPage from "pages/expertDetail";
+import RatingMajor from "pages/hollandTest/ratingMajor";
 import HeaderBar from "layout/header";
 import BottomNavigationPage from "layout/navigation";
 import axios from "axios";
@@ -88,6 +89,7 @@ const MyApp = () => {
                 path="/testExecuteHolland"
                 element={<TestExecuteHolland />}
               />
+              <Route path="/ratingMajor" element={<RatingMajor />} />
               <Route path="testResultHolland" element={<TestResultHolland />} />
             </AnimationRoutes>
             <BottomNavigationPage />

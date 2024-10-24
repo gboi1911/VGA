@@ -26,3 +26,27 @@ export const getExpert = async (retries = 0) => {
     }
   }
 };
+
+export const getDay = async (id) => {
+  try {
+    const response = await axios.get(`${url}/consultation-days`, {
+      params: { "consultant-id": id },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching consultation days:", error);
+    throw error;
+  }
+};
+
+export const postBook = async (studId, timeId) => {
+  try {
+    const response = await axios.post(`${url}/bookings`, {
+      params: { consultationTimeId: timeId, studentId: studId },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error in booking consultation days:", error);
+    throw error;
+  }
+};

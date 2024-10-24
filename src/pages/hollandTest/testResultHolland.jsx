@@ -462,7 +462,7 @@ const TestResultHolland = () => {
   const displayedGroups = percentData.map((item) => groupMapping[item.group]);
 
   const handleBack = () => {
-    navigate("/test");
+    navigate("/ratingMajor");
   };
 
   const toggleExpand = (index) => {
@@ -493,7 +493,7 @@ const TestResultHolland = () => {
 
   return (
     <Page
-      className="page bg-theme-image2"
+      className="page"
       style={{
         display: "flex",
         justifyContent: "center",
