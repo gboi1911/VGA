@@ -60,7 +60,7 @@ const MyApp = () => {
           image_Url: "string",
         });
         console.log(resposneLogin);
-        const stId = resposneLogin.data.studentId;
+        const stId = resposneLogin.data.userId;
         setStudentId(stId);
 
         const tokenAPI = resposneLogin.data.accessToken;

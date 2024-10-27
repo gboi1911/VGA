@@ -16,7 +16,7 @@ const RatingMajor = () => {
     const fetchRatingMajor = async () => {
       try {
         const response = await getRatingMajor(resultData.stTestId);
-        setRatingMajors(response.data);
+        setRatingMajors(response.data.data);
       } catch (error) {
         console.error("Error fetching rating major:", error);
       }
@@ -24,6 +24,7 @@ const RatingMajor = () => {
 
     fetchRatingMajor();
   }, [resultData]);
+  console.log(ratingMajors);
 
   const handleNext = () => {
     const nextIndex = (currentCardIndex + 1) % ratingMajors.length;
