@@ -12,6 +12,8 @@ import TestExecuteHolland from "../pages/hollandTest/testExecuteHolland";
 import TestResultHolland from "../pages/hollandTest/testResultHolland";
 import ExpertDetailPage from "pages/expertDetail";
 import RatingMajor from "pages/hollandTest/ratingMajor";
+import FilterMajorUniversity from "pages/hollandTest/filterMajorUniversity";
+import OccupationDetail from "pages/hollandTest/occupationDetail";
 import HeaderBar from "layout/header";
 import BottomNavigationPage from "layout/navigation";
 import axios from "axios";
@@ -48,6 +50,7 @@ const MyApp = () => {
         };
 
         var response = await axios(config);
+        console.log(response);
         const phone = response.data.data.number;
         const userId = await getUserIDUser();
         const userInfo1 = await getUser();
@@ -83,8 +86,11 @@ const MyApp = () => {
             <HeaderBar />
             <AnimationRoutes>
               <Route path="/" element={<HomePage />} />
-              <Route path="expert" element={<ExpertPage />} />
-              <Route path="expertDetail/:id" element={<ExpertDetailPage />} />
+              <Route path="/expert" element={<ExpertPage />} />
+              <Route
+                path="/expertDetail/:id"
+                element={<ExpertDetailPage studentId={studentId} />}
+              />
               <Route path="/user" element={<User studentId={studentId} />} />
               <Route path="/test" element={<TestPage />} />
               <Route path="/testExecute" element={<TestExecute />} />
@@ -94,7 +100,18 @@ const MyApp = () => {
                 element={<TestExecuteHolland studentId={studentId} />}
               />
               <Route path="/ratingMajor" element={<RatingMajor />} />
-              <Route path="testResultHolland" element={<TestResultHolland />} />
+              <Route
+                path="/filterMajorUniversity"
+                element={<FilterMajorUniversity />}
+              />
+              <Route
+                path="/testResultHolland"
+                element={<TestResultHolland />}
+              />
+              <Route
+                path="/occupationDetail/:id"
+                element={<OccupationDetail />}
+              />
             </AnimationRoutes>
             <BottomNavigationPage />
           </ZMPRouter>

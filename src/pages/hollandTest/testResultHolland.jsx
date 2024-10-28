@@ -499,7 +499,7 @@ const TestResultHolland = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh",
+        overflow: "hidden",
       }}
     >
       <Box

@@ -1,14 +1,13 @@
 .page {
-  // padding: 16px;
-  margin-top: 42px; /* Adjust to prevent header overlap */
+  margin-top: 42px;
   width: 100%;
   max-width: 600px;
-  overflow-y: auto; /* Allow vertical scrolling */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensure page takes up full viewport height */
-  box-sizing: border-box; /* Ensure padding and border don't increase element's width/height */
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .section-container {

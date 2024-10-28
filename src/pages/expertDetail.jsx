@@ -11,7 +11,7 @@ import {
 import { getDay, postBook } from "api/expert";
 import moment from "moment";
 
-const ExpertDetailPage = () => {
+const ExpertDetailPage = ({ studentId }) => {
   const location = useLocation();
   const { expert } = location.state || {};
   const [date, setDate] = useState(new Date());
