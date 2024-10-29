@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom"; // Gộp lại import
-import { App, ZMPRouter, SnackbarProvider } from "zmp-ui"; // Bỏ AnimationRoutes nếu không dùng
+import { Route, Routes } from "react-router-dom";
+import { App, ZMPRouter, AnimationRoutes, SnackbarProvider } from "zmp-ui";
 import { RecoilRoot } from "recoil";
 import HomePage from "../pages/home";
 import TestPage from "../pages/test";
@@ -10,19 +10,29 @@ import TestExecute from "../pages/mbtiTest/testExecute";
 import TestResult from "../pages/mbtiTest/testResult";
 import TestExecuteHolland from "../pages/hollandTest/testExecuteHolland";
 import TestResultHolland from "../pages/hollandTest/testResultHolland";
-import ExpertDetailPage from "../pages/expertDetail"; // Sửa đường dẫn nếu cần
-import RatingMajor from "../pages/hollandTest/ratingMajor"; // Sửa đường dẫn nếu cần
+import ExpertDetailPage from "pages/expertDetail";
+import RatingMajor from "pages/hollandTest/ratingMajor";
 import FilterMajorUniversity from "pages/hollandTest/filterMajorUniversity";
 import OccupationDetail from "pages/hollandTest/occupationDetail";
-import HeaderBar from "../layout/header"; // Sửa đường dẫn nếu cần
-import BottomNavigationPage from "../layout/navigation"; // Sửa đường dẫn nếu cần
-import { login } from "../api/login"; // Sửa đường dẫn nếu cần
-
+import HeaderBar from "layout/header";
+import BottomNavigationPage from "layout/navigation";
 import CustomBottomNavigation from "super/pages/bottomnavigation";
+import axios from "axios";
 
+
+import {
+  getDataAccessToken,
+  authorizeUser,
+  getPhoneNumberUser,
+  getUserIDUser,
+  getUser,
+} from "api/zalo";
+
+import { login } from "api/login";
 
 const MyApp = () => {
-  const [studentId, setStudentId] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
+  const [userid, setUserId] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
@@ -55,8 +65,9 @@ const MyApp = () => {
           image_Url: "string",
         });
         console.log(resposneLogin);
-        const stId = resposneLogin.data.userId;
-        setStudentId(stId);
+        const userid = resposneLogin.data.userId;
+        const role = resposneLogin.data.role;
+        setUserId(userid);
 
         const tokenAPI = resposneLogin.data.accessToken;
         localStorage.setItem("token", tokenAPI);
@@ -65,52 +76,58 @@ const MyApp = () => {
       }
     };
 
-    //   fetchToken();
-    // }, []);
+    fetchToken();
+  }, []);
 
-    return (
-      <RecoilRoot>
-        <App>
-          <SnackbarProvider>
-            <ZMPRouter>
-              <HeaderBar />
-              <AnimationRoutes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/expert" element={<ExpertPage />} />
-                <Route
-                  path="/expertDetail/:id"
-                  element={<ExpertDetailPage studentId={studentId} />}
-                />
-                <Route path="/user" element={<User studentId={studentId} />} />
-                <Route path="/test" element={<TestPage />} />
-                <Route path="/testExecute" element={<TestExecute />} />
-                <Route path="/testResult" element={<TestResult />} />
-                <Route
-                  path="/testExecuteHolland"
-                  element={<TestExecuteHolland studentId={studentId} />}
-                />
-                <Route path="/ratingMajor" element={<RatingMajor />} />
-                <Route
-                  path="/filterMajorUniversity"
-                  element={<FilterMajorUniversity />}
-                />
-                <Route
-                  path="/testResultHolland"
-                  element={<TestResultHolland />}
-                />
-                <Route
-                  path="/occupationDetail/:id"
-                  element={<OccupationDetail />}
-                />
-              </AnimationRoutes>
-              <BottomNavigationPage />
-            </ZMPRouter>
-          </SnackbarProvider>
-        </App>
-      </RecoilRoot>
-    );
-  };
+  console.log(userid);
 
+  return (
+    <RecoilRoot>
+      <App>
+        <SnackbarProvider>
+          <ZMPRouter>
+            <HeaderBar />
+            <Routes>
+              <Routes>
+                {role === 2 && (
+                  <>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/expert" element={<ExpertPage />} />
+                    <Route
+                      path="/expertDetail/:id"
+                      element={<ExpertDetailPage studentId={userid} />}
+                    />
+                    <Route path="/user" element={<User studentId={userid} />} />
+                    <Route path="/test" element={<TestPage />} />
+                    <Route path="/testExecute" element={<TestExecute />} />
+                    <Route path="/testResult" element={<TestResult />} />
+                    <Route
+                      path="/testExecuteHolland"
+                      element={<TestExecuteHolland studentId={userid} />}
+                    />
+                    <Route path="/ratingMajor" element={<RatingMajor />} />
+                    <Route
+                      path="/filterMajorUniversity"
+                      element={<FilterMajorUniversity />}
+                    />
+                    <Route
+                      path="/testResultHolland"
+                      element={<TestResultHolland />}
+                    />
+                    <Route
+                      path="/occupationDetail/:id"
+                      element={<OccupationDetail />}
+                    />
+                  </>
+                )}
+              </Routes>
+            </Routes>
+            {role === 4 ? <CustomBottomNavigation userid={userid} /> : <BottomNavigationPage />}
+          </ZMPRouter>
+        </SnackbarProvider>
+      </App>
+    </RecoilRoot>
+  );
+};
 
-  export default MyApp;
-
+export default MyApp;

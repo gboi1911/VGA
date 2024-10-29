@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 
-export default function ConsultantSchedule() {
+export default function ConsultantSchedule({ userid }) {
     const [timeSlots, setTimeSlots] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [dialogVisible, setDialogVisible] = useState("");
@@ -18,7 +18,7 @@ export default function ConsultantSchedule() {
     useEffect(() => {
         const fetchTimeSlots = async () => {
             try {
-                const response = await axios.get('https://localhost:7182/api/v1/timeslots');
+                const response = await axios.get('https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/');
                 setTimeSlots(response.data.timeSlots);
             } catch (error) {
                 console.error('Error fetching time slot:', error);
@@ -29,10 +29,10 @@ export default function ConsultantSchedule() {
     useEffect(() => {
         const fetchTimeSlotSelected = async () => {
             try {
-                const response = await axios.get('https://localhost:7182/api/v1/consultation-days', {
+                const response = await axios.get('https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/', {
                     params: {
                         day: selectedDate,
-                        "consultant-id": "b3042fea-a1fa-4462-c226-08dcf7f40d7f"
+                        "consultant-id": "userid"
                     }
                 });
                 console.log('responseDateSelect:', response.data);
@@ -57,7 +57,7 @@ export default function ConsultantSchedule() {
     const handleDelete = async (idConsultantTime) => {
         try {
             debugger
-            const response = await axios.delete(`https://localhost:7182/api/v1/consultation-time/${idConsultantTime}`);
+            const response = await axios.delete(`https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/${idConsultantTime}`);
             console.log("Xóa lịch thành công:", response.data);
             setSlotBooked(prevSlots => prevSlots.filter(s => s.id !== idConsultantTime));
             setDialogVisible(false);
@@ -87,7 +87,7 @@ export default function ConsultantSchedule() {
         console.log('handleCreate được gọi'); // Kiểm tra xem hàm có chạy
         debugger
         const formData = {
-            consultantId: "b3042fea-a1fa-4462-c226-08dcf7f40d7f",
+            consultantId: "userid",
             day: selectedDate,
             consultationTimes: selectedTimeSlots.map(slot => ({
                 timeSlotId: slot.id,
@@ -96,7 +96,7 @@ export default function ConsultantSchedule() {
         };
 
         try {
-            const response = await axios.post('https://localhost:7182/api/v1/consultation-days', formData);
+            const response = await axios.post('https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/', formData);
             if (response.status === 200) {
                 debugger
                 setDialogVisible("CreateSuccess");

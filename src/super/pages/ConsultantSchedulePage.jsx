@@ -1,6 +1,6 @@
 import ConsultantSchedule from "super/section/ConsultantSchedule/ConsultantSchedule";
-export default function ConsultantSchedulePage() {
+export default function ConsultantSchedulePage({ userid }) {
     return (
-        <ConsultantSchedule />
+        <ConsultantSchedule userid={userid} />
     );
 }

@@ -4,7 +4,7 @@ import ConsultantSchedulePage from "./ConsultantSchedulePage";
 import HomePageConsultant from "./HomePageConsultant";
 import CalendarPage from "./calendarpage";
 
-export default function CustomBottomNavigation(props) {
+export default function CustomBottomNavigation({ userid }) {
     const [activeTab, setActiveTab] = useState("homepage");
     const { title } = props;
 
@@ -15,7 +15,7 @@ export default function CustomBottomNavigation(props) {
             case "news":
             // return <NewsPage />;
             case "schedule":
-                return <ConsultantSchedulePage />;
+                return <ConsultantSchedulePage userid={userid} />;
             case "calendar":
                 return <CalendarPage />;
             case "me":
