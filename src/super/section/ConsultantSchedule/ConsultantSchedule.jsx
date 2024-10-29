@@ -116,7 +116,7 @@ export default function ConsultantSchedule({ userid }) {
     };
 
     return (
-        <Page hideScrollbar={false} style={{ margin: "0px", backgroundColor: "#f5f5f5", borderRadius: "8px" }} className='section-container'>
+        <Page hideScrollbar={false} style={{ marginTop: '20px', backgroundColor: "#f5f5f5", borderRadius: "8px" }} className='section-container'>
             <Calendar onSelect={handleDateChange} />
             <Grid space='1rem' columnCount={3} style={{ marginTop: '10px' }}>
                 {timeSlots.map(slot => (
