@@ -11,17 +11,17 @@ export default function CustomBottomNavigation(props) {
     const renderContent = () => {
         switch (activeTab) {
             case "homepage":
-                return <HomePageConsultant />;
+            // return <HomePageConsultant />;
             case "news":
-                return <NewsPage />;
+            // return <NewsPage />;
             case "schedule":
                 return <ConsultantSchedulePage />;
             case "calendar":
                 return <CalendarPage />;
             case "me":
-                return <ProfilePage />;
+            // return <ProfilePage />;
             default:
-                return <HomePage />;
+                return <HomePageConsultant />;
         }
     };
 
@@ -34,29 +34,29 @@ export default function CustomBottomNavigation(props) {
                 onChange={(key) => setActiveTab(key)}
             >
                 <BottomNavigation.Item
-                    key="homepage"
                     label="Trang chủ"
-                    icon={<Icon icon="zi-chat" />}
-                    activeIcon={<Icon icon="zi-chat-solid" />}
+                    key="homepage"
+                    icon={<Icon icon="zi-home" />}
+                    activeIcon={<Icon icon="zi-home" />}
                 />
                 <BottomNavigation.Item
                     label="Tin tức"
                     key="news"
-                    icon={<Icon icon="zi-call" />}
-                    activeIcon={<Icon icon="zi-call-solid" />}
+                    icon={<Icon icon="zi-clock-1-solid" />}
+                    activeIcon={<Icon icon="zi-clock-1-solid" />}
                 />
                 <BottomNavigation.Item
-                    label="Đặt lịch"
+                    label="Lịch"
                     key="schedule"
-                    icon={<Icon icon="zi-more-grid" />}
-                    activeIcon={<Icon icon="zi-more-grid-solid" />}
+                    icon={<Icon icon="zi-calendar" />}
+                    activeIcon={<Icon icon="zi-calendar" />}
                 />
-                <BottomNavigation.Item
+                {/* <BottomNavigation.Item
                     key="calendar"
                     label="Lịch"
                     icon={<Icon icon="zi-calendar" />}
                     activeIcon={<Icon icon="zi-calendar-solid" />}
-                />
+                /> */}
                 <BottomNavigation.Item
                     key="me"
                     label="Cá nhân"

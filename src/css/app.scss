@@ -35,14 +35,14 @@
 
 .zaui-page {
   margin-bottom: 48px;
-  margin-top: 90px;
+  // margin-top: 90px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
+// .grid {
+//   display: grid;
+//   grid-template-columns: repeat(2, 1fr);
+//   gap: 20px;
+// }
 
 @media (max-width: 768px) {
   .page {
