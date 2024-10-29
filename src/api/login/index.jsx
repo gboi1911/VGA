@@ -6,9 +6,9 @@ export const login = async (data) => {
     const response = await axios.post(`${url}/login-zalo`, data, {
       headers: {
         "Content-Type": "application/json",
-        // "Access-Control-Allow-Origin": "*", // Allow requests from any origin
-        // "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS", // Allowed HTTP methods
-        // "Access-Control-Allow-Headers": "Content-Type, Authorization", // Allowed headers
+        "Access-Control-Allow-Origin": "*", // Allow requests from any origin
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS", // Allowed HTTP methods
+        "Access-Control-Allow-Headers": "Content-Type, Authorization", // Allowed headers
       },
     });
     const token = response.data.accessToken;

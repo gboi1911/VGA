@@ -6,7 +6,7 @@ import CalendarPage from "./calendarpage";
 
 export default function CustomBottomNavigation({ userid }) {
     const [activeTab, setActiveTab] = useState("homepage");
-    const { title } = props;
+    // const { title } = props;
 
     const renderContent = () => {
         switch (activeTab) {
