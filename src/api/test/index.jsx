@@ -47,3 +47,26 @@ export const getRatingMajor = async (id) => {
     throw error;
   }
 };
+
+export const getRegion = async () => {
+  try {
+    const response = await axios.get(`${url}/regions`);
+    return response;
+  } catch (error) {
+    console.log("Error in get regions: ", error);
+    throw error;
+  }
+};
+
+export const postMajor = async (payload) => {
+  try {
+    const response = await axios.post(
+      `${url}/filter-major-university`,
+      payload
+    );
+    return response;
+  } catch (error) {
+    console.log("Error in post major:", error);
+    throw error;
+  }
+};
