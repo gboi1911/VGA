@@ -1,0 +1,14 @@
+
+.slot-box {
+    background-color: #007bff; /* Màu nền */
+    color: white; /* Màu chữ */
+    padding: 1rem; /* Padding cho từng ô */
+    text-align: center; /* Căn giữa nội dung */
+    border-radius: 8px; /* Bo góc */
+    cursor: pointer; /* Hiển thị con trỏ khi hover */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.slot-box:hover {
+    background-color: #0056b3; /* Màu nền khi hover */
+}
