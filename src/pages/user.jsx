@@ -58,7 +58,7 @@ const UserPage = ({ studentId }) => {
           style={{ width: "80px", height: "80px" }}
         />
         <Text size="large" style={{ fontWeight: "bold", fontSize: "20px" }}>
-          {userInfo.data.name}
+          {userInfo.data.account.name}
         </Text>
       </Box>
 
@@ -70,7 +70,7 @@ const UserPage = ({ studentId }) => {
           padding: "10px",
           backgroundImage:
             "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-3bjkd32XySUSA_7HFCvui8pjysieOdWfUA&s)",
-          gap: "120px",
+          gap: "80px",
           borderRadius: "5px",
           backgroundColor: "white", // White background
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
@@ -88,7 +88,7 @@ const UserPage = ({ studentId }) => {
             boxShadow: "inset -2px 2px 4px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Text size="large">{userInfo.goldBalance} 100</Text>
+          <Text size="large">{userInfo.data.account.wallet.goldBalance}</Text>
           <FontAwesomeIcon
             icon={faCoins}
             size="large"
@@ -144,7 +144,7 @@ const UserPage = ({ studentId }) => {
           size="large"
           style={{ marginRight: "10px" }}
         />
-        {schoolName && <Text size="large">{schoolName.data.name}</Text>}
+        {schoolName && <Text size="large">{schoolName.data.account.name}</Text>}
         {!schoolName && <Text>Đang lấy thông tin trường...</Text>}
       </Box>
       <Box

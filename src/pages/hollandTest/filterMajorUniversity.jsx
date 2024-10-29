@@ -49,6 +49,7 @@ const FilterMajorUniversity = () => {
           marginBottom: "20px",
           textAlign: "center",
           marginTop: "40px",
+          color: "#0066CC",
         }}
       >
         {displayedMessage}
