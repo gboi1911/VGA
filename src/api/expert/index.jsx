@@ -41,8 +41,11 @@ export const getDay = async (id) => {
 
 export const postBook = async (studId, timeId) => {
   try {
-    const response = await axios.post(`${url}/bookings`, {
-      params: { consultationTimeId: timeId, studentId: studId },
+    const response = await axios.post(`${url}/bookings`, null, {
+      params: {
+        consultationTimeId: timeId,
+        studentId: studId,
+      },
     });
     return response;
   } catch (error) {

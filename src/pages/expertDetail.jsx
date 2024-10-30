@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Page, Box, Text, Calendar, Button } from "zmp-ui";
+import { Page, Box, Text, Calendar, Button, Modal } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBirthdayCake,
@@ -15,9 +15,11 @@ const ExpertDetailPage = ({ studentId }) => {
   const location = useLocation();
   const { expert } = location.state || {};
   const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(""); // Default time is empty
+  const [time, setTime] = useState("");
   const [availableDays, setAvailableDays] = useState([]);
   const [consultationTimes, setConsultationTimes] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [bookingConfirmation, setBookingConfirmation] = useState(null); // State for booking confirmation
 
   if (!expert) {
     return <Text>Error: Expert not found</Text>;
@@ -36,9 +38,7 @@ const ExpertDetailPage = ({ studentId }) => {
         }));
 
         setAvailableDays(days);
-
-        // Optionally, you can clear time when fetching data
-        setTime(""); // Reset time when fetching new data
+        setTime("");
       } catch (error) {
         console.log("Error in fetch expert day:", error);
       }
@@ -55,22 +55,34 @@ const ExpertDetailPage = ({ studentId }) => {
   const handleDateSelect = (newDate) => {
     setDate(newDate);
     const formattedDate = moment(newDate).format("YYYY-MM-DD");
-
     const selectedDayData = availableDays.find(
       (day) => day.date === formattedDate
     );
 
     if (selectedDayData) {
       setConsultationTimes(selectedDayData.consultationTimes);
-      setTime(""); // Clear time when a new date is selected
+      setTime("");
     } else {
       setConsultationTimes([]);
-      setTime(""); // Clear the time if no consultation times are available
+      setTime("");
     }
   };
 
   const handleConfirm = () => {
-    alert(`Xác nhận lịch hẹn vào ngày ${date.toDateString()} slot ${time}`);
+    setModalOpen(true);
+  };
+
+  const handleBook = async () => {
+    try {
+      const timeId = consultationTimes.find(
+        (slot) => `${slot.startTime} - ${slot.endTime}` === time
+      ).id;
+      const response = await postBook(studentId, timeId);
+      setBookingConfirmation(response.data); // Set booking confirmation data
+      setModalOpen(false);
+    } catch (error) {
+      console.error("Error during booking:", error);
+    }
   };
 
   return (
@@ -190,6 +202,63 @@ const ExpertDetailPage = ({ studentId }) => {
           </Button>
         </div>
       </Box>
+
+      {/* Modal for confirmation */}
+      <Modal
+        visible={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Xác Nhận Đặt Lịch"
+      >
+        <div className="p-4">
+          <Text
+            className="text-lg"
+            style={{
+              textAlign: "center",
+            }}
+          >
+            Bạn có chắc chắn muốn đặt lịch hẹn vào ngày {date.toDateString()}{" "}
+            vào lúc {time}?
+          </Text>
+          <div className="flex justify-end mt-4">
+            <Button
+              className="mr-2"
+              onClick={() => setModalOpen(false)}
+              type="danger"
+            >
+              Hủy
+            </Button>
+            <Button className="mr-2" onClick={handleBook} type="primary">
+              Xác Nhận
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Modal for booking confirmation */}
+      {bookingConfirmation && (
+        <Modal
+          visible={!!bookingConfirmation}
+          onClose={() => setBookingConfirmation(null)}
+          title="Đặt Lịch Thành Công"
+        >
+          <div className="p-4">
+            <Text className="text-lg" style={{ textAlign: "center" }}>
+              {bookingConfirmation.message}
+            </Text>
+            <Text className="mt-2">
+              Ngày tư vấn: {bookingConfirmation.data.consultationDay}
+            </Text>
+            <Text>
+              Thời gian: {bookingConfirmation.data.startTime} -{" "}
+              {bookingConfirmation.data.endTime}
+            </Text>
+            <Text>Tư vấn viên: {bookingConfirmation.data.consultantName}</Text>
+            <Text>
+              Số điện thoại: {bookingConfirmation.data.consultantPhone}
+            </Text>
+          </div>
+        </Modal>
+      )}
     </Page>
   );
 };
