@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Grid, Modal, Box, Text, Page, Calendar, Icon } from "zmp-ui";
 import axios from "axios";
+import { getTimeSlot } from "api/super";
 
 
 
@@ -88,11 +89,11 @@ export default function ConsultantSchedule({ userid }) {
         console.log('handleCreate được gọi'); // Kiểm tra xem hàm có chạy
         debugger
         const formData = {
-            consultantId: userid,
-            day: selectedDate,
-            consultationTimes: selectedTimeSlots.map(slot => ({
-                timeSlotId: slot.id,
-                note: "string"
+            "consultantId": userid,
+            "day": selectedDate,
+            "consultationTimes": selectedTimeSlots.map(slot => ({
+                "timeSlotId": slot.id,
+                "note": "string"
             }))
         };
 
@@ -124,9 +125,9 @@ export default function ConsultantSchedule({ userid }) {
     };
 
     return (
-        <Page hideScrollbar={false} style={{ marginTop: '20px', backgroundColor: "#f5f5f5", borderRadius: "8px" }} className='section-container'>
+        <Page hideScrollbar={false} style={{ marginTop: '0px', marginBottom: '0px', backgroundColor: "#f5f5f5", borderRadius: "8px" }} className='section-container'>
             <Calendar onSelect={handleDateChange} />
-            <Grid space='1rem' columnCount={3} style={{ marginTop: '10px' }}>
+            <Grid space='1rem' columnCount={3} style={{ marginTop: '10px', justifyContent: 'center', textAlign: 'center' }}>
                 {timeSlots.map(slot => {
                     // const bookedSlot = slotBooked.find(booked => booked.timeSlotId === slot.id);
                     const bookedSlot = slotBooked.find(booked => booked.timeSlotId === slot.id && booked.status === 0);
@@ -155,6 +156,7 @@ export default function ConsultantSchedule({ userid }) {
                                 border: '1px solid #ccc',
                                 transition: 'background-color 0.2s',
                                 marginRight: '10px',
+                                marginLeft: '10px',
                                 marginBottom: '10px',
                                 opacity: (bookedSlot?.status === 0) ? 0.5 : 1,
                             }}
@@ -170,11 +172,15 @@ export default function ConsultantSchedule({ userid }) {
                 <Box>
                     <Button
                         onClick={() => setDialogVisible("Create")}
-                        size="large"
-                        prefixIcon={<Icon icon="zi-plus" />}
+                        size="medium"
+                        style={{
+                            width: '10px',
+                            height: '50px',
+                            borderRadius: '',
+                        }}
+                    // prefixIcon={<Icon icon="zi-plus" />}
                     >
-                        {/* <Icon icon="zi-plus" /> */}
-                        Tạo lịch
+                        <Icon icon="zi-plus" />
                     </Button>
 
                 </Box>
@@ -272,7 +278,7 @@ export default function ConsultantSchedule({ userid }) {
                         }}
                     >
                         <Text style={{ backgroundColor: "#0284c7", padding: '10px', borderRadius: '10px', color: '#f9fafb' }} size="medium">
-                            10:00 - 11:00
+                            08:00 - 09:00
                         </Text>
                     </Box>
                 </Box>
@@ -350,7 +356,7 @@ export default function ConsultantSchedule({ userid }) {
                         }}
                     >
                         <Text style={{ backgroundColor: "#0284c7", padding: '10px', borderRadius: '10px', color: '#f9fafb' }} size="medium">
-                            10:00 - 11:00
+                            13:00 - 14:00
                         </Text>
                     </Box>
                 </Box>
@@ -389,7 +395,7 @@ export default function ConsultantSchedule({ userid }) {
                         }}
                     >
                         <Text style={{ backgroundColor: "#0284c7", padding: '10px', borderRadius: '10px', color: '#f9fafb' }} size="medium">
-                            10:00 - 11:00
+                            17:00 - 18:00
                         </Text>
                     </Box>
                 </Box>

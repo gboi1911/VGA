@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Page, Box, Text, Input } from "zmp-ui";
+import { Link } from "react-router-dom";
 import { getNews } from "api/news";
 
 const HomePage = () => {
@@ -42,6 +43,7 @@ const HomePage = () => {
       <Text className="ml-2 mt-3" bold style={{ fontSize: "1.2em" }}>
         Tin tức mới nhất
       </Text>
+
       <Box mt={3} ml={2} className="bg-white rounded-lg shadow-md">
         <Box flex>
           <img src={news.imageNews?.imageUrl} alt="image" width={120} />
@@ -49,9 +51,12 @@ const HomePage = () => {
             <Text bold size="large">
               {news.title}
             </Text>
-            <Text size="xxSmall" className="text-blue-600 ml-60 mb-2">
-              Xem thêm
-            </Text>
+            {/* <Link to={`/newsdetail/${id}`}> */}
+            <Link to={`/newsdetail`}>
+              <Text size="xxSmall" className="text-blue-600 ml-60 mb-2">
+                Xem thêm
+              </Text>
+            </Link>
           </Box>
         </Box>
       </Box>

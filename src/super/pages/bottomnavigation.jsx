@@ -47,7 +47,7 @@ export default function CustomBottomNavigation({ userid }) {
                 />
                 <BottomNavigation.Item
                     label="Lịch"
-                    key="schedule"
+                    key="calendar"
                     icon={<Icon icon="zi-calendar" />}
                     activeIcon={<Icon icon="zi-calendar" />}
                 />
