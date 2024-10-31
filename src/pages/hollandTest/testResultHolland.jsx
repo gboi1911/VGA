@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Confetti from 'react-confetti';
 import { Page, Box, Text, Button, Progress, Icon } from "zmp-ui";
 
 const careerGroupData = {
@@ -455,11 +456,19 @@ const groupMapping = {
 
 const TestResultHolland = () => {
   const location = useLocation();
-  const { resultData } = location.state || {}; // Ensure resultData is properly destructured
+  const { resultData } = location.state || {}; 
   const percentData = resultData?.percent || [];
+  const [showConfetti, setShowConfetti] = useState(false);
   const navigate = useNavigate();
   const [expandedGroupIndex, setExpandedGroupIndex] = useState(null);
   const displayedGroups = percentData.map((item) => groupMapping[item.group]);
+
+  useEffect(() => {
+    setShowConfetti(true);
+    const timer = setTimeout(() => setShowConfetti(false), 12000);
+    
+    return () => clearTimeout(timer); 
+  }, []);
 
   const handleBack = () => {
     navigate("/ratingMajor", {
@@ -469,9 +478,9 @@ const TestResultHolland = () => {
 
   const toggleExpand = (index) => {
     if (expandedGroupIndex === index) {
-      setExpandedGroupIndex(null); // Collapse if clicked again
+      setExpandedGroupIndex(null); 
     } else {
-      setExpandedGroupIndex(index); // Expand the selected section
+      setExpandedGroupIndex(index); 
     }
   };
 
@@ -502,6 +511,7 @@ const TestResultHolland = () => {
         overflow: "hidden",
       }}
     >
+      {showConfetti && <Confetti />}
       <Box
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.9)",

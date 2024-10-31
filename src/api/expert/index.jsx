@@ -53,3 +53,18 @@ export const postBook = async (studId, timeId) => {
     throw error;
   }
 };
+
+export const getBooking = async (stuId, consultantId) => {
+  try {
+    const response = await axios.get(`${url}/booking`, {
+      params: {
+        "student-id": stuId, 
+        "consultant-id": consultantId,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log("Error in get bookings:", error); 
+    throw error;
+  }
+}
