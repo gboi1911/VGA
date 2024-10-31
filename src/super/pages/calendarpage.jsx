@@ -1,5 +1,5 @@
 import { Calendar } from 'antd';
-import ReactTimeslotCalendar from "@amilajack/react-timeslot-calendar";
+import ReactTimeslotCalendar from "react-timeslot-calendar";
 import { Text } from "zmp-ui";
 import moment from "moment";
 
