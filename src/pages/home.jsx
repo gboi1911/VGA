@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text, Input } from "zmp-ui";
+import { Page, Box, Text, Input, Grid } from "zmp-ui";
+import { Link } from "react-router-dom";
 import { getNews } from "api/news";
 
 const HomePage = () => {
@@ -26,7 +27,7 @@ const HomePage = () => {
 
   const handleSearch = (text) => {
     if (text.length < 2) {
-      setFilteredNews(news); 
+      setFilteredNews(news);
     } else {
       const results = news.filter((item) =>
         item.title.toLowerCase().includes(text.toLowerCase())
@@ -48,28 +49,26 @@ const HomePage = () => {
         onChange={(e) => handleSearch(e.target.value)} // Call handleSearch on input change
         style={{ marginTop: "10px" }}
       />
-      <Text className="ml-2 mt-3" bold style={{ fontSize: "1.2em" }}>
+      <Text className=" mt-3" bold style={{ fontSize: "1.2em", marginBottom: '15px' }}>
         Tin tức mới nhất
       </Text>
-      {filteredNews.length > 0 ? (
-        <Box mt={3} ml={2} className="bg-white rounded-lg shadow-md">
-          {filteredNews.map((item) => (
-            <Box flex key={item.id}> {/* Make sure to use a unique key */}
-              <img src={item.imageNews?.imageUrl} alt="image" width={120} />
-              <Box ml={4} mt={1}>
+      {filteredNews.map((news) => (
+        <Link style={{ marginTop: '10px' }} key={news.id} to={`/newsdetail/${news.id}`}>
+          <Box style={{ height: '150px', borderTop: '1px solid rgba(0, 0, 0, 0.2)', alignItems: 'center', display: 'flex' }}>
+            <Box flex>
+              <Box style={{ marginRight: '2%' }}>
                 <Text bold size="large">
-                  {item.title}
+                  {news.title}
                 </Text>
-                <Text size="xxSmall" className="text-blue-600 ml-60 mb-2">
-                  Xem thêm
-                </Text>
+                <Text className="text-gray-500">{news.createdAt}</Text>
               </Box>
+              <img style={{ borderRadius: '10px' }} src={news?.imageNews?.[0]?.imageUrl} alt="image" width={120} />
             </Box>
-          ))}
-        </Box>
-      ) : (
-        <Text className="ml-2 mt-3">Không có tin tức phù hợp.</Text> // Message if no news found
-      )}
+
+          </Box>
+        </Link>
+      ))}
+
     </Page>
   );
 };

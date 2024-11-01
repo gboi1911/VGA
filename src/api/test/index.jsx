@@ -70,3 +70,4 @@ export const postMajor = async (payload) => {
     throw error;
   }
 };
+

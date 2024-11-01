@@ -2,7 +2,7 @@
 export default function HomePageConsultant() {
     return (
         <div>
-            <h1>HomePageConsultant</h1>
+            <h1>ProfilePage</h1>
         </div>
     );
 }
