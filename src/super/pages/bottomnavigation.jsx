@@ -3,6 +3,7 @@ import { BottomNavigation, Icon, Page } from "zmp-ui";
 import ConsultantSchedulePage from "./ConsultantSchedulePage";
 import HomePageConsultant from "./HomePageConsultant";
 import CalendarPage from "./calendarpage";
+import HomePage from "pages/home";
 
 export default function CustomBottomNavigation({ userid }) {
     const [activeTab, setActiveTab] = useState("homepage");
@@ -11,9 +12,10 @@ export default function CustomBottomNavigation({ userid }) {
     const renderContent = () => {
         switch (activeTab) {
             case "homepage":
-            // return <HomePageConsultant />;
-            case "news":
-            // return <NewsPage />;
+                // return <HomePageConsultant />;
+                return <HomePage />;
+            // case "news":
+            // // return <NewsPage />;
             case "schedule":
                 return <ConsultantSchedulePage userid={userid} />;
             case "calendar":
@@ -40,8 +42,8 @@ export default function CustomBottomNavigation({ userid }) {
                     activeIcon={<Icon icon="zi-home" />}
                 />
                 <BottomNavigation.Item
-                    label="Tin tức"
-                    key="news"
+                    label="Tạo lịch"
+                    key="schedule"
                     icon={<Icon icon="zi-clock-1-solid" />}
                     activeIcon={<Icon icon="zi-clock-1-solid" />}
                 />

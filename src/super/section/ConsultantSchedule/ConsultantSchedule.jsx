@@ -45,7 +45,9 @@ export default function ConsultantSchedule({ userid }) {
                 console.error('Error fetching time slot:', error);
             }
         };
-        getCompleteSchedule();
+        if (selectedDate) {
+            getCompleteSchedule();
+        }
     }, [selectedDate]);
 
 
@@ -276,45 +278,6 @@ export default function ConsultantSchedule({ userid }) {
                 <Text.Header size='large'>
                     Lịch sử đặt lịch đã hoàn thành với học sinh ở ngày {selectedDate}
                 </Text.Header>
-                {/* <Box
-                    height="60px"
-                    justifyContent="space-between"
-                    style={{
-                        borderLeft: "10px solid #22c55e", display: "flex", marginTop: "10px"
-                    }}
-                >
-                    <Box
-                        style={{
-                            display: 'flex',
-                            flexDirection: "column", // Sửa từ "collum" thành "column"
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            padding: '5px',
-                            textAlign: 'center' // Căn giữa văn bản
-                        }}
-                    >
-                        <Text size="medium" style={{ fontWeight: 'bold' }}>
-                            Nguyen Van F
-                        </Text>
-                        <Text size="medium">
-                            {selectedDate}
-                        </Text>
-                    </Box>
-
-                    <Box
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            borderRadius: '5px',
-                            padding: '5px',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        <Text style={{ backgroundColor: "#0284c7", padding: '10px', borderRadius: '10px', color: '#f9fafb' }} size="medium">
-                            08:00 - 09:00
-                        </Text>
-                    </Box>
-                </Box> */}
                 {completeSchedule.map((schedule) => (
                     <Box
                         key={schedule.id}

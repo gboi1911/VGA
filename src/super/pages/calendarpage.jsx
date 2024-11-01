@@ -1,7 +1,6 @@
-import { Calendar } from 'antd';
 // import ReactTimeslotCalendar from "react-timeslot-calendar";
 import { Text } from "zmp-ui";
-// import moment from "moment";
+import moment from "moment";
 
 export default function CalendarPage() {
     // const onPanelChange = (value, mode) => {

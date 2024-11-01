@@ -52,7 +52,7 @@ const HomePage = () => {
       <Text className=" mt-3" bold style={{ fontSize: "1.2em", marginBottom: '15px' }}>
         Tin tức mới nhất
       </Text>
-      {news.map((news) => (
+      {filteredNews.map((news) => (
         <Link style={{ marginTop: '10px' }} key={news.id} to={`/newsdetail/${news.id}`}>
           <Box style={{ height: '150px', borderTop: '1px solid rgba(0, 0, 0, 0.2)', alignItems: 'center', display: 'flex' }}>
             <Box flex>
