@@ -8,6 +8,7 @@ const OccupationDetail = () => {
 
   return (
     <Page
+      className="page"
       style={{
         padding: "20px",
         backgroundColor: "#f9f9f9",

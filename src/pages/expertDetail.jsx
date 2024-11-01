@@ -2,14 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Page, Box, Text, Calendar, Button, Modal } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBirthdayCake,
-  faStar,
-  faEnvelope,
-  faAddressCard,
-} from "@fortawesome/free-solid-svg-icons";
-import { getDay, postBook } from "api/expert";
+import { faBirthdayCake, faStar, faEnvelope, faAddressCard } from "@fortawesome/free-solid-svg-icons";
+import { getDay, postBook, getBooking } from "api/expert"; // Ensure getBooking is imported
 import moment from "moment";
+import BookingCard from '../components/bookingCard'; // Import the BookingCard component
 
 const ExpertDetailPage = ({ studentId }) => {
   const location = useLocation();
@@ -19,33 +15,57 @@ const ExpertDetailPage = ({ studentId }) => {
   const [availableDays, setAvailableDays] = useState([]);
   const [consultationTimes, setConsultationTimes] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [bookingConfirmation, setBookingConfirmation] = useState(null); // State for booking confirmation
+  const [bookingConfirmation, setBookingConfirmation] = useState(null);
+  const [bookings, setBookings] = useState([]); // State for bookings
 
   if (!expert) {
     return <Text>Error: Expert not found</Text>;
   }
 
   useEffect(() => {
+    let isMounted = true; 
+  
     const fetchExpertDay = async () => {
       try {
         const data = await getDay(expert.id);
         console.log("Get data consultant day successful", data);
-
+  
         const days = data.consultationDay.map((day) => ({
           id: day.id,
           date: day.day,
           consultationTimes: day.consultationTimes,
         }));
-
-        setAvailableDays(days);
-        setTime("");
+  
+        if (isMounted) {
+          setAvailableDays(days);
+          setTime("");
+        }
       } catch (error) {
         console.log("Error in fetch expert day:", error);
       }
     };
-
-    fetchExpertDay();
-  }, [expert.id]);
+  
+    const fetchBookings = async () => {
+      try {
+        const response = await getBooking(studentId, expert.id);
+        if (isMounted) {
+          setBookings(response.data.bookings);
+        }
+      } catch (error) {
+        console.log("Error fetching bookings:", error);
+      }
+    };
+  
+    if (expert && expert.id) { 
+      fetchExpertDay();
+      fetchBookings();
+    }
+  
+    return () => {
+      isMounted = false; 
+    };
+  }, [expert]);
+  
 
   const isDateAvailable = (date) => {
     const formattedDate = moment(date).format("YYYY-MM-DD");
@@ -86,7 +106,7 @@ const ExpertDetailPage = ({ studentId }) => {
   };
 
   return (
-    <Page className="page">
+    <Page className="page" style={{ padding: "10px" }}>
       <Text
         className="text-center text-3xl font-extrabold mb-6 mt-2"
         style={{ fontFamily: "Serif", color: "#0066CC", fontSize: "2em" }}
@@ -113,10 +133,7 @@ const ExpertDetailPage = ({ studentId }) => {
             {expert.name}
           </Text>
           <Text className="text-gray-600 mt-2">
-            <FontAwesomeIcon
-              icon={faBirthdayCake}
-              style={{ marginRight: "5px" }}
-            />{" "}
+            <FontAwesomeIcon icon={faBirthdayCake} style={{ marginRight: "5px" }} />{" "}
             {new Date(expert.dateOfBirth).toLocaleDateString("en-GB")}
           </Text>
           <Text className="text-gray-600 mt-2">
@@ -259,6 +276,26 @@ const ExpertDetailPage = ({ studentId }) => {
           </div>
         </Modal>
       )}
+
+      <Text
+        className="text-center text-3xl font-extrabold mb-6 mt-2"
+        style={{ fontFamily: "Serif", color: "#0066CC", fontSize: "2em" }}
+      >
+        Lịch đã đặt
+      </Text>
+
+      <Box className="mt-6 p-4 bg-white rounded-lg shadow-md">
+        {bookings.map((booking) => (
+          <BookingCard
+            key={booking.id}
+            consultantName={booking.consultantName}
+            studentName={booking.studentName}
+            startTime={booking.startTime}
+            endTime={booking.endTime}
+            status={booking.status}
+          />
+        ))}
+      </Box>
     </Page>
   );
 };
