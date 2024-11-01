@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text, Input } from "zmp-ui";
+import { Page, Box, Text, Input, Grid } from "zmp-ui";
 import { Link } from "react-router-dom";
 import { getNews } from "api/news";
 
 const HomePage = () => {
   const [news, setNews] = useState([]);
+  console.log("news", news);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -15,7 +16,7 @@ const HomePage = () => {
           response.data._news &&
           response.data._news.length > 0
         ) {
-          setNews(response.data._news[0]); // Assuming you want the first news item
+          setNews(response.data._news); // Assuming you want the first news item
         } else {
           console.log("No news data found");
         }
@@ -40,26 +41,43 @@ const HomePage = () => {
         onSearch={(text) => console.log(text)}
         style={{ marginTop: "10px" }}
       />
-      <Text className="ml-2 mt-3" bold style={{ fontSize: "1.2em" }}>
+      <Text className=" mt-3" bold style={{ fontSize: "1.2em", marginBottom: '15px' }}>
         Tin tức mới nhất
       </Text>
+      {news.map((news) => (
+        <Link style={{ marginTop: '10px' }} key={news.id} to={`/newsdetail/${news.id}`}>
+          <Box style={{ height: '150px', borderTop: '1px solid rgba(0, 0, 0, 0.2)', alignItems: 'center', display: 'flex' }}>
+            <Box flex>
+              <Box style={{ marginRight: '2%' }}>
+                <Text bold size="large">
+                  {news.title}
+                </Text>
+                <Text className="text-gray-500">{news.createdAt}</Text>
+              </Box>
+              <img style={{ borderRadius: '10px' }} src={news?.imageNews?.[0]?.imageUrl} alt="image" width={120} />
+            </Box>
 
-      <Box mt={3} ml={2} className="bg-white rounded-lg shadow-md">
-        <Box flex>
-          <img src={news.imageNews?.imageUrl} alt="image" width={120} />
-          <Box ml={4} mt={1}>
-            <Text bold size="large">
-              {news.title}
-            </Text>
-            {/* <Link to={`/newsdetail/${id}`}> */}
-            <Link to={`/newsdetail`}>
+          </Box>
+        </Link>
+      ))}
+
+      {/* {news.map((news) => (
+        <Box mt={3} ml={2} className="bg-white rounded-lg shadow-md">
+          <Box flex>
+            <img src={news.imageNews?.imageUrl} alt="image" width={120} />
+            <Box ml={4} mt={1}>
+              <Text bold size="large">
+                {news.title}
+              </Text>
               <Text size="xxSmall" className="text-blue-600 ml-60 mb-2">
                 Xem thêm
               </Text>
-            </Link>
+            </Box>
           </Box>
         </Box>
-      </Box>
+      ))
+
+      } */}
     </Page>
   );
 };

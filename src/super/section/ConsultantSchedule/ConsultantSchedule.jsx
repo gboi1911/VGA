@@ -3,6 +3,8 @@ import { Button, Grid, Modal, Box, Text, Page, Calendar, Icon } from "zmp-ui";
 import axios from "axios";
 import { getTimeSlot } from "api/super";
 
+import "./ConsultantSchedule.css";
+
 
 
 export default function ConsultantSchedule({ userid }) {
@@ -12,6 +14,8 @@ export default function ConsultantSchedule({ userid }) {
     const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
     const [slotBooked, setSlotBooked] = useState([]);
     const [idConsultantTime, setIdConsultantTime] = useState("");
+    const [completeSchedule, setcompleteSchedule] = useState([]);
+    console.log('completeSchedule:', completeSchedule); // Kiểm tra xem completeSchedule có thay đổi khi chọn slot không
     console.log('idConsultantTime:', idConsultantTime); // Kiểm tra xem idConsultantTime có thay đổi khi chọn slot không
     console.log("slotBooked:", slotBooked); // Kiểm tra xem slotBooked có thay đổi khi chọn slot không
     console.log('selectedTimeSlots:', selectedTimeSlots); // Kiểm tra xem selectedTimeSlots có thay đổi khi chọn slot không
@@ -25,8 +29,26 @@ export default function ConsultantSchedule({ userid }) {
                 console.error('Error fetching time slot:', error);
             }
         };
+
         fetchTimeSlots();
     }, []);
+    useEffect(() => {
+        const getCompleteSchedule = async () => {
+            try {
+                const response = await axios.get('https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/bookings', {
+                    params: {
+                        "day": selectedDate,
+                    }
+                });
+                setcompleteSchedule(response.data.bookings);
+            } catch (error) {
+                console.error('Error fetching time slot:', error);
+            }
+        };
+        getCompleteSchedule();
+    }, [selectedDate]);
+
+
     useEffect(() => {
         const fetchTimeSlotSelected = async () => {
             try {
@@ -36,7 +58,6 @@ export default function ConsultantSchedule({ userid }) {
                         "consultant-id": userid
                     }
                 });
-
 
                 const consultationDay = response.data.consultationDay;
 
@@ -58,7 +79,6 @@ export default function ConsultantSchedule({ userid }) {
 
     const handleDelete = async (idConsultantTime) => {
         try {
-            debugger
             const response = await axios.delete(`https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/consultation-time/${idConsultantTime}`);
             console.log("Xóa lịch thành công:", response.data);
             setSlotBooked(prevSlots => prevSlots.filter(s => s.id !== idConsultantTime));
@@ -87,7 +107,6 @@ export default function ConsultantSchedule({ userid }) {
     const handleCreate = async () => {
         // Dữ liệu với nhiều slot chọn
         console.log('handleCreate được gọi'); // Kiểm tra xem hàm có chạy
-        debugger
         const formData = {
             "consultantId": userid,
             "day": selectedDate,
@@ -100,7 +119,6 @@ export default function ConsultantSchedule({ userid }) {
         try {
             const response = await axios.post('https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/consultation-days', formData);
             if (response.status === 200) {
-                debugger
                 setDialogVisible("CreateSuccess");
             }
             console.log("Tạo lịch thành công:", response.data);
@@ -123,33 +141,47 @@ export default function ConsultantSchedule({ userid }) {
             setSelectedTimeSlots([]);
         }
     };
+    const slotGroups = slotBooked.reduce((acc, booked) => {
+        if (!acc[booked.status])
+            acc[booked.status] = [];
+        acc[booked.status].push(booked);
+        return acc;
+    }, { 0: [], 1: [], 2: [] });
 
     return (
-        <Page hideScrollbar={false} style={{ marginTop: '0px', marginBottom: '0px', backgroundColor: "#f5f5f5", borderRadius: "8px" }} className='section-container'>
+        <Page className='mt-0 pd-0 custom-page' style={{ paddingTop: '0px !important', marginBottom: '0px', backgroundColor: "#f5f5f5", borderRadius: "8px" }} >
             <Calendar onSelect={handleDateChange} />
             <Grid space='1rem' columnCount={3} style={{ marginTop: '10px', justifyContent: 'center', textAlign: 'center' }}>
                 {timeSlots.map(slot => {
-                    // const bookedSlot = slotBooked.find(booked => booked.timeSlotId === slot.id);
-                    const bookedSlot = slotBooked.find(booked => booked.timeSlotId === slot.id && booked.status === 0);
-                    console.log('bookedSlot:', bookedSlot); // Kiểm tra xem bookedSlot có thay đổi khi chọn slot không
+
+                    // const bookedSlot = slotBooked.find(booked => booked.timeSlotId === slot.id && booked.status === 0);
+                    const bookedSlot = slotGroups[0].find(booked => booked.timeSlotId === slot.id);  // Đã đặt
+                    const completedSlot = slotGroups[1].find(booked => booked.timeSlotId === slot.id); // Hoàn thành
+                    const canceledSlot = slotGroups[2].find(booked => booked.timeSlotId === slot.id);  // Bị hủy
                     return (
                         <Button
                             onClick={() => {
-
-                                if (bookedSlot?.status === 0) {
-                                    // Nếu slot đã được đặt, mở modal Delete và lưu id
+                                if (bookedSlot) {
+                                    // Nếu slot đã được đặt, mở modal Delete
                                     setDialogVisible("Delete");
-                                    setIdConsultantTime(bookedSlot.id); // Lấy id của slot đã đặt
+                                    setIdConsultantTime(bookedSlot.id);
+                                } else if (completedSlot) {
+                                    // Nếu slot đã hoàn thành, không làm gì cả
+                                } else if (canceledSlot) {
+                                    // Nếu slot bị hủy, cho phép chọn lại slot đó
+                                    toggleTimeSlot(slot);
                                 } else {
-                                    // Nếu slot chưa được đặt, chọn/bỏ chọn slot
+                                    // Các trường hợp khác
                                     toggleTimeSlot(slot);
                                 }
                             }}
                             key={slot.id}
                             style={{
                                 borderRadius: '10px',
-                                backgroundColor: selectedTimeSlots.includes(slot) ? '#e0e0e0' : '#FFFFFF', // nền sáng khi chọn
-                                color: '#000000',  // chữ đen
+                                backgroundColor:
+                                    completedSlot ? '#4caf50' :
+                                        selectedTimeSlots.includes(slot) ? '#e0e0e0' : '#FFFFFF', // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
+                                color: '#000000',
                                 padding: '10px',
                                 textAlign: 'center',
                                 cursor: 'pointer',
@@ -158,10 +190,11 @@ export default function ConsultantSchedule({ userid }) {
                                 marginRight: '10px',
                                 marginLeft: '10px',
                                 marginBottom: '10px',
-                                opacity: (bookedSlot?.status === 0) ? 0.5 : 1,
+                                opacity: bookedSlot ? 0.5 :
+                                    completedSlot ? 0.1 :
+                                        1, // Đặt opacity mặc định là 1 cho các trạng thái chưa đặt và đã hủy
                             }}
                             size="medium"
-                        // disabled={slotBooked.some(booked => booked.timeSlotId === slot.id)}
                         >
                             <Text>{`${slot.startTime.slice(0, 5)}`}</Text>
                         </Button>
@@ -243,7 +276,7 @@ export default function ConsultantSchedule({ userid }) {
                 <Text.Header size='large'>
                     Lịch sử đặt lịch đã hoàn thành với học sinh ở ngày {selectedDate}
                 </Text.Header>
-                <Box
+                {/* <Box
                     height="60px"
                     justifyContent="space-between"
                     style={{
@@ -281,8 +314,51 @@ export default function ConsultantSchedule({ userid }) {
                             08:00 - 09:00
                         </Text>
                     </Box>
-                </Box>
-                <Box
+                </Box> */}
+                {completeSchedule.map((schedule) => (
+                    <Box
+                        key={schedule.id}
+                        height="60px"
+                        justifyContent="space-between"
+                        style={{
+                            borderLeft: "10px solid #22c55e", display: "flex", marginTop: "10px"
+                        }}
+                    >
+                        <Box
+                            style={{
+                                display: 'flex',
+                                flexDirection: "column", // Sửa từ "collum" thành "column"
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                padding: '5px',
+                                textAlign: 'center' // Căn giữa văn bản
+                            }}
+                        >
+                            <Text size="medium" style={{ fontWeight: 'bold' }}>
+                                {schedule.studentName}
+                            </Text>
+                            <Text size="medium">
+                                {selectedDate}
+                            </Text>
+                        </Box>
+
+                        <Box
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                borderRadius: '5px',
+                                padding: '5px',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            <Text style={{ backgroundColor: "#0284c7", padding: '10px', borderRadius: '10px', color: '#f9fafb' }} size="medium">
+                                {schedule.startTime.slice(0, 5)} - {schedule.endTime.slice(0, 5)}
+                            </Text>
+                        </Box>
+                    </Box>
+                ))
+                }
+                {/* <Box
                     height="60px"
                     justifyContent="space-between"
                     style={{
@@ -398,7 +474,7 @@ export default function ConsultantSchedule({ userid }) {
                             17:00 - 18:00
                         </Text>
                     </Box>
-                </Box>
+                </Box> */}
 
             </Box>
         </Page >

@@ -1,7 +1,7 @@
 import { Calendar } from 'antd';
-import ReactTimeslotCalendar from "react-timeslot-calendar";
+// import ReactTimeslotCalendar from "react-timeslot-calendar";
 import { Text } from "zmp-ui";
-import moment from "moment";
+// import moment from "moment";
 
 export default function CalendarPage() {
     // const onPanelChange = (value, mode) => {
@@ -12,7 +12,7 @@ export default function CalendarPage() {
         // <Calendar onPanelChange={onPanelChange} />
         <div className="App">
             <Text.Header style={{ textAlign: 'center' }} size='large'>Danh sách những lịch đã được hoàn thành</Text.Header>
-            <ReactTimeslotCalendar
+            {/* <ReactTimeslotCalendar
                 initialDate={moment([2017, 3, 24]).format()}
                 let
                 timeslots={[
@@ -22,7 +22,7 @@ export default function CalendarPage() {
                     "5", // 5:00 AM
                     ["4"] // 4:00 AM - 6:00 AM - 7:00AM - 8:00AM
                 ]}
-            />
+            /> */}
         </div>
     );
 }
