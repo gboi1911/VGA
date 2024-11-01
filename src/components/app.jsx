@@ -32,11 +32,11 @@ import { login } from "api/login";
 
 const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
-  const [userid, setUserId] = useState('bbc8d0f0-dafa-4329-98e9-b3aeb7ee07e9');
-  const [role, setRole] = useState(2);
+  const [userid, setUserId] = useState();
+  const [role, setRole] = useState();
   const [userInfo, setUserInfo] = useState(null);
 
-  //useEffect(() => {
+  useEffect(() => {
     const fetchToken = async () => {
       try {
         const token = await getDataAccessToken();
@@ -79,7 +79,7 @@ const MyApp = () => {
     };
 
     fetchToken();
-  //}, []);
+  }, []);
 
   console.log("userid", userid);
   console.log("role", role);

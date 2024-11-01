@@ -26,7 +26,7 @@ const ExpertPage = () => {
   const handleSearch = (text) => {
     setSearchQuery(text);
     if (text.length < 2) {
-      setFilteredExperts(experts); // Reset to all experts if query is less than 2 characters
+      setFilteredExperts(experts); 
     } else {
       const results = experts.filter(expert =>
         expert.name.toLowerCase().includes(text.toLowerCase())
