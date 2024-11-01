@@ -34,8 +34,8 @@ import { login } from "api/login";
 
 const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
-  const [userid, setUserId] = useState(null);
-  const [role, setRole] = useState(null);
+  const [userid, setUserId] = useState();
+  const [role, setRole] = useState();
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {

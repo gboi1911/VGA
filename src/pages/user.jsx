@@ -88,7 +88,7 @@ const UserPage = ({ studentId }) => {
             boxShadow: "inset -2px 2px 4px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Text size="large">{userInfo.data.account.wallet.goldBalance}</Text>
+          <Text bold size="large" style={{color: "#FFCC00"}}>{userInfo.data.account.wallet.goldBalance}</Text>
           <FontAwesomeIcon
             icon={faCoins}
             size="large"

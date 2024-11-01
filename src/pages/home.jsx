@@ -5,18 +5,15 @@ import { getNews } from "api/news";
 
 const HomePage = () => {
   const [news, setNews] = useState([]);
-  console.log("news", news);
+  const [filteredNews, setFilteredNews] = useState([]);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await getNews();
-        if (
-          response.data &&
-          response.data._news &&
-          response.data._news.length > 0
-        ) {
-          setNews(response.data._news); // Assuming you want the first news item
+        if (response.data && response.data._news && response.data._news.length > 0) {
+          setNews(response.data._news); // Store all news items
+          setFilteredNews(response.data._news); // Initially, set filtered news to all news
         } else {
           console.log("No news data found");
         }
@@ -28,17 +25,28 @@ const HomePage = () => {
     fetchNews();
   }, []);
 
+  const handleSearch = (text) => {
+    if (text.length < 2) {
+      setFilteredNews(news);
+    } else {
+      const results = news.filter((item) =>
+        item.title.toLowerCase().includes(text.toLowerCase())
+      );
+      setFilteredNews(results);
+    }
+  };
+
   return (
     <Page className="page p-4 bg-gray-100 w-full">
       <img
-        src="https://cdn.123job.vn/123job/uploads/2021/04/22/2021_04_22______02612dd7ec3826597c3e6f46c945ed07.jpg" // Use absolute path
-        alt="FPT Polytechnic uniform image" // Descriptive alt text
+        src="https://cdn.123job.vn/123job/uploads/2021/04/22/2021_04_22______02612dd7ec3826597c3e6f46c945ed07.jpg"
+        alt="FPT Polytechnic uniform"
         className="w-100 h-34 rounded-md mt-3"
       />
       <Input.Search
         label="Label"
         placeholder="Trường đại học bạn muốn tìm ?"
-        onSearch={(text) => console.log(text)}
+        onChange={(e) => handleSearch(e.target.value)} // Call handleSearch on input change
         style={{ marginTop: "10px" }}
       />
       <Text className=" mt-3" bold style={{ fontSize: "1.2em", marginBottom: '15px' }}>
@@ -61,23 +69,6 @@ const HomePage = () => {
         </Link>
       ))}
 
-      {/* {news.map((news) => (
-        <Box mt={3} ml={2} className="bg-white rounded-lg shadow-md">
-          <Box flex>
-            <img src={news.imageNews?.imageUrl} alt="image" width={120} />
-            <Box ml={4} mt={1}>
-              <Text bold size="large">
-                {news.title}
-              </Text>
-              <Text size="xxSmall" className="text-blue-600 ml-60 mb-2">
-                Xem thêm
-              </Text>
-            </Box>
-          </Box>
-        </Box>
-      ))
-
-      } */}
     </Page>
   );
 };
