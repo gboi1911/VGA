@@ -3,9 +3,9 @@ import { useLocation } from "react-router-dom";
 import { Page, Box, Text, Calendar, Button, Modal } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBirthdayCake, faStar, faEnvelope, faAddressCard } from "@fortawesome/free-solid-svg-icons";
-import { getDay, postBook, getBooking } from "api/expert"; // Ensure getBooking is imported
+import { getDay, postBook, getBooking } from "api/expert";
 import moment from "moment";
-import BookingCard from '../components/bookingCard'; // Import the BookingCard component
+import BookingCard from '../components/bookingCard';
 
 const ExpertDetailPage = ({ studentId }) => {
   const location = useLocation();
@@ -16,26 +16,27 @@ const ExpertDetailPage = ({ studentId }) => {
   const [consultationTimes, setConsultationTimes] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [bookingConfirmation, setBookingConfirmation] = useState(null);
-  const [bookings, setBookings] = useState([]); // State for bookings
+  const [bookingError, setBookingError] = useState(null); // State for error messages
+  const [bookings, setBookings] = useState([]);
 
   if (!expert) {
     return <Text>Error: Expert not found</Text>;
   }
 
   useEffect(() => {
-    let isMounted = true; 
-  
+    let isMounted = true;
+
     const fetchExpertDay = async () => {
       try {
         const data = await getDay(expert.id);
         console.log("Get data consultant day successful", data);
-  
+
         const days = data.consultationDay.map((day) => ({
           id: day.id,
           date: day.day,
           consultationTimes: day.consultationTimes,
         }));
-  
+
         if (isMounted) {
           setAvailableDays(days);
           setTime("");
@@ -44,7 +45,7 @@ const ExpertDetailPage = ({ studentId }) => {
         console.log("Error in fetch expert day:", error);
       }
     };
-  
+
     const fetchBookings = async () => {
       try {
         const response = await getBooking(studentId, expert.id);
@@ -55,17 +56,16 @@ const ExpertDetailPage = ({ studentId }) => {
         console.log("Error fetching bookings:", error);
       }
     };
-  
-    if (expert && expert.id) { 
+
+    if (expert && expert.id) {
       fetchExpertDay();
       fetchBookings();
     }
-  
+
     return () => {
-      isMounted = false; 
+      isMounted = false;
     };
   }, [expert]);
-  
 
   const isDateAvailable = (date) => {
     const formattedDate = moment(date).format("YYYY-MM-DD");
@@ -99,9 +99,12 @@ const ExpertDetailPage = ({ studentId }) => {
       ).id;
       const response = await postBook(studentId, timeId);
       setBookingConfirmation(response.data); // Set booking confirmation data
+      setBookingError(null); // Clear any previous error
       setModalOpen(false);
     } catch (error) {
       console.error("Error during booking:", error);
+      setBookingError(error.response?.data?.message || "Đặt lịch thất bại"); // Set error message
+      setModalOpen(false); // Close the confirmation modal
     }
   };
 
@@ -227,13 +230,8 @@ const ExpertDetailPage = ({ studentId }) => {
         title="Xác Nhận Đặt Lịch"
       >
         <div className="p-4">
-          <Text
-            className="text-lg"
-            style={{
-              textAlign: "center",
-            }}
-          >
-            Bạn có chắc chắn muốn đặt lịch hẹn vào ngày {date.toDateString()}{" "}
+          <Text className="text-lg" style={{ textAlign: "center" }}>
+            Bạn có chắc chắn muốn đặt lịch hẹn vào ngày {date.toDateString("vi-VN")}{" "}
             vào lúc {time}?
           </Text>
           <div className="flex justify-end mt-4">
@@ -277,8 +275,23 @@ const ExpertDetailPage = ({ studentId }) => {
         </Modal>
       )}
 
+      {/* Modal for booking error */}
+      {bookingError && (
+        <Modal
+          visible={!!bookingError}
+          onClose={() => setBookingError(null)}
+          title="Đặt Lịch Thất Bại"
+        >
+          <div className="p-4">
+            <Text className="text-lg" style={{ textAlign: "center" }}>
+              {bookingError}
+            </Text>
+          </div>
+        </Modal>
+      )}
+
       <Text
-        className="text-center text-3xl font-extrabold mb-6 mt-2"
+        className="text-center text-3xl font-extrabold mb-6 mt-8"
         style={{ fontFamily: "Serif", color: "#0066CC", fontSize: "2em" }}
       >
         Lịch đã đặt
@@ -292,6 +305,7 @@ const ExpertDetailPage = ({ studentId }) => {
             studentName={booking.studentName}
             startTime={booking.startTime}
             endTime={booking.endTime}
+            consultationDay={booking.consultationDay}
             status={booking.status}
           />
         ))}

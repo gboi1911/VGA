@@ -666,7 +666,7 @@ const TestResultHolland = () => {
                   </div>
 
                   {/* Majors */}
-                  <Text
+                  {/*<Text
                     bold
                     className="mb-4 mt-6"
                     style={{ fontSize: "1.5em" }}
@@ -686,10 +686,10 @@ const TestResultHolland = () => {
                         <li key={idx}>{major}</li>
                       ))}
                     </ul>
-                  </div>
+                  </div>*/}
 
                   {/* Careers */}
-                  <Text
+                  {/*<Text
                     bold
                     className="mb-4 mt-6"
                     style={{ fontSize: "1.5em" }}
@@ -709,7 +709,7 @@ const TestResultHolland = () => {
                         <li key={idx}>{career}</li>
                       ))}
                     </ul>
-                  </div>
+                  </div>*/}
                 </Box>
               )}
             </Box>

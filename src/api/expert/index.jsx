@@ -56,7 +56,7 @@ export const postBook = async (studId, timeId) => {
 
 export const getBooking = async (stuId, consultantId) => {
   try {
-    const response = await axios.get(`${url}/booking`, {
+    const response = await axios.get(`${url}/bookings`, {
       params: {
         "student-id": stuId, 
         "consultant-id": consultantId,

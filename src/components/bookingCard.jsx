@@ -1,20 +1,21 @@
 import React from 'react';
 import { Box, Text } from 'zmp-ui';
 
-const BookingCard = ({ consultantName, studentName, startTime, endTime, status }) => {
+const BookingCard = ({ consultantName, studentName, startTime, endTime, status, consultationDay }) => {
   return (
     <Box
-      className="booking-card p-4 mb-4 rounded-lg shadow-md"
-      style={{
-        backgroundColor: status ? 'lightgreen' : 'lightcoral',
-      }}
+      className="booking-card rounded-lg shadow-md"
+      mt={2}
     >
-      <Text className="font-bold">Tư vấn viên: {consultantName}</Text>
+      <div className="p-2 ml-2">
+      <Text bold>Tư vấn viên: {consultantName}</Text>
       <Text>Người đặt lịch: {studentName}</Text>
       <Text>Thời gian: {startTime} - {endTime}</Text>
-      <Text className={status ? 'text-green-600' : 'text-red-600'}>
+      <Text>Ngày: {consultationDay} </Text>
+      <Text bold className={status ? 'text-green-600' : 'text-red-600'} style={{marginTop: "5px"}}>
         {status ? 'Thành công' : 'Thất bại'}
       </Text>
+      </div>
     </Box>
   );
 };
