@@ -49,7 +49,7 @@ const FilterMajorUniversity = () => {
           fontSize: "1em",
           marginBottom: "20px",
           textAlign: "center",
-          marginTop: "40px",
+          marginTop: "60px",
           color: "#0066CC",
         }}
       >
@@ -74,6 +74,7 @@ const FilterMajorUniversity = () => {
           borderRadius: "8px",
           padding: "12px 24px",
           marginTop: "30px",
+          marginBottom: "40px",
           fontSize: "1.2em",
           width: "100%",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",

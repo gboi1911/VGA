@@ -112,7 +112,7 @@ const ExpertDetailPage = ({ studentId }) => {
     <Page className="page" style={{ padding: "10px" }}>
       <Text
         className="text-center text-3xl font-extrabold mb-6 mt-2"
-        style={{ fontFamily: "Serif", color: "#0066CC", fontSize: "2em" }}
+        style={{ fontFamily: "Serif", color: "#0066CC", fontSize: "2em", marginTop: "90px" }}
       >
         Thông tin tư vấn viên
       </Text>
@@ -216,7 +216,7 @@ const ExpertDetailPage = ({ studentId }) => {
           </select>
         </Box>
 
-        <div className="mt-4 mb-4 flex justify-center">
+        <div className="mt-4 mb-4 p-4 flex justify-center">
           <Button className="w-80" onClick={handleConfirm} color="primary">
             Xác Nhận
           </Button>
@@ -297,7 +297,7 @@ const ExpertDetailPage = ({ studentId }) => {
         Lịch đã đặt
       </Text>
 
-      <Box className="mt-6 p-4 bg-white rounded-lg shadow-md">
+      <Box mb={10} className="p-4 bg-white rounded-lg shadow-md">
         {bookings.map((booking) => (
           <BookingCard
             key={booking.id}

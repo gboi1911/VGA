@@ -21,7 +21,8 @@ const OccupationDetail = () => {
           padding: "20px",
           backgroundColor: "#ffffff",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          marginBottom: "20px",
+          marginBottom: "30px",
+          marginTop: "50px",
         }}
       >
         <img
