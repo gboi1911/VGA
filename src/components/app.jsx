@@ -19,8 +19,12 @@ import HeaderBar from "layout/header";
 import BottomNavigationPage from "layout/navigation";
 import CustomBottomNavigation from "super/pages/bottomnavigation";
 import NewDetail from "super/section/news/newsdetail";
-
-
+import Explore from "pages/explore/explore";
+import MBTITest from "pages/explore/mbti";
+import HollandTest from "pages/explore/holland";
+import Major from "pages/explore/major";
+import MajorDetail from "pages/explore/majorDetail";
+import Occupation from "pages/explore/occupation";
 
 import {
   getDataAccessToken,
@@ -34,7 +38,7 @@ import { login } from "api/login";
 
 const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
-  const [userid, setUserId] = useState('bbc8d0f0-dafa-4329-98e9-b3aeb7ee07e9');
+  const [userid, setUserId] = useState("bbc8d0f0-dafa-4329-98e9-b3aeb7ee07e9");
   const [role, setRole] = useState(2);
   const [userInfo, setUserInfo] = useState(null);
 
@@ -105,6 +109,12 @@ const MyApp = () => {
                   <Route path="/test" element={<TestPage />} />
                   <Route path="/testExecute" element={<TestExecute />} />
                   <Route path="/testResult" element={<TestResult />} />
+                  <Route path="/explore" element={<Explore />} />
+                  <Route path="/mbtiTest" element={<MBTITest />} />
+                  <Route path="/hollandTest" element={<HollandTest />} />
+                  <Route path="/major" element={<Major />} />
+                  <Route path="/majorDetail/:id" element={<MajorDetail />} />
+                  <Route path="/occupation" element={<Occupation />} />
                   <Route
                     path="/testExecuteHolland"
                     element={<TestExecuteHolland studentId={userid} />}
@@ -123,11 +133,14 @@ const MyApp = () => {
                     element={<OccupationDetail />}
                   />
                   <Route path="/newsdetail/:id" element={<NewDetail />} />
-
                 </>
               )}
             </Routes>
-            {role === 4 ? <CustomBottomNavigation userid={userid} /> : <BottomNavigationPage />}
+            {role === 4 ? (
+              <CustomBottomNavigation userid={userid} />
+            ) : (
+              <BottomNavigationPage />
+            )}
             {/* <CustomBottomNavigation userid={userid} /> */}
           </ZMPRouter>
         </SnackbarProvider>

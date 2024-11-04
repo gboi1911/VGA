@@ -5,10 +5,7 @@ import { Box, Text } from "zmp-ui";
 const OccupationCard = ({ occupation }) => {
   const navigate = useNavigate();
   const handleClick = () => {
-    if (occupation) {
-      // Ensure that expert exists before navigating
-      navigate(`/occupationDetail/${occupation.id}`, { state: { occupation } });
-    }
+    navigate(`/occupationDetail/${occupation.id}`);
   };
   return (
     <Box

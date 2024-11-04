@@ -27,10 +27,6 @@ const FilterMajorUniversity = () => {
     return () => clearTimeout(typeMessage); // Cleanup on unmount
   }, [resultData.message]);
 
-  const handleCardClick = (id) => {
-    navigate(`/occupationDetail/${id}`, { state: { occupation } });
-  };
-
   const handleFinish = () => {
     navigate("/test");
   };

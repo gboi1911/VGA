@@ -8,8 +8,8 @@ const BottomNavigationPage = (props) => {
   const { pathname } = location;
 
   const getTabFromPath = (path) => {
-    if (path.startsWith("/test") || path.startsWith("/testDetail")) {
-      return "test";
+    if (path.startsWith("/explore") || path.startsWith("/testDetail")) {
+      return "explore";
     } else if (path.startsWith("/expert") || path.startsWith("/expertDetail")) {
       return "expert";
     } else if (path === "/user") {
@@ -28,9 +28,9 @@ const BottomNavigationPage = (props) => {
   const handleTabChange = (key) => {
     setActiveTab(key);
     switch (key) {
-      case "test":
+      case "explore":
         // Instead of navigating, replace the current entry
-        navigate("/test", { replace: true });
+        navigate("/explore", { replace: true });
         break;
       case "expert":
         navigate("/expert", { replace: true });
@@ -52,10 +52,10 @@ const BottomNavigationPage = (props) => {
         activeIcon={<Icon icon="zi-home" />}
       />
       <BottomNavigation.Item
-        label="Bài kiểm tra"
-        key="test"
-        icon={<Icon icon="zi-quote" />}
-        activeIcon={<Icon icon="zi-quote-solid" />}
+        label="Khám phá"
+        key="explore"
+        icon={<Icon icon="zi-more-grid" />}
+        activeIcon={<Icon icon="zi-more-grid-solid" />}
       />
       <BottomNavigation.Item
         label="Tư vấn"

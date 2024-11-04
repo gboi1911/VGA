@@ -91,7 +91,7 @@ const UserPage = ({ studentId }) => {
           <Text bold size="large" style={{color: "#FFCC00"}}>{userInfo.data.account.wallet.goldBalance}</Text>
           <FontAwesomeIcon
             icon={faCoins}
-            size="large"
+            size="xl"
             style={{
               marginRight: "10px",
               color: "#FFD700",
