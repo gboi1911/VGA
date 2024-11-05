@@ -54,17 +54,26 @@ export const postBook = async (studId, timeId) => {
   }
 };
 
-export const getBooking = async (stuId, consultantId) => {
+export const getBooking = async (stuId) => {
   try {
     const response = await axios.get(`${url}/bookings`, {
       params: {
-        "student-id": stuId, 
-        "consultant-id": consultantId,
+        "student-id": stuId,
       },
     });
     return response;
   } catch (error) {
-    console.log("Error in get bookings:", error); 
+    console.log("Error in get bookings:", error);
     throw error;
   }
-}
+};
+
+export const getExpertById = async (id) => {
+  try {
+    const response = await axios.get(`${url}/consultant/${id}`);
+    return response;
+  } catch (error) {
+    console.log("Error in get major by id:", error);
+    throw error;
+  }
+};

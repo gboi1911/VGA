@@ -54,23 +54,30 @@ const Explore = () => {
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
+                alignItems: "flex-end",
+                justifyContent: "flex-end",
                 marginBottom: "16px",
                 borderRadius: "8px",
-                paddingLeft: "16px",
               }}
             >
-              <Text
+              <Box
                 style={{
-                  color: "white",
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.7)",
+                  backgroundColor: "#FFFFFF",
+                  borderRadius: "8px",
+                  padding: "10px",
+                  marginBottom: "10px",
+                  marginRight: "10px",
                 }}
               >
-                {title}
-              </Text>
+                <Text
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {title}
+                </Text>
+              </Box>
             </Box>
           </Link>
         )

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Page, Text, Box } from "zmp-ui";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getMajorById } from "api/major";
 
 const MajorDetail = () => {
   const { id } = useParams();
   const [major, setMajor] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMajorDetail = async () => {
@@ -91,6 +92,7 @@ const MajorDetail = () => {
                 flex: "0 0 auto",
                 marginRight: "10px",
               }}
+              onClick={() => navigate(`/occupationDetail/${occupation.id}`)}
             >
               <img
                 src={
