@@ -1,71 +1,144 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Page, Box, Text, Button, Icon, Picker } from "zmp-ui";
-import { getRatingMajor, getRegion, postMajor } from "api/test";
+import { Page, Box, Text, Button, Icon, Picker, Modal } from "zmp-ui";
+import {
+  getRatingMajor,
+  getRegion,
+  postMajor,
+  getAdmissionMethod,
+} from "api/test";
+import { getMajorById } from "api/major";
 
-const RatingCard = ({ major, rating, onRate }) => {
+const RatingCard = ({
+  major,
+  rating,
+  onRate,
+  onFlip,
+  isFlipped,
+  description,
+  onShowMore,
+}) => {
   const handleRating = (rate) => {
     onRate(major.id, rate);
   };
 
   return (
     <Box
+      onClick={onFlip}
       style={{
-        width: "250px", // Increased width
-        height: "300px", // Increased height
+        width: "250px",
+        height: "300px",
         borderRadius: "10px",
         backgroundColor: "white",
-        boxShadow: "0 0 15px rgba(0, 0, 0, 0.15)", // Slightly stronger shadow
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "15px", // Increased padding
-        transition: "opacity 0.5s ease-in-out",
-        overflow: "hidden",
+        boxShadow: "0 0 15px rgba(0, 0, 0, 0.15)",
+        perspective: "1000px", // Enable 3D perspective
+        position: "relative",
       }}
     >
-      <img
-        src="https://bizweb.dktcdn.net/100/021/721/articles/nhungdieuitbiet.png?v=1620635748643"
-        alt={major.name}
+      <div
         style={{
           width: "100%",
-          height: "auto",
-          maxHeight: "150px", // Increased max height
-          borderRadius: "10px",
-        }}
-      />
-      <Text
-        style={{
-          alignItems: "center",
-          textAlign: "center",
-          marginBottom: "15px", // Increased bottom margin
-          height: "50px", // Increased height for better text visibility
-          marginTop: "10px",
-          flexShrink: 0,
-          overflow: "hidden",
-          textOverflow: "ellipsis",
+          height: "100%",
+          position: "absolute",
+          transformStyle: "preserve-3d", // Preserve 3D effect for child elements
+          transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          transition: "transform 0.5s ease",
         }}
       >
-        {major.name}
-      </Text>
-      <div style={{ marginBottom: "15px" }}>
-        {" "}
-        {/* Increased bottom margin */}
-        {[1, 2, 3, 4, 5].map((star) => (
-          <span
-            key={star}
-            onClick={() => handleRating(star)}
+        {/* Front Face */}
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            backfaceVisibility: "hidden", // Hide back when rotated
+            position: "absolute",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "15px",
+          }}
+        >
+          <img
+            src="https://bizweb.dktcdn.net/100/021/721/articles/nhungdieuitbiet.png?v=1620635748643"
+            alt={major.name}
             style={{
-              cursor: "pointer",
-              color: star <= rating ? "gold" : "gray",
-              fontSize: "24px", // Increased star size
-              margin: "0 5px", // Added margin between stars
+              width: "100%",
+              height: "auto",
+              maxHeight: "150px",
+              borderRadius: "10px",
+            }}
+          />
+          <Text
+            bold
+            style={{
+              alignItems: "center",
+              textAlign: "center",
+              marginBottom: "15px",
+              height: "50px",
+              marginTop: "20px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              fontSize: "18px",
             }}
           >
-            ★
-          </span>
-        ))}
+            {major.name}
+          </Text>
+          <div style={{ marginBottom: "15px" }}>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <span
+                key={star}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRating(star);
+                }}
+                style={{
+                  cursor: "pointer",
+                  color: star <= rating ? "gold" : "gray",
+                  fontSize: "24px",
+                  margin: "0 5px",
+                }}
+              >
+                ★
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Back Face */}
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            backfaceVisibility: "hidden", // Hide front when rotated
+            transform: "rotateY(180deg)", // Flip content for back face
+            position: "absolute",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10px",
+          }}
+        >
+          <Text style={{ textAlign: "center", fontSize: "16px" }}>
+            {description.length > 100 ? (
+              <>
+                {description.substring(0, 250)}...
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onShowMore();
+                  }}
+                  style={{ color: "blue" }}
+                >
+                  {" "}
+                  Xem thêm
+                </span>
+              </>
+            ) : (
+              description
+            )}
+          </Text>
+        </div>
       </div>
     </Box>
   );
@@ -77,10 +150,16 @@ const RatingMajor = () => {
   const [selectedTuitionFee, setSelectedTuitionFee] = useState(null);
   const [selectedYear, setSelectedYear] = useState(2025);
   const [selectedRegion, setSelectedRegion] = useState(null);
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [ratings, setRatings] = useState({});
+  const [completedRatings, setCompletedRatings] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [majorDescription, setMajorDescription] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [admissionMethod, setAdmissionMethod] = useState([]);
+  const [selectedAdmissionMethod, setSelectedAdmissionMethod] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [ratings, setRatings] = useState({}); // State for all ratings
 
   const { resultData } = location.state || {};
 
@@ -105,10 +184,9 @@ const RatingMajor = () => {
         const response = await getRatingMajor(resultData.stTestId);
         setRatingMajors(response.data.data);
 
-        // Initialize ratings for all majors
         const initialRatings = {};
         response.data.data.forEach((major) => {
-          initialRatings[major.id] = 0; // Default rating is 0
+          initialRatings[major.id] = 0;
         });
         setRatings(initialRatings);
       } catch (error) {
@@ -125,8 +203,18 @@ const RatingMajor = () => {
       }
     };
 
+    const fetchAdmissionMethod = async () => {
+      try {
+        const response = await getAdmissionMethod();
+        setAdmissionMethod(response.data._admissionMethodModels);
+      } catch (error) {
+        console.error("Error in fetch admission method:", error);
+      }
+    };
+
     fetchRatingMajor();
     fetchRegion();
+    fetchAdmissionMethod();
   }, [resultData]);
 
   const handleNext = () => {
@@ -142,107 +230,83 @@ const RatingMajor = () => {
   };
 
   const handleRate = (id, rating) => {
-    setRatings((prevRatings) => ({
-      ...prevRatings,
-      [id]: rating,
-    }));
+    setRatings((prevRatings) => {
+      const newRatings = { ...prevRatings, [id]: rating };
+      const newCompletedRatings = Object.values(newRatings).filter(
+        (rate) => rate > 0
+      ).length;
+      setCompletedRatings(newCompletedRatings);
+      return newRatings;
+    });
+  };
+
+  const fetchMajorDescription = async (majorId) => {
+    try {
+      const response = await getMajorById(majorId);
+      setMajorDescription(response.data.data.description);
+    } catch (error) {
+      console.error("Error fetching major description:", error);
+    }
+  };
+
+  const handleFlip = (majorId) => {
+    fetchMajorDescription(majorId);
+    setIsFlipped(!isFlipped);
   };
 
   const handleFinish = async () => {
-    const postResults = async () => {
-      console.log("Fee:", selectedTuitionFee);
-      console.log("year:", selectedYear);
-      console.log("region:", selectedRegion);
-      const payload = {
-        studentChoiceModel: {
-          studentTestId: resultData.stTestId,
-          models: ratingMajors.map((major) => ({
-            id: major.id,
-            name: major.name,
-            rating: ratings[major.id], // Use the rating from state
-            type: 1,
-          })),
-        },
-        filterInfor: {
-          admissionMethodId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-          tuitionFee: selectedTuitionFee.tuition.value,
-          year: selectedYear.academicYear.value,
-          region: selectedRegion.region.value,
-        },
-      };
-      try {
-        const response = await postMajor(payload);
-        if (response && response.data) {
-          navigate("/filterMajorUniversity", {
-            state: { resultData: response.data },
-          });
-        } else {
-          console.error("Failed to submit test results:", response);
-        }
-      } catch (error) {
-        console.error("Error in post major:", error);
-      }
+    const payload = {
+      studentChoiceModel: {
+        studentTestId: resultData.stTestId,
+        models: ratingMajors.map((major) => ({
+          id: major.id,
+          name: major.name,
+          rating: ratings[major.id],
+          type: 1,
+        })),
+      },
+      filterInfor: {
+        admissionMethodId: selectedAdmissionMethod?.method?.value,
+        tuitionFee: selectedTuitionFee?.tuition?.value,
+        year: selectedYear?.academicYear?.value,
+        region: selectedRegion?.region?.value,
+      },
     };
+    try {
+      const response = await postMajor(payload);
+      if (response && response.data) {
+        navigate("/filterMajorUniversity", {
+          state: { resultData: response.data },
+        });
+      } else {
+        console.error("Failed to submit test results:", response);
+      }
+    } catch (error) {
+      console.error("Error in post major:", error);
+    }
+  };
 
-    await postResults();
+  const handleShowMore = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   return (
-    <Page className="page">
-      <Box style={{ marginTop: "40px" }}>
-        <Text
-          style={{
-            color: "#0066CC",
-            alignItems: "center",
-            textAlign: "center",
-            width: "200px",
-            marginLeft: "100px",
-          }}
-        >
-          Đánh giá các ngành học theo mức độ hứng thú của bạn
-        </Text>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Icon
-            icon="zi-chevron-left"
-            onClick={handleBack}
-            disabled={currentCardIndex === 0}
-          />
-          <div style={{ margin: "20px", display: "flex", flexWrap: "wrap" }}>
-            {ratingMajors.map((major, index) => (
-              <div
-                key={major.id}
-                style={{
-                  display: index === currentCardIndex ? "block" : "none",
-                }}
-              >
-                <RatingCard
-                  major={major}
-                  rating={ratings[major.id]}
-                  onRate={handleRate}
-                />
-              </div>
-            ))}
-          </div>
-          <Icon
-            icon="zi-chevron-right"
-            onClick={handleNext}
-            disabled={currentCardIndex === ratingMajors.length - 1}
-          />
-        </div>
-      </Box>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+    <Page
+      className="page"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        backgroundColor: "#f9f9f9",
+      }}
+    >
+      {completedRatings === ratingMajors.length ? (
         <Box
           mt={8}
           style={{
@@ -259,7 +323,7 @@ const RatingMajor = () => {
               textAlign: "center",
             }}
           >
-            Thông tin nguyện vọng
+            Thông tin nguyện vọng trường đại học bạn mong muốn
           </Text.Title>
           <Box mt={4}>
             <Picker
@@ -316,8 +380,94 @@ const RatingMajor = () => {
               onChange={(value) => setSelectedYear(value)} // Capture selected year
             />
           </Box>
+          <Box mt={2}>
+            <Picker
+              label="Phương thức xét tuyển"
+              placeholder="Chọn phương thức xét tuyển"
+              mask
+              maskClosable
+              title="Phương thức xét tuyển"
+              action={{
+                text: "Close",
+                close: true,
+              }}
+              data={[
+                {
+                  options: admissionMethod.map((method) => ({
+                    value: method.id,
+                    displayName: method.name,
+                  })),
+                  name: "method",
+                },
+              ]}
+              onChange={(value) => setSelectedAdmissionMethod(value)} // Capture selected year
+            />
+          </Box>
         </Box>
-      </div>
+      ) : (
+        // Display rating cards and counter if ratings are incomplete
+        <>
+          <Box
+            style={{
+              backgroundColor: "#FFFFFF",
+              padding: "10px",
+              borderRadius: "8px",
+            }}
+          >
+            <Text bold style={{ textAlign: "center", fontSize: "20px" }}>
+              Đánh giá ngành học theo mức độ yêu thích ({completedRatings}/
+              {ratingMajors.length})
+            </Text>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon
+                icon="zi-chevron-left"
+                onClick={handleBack}
+                disabled={currentCardIndex === 0}
+              />
+              <div
+                style={{ margin: "20px", display: "flex", flexWrap: "wrap" }}
+              >
+                {ratingMajors.map((major, index) => (
+                  <div
+                    key={major.id}
+                    style={{
+                      display: index === currentCardIndex ? "block" : "none",
+                    }}
+                  >
+                    <RatingCard
+                      major={major}
+                      rating={ratings[major.id]}
+                      onRate={handleRate}
+                      onFlip={() => handleFlip(major.id)}
+                      isFlipped={isFlipped}
+                      description={majorDescription}
+                      onShowMore={handleShowMore}
+                    />
+                  </div>
+                ))}
+              </div>
+              <Icon
+                icon="zi-chevron-right"
+                onClick={handleNext}
+                disabled={currentCardIndex === ratingMajors.length - 1}
+              />
+            </div>
+          </Box>
+          <Modal
+            visible={showModal}
+            onClose={handleCloseModal}
+            title="Mô tả đầy đủ"
+          >
+            <Text>{majorDescription}</Text>
+          </Modal>
+        </>
+      )}
       <Button
         style={{
           backgroundColor: "#FF6600",
@@ -326,7 +476,7 @@ const RatingMajor = () => {
           padding: "12px 24px",
           marginTop: "30px",
           fontSize: "1.2em",
-          width: "100%",
+          width: "90%",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
         }}
         onClick={handleFinish} // Call handleFinish on button click

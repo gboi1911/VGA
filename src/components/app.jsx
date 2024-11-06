@@ -29,6 +29,7 @@ import University from "pages/explore/university";
 import UniversityDetail from "pages/explore/universityDetail";
 import Personal from "pages/explore/personal";
 import PersonalOccupation from "pages/explore/personalOccupation";
+import Personality from "pages/explore/personality";
 
 import {
   getDataAccessToken,
@@ -42,54 +43,54 @@ import { login } from "api/login";
 
 const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
-  const [userid, setUserId] = useState("bbc8d0f0-dafa-4329-98e9-b3aeb7ee07e9");
-  const [role, setRole] = useState(2);
+  const [userid, setUserId] = useState();
+  const [role, setRole] = useState();
   const [userInfo, setUserInfo] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchToken = async () => {
-  //     try {
-  //       const token = await getDataAccessToken();
-  //       const phoneNumber = await getPhoneNumberUser();
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const token = await getDataAccessToken();
+        const phoneNumber = await getPhoneNumberUser();
 
-  //       var config = {
-  //         method: "get",
-  //         url: "https://graph.zalo.me/v2.0/me/info",
-  //         headers: {
-  //           access_token: token,
-  //           code: phoneNumber.token,
-  //           secret_key: "P5DXS5UHWG7M73DkCLRC",
-  //         },
-  //       };
+        var config = {
+          method: "get",
+          url: "https://graph.zalo.me/v2.0/me/info",
+          headers: {
+            access_token: token,
+            code: phoneNumber.token,
+            secret_key: "P5DXS5UHWG7M73DkCLRC",
+          },
+        };
 
-  //       var response = await axios(config);
-  //       console.log(response);
-  //       const phone = response.data.data.number;
-  //       const userId = await getUserIDUser();
-  //       const userInfo1 = await getUser();
+        var response = await axios(config);
+        console.log(response);
+        const phone = response.data.data.number;
+        const userId = await getUserIDUser();
+        const userInfo1 = await getUser();
 
-  //       setAccessToken(token); // Store the token once fetched
+        setAccessToken(token); // Store the token once fetched
 
-  //       const resposneLogin = await login({
-  //         zaloId: userId,
-  //         phone: phone,
-  //         image_Url: "string",
-  //       });
-  //       console.log(resposneLogin);
-  //       const userid = resposneLogin.data.userId;
-  //       const role = resposneLogin.data.role;
-  //       setRole(role);
-  //       setUserId(userid);
+        const resposneLogin = await login({
+          zaloId: userId,
+          phone: phone,
+          image_Url: "string",
+        });
+        console.log(resposneLogin);
+        const userid = resposneLogin.data.userId;
+        const role = resposneLogin.data.role;
+        setRole(role);
+        setUserId(userid);
 
-  //       const tokenAPI = resposneLogin.data.accessToken;
-  //       localStorage.setItem("token", tokenAPI);
-  //     } catch (error) {
-  //       console.error("Error fetching token:", error);
-  //     }
-  //   };
+        const tokenAPI = resposneLogin.data.accessToken;
+        localStorage.setItem("token", tokenAPI);
+      } catch (error) {
+        console.error("Error fetching token:", error);
+      }
+    };
 
-  //   fetchToken();
-  // }, []);
+    fetchToken();
+  }, []);
 
   console.log("userid", userid);
   console.log("role", role);
@@ -114,7 +115,10 @@ const MyApp = () => {
                   />
                   <Route path="/user" element={<User studentId={userid} />} />
                   <Route path="/test" element={<TestPage />} />
-                  <Route path="/testExecute" element={<TestExecute />} />
+                  <Route
+                    path="/testExecute"
+                    element={<TestExecute studentId={userid} />}
+                  />
                   <Route path="/testResult" element={<TestResult />} />
                   <Route path="/explore" element={<Explore />} />
                   <Route path="/mbtiTest" element={<MBTITest />} />
@@ -131,6 +135,10 @@ const MyApp = () => {
                   <Route
                     path="/personalOccupation"
                     element={<PersonalOccupation studentId={userid} />}
+                  />
+                  <Route
+                    path="/personality"
+                    element={<Personality studentId={userid} />}
                   />
                   <Route
                     path="/testExecuteHolland"

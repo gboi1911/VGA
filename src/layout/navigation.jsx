@@ -8,7 +8,25 @@ const BottomNavigationPage = (props) => {
   const { pathname } = location;
 
   const getTabFromPath = (path) => {
-    if (path.startsWith("/explore") || path.startsWith("/testDetail")) {
+    if (
+      path.startsWith("/explore") ||
+      path.startsWith("/hollandTest") ||
+      path.startsWith("/mbtiTest") ||
+      path.startsWith("/major") ||
+      path.startsWith("/occupation") ||
+      path.startsWith("/mbtiTest") ||
+      path.startsWith("/university") ||
+      path.startsWith("/personal") ||
+      path.startsWith("/testExecuteHolland") ||
+      path.startsWith("/testExecute") ||
+      path.startsWith("/testResult") ||
+      path.startsWith("/testResultHolland") ||
+      path.startsWith("/majorDetail/:id") ||
+      path.startsWith("/occupationDetail/:id") ||
+      path.startsWith("/universityDetail/:id") ||
+      path.startsWith("/ratingMajor") ||
+      path.startsWith("/filterMajorUniversity")
+    ) {
       return "explore";
     } else if (path.startsWith("/expert") || path.startsWith("/expertDetail")) {
       return "expert";

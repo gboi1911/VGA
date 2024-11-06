@@ -24,10 +24,15 @@ const RatingMajorCard = ({ major }) => {
         <img
           src={"https://futuresa.co.za/wp-content/uploads/2023/10/careers.png"}
           alt={major.name}
-          style={{ width: "50px", height: "50px", marginRight: "16px" }}
+          style={{
+            width: "50px",
+            height: "50px",
+            marginRight: "16px",
+            marginBottom: "12px",
+          }}
         />
         <div>
-          <Text>{major.name}</Text>
+          <Text bold>{major.name}</Text>
           <StarRatings
             rating={rating}
             starRatedColor="gold"

@@ -39,7 +39,7 @@ const Occupation = () => {
     : occupation;
 
   return (
-    <Page>
+    <Page className="page">
       {/* Title */}
       <Text
         style={{
@@ -56,7 +56,7 @@ const Occupation = () => {
       <div
         style={{
           display: "flex",
-          overflowX: "hidden", // Hide overflow
+          overflowX: "auto",
           marginBottom: "16px",
           padding: "12px 16px",
           backgroundColor: "#f8f9fa",

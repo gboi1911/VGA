@@ -72,7 +72,10 @@ const MBTITest = () => {
           >
             Thực hiện bài kiểm tra này sẽ tốn 20 gold. Bạn đã sẵn sàng ?
           </Text>
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
+            <Button className="mr-2" type="danger" onClick={handleNo}>
+              Hủy
+            </Button>
             <Button
               className="mr-2"
               type="primary"
@@ -81,10 +84,7 @@ const MBTITest = () => {
                 backgroundColor: "#0066CC",
               }}
             >
-              Yes
-            </Button>
-            <Button className="mr-2" type="danger" onClick={handleNo}>
-              No
+              Đồng ý
             </Button>
           </div>
         </div>

@@ -60,7 +60,7 @@ const UniversityDetail = () => {
   }
 
   return (
-    <Page>
+    <Page className="page">
       <Box
         style={{
           display: "flex",

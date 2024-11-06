@@ -26,7 +26,7 @@ const MajorDetail = () => {
   }
 
   return (
-    <Page>
+    <Page className="page">
       <Box
         style={{
           display: "flex",
@@ -72,7 +72,7 @@ const MajorDetail = () => {
         <div
           style={{
             display: "flex",
-            overflowX: "hidden", // Hide overflow
+            overflowX: "auto", // Hide overflow
             marginBottom: "16px",
           }}
         >

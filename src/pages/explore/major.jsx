@@ -37,7 +37,7 @@ const Major = () => {
     : majors;
 
   return (
-    <Page>
+    <Page className="page">
       {/* Title */}
       <Text
         style={{
@@ -55,7 +55,7 @@ const Major = () => {
       <div
         style={{
           display: "flex",
-          overflowX: "hidden", // Hide overflow
+          overflowX: "auto", // Hide overflow
           marginBottom: "16px",
           padding: "12px 16px",
           backgroundColor: "#f8f9fa",

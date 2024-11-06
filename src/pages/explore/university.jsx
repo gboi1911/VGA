@@ -34,7 +34,7 @@ const University = () => {
   };
 
   return (
-    <Page>
+    <Page className="page">
       {/* Title */}
       <Text
         style={{
