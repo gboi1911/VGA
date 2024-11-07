@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { BottomNavigation, Icon, Page } from "zmp-ui";
 import ConsultantSchedulePage from "./ConsultantSchedulePage";
-import HomePageConsultant from "./HomePageConsultant";
+// import HomePageConsultant from "./HomePageConsultant";
 import CalendarPage from "./calendarpage";
 import HomePage from "pages/home";
+// import DateCalendarServerRequest from "super/pages/HomePageConsultant";
+// import FirstComponent from "super/pages/HomePageConsultant";
+import WeekPicker from "super/pages/HomePageConsultant";
+import News from "super/section/news/news";
+
 
 export default function CustomBottomNavigation({ userid }) {
     const [activeTab, setActiveTab] = useState("homepage");
@@ -14,16 +19,16 @@ export default function CustomBottomNavigation({ userid }) {
             case "homepage":
                 // return <HomePageConsultant />;
                 return <HomePage />;
-            // case "news":
-            // // return <NewsPage />;
             case "schedule":
                 return <ConsultantSchedulePage userid={userid} />;
+            case "news":
+                return <News />;
             case "calendar":
-                return <CalendarPage />;
+                return <WeekPicker />;
             case "me":
-            // return <ProfilePage />;
+            // return <WeekPicker />;
             default:
-                return <HomePageConsultant />;
+                return <CalendarPage />;
         }
     };
 
@@ -40,6 +45,13 @@ export default function CustomBottomNavigation({ userid }) {
                     key="homepage"
                     icon={<Icon icon="zi-home" />}
                     activeIcon={<Icon icon="zi-home" />}
+                />
+                // tin tức
+                // <BottomNavigation.Item
+                    label="Tin tức"
+                    key="news"
+                    icon={<Icon icon="zi-more-grid" />}
+                    activeIcon={<Icon icon="zi-more-grid-solid" />}
                 />
                 <BottomNavigation.Item
                     label="Tạo lịch"
