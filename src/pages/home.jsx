@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Page, Box, Text, Input, Grid } from "zmp-ui";
 import { Link } from "react-router-dom";
 import { getNews } from "api/news";
+import './home.css';
 
 const HomePage = () => {
   const [news, setNews] = useState([]);
@@ -37,7 +38,7 @@ const HomePage = () => {
   };
 
   return (
-    <Page className="page p-4 bg-gray-100 w-full">
+    <Page className="page p-4 bg-gray-100 w-full no-padding-top">
       <img
         src="https://cdn.123job.vn/123job/uploads/2021/04/22/2021_04_22______02612dd7ec3826597c3e6f46c945ed07.jpg"
         alt="FPT Polytechnic uniform"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Grid, Modal, Box, Text, Page, Calendar, Icon } from "zmp-ui";
 import axios from "axios";
+import Typography from '@mui/material/Typography';
 import { getTimeSlot } from "api/super";
 
 import "./ConsultantSchedule.css";
@@ -152,6 +153,9 @@ export default function ConsultantSchedule({ userid }) {
 
     return (
         <Page className='mt-0 pd-0 custom-page' style={{ paddingTop: '0px !important', marginBottom: '0px', backgroundColor: "#f5f5f5", borderRadius: "8px" }} >
+            <Typography variant="h6" sx={{ pb: 2, textAlign: 'center', backgroundColor: 'aliceblue' }}>
+                Tạo lịch tư vấn
+            </Typography>
             <Calendar onSelect={handleDateChange} />
             <Grid space='1rem' columnCount={3} style={{ marginTop: '10px', justifyContent: 'center', textAlign: 'center' }}>
                 {timeSlots.map(slot => {
@@ -203,20 +207,26 @@ export default function ConsultantSchedule({ userid }) {
                     )
                 })}
             </Grid>
-            <Grid space='1rem' style={{ marginTop: '10px', justifyContent: 'end', display: 'flex' }}>
+            <Grid space='1rem' style={{ marginTop: '25%', justifyContent: 'end', display: 'flex' }}>
                 <Box>
-                    <Button
+                    <button
                         onClick={() => setDialogVisible("Create")}
-                        size="medium"
+                        size="small"
                         style={{
-                            width: '10px',
+                            width: '50px',          // Đảm bảo chiều rộng và chiều cao bằng nhau
                             height: '50px',
-                            borderRadius: '',
+                            borderRadius: '50%',     // Tạo viền tròn
+                            padding: 0,              // Loại bỏ khoảng đệm mặc định
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            overflow: 'hidden',      // Đảm bảo hình tròn không bị lệch
+                            border: '1px solid #ccc', // Viền xám
+                            marginRight: '10px',
                         }}
-                    // prefixIcon={<Icon icon="zi-plus" />}
                     >
                         <Icon icon="zi-plus" />
-                    </Button>
+                    </button>
 
                 </Box>
             </Grid>
@@ -273,7 +283,7 @@ export default function ConsultantSchedule({ userid }) {
                     description="Bạn đã chọn lịch đã đặt, bạn có chắc chắn muốn xóa không?"
                 />
             </Box>
-            <Box style={{ marginTop: '10px', borderTop: '1px dashed' }} />
+            {/* <Box style={{ marginTop: '10px', borderTop: '1px dashed' }} />
             <Box >
                 <Text.Header size='large'>
                     Lịch sử đặt lịch đã hoàn thành với học sinh ở ngày {selectedDate}
@@ -321,125 +331,7 @@ export default function ConsultantSchedule({ userid }) {
                     </Box>
                 ))
                 }
-                {/* <Box
-                    height="60px"
-                    justifyContent="space-between"
-                    style={{
-                        borderLeft: "10px solid #22c55e", display: "flex", marginTop: "10px"
-                    }}
-                >
-                    <Box
-                        style={{
-                            display: 'flex',
-                            flexDirection: "column", // Sửa từ "collum" thành "column"
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            padding: '5px',
-                            textAlign: 'center' // Căn giữa văn bản
-                        }}
-                    >
-                        <Text size="medium" style={{ fontWeight: 'bold' }}>
-                            Nguyen Van A
-                        </Text>
-                        <Text size="medium">
-                            {selectedDate}
-                        </Text>
-                    </Box>
-
-                    <Box
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            borderRadius: '5px',
-                            padding: '5px',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        <Text style={{ backgroundColor: "#0284c7", padding: '10px', borderRadius: '10px', color: '#f9fafb' }} size="medium">
-                            10:00 - 11:00
-                        </Text>
-                    </Box>
-                </Box>
-                <Box
-                    height="60px"
-                    justifyContent="space-between"
-                    style={{
-                        borderLeft: "10px solid #22c55e", display: "flex", marginTop: "10px"
-                    }}
-                >
-                    <Box
-                        style={{
-                            display: 'flex',
-                            flexDirection: "column", // Sửa từ "collum" thành "column"
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            padding: '5px',
-                            textAlign: 'center' // Căn giữa văn bản
-                        }}
-                    >
-                        <Text size="medium" style={{ fontWeight: 'bold' }}>
-                            Nguyen Van B
-                        </Text>
-                        <Text size="medium">
-                            {selectedDate}
-                        </Text>
-                    </Box>
-
-                    <Box
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            borderRadius: '5px',
-                            padding: '5px',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        <Text style={{ backgroundColor: "#0284c7", padding: '10px', borderRadius: '10px', color: '#f9fafb' }} size="medium">
-                            13:00 - 14:00
-                        </Text>
-                    </Box>
-                </Box>
-                <Box
-                    height="60px"
-                    justifyContent="space-between"
-                    style={{
-                        borderLeft: "10px solid #22c55e", display: "flex", marginTop: "10px"
-                    }}
-                >
-                    <Box
-                        style={{
-                            display: 'flex',
-                            flexDirection: "column", // Sửa từ "collum" thành "column"
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            padding: '5px',
-                            textAlign: 'center' // Căn giữa văn bản
-                        }}
-                    >
-                        <Text size="medium" style={{ fontWeight: 'bold' }}>
-                            Nguyen Van C
-                        </Text>
-                        <Text size="medium">
-                            {selectedDate}
-                        </Text>
-                    </Box>
-
-                    <Box
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            borderRadius: '5px',
-                            padding: '5px',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        <Text style={{ backgroundColor: "#0284c7", padding: '10px', borderRadius: '10px', color: '#f9fafb' }} size="medium">
-                            17:00 - 18:00
-                        </Text>
-                    </Box>
-                </Box> */}
-
-            </Box>
+            </Box> */}
         </Page >
     );
 }
