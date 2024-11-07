@@ -1,34 +1,46 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text, Input } from "zmp-ui";
+import { Page, Box, Text, Input, Tabs } from "zmp-ui";
 import ExpertCard from "../components/expertCard";
-import { getExpert } from "api/expert";
+import { getExpert, getBooking } from "api/expert";
+import BookingCard from "../components/bookingCard";
 
-const ExpertPage = () => {
+const ExpertPage = ({ studentId }) => {
   const [experts, setExperts] = useState([]);
   const [filteredExperts, setFilteredExperts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     const fetchExpert = async () => {
       try {
         const data = await getExpert();
         setExperts(data.consultants);
-        setFilteredExperts(data.consultants); // Initialize filtered experts
+        setFilteredExperts(data.consultants);
         console.log("Get data consultant successful");
       } catch (error) {
         console.log("Error in fetch expert:", error);
       }
     };
 
+    const fetchBookings = async () => {
+      try {
+        const response = await getBooking(studentId);
+        setBookings(response.data.bookings);
+      } catch (error) {
+        console.log("Error fetching bookings:", error);
+      }
+    };
+
     fetchExpert();
+    fetchBookings();
   }, []);
 
   const handleSearch = (text) => {
     setSearchQuery(text);
     if (text.length < 2) {
-      setFilteredExperts(experts); 
+      setFilteredExperts(experts);
     } else {
-      const results = experts.filter(expert =>
+      const results = experts.filter((expert) =>
         expert.name.toLowerCase().includes(text.toLowerCase())
       );
       setFilteredExperts(results);
@@ -36,35 +48,67 @@ const ExpertPage = () => {
   };
 
   return (
-    <Page className="page p-4 bg-gray-100 w-full">
-      <Box className="mb-6">
-        <Text
-          className="text-center text-4xl font-bold mb-6 mt-4"
+    <Page className="page bg-gray-100 w-full">
+      <Box
+        style={{
+          backgroundColor: "#FFFFFF",
+          padding: "10px",
+          borderRadius: "8px",
+        }}
+      >
+        <Box className="mb-6">
+          <Text
+            bold
+            className="text-center mb-8 mt-4"
+            style={{
+              fontSize: "2.5em",
+              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            Tư vấn
+          </Text>
+        </Box>
+        <Box
           style={{
-            fontFamily: "Poppins, sans-serif",
-            color: "#0066CC",
-            fontSize: "2.5em",
-            letterSpacing: "0.02em",
-            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+            backgroundColor: "#FFCC66",
+            padding: "10px",
+            borderRadius: "8px",
           }}
         >
-          Tư vấn viên
-        </Text>
-      </Box>
-      <Input.Search
-        label="Label"
-        placeholder="Tư vấn viên bạn muốn tìm?"
-        onChange={e => handleSearch(e.target.value)}
-        style={{ marginTop: "10px" }}
-      />
-      <Box className="grid grid-cols-1 md:grid-cols-2 gap-4" mt={3}>
-        {filteredExperts.length > 0 ? (
-          filteredExperts.map(expert => (
-            <ExpertCard key={expert.id} expert={expert} />
-          ))
-        ) : (
-          <Text>Không tìm thấy.</Text>
-        )}
+          <Tabs>
+            <Tabs.Tab key="consultant" label="Tư vấn viên">
+              <Input.Search
+                label="Label"
+                placeholder="Tư vấn viên bạn muốn tìm?"
+                onChange={(e) => handleSearch(e.target.value)}
+                style={{ marginTop: "10px" }}
+              />
+              <Box className="grid grid-cols-1 md:grid-cols-2 gap-4" mt={3}>
+                {filteredExperts.length > 0 ? (
+                  filteredExperts.map((expert) => (
+                    <ExpertCard key={expert.id} expert={expert} />
+                  ))
+                ) : (
+                  <Text>Không tìm thấy.</Text>
+                )}
+              </Box>
+            </Tabs.Tab>
+            <Tabs.Tab key="history" label="Lịch sử đặt lịch">
+              <Box mb={10} className="p-4 bg-white rounded-lg shadow-md">
+                {bookings.map((booking) => (
+                  <BookingCard
+                    key={booking.id}
+                    consultantName={booking.consultantName}
+                    startTime={booking.startTime}
+                    endTime={booking.endTime}
+                    consultationDay={booking.consultationDay}
+                    status={booking.status}
+                  />
+                ))}
+              </Box>
+            </Tabs.Tab>
+          </Tabs>
+        </Box>
       </Box>
     </Page>
   );

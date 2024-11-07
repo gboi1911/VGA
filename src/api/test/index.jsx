@@ -71,3 +71,12 @@ export const postMajor = async (payload) => {
   }
 };
 
+export const getAdmissionMethod = async () => {
+  try {
+    const response = await axios.get(`${url}/admission-methods`);
+    return response;
+  } catch (error) {
+    console.log("Error in get admission methods: ", error);
+    throw error;
+  }
+};

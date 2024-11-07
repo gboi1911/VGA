@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Page, Box, Text } from "zmp-ui";
-import { useLocation } from "react-router-dom";
+import { getOccupationById } from "api/occupation";
+import { useParams } from "react-router-dom";
 
 const OccupationDetail = () => {
-  const location = useLocation();
-  const { occupation } = location.state || {};
+  const [occupation, setOccupation] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchOccupation = async () => {
+      try {
+        const response = await getOccupationById(id);
+        setOccupation(response.data.data);
+      } catch (error) {
+        console.error("Error in fetching occupation: ", error);
+      }
+    };
+
+    fetchOccupation();
+  });
 
   return (
     <Page
@@ -21,7 +35,8 @@ const OccupationDetail = () => {
           padding: "20px",
           backgroundColor: "#ffffff",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          marginBottom: "20px",
+          marginBottom: "30px",
+          marginTop: "50px",
         }}
       >
         <img
@@ -119,6 +134,27 @@ const OccupationDetail = () => {
         <Text style={{ marginBottom: "15px", color: "#666" }}>
           {occupation.jobOutlook}
         </Text>
+        <Text
+          style={{
+            fontSize: "1.1em",
+            fontWeight: "bold",
+            color: "#333",
+            marginBottom: "5px",
+          }}
+        >
+          Kỹ năng cần có:
+        </Text>
+        <Box
+          as="ul"
+          style={{ paddingLeft: "20px", marginBottom: "15px", color: "#666" }}
+        >
+          {occupation.occupationalSkills &&
+            occupation.occupationalSkills.map((skill) => (
+              <li key={skill.id} style={{ marginBottom: "8px" }}>
+                {skill.content}
+              </li>
+            ))}
+        </Box>
       </Box>
     </Page>
   );

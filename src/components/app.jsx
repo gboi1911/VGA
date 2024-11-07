@@ -19,8 +19,17 @@ import HeaderBar from "layout/header";
 import BottomNavigationPage from "layout/navigation";
 import CustomBottomNavigation from "super/pages/bottomnavigation";
 import NewDetail from "super/section/news/newsdetail";
-
-
+import Explore from "pages/explore/explore";
+import MBTITest from "pages/explore/mbti";
+import HollandTest from "pages/explore/holland";
+import Major from "pages/explore/major";
+import MajorDetail from "pages/explore/majorDetail";
+import Occupation from "pages/explore/occupation";
+import University from "pages/explore/university";
+import UniversityDetail from "pages/explore/universityDetail";
+import Personal from "pages/explore/personal";
+import PersonalOccupation from "pages/explore/personalOccupation";
+import Personality from "pages/explore/personality";
 
 import {
   getDataAccessToken,
@@ -96,15 +105,41 @@ const MyApp = () => {
               {role === 2 && (
                 <>
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/expert" element={<ExpertPage />} />
+                  <Route
+                    path="/expert"
+                    element={<ExpertPage studentId={userid} />}
+                  />
                   <Route
                     path="/expertDetail/:id"
                     element={<ExpertDetailPage studentId={userid} />}
                   />
                   <Route path="/user" element={<User studentId={userid} />} />
                   <Route path="/test" element={<TestPage />} />
-                  <Route path="/testExecute" element={<TestExecute />} />
+                  <Route
+                    path="/testExecute"
+                    element={<TestExecute studentId={userid} />}
+                  />
                   <Route path="/testResult" element={<TestResult />} />
+                  <Route path="/explore" element={<Explore />} />
+                  <Route path="/mbtiTest" element={<MBTITest />} />
+                  <Route path="/hollandTest" element={<HollandTest />} />
+                  <Route path="/major" element={<Major />} />
+                  <Route path="/majorDetail/:id" element={<MajorDetail />} />
+                  <Route path="/occupation" element={<Occupation />} />
+                  <Route path="/university" element={<University />} />
+                  <Route
+                    path="/universityDetail/:id"
+                    element={<UniversityDetail />}
+                  />
+                  <Route path="/personal" element={<Personal />} />
+                  <Route
+                    path="/personalOccupation"
+                    element={<PersonalOccupation studentId={userid} />}
+                  />
+                  <Route
+                    path="/personality"
+                    element={<Personality studentId={userid} />}
+                  />
                   <Route
                     path="/testExecuteHolland"
                     element={<TestExecuteHolland studentId={userid} />}
@@ -123,11 +158,14 @@ const MyApp = () => {
                     element={<OccupationDetail />}
                   />
                   <Route path="/newsdetail/:id" element={<NewDetail />} />
-
                 </>
               )}
             </Routes>
-            {role === 4 ? <CustomBottomNavigation userid={userid} /> : <BottomNavigationPage />}
+            {role === 4 ? (
+              <CustomBottomNavigation userid={userid} />
+            ) : (
+              <BottomNavigationPage />
+            )}
             {/* <CustomBottomNavigation userid={userid} /> */}
           </ZMPRouter>
         </SnackbarProvider>

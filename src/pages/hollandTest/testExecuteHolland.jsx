@@ -7,7 +7,7 @@ const TestExecuteHolland = ({ studentId }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
-  const [selectedAnswer, setSelectedAnswer] = useState(null); // Quản lý trạng thái đã chọn
+  const [selectedAnswer, setSelectedAnswer] = useState({}); // Quản lý trạng thái đã chọn
   const [testCompleted, setTestCompleted] = useState(false);
   const navigate = useNavigate();
 
@@ -41,24 +41,23 @@ const TestExecuteHolland = ({ studentId }) => {
   const currentQuestion = questions[currentQuestionIndex];
 
   const handleSelectAnswer = (answer) => {
-    // Đặt trạng thái đã chọn để thay đổi màu nền
-    setSelectedAnswer(answer);
+    setSelectedAnswer((prev) => ({
+      ...prev,
+      [currentQuestion.id]: answer, // Save answer by question ID
+    }));
 
     if (answer === "yes") {
       setSelectedQuestionIds((prevIds) => [...prevIds, currentQuestion.id]);
     }
 
-    // Sau 2 giây chuyển sang câu hỏi tiếp theo
-    setTimeout(() => {
-      handleNextQuestion();
-    }, 1000); // 2 giây
+    // Automatically move to next question after a delay
+    setTimeout(handleNextQuestion, 1000);
   };
 
   const handleNextQuestion = () => {
     setCurrentQuestionIndex((prevIndex) => {
       const nextIndex = prevIndex + 1;
       if (nextIndex < questions.length) {
-        setSelectedAnswer(null); // Reset trạng thái đã chọn khi chuyển câu hỏi
         return nextIndex;
       } else {
         setTestCompleted(true);
@@ -195,7 +194,8 @@ const TestExecuteHolland = ({ studentId }) => {
       >
         <Button
           style={{
-            backgroundColor: selectedAnswer === "yes" ? "#4CAF50" : "grey",
+            backgroundColor:
+              selectedAnswer[currentQuestion.id] === "yes" ? "#4CAF50" : "grey",
             color: "#fff",
             borderRadius: "10px",
             padding: "40px 60px", // Nút lớn hơn
@@ -212,7 +212,8 @@ const TestExecuteHolland = ({ studentId }) => {
 
         <Button
           style={{
-            backgroundColor: selectedAnswer === "no" ? "#dc3545" : "grey",
+            backgroundColor:
+              selectedAnswer[currentQuestion.id] === "no" ? "#dc3545" : "grey",
             color: "#fff",
             borderRadius: "10px",
             padding: "40px 70px", // Nút lớn hơn
@@ -228,51 +229,48 @@ const TestExecuteHolland = ({ studentId }) => {
         </Button>
       </div>
 
-      {/* Nút Next và Back */}
-      {!testCompleted && (
-        <div
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "20px",
+          gap: "10px",
+        }}
+      >
+        <Button
           style={{
+            backgroundColor: "#0066CC",
+            color: "#fff",
+            borderRadius: "10px",
+            padding: "8px 16px",
+            fontSize: "1em",
+            minWidth: "50px",
             display: "flex",
             justifyContent: "center",
-            marginTop: "20px",
-            gap: "10px",
+            alignItems: "center",
           }}
+          onClick={handleBack}
         >
-          <Button
-            style={{
-              backgroundColor: "#0066CC",
-              color: "#fff",
-              borderRadius: "10px",
-              padding: "8px 16px",
-              fontSize: "1em",
-              minWidth: "50px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onClick={handleBack}
-          >
-            <Icon icon="zi-chevron-left" />
-          </Button>
+          <Icon icon="zi-chevron-left" />
+        </Button>
 
-          <Button
-            style={{
-              backgroundColor: "#0066CC",
-              color: "#fff",
-              borderRadius: "10px",
-              padding: "8px 16px",
-              fontSize: "1em",
-              minWidth: "50px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onClick={handleNextQuestion}
-          >
-            <Icon icon="zi-chevron-right" />
-          </Button>
-        </div>
-      )}
+        <Button
+          style={{
+            backgroundColor: "#0066CC",
+            color: "#fff",
+            borderRadius: "10px",
+            padding: "8px 16px",
+            fontSize: "1em",
+            minWidth: "50px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onClick={handleNextQuestion}
+        >
+          <Icon icon="zi-chevron-right" />
+        </Button>
+      </div>
 
       {testCompleted && (
         <div

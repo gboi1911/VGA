@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test";
 
-const TestExecute = () => {
+const TestExecute = ({ studentId }) => {
   const [answers, setAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -78,7 +78,7 @@ const TestExecute = () => {
     const listAnswerId = Object.values(answers);
 
     const requestData = {
-      studentId: "81787e20-9c9d-4700-9303-042d41f9fa4c",
+      studentId: studentId,
       personalTestId: "d7eae2f2-ff5c-4b5d-8c6c-4b5e21d8a57c",
       listQuestionId: listQuestionId,
       listAnswerId: listAnswerId,
@@ -233,14 +233,59 @@ const TestExecute = () => {
           </Box>
         </Box>
       </Box>
-
-      {currentQuestionIndex === questions.length - 1 ? (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "10px",
+          padding: "16px",
+        }}
+      >
+        {currentQuestionIndex > 0 && (
+          <Button
+            style={{
+              backgroundColor: "#0066CC",
+              color: "white",
+              padding: "8px 16px",
+              borderRadius: "8px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minWidth: "50px",
+            }}
+            onClick={() =>
+              setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))
+            }
+          >
+            <Icon icon="zi-chevron-left" />
+          </Button>
+        )}
+        <Button
+          style={{
+            backgroundColor: "#0066CC",
+            color: "white",
+            padding: "8px 16px",
+            borderRadius: "8px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            minWidth: "50px",
+          }}
+          onClick={() =>
+            setCurrentQuestionIndex((prev) =>
+              Math.min(prev + 1, questions.length - 1)
+            )
+          }
+        >
+          <Icon icon="zi-chevron-right" />
+        </Button>
+      </Box>
+      {currentQuestionIndex === questions.length - 1 && (
         <Box
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            marginTop: "20px",
           }}
         >
           <Button
@@ -258,56 +303,7 @@ const TestExecute = () => {
             Hoàn thành
           </Button>
         </Box>
-      ) : (
-        <Box
-          style={{
-            display: "flex",
-            justifyContent: "center", // Căn giữa các nút "Next" và "Back"
-            gap: "10px", // Khoảng cách giữa các nút
-            padding: "16px",
-          }}
-        >
-          {currentQuestionIndex > 0 && (
-            <Button
-              style={{
-                backgroundColor: "#0066CC",
-                color: "white",
-                padding: "8px 16px",
-                borderRadius: "8px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                minWidth: "50px",
-              }}
-              onClick={() =>
-                setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))
-              }
-            >
-              <Icon icon="zi-chevron-left" />
-            </Button>
-          )}
-          <Button
-            style={{
-              backgroundColor: "#0066CC",
-              color: "white",
-              padding: "8px 16px",
-              borderRadius: "8px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              minWidth: "50px",
-            }}
-            onClick={() =>
-              setCurrentQuestionIndex((prev) =>
-                Math.min(prev + 1, questions.length - 1)
-              )
-            }
-          >
-            <Icon icon="zi-chevron-right" />
-          </Button>
-        </Box>
       )}
-
       <Modal
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}

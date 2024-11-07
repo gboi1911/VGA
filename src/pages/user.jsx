@@ -88,10 +88,12 @@ const UserPage = ({ studentId }) => {
             boxShadow: "inset -2px 2px 4px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Text bold size="large" style={{color: "#FFCC00"}}>{userInfo.data.account.wallet.goldBalance}</Text>
+          <Text bold size="large" style={{ color: "#FFCC00" }}>
+            {userInfo.data.account.wallet.goldBalance}
+          </Text>
           <FontAwesomeIcon
             icon={faCoins}
-            size="large"
+            size="xl"
             style={{
               marginRight: "10px",
               color: "#FFD700",
@@ -119,7 +121,7 @@ const UserPage = ({ studentId }) => {
       >
         <FontAwesomeIcon
           icon={faTransgender}
-          size="large"
+          size="lg"
           style={{ marginRight: "10px" }}
         />
         <Text bold>Giới tính: </Text>
@@ -141,7 +143,7 @@ const UserPage = ({ studentId }) => {
       >
         <FontAwesomeIcon
           icon={faSchool}
-          size="large"
+          size="lg"
           style={{ marginRight: "10px" }}
         />
         {schoolName && <Text size="large">{schoolName.data.account.name}</Text>}
@@ -160,7 +162,7 @@ const UserPage = ({ studentId }) => {
       >
         <FontAwesomeIcon
           icon={faGraduationCap}
-          size="large"
+          size="lg"
           style={{ marginRight: "10px" }}
         />
         <Text bold>Năm tốt nghiệp: </Text>
