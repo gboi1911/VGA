@@ -15,6 +15,7 @@ import moment from "moment";
 const ExpertDetailPage = ({ studentId }) => {
   const { id } = useParams();
   const [date, setDate] = useState(new Date());
+  console.log("date", date);
   const [time, setTime] = useState("");
   const [availableDays, setAvailableDays] = useState([]);
   const [consultationTimes, setConsultationTimes] = useState([]);
@@ -23,22 +24,65 @@ const ExpertDetailPage = ({ studentId }) => {
   const [bookingError, setBookingError] = useState(null);
   const [expert, setExpert] = useState(null);
 
+  // useEffect(() => {
+  //   const fetchExpert = async () => {
+  //     try {
+  //       const response = await getExpertById(id);
+  //       setExpert(response.data.data);
+  //       console.log(expert);
+  //     } catch (error) {
+  //       console.error("Error in fetch expert by id: ", error);
+  //     }
+  //   };
+
+  //   let isMounted = true;
+
+  //   const fetchExpertDay = async () => {
+  //     try {
+  //       console.log("expert.id", expert);
+  //       const data = await getDay(expert.id);
+  //       console.log("Get data consultant day successful", data);
+
+  //       const days = data.consultationDay.map((day) => ({
+  //         id: day.id,
+  //         date: day.day,
+  //         consultationTimes: day.consultationTimes,
+  //       }));
+
+  //       if (isMounted) {
+  //         setAvailableDays(days);
+  //         setTime("");
+  //       }
+  //     } catch (error) {
+  //       console.log("Error in fetch expert day:", error);
+  //     }
+  //   };
+  //   fetchExpert();
+  //   fetchExpertDay();
+
+  //   // return () => {
+  //   //   isMounted = false;
+  //   // };
+  // }, [id]);
+
   useEffect(() => {
     const fetchExpert = async () => {
       try {
         const response = await getExpertById(id);
         setExpert(response.data.data);
-        console.log(expert);
       } catch (error) {
         console.error("Error in fetch expert by id: ", error);
       }
     };
+    fetchExpert();
+  }, [id]);
 
-    let isMounted = true;
+  useEffect(() => {
+    if (!expert) return; // Only run if expert is defined
 
     const fetchExpertDay = async () => {
       try {
-        const data = await getDay(expert.id);
+        const data = await getDay(expert.id); // Ensure expert.id is available here
         console.log("Get data consultant day successful", data);
 
         const days = data.consultationDay.map((day) => ({
@@ -47,25 +91,14 @@ const ExpertDetailPage = ({ studentId }) => {
           consultationTimes: day.consultationTimes,
         }));
 
-        if (isMounted) {
-          setAvailableDays(days);
-          setTime("");
-        }
+        setAvailableDays(days);
+        setTime("");
       } catch (error) {
         console.log("Error in fetch expert day:", error);
       }
     };
-
-    fetchExpert();
-
-    if (expert && expert.id) {
-      fetchExpertDay();
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [id]);
+    fetchExpertDay();
+  }, [expert]); // Only runs when expert is set
 
   const isDateAvailable = (date) => {
     const formattedDate = moment(date).format("YYYY-MM-DD");

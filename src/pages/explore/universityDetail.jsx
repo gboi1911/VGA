@@ -65,7 +65,7 @@ const UniversityDetail = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
+          // alignItems: "flex-start",
           padding: "20px",
           backgroundColor: "#ffffff",
         }}
@@ -151,7 +151,7 @@ const UniversityDetail = () => {
         </Text>
 
         <div
-          style={{ display: "flex", overflowX: "hidden", marginBottom: "16px" }}
+          style={{ display: "flex", overflowX: "auto", marginBottom: "16px" }}
         >
           {consultants.map((consultant) => (
             <Box
@@ -160,11 +160,11 @@ const UniversityDetail = () => {
                 background: "#f8f9fa",
                 padding: "10px",
                 borderRadius: "8px",
-                width: "180px",
+                // width: "180px",
                 boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                 marginBottom: "8px",
-                display: "flex",
-                flexDirection: "column",
+                // display: "flex",
+                // flexDirection: "column",
                 alignItems: "center",
                 flex: "0 0 auto",
                 marginRight: "10px",
