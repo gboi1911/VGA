@@ -18,7 +18,7 @@ const OccupationDetail = () => {
     };
 
     fetchOccupation();
-  });
+  }, [id]);
 
   return (
     <Page

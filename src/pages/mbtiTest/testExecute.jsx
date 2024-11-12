@@ -23,12 +23,9 @@ const TestExecute = ({ studentId }) => {
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const token =
-        "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYTJhYjY5Yi0zNjMxLTRlODMtOGQ1Ni0yODRjZGE5MTE0YzciLCJlbWFpbCI6ImFuaEBleGFtcGxlLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlN0dWRlbnQiLCJ1bmlxdWVfbmFtZSI6IjJjNGU2ZjhlLTM5MzUtNGVjZS1hYzA0LTAxMzI3YjI4ZjhiNSIsInBob25lX251bWJlciI6Ijk4NzY1NDMxMjEiLCJTdHVkZW50SWQiOiJiYzg4MTFmNS04ZDNlLTRkOTctOWNhZi0yOTQ5ZWMxNDc0ODEiLCJuYmYiOjE3Mjg1NDkwMzUsImV4cCI6MTcyODU1MjYzNSwiaXNzIjoidmdhLXN5c3RlbS1pc3N1ZXIifQ.faDBpKxZfyg2_W9JLtKlokQdFG_gSYSf0bpdV6maA_8";
       try {
         const response = await getTestData(
-          "d7eae2f2-ff5c-4b5d-8c6c-4b5e21d8a57c",
-          token
+          "d7eae2f2-ff5c-4b5d-8c6c-4b5e21d8a57c"
         );
         if (response && response.data && response.data.questionModels) {
           const fetchedQuestions = response.data.questionModels.map((q) => ({
@@ -74,6 +71,12 @@ const TestExecute = ({ studentId }) => {
   };
 
   const handleFinish = async () => {
+    // Check if all questions have been answered
+    if (Object.keys(answers).length < questions.length) {
+      setIsModalVisible(true); // Show the modal if not all questions are answered
+      return;
+    }
+
     const listQuestionId = Object.keys(answers).map(Number);
     const listAnswerId = Object.values(answers);
 
@@ -307,10 +310,10 @@ const TestExecute = ({ studentId }) => {
       <Modal
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
-        title="Notice"
+        title="Thông báo"
       >
-        <Text>
-          Please select an answer before proceeding to the next question.
+        <Text style={{ textAlign: "center" }}>
+          Hãy hoàn thành tất cả các câu hỏi trước khi kết thúc!
         </Text>
         <Box
           style={{

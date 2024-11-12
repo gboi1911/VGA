@@ -45,6 +45,7 @@ const Major = () => {
           fontWeight: "bold",
           textAlign: "center",
           marginBottom: "48px",
+          marginTop: "40px",
           textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)",
         }}
       >

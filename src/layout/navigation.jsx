@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Page, Icon, BottomNavigation } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -7,6 +7,13 @@ const BottomNavigationPage = (props) => {
   const navigate = useNavigate();
   const { pathname } = location;
 
+  const lastPaths = useRef({
+    home: "/",
+    explore: "/explore", // Root path for the "Khám phá" tab
+    expert: "/expert",
+    me: "/user",
+  });
+
   const getTabFromPath = (path) => {
     if (
       path.startsWith("/explore") ||
@@ -14,7 +21,6 @@ const BottomNavigationPage = (props) => {
       path.startsWith("/mbtiTest") ||
       path.startsWith("/major") ||
       path.startsWith("/occupation") ||
-      path.startsWith("/mbtiTest") ||
       path.startsWith("/university") ||
       path.startsWith("/personal") ||
       path.startsWith("/testExecuteHolland") ||
@@ -40,24 +46,25 @@ const BottomNavigationPage = (props) => {
   const [activeTab, setActiveTab] = useState(getTabFromPath(pathname));
 
   useEffect(() => {
-    setActiveTab(getTabFromPath(pathname));
+    const currentTab = getTabFromPath(pathname);
+    setActiveTab(currentTab);
+    lastPaths.current[currentTab] = pathname; // Save last visited path for each tab
   }, [pathname]);
 
+  // Handle tab change and navigate to the root path of the selected tab
   const handleTabChange = (key) => {
     setActiveTab(key);
-    switch (key) {
-      case "explore":
-        // Instead of navigating, replace the current entry
-        navigate("/explore", { replace: true });
-        break;
-      case "expert":
-        navigate("/expert", { replace: true });
-        break;
-      case "me":
-        navigate("/user", { replace: true });
-        break;
-      default:
-        navigate("/", { replace: true });
+
+    // Check if the user is on a child path of the selected tab
+    if (
+      pathname.startsWith(lastPaths.current[key]) &&
+      pathname !== lastPaths.current[key]
+    ) {
+      // Navigate to the root path of the selected tab (e.g., /explore)
+      navigate(lastPaths.current[key]);
+    } else {
+      // Otherwise, navigate to the last visited path of the tab
+      navigate(lastPaths.current[key]);
     }
   };
 

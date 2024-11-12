@@ -7,7 +7,7 @@ export const getTestData = async (id) => {
   try {
     const response = await axios.get(`${url}/personal-test/${id}`, {
       headers: {
-        Authorization: `Bearer ${"eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwNzM4NTQ0Yy1jZTY5LTRmM2EtYWNkNi0zMTllZDVmOWM0ZmQiLCJlbWFpbCI6Im5nb3Zhbmh1bmdAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiU3R1ZGVudCIsInVuaXF1ZV9uYW1lIjoiNTZlMTJkZWEtZjVmNy00OTQ2LTgyNGMtMDQzZTliZjI4NGUwIiwicGhvbmVfbnVtYmVyIjoiODQ5MTgxMDc4NDMiLCJTdHVkZW50SWQiOiJiYmM4ZDBmMC1kYWZhLTQzMjktOThlOS1iM2FlYjdlZTA3ZTkiLCJuYmYiOjE3MzE0MDczNTMsImV4cCI6MTczMTQ5NzM1MywiaXNzIjoidmdhLXN5c3RlbS1pc3N1ZXIifQ.nlk1UsiGeQ6h_ziCgtN9oi9GciL7rZejc_9R9_jYa6w"}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response;
