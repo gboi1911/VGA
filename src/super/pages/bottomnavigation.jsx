@@ -9,76 +9,74 @@ import HomePage from "pages/home";
 import WeekPicker from "super/pages/HomePageConsultant";
 import News from "super/section/news/news";
 
-
 export default function CustomBottomNavigation({ userid }) {
-    const [activeTab, setActiveTab] = useState("homepage");
-    // const { title } = props;
+  const [activeTab, setActiveTab] = useState("homepage");
+  // const { title } = props;
 
-    const renderContent = () => {
-        switch (activeTab) {
-            case "homepage":
-                // return <HomePageConsultant />;
-                return <HomePage />;
-            case "schedule":
-                return <ConsultantSchedulePage userid={userid} />;
-            case "news":
-                return <News />;
-            case "calendar":
-                return <WeekPicker />;
-            case "me":
-            // return <WeekPicker />;
-            default:
-                return <CalendarPage />;
-        }
-    };
+  const renderContent = () => {
+    switch (activeTab) {
+      case "homepage":
+        // return <HomePageConsultant />;
+        return <HomePage userid={userid} />;
+      case "schedule":
+        return <ConsultantSchedulePage userid={userid} />;
+      case "news":
+        return <News />;
+      case "calendar":
+        return <WeekPicker />;
+      case "me":
+      // return <WeekPicker />;
+      default:
+        return <CalendarPage />;
+    }
+  };
 
-    return (
-        <Page className="page">
-            {renderContent()}
-            <BottomNavigation
-                fixed
-                activeKey={activeTab}
-                onChange={(key) => setActiveTab(key)}
-            >
-                <BottomNavigation.Item
-                    label="Trang chủ"
-                    key="homepage"
-                    icon={<Icon icon="zi-home" />}
-                    activeIcon={<Icon icon="zi-home" />}
-                />
-                // tin tức
-                // <BottomNavigation.Item
-                    label="Tin tức"
-                    key="news"
-                    icon={<Icon icon="zi-more-grid" />}
-                    activeIcon={<Icon icon="zi-more-grid-solid" />}
-                />
-                <BottomNavigation.Item
-                    label="Tạo lịch"
-                    key="schedule"
-                    icon={<Icon icon="zi-clock-1-solid" />}
-                    activeIcon={<Icon icon="zi-clock-1-solid" />}
-                />
-                <BottomNavigation.Item
-                    label="Lịch"
-                    key="calendar"
-                    icon={<Icon icon="zi-calendar" />}
-                    activeIcon={<Icon icon="zi-calendar" />}
-                />
-                {/* <BottomNavigation.Item
+  return (
+    <Page className="page">
+      {renderContent()}
+      <BottomNavigation
+        fixed
+        activeKey={activeTab}
+        onChange={(key) => setActiveTab(key)}
+      >
+        <BottomNavigation.Item
+          label="Trang chủ"
+          key="homepage"
+          icon={<Icon icon="zi-home" />}
+          activeIcon={<Icon icon="zi-home" />}
+        />
+        // tin tức //{" "}
+        <BottomNavigation.Item
+          label="Tin tức"
+          key="news"
+          icon={<Icon icon="zi-more-grid" />}
+          activeIcon={<Icon icon="zi-more-grid-solid" />}
+        />
+        <BottomNavigation.Item
+          label="Tạo lịch"
+          key="schedule"
+          icon={<Icon icon="zi-clock-1-solid" />}
+          activeIcon={<Icon icon="zi-clock-1-solid" />}
+        />
+        <BottomNavigation.Item
+          label="Lịch"
+          key="calendar"
+          icon={<Icon icon="zi-calendar" />}
+          activeIcon={<Icon icon="zi-calendar" />}
+        />
+        {/* <BottomNavigation.Item
                     key="calendar"
                     label="Lịch"
                     icon={<Icon icon="zi-calendar" />}
                     activeIcon={<Icon icon="zi-calendar-solid" />}
                 /> */}
-                <BottomNavigation.Item
-                    key="me"
-                    label="Cá nhân"
-                    icon={<Icon icon="zi-user" />}
-                    activeIcon={<Icon icon="zi-user-solid" />}
-                />
-            </BottomNavigation>
-        </Page>
-    )
+        <BottomNavigation.Item
+          key="me"
+          label="Cá nhân"
+          icon={<Icon icon="zi-user" />}
+          activeIcon={<Icon icon="zi-user-solid" />}
+        />
+      </BottomNavigation>
+    </Page>
+  );
 }
-

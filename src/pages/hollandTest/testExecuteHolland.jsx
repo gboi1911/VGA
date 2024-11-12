@@ -181,6 +181,9 @@ const TestExecuteHolland = ({ studentId }) => {
         >
           {currentQuestion.content}
         </Text>
+        <Text size="xxxSmall" style={{ marginTop: "5px", color: "grey" }}>
+          (Những câu hỏi không có đáp án đồng nghĩa với câu trả lời "Sai")
+        </Text>
       </Box>
 
       {/* Nút Dung và Sai */}

@@ -77,3 +77,28 @@ export const getExpertById = async (id) => {
     throw error;
   }
 };
+
+export const getTimebyId = async (id) => {
+  try {
+    const response = await axios.get(`${url}/consultation-time/${id}`);
+    return response;
+  } catch (error) {
+    console.log("Error in get time by id:", error);
+    throw error;
+  }
+};
+
+export const getBookingConsultant = async (constId, day) => {
+  try {
+    const response = await axios.get(`${url}/bookings`, {
+      params: {
+        "consultant-id": constId,
+        "day-in-week": day,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log("Error in get bookings of consultant:", error);
+    throw error;
+  }
+};

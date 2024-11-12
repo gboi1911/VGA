@@ -103,6 +103,7 @@ const ExpertPage = ({ studentId }) => {
                     endTime={booking.endTime}
                     consultationDay={booking.consultationDay}
                     status={booking.status}
+                    dayId={booking.consultationTimeId}
                   />
                 ))}
               </Box>
