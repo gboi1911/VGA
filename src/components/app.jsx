@@ -45,6 +45,7 @@ const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [userid, setUserId] = useState();
   const [role, setRole] = useState();
+  const [accountid, setAccountId] = useState();
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
@@ -79,8 +80,10 @@ const MyApp = () => {
         console.log(resposneLogin);
         const userid = resposneLogin.data.userId;
         const role = resposneLogin.data.role;
+        const accountid = resposneLogin.data.accountId;
         setRole(role);
         setUserId(userid);
+        setAccountId(accountid);
 
         const tokenAPI = resposneLogin.data.accessToken;
         localStorage.setItem("token", tokenAPI);
@@ -113,11 +116,16 @@ const MyApp = () => {
                     path="/expertDetail/:id"
                     element={<ExpertDetailPage studentId={userid} />}
                   />
-                  <Route path="/user" element={<User studentId={userid} />} />
+                  <Route
+                    path="/user"
+                    element={<User studentId={userid} accountId={accountid} />}
+                  />
                   <Route path="/test" element={<TestPage />} />
                   <Route
                     path="/testExecute"
-                    element={<TestExecute studentId={userid} />}
+                    element={
+                      <TestExecute studentId={userid} accountId={accountid} />
+                    }
                   />
                   <Route path="/testResult" element={<TestResult />} />
                   <Route path="/explore" element={<Explore />} />
@@ -142,7 +150,12 @@ const MyApp = () => {
                   />
                   <Route
                     path="/testExecuteHolland"
-                    element={<TestExecuteHolland studentId={userid} />}
+                    element={
+                      <TestExecuteHolland
+                        studentId={userid}
+                        accountId={accountid}
+                      />
+                    }
                   />
                   <Route path="/ratingMajor" element={<RatingMajor />} />
                   <Route

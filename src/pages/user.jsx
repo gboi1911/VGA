@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Avatar, List, Text, Box, Page, Button } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import moment from "moment";
 import {
   faCoins,
   faTransgender,
   faSchool,
   faGraduationCap,
 } from "@fortawesome/free-solid-svg-icons";
-import { getStudentInfo, getSchoolName } from "api/userInfo";
+import { getStudentInfo, getSchoolName, getTransaction } from "api/userInfo";
 
-const UserPage = ({ studentId }) => {
+const UserPage = ({ studentId, accountId }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [schoolName, setSchoolName] = useState(null);
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -31,7 +33,17 @@ const UserPage = ({ studentId }) => {
       }
     };
 
+    const fetchTransactions = async () => {
+      try {
+        const response = await getTransaction(accountId);
+        setTransactions(response.data.transactions);
+      } catch (error) {
+        console.error("Error in fetching transaction:", error);
+      }
+    };
+
     fetchUserInfo();
+    fetchTransactions();
   }, []);
 
   if (!userInfo) {
@@ -75,7 +87,7 @@ const UserPage = ({ studentId }) => {
           backgroundColor: "white", // White background
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
           borderBottom: "1px solid #ddd", // Divider line
-          marginTop: "10px",
+          marginTop: "5px",
         }}
       >
         <Box
@@ -105,6 +117,69 @@ const UserPage = ({ studentId }) => {
           Mua
         </Button>
       </Box>
+      <Box
+        style={{
+          padding: "10px",
+          borderRadius: "5px",
+          backgroundColor: "white",
+          marginTop: "5px",
+          // Limit height to 300px
+          // Enable vertical scrolling
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <Text bold size="xLarge" style={{ padding: "10px" }}>
+          Lịch sử giao dịch
+        </Text>
+        <div style={{ overflowY: "auto", maxHeight: "300px" }}>
+          {transactions.map((transaction) => (
+            <Box
+              key={transaction.id}
+              style={{
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "10px",
+                borderBottom: "1px solid #ddd",
+                marginTop: "5px",
+                backgroundColor: "#F9F9F9",
+                borderRadius: "5px",
+              }}
+            >
+              <Box
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ fontWeight: "bold", color: "#FFCC00" }}>
+                  - {transaction.goldAmount}{" "}
+                  <FontAwesomeIcon
+                    icon={faCoins}
+                    size="xl"
+                    style={{
+                      marginRight: "10px",
+                      color: "#FFD700",
+                      marginLeft: "5px",
+                    }}
+                  />
+                </Text>
+                <Text
+                  size="small"
+                  style={{ color: "#888", textAlign: "right" }}
+                >
+                  {moment(transaction.transactionDateTime).format(
+                    "DD/MM/YYYY HH:mm"
+                  )}
+                </Text>
+              </Box>
+              <Text size="large" style={{ color: "#555", marginTop: "8px" }}>
+                {transaction.description}
+              </Text>
+            </Box>
+          ))}
+        </div>
+      </Box>
 
       {/* User Details Section (Following Boxes) */}
       <Box
@@ -116,7 +191,7 @@ const UserPage = ({ studentId }) => {
           backgroundColor: "white", // White background
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
           borderBottom: "1px solid #ddd", // Divider line
-          marginTop: "10px",
+          marginTop: "5px",
         }}
       >
         <FontAwesomeIcon
@@ -138,7 +213,7 @@ const UserPage = ({ studentId }) => {
           backgroundColor: "white", // White background
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
           borderBottom: "1px solid #ddd", // Divider line
-          marginTop: "10px",
+          marginTop: "5px",
         }}
       >
         <FontAwesomeIcon
@@ -157,7 +232,7 @@ const UserPage = ({ studentId }) => {
           borderRadius: "5px",
           backgroundColor: "white", // White background
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
-          marginTop: "10px",
+          marginTop: "5px",
         }}
       >
         <FontAwesomeIcon

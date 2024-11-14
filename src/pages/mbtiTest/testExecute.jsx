@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test";
 
-const TestExecute = ({ studentId }) => {
+const TestExecute = ({ studentId, accountId }) => {
   const [answers, setAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -21,12 +21,13 @@ const TestExecute = ({ studentId }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  console.log("account id:", accountId);
+
   useEffect(() => {
     const fetchQuestions = async () => {
+      const id = "d7eae2f2-ff5c-4b5d-8c6c-4b5e21d8a57c";
       try {
-        const response = await getTestData(
-          "d7eae2f2-ff5c-4b5d-8c6c-4b5e21d8a57c"
-        );
+        const response = await getTestData(id, accountId);
         if (response && response.data && response.data.questionModels) {
           const fetchedQuestions = response.data.questionModels.map((q) => ({
             id: q.id,

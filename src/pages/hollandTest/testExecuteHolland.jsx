@@ -3,7 +3,7 @@ import { Page, Box, Text, Button, Progress, Icon } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test"; // Điều chỉnh API nếu cần
 
-const TestExecuteHolland = ({ studentId }) => {
+const TestExecuteHolland = ({ studentId, accountId }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
@@ -12,15 +12,10 @@ const TestExecuteHolland = ({ studentId }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const id = "c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7";
     const fetchQuestions = async () => {
-      const token =
-        "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYTJhYjY5Yi0zNjMxLTRlODMtOGQ1Ni0yODRjZGE5MTE0YzciLCJlbWFpbCI6ImFuaEBleGFtcGxlLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlN0dWRlbnQiLCJ1bmlxdWVfbmFtZSI6IjJjNGU2ZjhlLTM5MzUtNGVjZS1hYzA0LTAxMzI3YjI4ZjhiNSIsInBob25lX251bWJlciI6Ijk4NzY1NDMxMjEiLCJTdHVkZW50SWQiOiJiYzg4MTFmNS04ZDNlLTRkOTctOWNhZi0yOTQ5ZWMxNDc0ODEiLCJuYmYiOjE3Mjg1NDkwMzUsImV4cCI6MTcyODU1MjYzNSwiaXNzIjoidmdhLXN5c3RlbS1pc3N1ZXIifQ.faDBpKxZfyg2_W9JLtKlokQdFG_gSYSf0bpdV6maA_8"; // Token ví dụ
-
       try {
-        const response = await getTestData(
-          "c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7",
-          token
-        );
+        const response = await getTestData(id, accountId);
         if (response && response.data && response.data.questionModels) {
           const fetchedQuestions = response.data.questionModels.map((q) => ({
             id: q.id,

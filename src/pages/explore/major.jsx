@@ -74,7 +74,7 @@ const Major = () => {
             }}
             onClick={() => setSelectedCategoryId(null)}
           >
-            Tất cả
+            <Text bold>Tất cả</Text>
           </Box>
         )}
         <div
@@ -98,7 +98,7 @@ const Major = () => {
                 setSelectedCategoryId(category.id);
               }}
             >
-              {category.name}
+              <Text bold>{category.name}</Text>
             </Box>
           ))}
         </div>

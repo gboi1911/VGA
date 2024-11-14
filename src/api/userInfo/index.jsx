@@ -20,3 +20,17 @@ export const getSchoolName = async (id) => {
     throw error;
   }
 };
+
+export const getTransaction = async (accountId) => {
+  try {
+    const response = await axios.get(`${url}/transactions/`, {
+      params: {
+        accountId,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error in getStudentInfo:", error);
+    throw error;
+  }
+};

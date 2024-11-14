@@ -7,6 +7,8 @@ import {
   faStar,
   faEnvelope,
   faAddressCard,
+  faDollarSign,
+  faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 import { getDay, postBook, getBooking } from "api/expert";
 import { getExpertById } from "api/expert";
@@ -202,6 +204,14 @@ const ExpertDetailPage = ({ studentId }) => {
               {expert.description ||
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
             </Text>
+            <Text className="text-base text-gray-700 mt-2">
+              <FontAwesomeIcon
+                icon={faDollarSign}
+                style={{ marginRight: "5px" }}
+              />
+              {expert.consultantLevel.priceOnSlot ||
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+            </Text>
           </Box>
         </Box>
 
@@ -285,7 +295,11 @@ const ExpertDetailPage = ({ studentId }) => {
               Bạn có chắc chắn muốn đặt lịch hẹn vào ngày{" "}
               {date.toDateString("vi-VN")} vào lúc {time}?
             </Text>
-            <div className="flex justify-end mt-4">
+            <Text className="text-lg" style={{ textAlign: "center" }}>
+              Đặt lịch sẽ tốn {expert.consultantLevel.priceOnSlot}{" "}
+              <FontAwesomeIcon icon={faCoins} style={{ marginRight: "5px" }} />
+            </Text>
+            <div className="flex justify-end mt-4 gap-2">
               <Button
                 className="mr-2"
                 onClick={() => setModalOpen(false)}

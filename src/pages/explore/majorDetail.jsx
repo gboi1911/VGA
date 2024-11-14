@@ -33,7 +33,6 @@ const MajorDetail = () => {
           flexDirection: "column",
           //alignItems: "flex-start",
           padding: "20px",
-          textAlign: "center",
         }}
       >
         {/* Major Image */}
@@ -53,13 +52,25 @@ const MajorDetail = () => {
 
         {/* Major Name */}
         <Text
-          style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "8px" }}
+          style={{
+            fontSize: "24px",
+            fontWeight: "bold",
+            marginBottom: "8px",
+            textAlign: "center",
+          }}
         >
           {major.name}
         </Text>
 
         {/* Major Description */}
-        <Text style={{ fontSize: "16px", color: "#666", marginBottom: "24px" }}>
+        <Text
+          style={{
+            fontSize: "16px",
+            color: "#666",
+            marginBottom: "24px",
+            textAlign: "justify",
+          }}
+        >
           {major.description}
         </Text>
 
@@ -117,20 +128,41 @@ const MajorDetail = () => {
         >
           Trường đại học phù hợp
         </Text>
-        <Box style={{ width: "100%", padding: "0 20px" }}>
+        <Box style={{ width: "100%" }}>
           {major.universities.map((university) => (
             <Box
               key={university.id}
               style={{
                 background: "#f8f9fa",
-                padding: "12px",
+                padding: "10px",
                 borderRadius: "8px",
+                width: "180px",
                 boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                 marginBottom: "8px",
-                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                flex: "0 0 auto",
+                marginRight: "10px",
               }}
+              onClick={() => navigate(`/universityDetail/${university.id}`)}
             >
-              <Text style={{ fontWeight: "bold" }}>{university.name}</Text>
+              <img
+                src={
+                  university.imageUrl ||
+                  "https://img.freepik.com/free-photo/harvard-university-cambridge-usa_1268-14363.jpg?t=st=1730792592~exp=1730796192~hmac=42fcd53feeadc8ec715f921aebe589e40f358baeba4d390d8c58c98ee8735fcd&w=1060"
+                }
+                alt={university.name}
+                style={{
+                  width: "150px",
+                  height: "100px",
+                  borderRadius: "8px",
+                  marginBottom: "8px",
+                }}
+              />
+              <Text style={{ fontWeight: "bold", textAlign: "center" }}>
+                {university.name}
+              </Text>
             </Box>
           ))}
         </Box>

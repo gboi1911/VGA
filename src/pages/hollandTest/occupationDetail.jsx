@@ -65,13 +65,14 @@ const OccupationDetail = () => {
             fontSize: "1em",
             color: "#666",
             marginBottom: "15px",
+            textAlign: "justify",
           }}
         >
           {occupation.description}
         </Text>
         <Text
           style={{
-            fontSize: "1.1em",
+            fontSize: "1.2em",
             fontWeight: "bold",
             color: "#333",
             marginBottom: "5px",
@@ -79,12 +80,14 @@ const OccupationDetail = () => {
         >
           Mô tả công việc:
         </Text>
-        <Text style={{ marginBottom: "15px", color: "#666" }}>
+        <Text
+          style={{ marginBottom: "15px", color: "#666", textAlign: "justify" }}
+        >
           {occupation.howToWork}
         </Text>
         <Text
           style={{
-            fontSize: "1.1em",
+            fontSize: "1.2em",
             fontWeight: "bold",
             color: "#333",
             marginBottom: "5px",
@@ -97,7 +100,7 @@ const OccupationDetail = () => {
         </Text>
         <Text
           style={{
-            fontSize: "1.1em",
+            fontSize: "1.2em",
             fontWeight: "bold",
             color: "#333",
             marginBottom: "5px",
@@ -105,12 +108,14 @@ const OccupationDetail = () => {
         >
           Trình độ học vấn:
         </Text>
-        <Text style={{ marginBottom: "15px", color: "#666" }}>
+        <Text
+          style={{ marginBottom: "15px", color: "#666", textAlign: "justify" }}
+        >
           {occupation.education}
         </Text>
         <Text
           style={{
-            fontSize: "1.1em",
+            fontSize: "1.2em",
             fontWeight: "bold",
             color: "#333",
             marginBottom: "5px",
@@ -118,12 +123,14 @@ const OccupationDetail = () => {
         >
           Mức lương:
         </Text>
-        <Text style={{ marginBottom: "15px", color: "#666" }}>
+        <Text
+          style={{ marginBottom: "15px", color: "#666", textAlign: "justify" }}
+        >
           {occupation.payScale}
         </Text>
         <Text
           style={{
-            fontSize: "1.1em",
+            fontSize: "1.2em",
             fontWeight: "bold",
             color: "#333",
             marginBottom: "5px",
@@ -131,12 +138,14 @@ const OccupationDetail = () => {
         >
           Cơ hội thăng tiến:
         </Text>
-        <Text style={{ marginBottom: "15px", color: "#666" }}>
+        <Text
+          style={{ marginBottom: "15px", color: "#666", textAlign: "justify" }}
+        >
           {occupation.jobOutlook}
         </Text>
         <Text
           style={{
-            fontSize: "1.1em",
+            fontSize: "1.2em",
             fontWeight: "bold",
             color: "#333",
             marginBottom: "5px",

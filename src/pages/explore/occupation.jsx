@@ -75,7 +75,7 @@ const Occupation = () => {
             }}
             onClick={() => setSelectedGroupId(null)}
           >
-            Tất cả
+            <Text bold>Tất cả</Text>
           </Box>
         )}
         <div
@@ -99,7 +99,7 @@ const Occupation = () => {
                 setSelectedGroupId(group.id);
               }}
             >
-              {group.name}
+              <Text bold>{group.name}</Text>
             </Box>
           ))}
         </div>
