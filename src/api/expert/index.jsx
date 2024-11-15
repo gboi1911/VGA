@@ -67,6 +67,19 @@ export const getBooking = async (stuId) => {
     throw error;
   }
 };
+export const getBookingConsul = async (userId) => {
+  try {
+    const response = await axios.get(`${url}/bookings`, {
+      params: {
+        "consultant-id": userId,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log("Error in get bookings:", error);
+    throw error;
+  }
+};
 
 export const getExpertById = async (id) => {
   try {

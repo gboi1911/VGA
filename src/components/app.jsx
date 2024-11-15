@@ -23,13 +23,18 @@ import Explore from "pages/explore/explore";
 import MBTITest from "pages/explore/mbti";
 import HollandTest from "pages/explore/holland";
 import Major from "pages/explore/major";
+import Majorbycategory from "pages/explore/majorbycategory";
 import MajorDetail from "pages/explore/majorDetail";
 import Occupation from "pages/explore/occupation";
+import Occupationbygroup from "pages/explore/occupationbygroup";
 import University from "pages/explore/university";
 import UniversityDetail from "pages/explore/universityDetail";
 import Personal from "pages/explore/personal";
 import PersonalOccupation from "pages/explore/personalOccupation";
 import Personality from "pages/explore/personality";
+import ConsultantSchedulePage from "super/pages/ConsultantSchedulePage";
+import News from "pages/news/news";
+import ConsultantPage from "super/pages/consultantpage";
 
 import {
   getDataAccessToken,
@@ -43,57 +48,57 @@ import { login } from "api/login";
 
 const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
-  const [userid, setUserId] = useState();
-  const [role, setRole] = useState();
+  const [userid, setUserId] = useState("65767ae4-20f8-40a5-8c15-08dcf72eff8e");
+  const [role, setRole] = useState(2);
   const [accountid, setAccountId] = useState();
   const [userInfo, setUserInfo] = useState(null);
 
-  useEffect(() => {
-    const fetchToken = async () => {
-      try {
-        const token = await getDataAccessToken();
-        const phoneNumber = await getPhoneNumberUser();
+  // useEffect(() => {
+  //   const fetchToken = async () => {
+  //     try {
+  //       const token = await getDataAccessToken();
+  //       const phoneNumber = await getPhoneNumberUser();
 
-        var config = {
-          method: "get",
-          url: "https://graph.zalo.me/v2.0/me/info",
-          headers: {
-            access_token: token,
-            code: phoneNumber.token,
-            secret_key: "P5DXS5UHWG7M73DkCLRC",
-          },
-        };
+  //       var config = {
+  //         method: "get",
+  //         url: "https://graph.zalo.me/v2.0/me/info",
+  //         headers: {
+  //           access_token: token,
+  //           code: phoneNumber.token,
+  //           secret_key: "P5DXS5UHWG7M73DkCLRC",
+  //         },
+  //       };
 
-        var response = await axios(config);
-        console.log(response);
-        const phone = response.data.data.number;
-        const userId = await getUserIDUser();
-        const userInfo1 = await getUser();
+  //       var response = await axios(config);
+  //       console.log(response);
+  //       const phone = response.data.data.number;
+  //       const userId = await getUserIDUser();
+  //       const userInfo1 = await getUser();
 
-        setAccessToken(token); // Store the token once fetched
+  //       setAccessToken(token); // Store the token once fetched
 
-        const resposneLogin = await login({
-          zaloId: userId,
-          phone: phone,
-          image_Url: "string",
-        });
-        console.log(resposneLogin);
-        const userid = resposneLogin.data.userId;
-        const role = resposneLogin.data.role;
-        const accountid = resposneLogin.data.accountId;
-        setRole(role);
-        setUserId(userid);
-        setAccountId(accountid);
+  //       const resposneLogin = await login({
+  //         zaloId: userId,
+  //         phone: phone,
+  //         image_Url: "string",
+  //       });
+  //       console.log(resposneLogin);
+  //       const userid = resposneLogin.data.userId;
+  //       const role = resposneLogin.data.role;
+  //       const accountid = resposneLogin.data.accountId;
+  //       setRole(role);
+  //       setUserId(userid);
+  //       setAccountId(accountid);
 
-        const tokenAPI = resposneLogin.data.accessToken;
-        localStorage.setItem("token", tokenAPI);
-      } catch (error) {
-        console.error("Error fetching token:", error);
-      }
-    };
+  //       const tokenAPI = resposneLogin.data.accessToken;
+  //       localStorage.setItem("token", tokenAPI);
+  //     } catch (error) {
+  //       console.error("Error fetching token:", error);
+  //     }
+  //   };
 
-    fetchToken();
-  }, []);
+  //   fetchToken();
+  // }, []);
 
   console.log("userid", userid);
   console.log("role", role);
@@ -107,6 +112,8 @@ const MyApp = () => {
             <Routes>
               {role === 2 && (
                 <>
+                  <Route path="/news" element={<News />} />
+                  <Route path="/newsdetail/:id" element={<NewDetail />} />
                   <Route path="/" element={<HomePage />} />
                   <Route
                     path="/expert"
@@ -132,8 +139,10 @@ const MyApp = () => {
                   <Route path="/mbtiTest" element={<MBTITest />} />
                   <Route path="/hollandTest" element={<HollandTest />} />
                   <Route path="/major" element={<Major />} />
+                  <Route path="/major/:id" element={<Majorbycategory />} />
                   <Route path="/majorDetail/:id" element={<MajorDetail />} />
                   <Route path="/occupation" element={<Occupation />} />
+                  <Route path='/occupation/:id' element={<Occupationbygroup />} />
                   <Route path="/university" element={<University />} />
                   <Route
                     path="/universityDetail/:id"
@@ -170,16 +179,24 @@ const MyApp = () => {
                     path="/occupationDetail/:id"
                     element={<OccupationDetail />}
                   />
+                </>
+              )}
+              {role === 4 && (
+                <>
+                  <Route path="/consultantpage" element={<ConsultantPage consultantId={userid} accountId={accountid} />} />
+                  <Route path="/news" element={<News />} />
                   <Route path="/newsdetail/:id" element={<NewDetail />} />
                 </>
+
               )}
             </Routes>
             {role === 4 ? (
-              <CustomBottomNavigation userid={userid} />
+              <>
+                <CustomBottomNavigation userid={userid} />
+              </>
             ) : (
               <BottomNavigationPage />
             )}
-            {/* <CustomBottomNavigation userid={userid} /> */}
           </ZMPRouter>
         </SnackbarProvider>
       </App>

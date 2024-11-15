@@ -2,34 +2,34 @@ import React, { useState } from "react";
 import { BottomNavigation, Icon, Page } from "zmp-ui";
 import ConsultantSchedulePage from "./ConsultantSchedulePage";
 // import HomePageConsultant from "./HomePageConsultant";
-import CalendarPage from "./calendarpage";
+// import CalendarPage from "./calendarpage";
 import HomePage from "pages/home";
 // import DateCalendarServerRequest from "super/pages/HomePageConsultant";
 // import FirstComponent from "super/pages/HomePageConsultant";
 import WeekPicker from "super/pages/HomePageConsultant";
 import News from "super/section/news/news";
+import ConsultantPage from "super/pages/consultantpage";
 
-export default function CustomBottomNavigation({ userid }) {
+export default function CustomBottomNavigation({ userid, accountid }) {
   const [activeTab, setActiveTab] = useState("homepage");
   // const { title } = props;
 
   const renderContent = () => {
     switch (activeTab) {
       case "homepage":
-        // return <HomePageConsultant />;
-        return <HomePage userid={userid} />;
+        return <HomePage key="homepage" />;
       case "schedule":
-        return <ConsultantSchedulePage userid={userid} />;
-      case "news":
-        return <News />;
-      case "calendar":
-        return <WeekPicker />;
+        return <ConsultantSchedulePage key="schedule" userid={userid} />;
+      // case "news":
+      //   return <News key="news" />;
+      // case "calendar":
+      //   return <WeekPicker key="calendar" />;
       case "me":
-      // return <WeekPicker />;
       default:
-        return <CalendarPage />;
+        return <ConsultantPage consultantId={userid} accountId={accountid} key="me" />;
     }
   };
+
 
   return (
     <Page className="page">
@@ -45,25 +45,24 @@ export default function CustomBottomNavigation({ userid }) {
           icon={<Icon icon="zi-home" />}
           activeIcon={<Icon icon="zi-home" />}
         />
-        // tin tức //{" "}
-        <BottomNavigation.Item
+        {/* <BottomNavigation.Item
           label="Tin tức"
           key="news"
           icon={<Icon icon="zi-more-grid" />}
           activeIcon={<Icon icon="zi-more-grid-solid" />}
-        />
+        /> */}
         <BottomNavigation.Item
           label="Tạo lịch"
           key="schedule"
           icon={<Icon icon="zi-clock-1-solid" />}
           activeIcon={<Icon icon="zi-clock-1-solid" />}
         />
-        <BottomNavigation.Item
+        {/* <BottomNavigation.Item
           label="Lịch"
           key="calendar"
           icon={<Icon icon="zi-calendar" />}
           activeIcon={<Icon icon="zi-calendar" />}
-        />
+        /> */}
         {/* <BottomNavigation.Item
                     key="calendar"
                     label="Lịch"

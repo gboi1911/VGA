@@ -165,9 +165,11 @@ const ExpertDetailPage = ({ studentId }) => {
           style={{ display: "flex" }}
         >
           <img
-            src={expert.image_Url}
+            // src={expert.image_Url}
+            src={'https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060'}
             alt={expert.name}
-            className="w-90 h-32 object-cover rounded-md mt-3"
+            // className="w-90 h-32 object-cover rounded-md mt-3"
+            style={{ width: "130px", height: "160px", objectFit: "cover", borderRadius: "8px" }}
           />
           <Box style={{ marginLeft: "10px" }}>
             <Text
@@ -209,7 +211,7 @@ const ExpertDetailPage = ({ studentId }) => {
                 icon={faDollarSign}
                 style={{ marginRight: "5px" }}
               />
-              {expert.consultantLevel.priceOnSlot ||
+              {`${expert.consultantLevel.priceOnSlot} điểm` ||
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
             </Text>
           </Box>

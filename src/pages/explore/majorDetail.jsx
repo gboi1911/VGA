@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import EastIcon from '@mui/icons-material/East';
 import { Page, Text, Box } from "zmp-ui";
 import { useParams, useNavigate } from "react-router-dom";
 import { getMajorById } from "api/major";
@@ -6,7 +7,12 @@ import { getMajorById } from "api/major";
 const MajorDetail = () => {
   const { id } = useParams();
   const [major, setMajor] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(6);
   const navigate = useNavigate();
+
+  const handleShowMore = () => {
+    setVisibleCount(prevCount => prevCount + 6); // Thêm 6 tư vấn viên mỗi lần bấm
+  };
 
   useEffect(() => {
     const fetchMajorDetail = async () => {
@@ -80,47 +86,81 @@ const MajorDetail = () => {
         >
           Ngành nghề phù hợp
         </Text>
-        <div
-          style={{
-            display: "flex",
-            overflowX: "auto", // Hide overflow
-            marginBottom: "16px",
-          }}
-        >
-          {major.occupations.map((occupation) => (
-            <Box
-              key={occupation.id}
-              style={{
-                background: "#f8f9fa",
-                padding: "10px",
-                borderRadius: "8px",
-                width: "180px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                marginBottom: "8px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                flex: "0 0 auto",
-                marginRight: "10px",
-              }}
-              onClick={() => navigate(`/occupationDetail/${occupation.id}`)}
-            >
-              <img
-                src={
-                  occupation.imageUrl ||
-                  "https://img.freepik.com/free-vector/collection-police-illustration_23-2148521822.jpg?t=st=1730737506~exp=1730741106~hmac=435fe33a5949a8cc6d0507ede5684de43c9dc61c0549429698ee374ce71afd29&w=1060"
-                }
-                alt={occupation.name}
+        <div>
+          <div
+            style={{
+              display: "flex",
+              overflowX: "auto",
+              marginBottom: "16px",
+              alignItems: "center",
+            }}
+          >
+            {major.occupations.slice(0, visibleCount).map((occupation) => (
+              <Box
+                key={occupation.id}
                 style={{
-                  width: "150px",
-                  height: "100px",
+                  background: "#f8f9fa",
+                  padding: "10px",
                   borderRadius: "8px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                   marginBottom: "8px",
+                  alignItems: "center",
+                  flex: "0 0 auto",
+                  marginRight: "10px",
+                  width: "220px",
                 }}
-              />
-              <Text bold>{occupation.name}</Text>
-            </Box>
-          ))}
+                onClick={() => navigate(`/occupationDetail/${occupation.id}`)}
+              >
+                <img
+                  src={
+                    occupation.imageUrl ||
+                    "https://img.freepik.com/free-vector/collection-police-illustration_23-2148521822.jpg?t=st=1730737506~exp=1730741106~hmac=435fe33a5949a8cc6d0507ede5684de43c9dc61c0549429698ee374ce71afd29&w=1060"
+                  }
+                  alt={occupation.name}
+                  style={{
+                    width: "100%",
+                    height: "120px",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                  }}
+                />
+                <Box
+                  style={{
+                    padding: "10px",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    height: "50px",
+                  }}
+                >
+                  <Text bold>{occupation.name}</Text>
+                </Box>
+              </Box>
+            ))}
+
+            {/* Nút "Xem thêm" */}
+            {visibleCount < major.occupations.length && (
+              <button
+                onClick={handleShowMore}
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.8)",
+                  border: "none",
+                  borderRadius: "50%",
+                  padding: "10px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
+                  width: "40px",
+                  height: "40px",
+                  margin: "10px auto",
+                }}
+              >
+                <EastIcon style={{ fontSize: "20px", color: "#007bff" }} />
+              </button>
+            )}
+          </div>
         </div>
         {/* Suggested Universities */}
         <Text
@@ -136,14 +176,12 @@ const MajorDetail = () => {
                 background: "#f8f9fa",
                 padding: "10px",
                 borderRadius: "8px",
-                width: "180px",
                 boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                 marginBottom: "8px",
-                display: "flex",
-                flexDirection: "column",
                 alignItems: "center",
                 flex: "0 0 auto",
                 marginRight: "10px",
+                width: "220px",
               }}
               onClick={() => navigate(`/universityDetail/${university.id}`)}
             >
@@ -154,10 +192,10 @@ const MajorDetail = () => {
                 }
                 alt={university.name}
                 style={{
-                  width: "150px",
-                  height: "100px",
+                  width: "100%",
+                  height: "120px",
+                  objectFit: "cover",
                   borderRadius: "8px",
-                  marginBottom: "8px",
                 }}
               />
               <Text style={{ fontWeight: "bold", textAlign: "center" }}>

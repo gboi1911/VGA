@@ -34,3 +34,12 @@ export const getTransaction = async (accountId) => {
     throw error;
   }
 };
+export const getConsultantInfo = async (id) => {
+  try {
+    const response = await axios.get(`${url}/consultant/${id}`, {});
+    return response.data;
+  } catch (error) {
+    console.error("Error in getConsultantInfo:", error);
+    throw error;
+  }
+}

@@ -31,3 +31,17 @@ export const getMajorById = async (id) => {
     throw error;
   }
 };
+
+export const getMajorCategoryId = async (majorCategoryId) => {
+  try {
+    const response = await axios.get(`${url}/majors`, {
+      params: {
+        'major-category-id': majorCategoryId,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log("Error in get majors:", error);
+    throw error;
+  }
+};

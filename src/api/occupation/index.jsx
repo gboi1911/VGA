@@ -31,3 +31,18 @@ export const getOccupationById = async (id) => {
     throw error;
   }
 };
+
+
+export const getOccupationGroupId = async (occupationGroupId) => {
+  try {
+    const response = await axios.get(`${url}/occupations`, {
+      params: {
+        'occupational-group-id': occupationGroupId,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log("Error in get occupation group by id:", error);
+    throw error;
+  }
+};

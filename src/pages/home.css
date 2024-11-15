@@ -1,3 +1,8 @@
 .no-padding-top {
     padding-top: 0px !important;
   }
+
+.carousel-container{
+  margin: 0 !important; /* Ghi đè padding cho phần carousel */
+  padding: 0 !important;
+}

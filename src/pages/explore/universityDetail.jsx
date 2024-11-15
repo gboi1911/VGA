@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Page, Text, Box } from "zmp-ui";
+import EastIcon from '@mui/icons-material/East';
 import { useParams, useNavigate } from "react-router-dom";
 import { getUniversityById, getRegionById } from "api/university";
 import { getExpert } from "api/expert";
@@ -9,7 +10,13 @@ const UniversityDetail = () => {
   const [university, setUniversity] = useState(null);
   const [locations, setLocations] = useState([]);
   const [consultants, setConsultants] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(6);
   const navigate = useNavigate();
+
+  // Số lượng tư vấn viên hiển thị ban đầu
+  const handleShowMore = () => {
+    setVisibleCount(prevCount => prevCount + 6); // Thêm 6 tư vấn viên mỗi lần bấm
+  };
 
   useEffect(() => {
     const fetchUniversity = async () => {
@@ -150,48 +157,83 @@ const UniversityDetail = () => {
           Tư vấn viên được đề xuất
         </Text>
 
-        <div
-          style={{ display: "flex", overflowX: "auto", marginBottom: "16px" }}
-        >
-          {consultants.map((consultant) => (
-            <Box
-              key={consultant.id}
-              style={{
-                background: "#f8f9fa",
-                padding: "10px",
-                borderRadius: "8px",
-                // width: "180px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                marginBottom: "8px",
-                // display: "flex",
-                // flexDirection: "column",
-                alignItems: "center",
-                flex: "0 0 auto",
-                marginRight: "10px",
-              }}
-              onClick={() => navigate(`/expertDetail/${consultant.id}`)}
-            >
-              <img
-                src={
-                  consultant.image_Url ||
-                  "https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060"
-                }
-                alt={consultant.name}
+        <div >
+          <div
+            style={{
+              display: "flex",
+              overflowX: "auto",
+              marginBottom: "16px",
+              alignItems: "center",
+            }}
+          >
+            {consultants.slice(0, visibleCount).map((consultant) => (
+              <Box
+                key={consultant.id}
                 style={{
-                  width: "150px",
-                  height: "100px",
+                  background: "#f8f9fa",
+                  padding: "10px",
                   borderRadius: "8px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                   marginBottom: "8px",
+                  alignItems: "center",
+                  flex: "0 0 auto",
+                  marginRight: "10px",
+                  width: "220px",
                 }}
-              />
-              <Text bold>{consultant.name}</Text>
-              <Text
-                style={{ fontSize: "14px", color: "#666", textAlign: "center" }}
+                onClick={() => navigate(`/expertDetail/${consultant.id}`)}
               >
-                {consultant.consultantLevel.name}
-              </Text>
-            </Box>
-          ))}
+                <img
+                  src={
+                    consultant.image_Url ||
+                    "https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060"
+                  }
+                  alt={consultant.name}
+                  style={{
+                    width: "100%",
+                    height: "150px",
+                    objectFit: "cover",
+                  }}
+                />
+                <Box
+                  style={{
+                    padding: "10px",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    height: "50px",
+                  }}
+                >
+                  <Text bold>{consultant.name}</Text>
+                  <Text style={{ fontSize: "14px", color: "#666", textAlign: "center" }}>
+                    {consultant.consultantLevel.name}
+                  </Text>
+                </Box>
+              </Box>
+            ))}
+
+            {/* Nút "Xem thêm" */}
+            {visibleCount < consultants.length && (
+              <button
+                onClick={handleShowMore}
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.8)",
+                  border: "none",
+                  borderRadius: "50%",
+                  padding: "10px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
+                  width: "40px",
+                  height: "40px",
+                  margin: "10px auto",
+                }}
+              >
+                <EastIcon style={{ fontSize: "20px", color: "#007bff" }} />
+              </button>
+            )}
+          </div>
         </div>
       </Box>
     </Page>
