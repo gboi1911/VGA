@@ -75,13 +75,13 @@ export default function Majorbycategory() {
                 flexDirection: "column",
                 //  gap: "10px",
             }}>
-                {major.map((item) => (
+                {major?.filter((major) => major?.status).map((item) => (
                     <Link to={`/majorDetail/${item.id}`} key={item.id} style={{ textDecoration: "none" }}>
                         <Box
                             key={item.id}
                             style={{
                                 display: "flex",
-                                alignItems: "center",
+                                alignItems: "flex-start",
                                 gap: "10px",
                                 padding: "10px",
                                 backgroundColor: "#fff",
@@ -99,7 +99,7 @@ export default function Majorbycategory() {
                                     width: "40px",
                                     height: "40px",
                                     objectFit: "cover",
-                                    borderRadius: "50%",
+                                    borderRadius: "10%",
                                 }}
                             />
 
@@ -107,12 +107,14 @@ export default function Majorbycategory() {
                             <Box style={{
                                 width: "100%", // Đảm bảo Box chiếm hết chiều rộng
                             }}>
-                                <Text size="small" bold>
+                                <Text size="small" bold style={{ marginBottom: '5px' }}>
                                     {item.name}
                                 </Text>
-                                {/* <Text size="xxSmall" color="text.secondary">
-                  {category.description}
-                </Text> */}
+                                <Text size="xxSmall" color="text.secondary">
+                                    {item?.description.length > 100
+                                        ? `${item.description.slice(0, 100)}...`
+                                        : item.description}
+                                </Text>
                             </Box>
                         </Box>
                     </Link>

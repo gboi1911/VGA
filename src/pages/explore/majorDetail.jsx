@@ -8,10 +8,33 @@ const MajorDetail = () => {
   const { id } = useParams();
   const [major, setMajor] = useState(null);
   const [visibleCount, setVisibleCount] = useState(6);
+  const [showMore, setShowMore] = useState({}); // Lưu trạng thái xem thêm cho từng thuộc tính
+  console.log(showMore);
+
   const navigate = useNavigate();
 
   const handleShowMore = () => {
     setVisibleCount(prevCount => prevCount + 6); // Thêm 6 tư vấn viên mỗi lần bấm
+  };
+  const handleShowMore1 = (field) => {
+    setShowMore((prevState) => ({
+      ...prevState,
+      [field]: true,
+    }));
+  };
+
+  const handleShowLess = (field) => {
+    setShowMore((prevState) => ({
+      ...prevState,
+      [field]: false,
+    }));
+  };
+
+  const truncateText = (text, maxLength) => {
+    if (text && text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    }
+    return text;
   };
 
   useEffect(() => {
@@ -77,7 +100,44 @@ const MajorDetail = () => {
             textAlign: "justify",
           }}
         >
-          {major.description}
+          {truncateText(major?.description, 500)}
+          {major?.description?.length > 500 && !showMore.description && (
+            <Box style={{ display: 'flex', justifyContent: 'center' }}>
+              <button
+                onClick={() => handleShowMore1("description")}
+                style={{
+                  marginTop: "5px",
+                  color: "#007bff",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                }}
+              >
+                Xem thêm
+              </button>
+            </Box>
+          )}
+          {showMore.description && major?.description && (
+            <>
+              {major.description}
+              <Box style={{ display: 'flex', justifyContent: 'center' }}>
+                <button
+                  onClick={() => handleShowLess("description")}
+                  style={{
+                    marginTop: "5px",
+                    color: "#007bff",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Thu gọn
+                </button>
+              </Box>
+            </>
+          )}
         </Text>
 
         {/* Suggested Occupations */}

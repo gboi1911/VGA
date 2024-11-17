@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text, Input, Grid } from "zmp-ui";
+import { Page, Box, Text, Input, Grid, Swiper } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import EastIcon from '@mui/icons-material/East';
 import { Link } from "react-router-dom";
@@ -106,7 +106,7 @@ const HomePage = () => {
 
   return (
     <Page className="page bg-gray-100 w-full no-padding-top">
-      <Carousel className="carousel-container" autoplay >
+      {/* <Carousel className="carousel-container" autoplay >
         <div>
           <h3 style={contentStyle}>
             <img
@@ -144,7 +144,52 @@ const HomePage = () => {
             />
           </h3>
         </div>
-      </Carousel>
+      </Carousel> */}
+      <Box
+        mt={6}
+        flex
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Swiper autoplay duration={2000} loop>
+          <Swiper.Slide>
+            <img
+              className="slide-img"
+              src="https://stc-zmp.zadn.vn/zmp-zaui/images/0e05d63a7a93a6cdff826.jpg"
+              alt="slide-1"
+            />
+          </Swiper.Slide>
+          <Swiper.Slide>
+            <img
+              className="slide-img"
+              src="https://stc-zmp.zadn.vn/zmp-zaui/images/0f7c061caab576eb2fa45.jpg"
+              alt="slide-2"
+            />
+          </Swiper.Slide>
+          <Swiper.Slide>
+            <img
+              className="slide-img"
+              src="https://stc-zmp.zadn.vn/zmp-zaui/images/321fb45f18f6c4a89de78.jpg"
+              alt="slide-3"
+            />
+          </Swiper.Slide>
+          <Swiper.Slide>
+            <img
+              className="slide-img"
+              src="https://stc-zmp.zadn.vn/zmp-zaui/images/4f417921d58809d650997.jpg"
+              alt="slide-4"
+            />
+          </Swiper.Slide>
+          <Swiper.Slide>
+            <img
+              className="slide-img"
+              src="https://stc-zmp.zadn.vn/zmp-zaui/images/677fad2e0187ddd984969.jpg"
+              alt="slide-5"
+            />
+          </Swiper.Slide>
+        </Swiper>
+      </Box>
       {/* <Box style={{ padding: '10px' }}>
         <Input.Search
           label="Label"
@@ -192,6 +237,7 @@ const HomePage = () => {
             Xem tất cả
           </button>
         </Box>
+
         <div
           style={{
             display: "grid",
@@ -200,11 +246,11 @@ const HomePage = () => {
             gap: "10px",                 // Khoảng cách giữa các phần tử
             overflowX: "auto",           // Cho phép cuộn ngang
             width: "100%",               // Chiều rộng container
-            height: "200px",             // Chiều cao cố định
-            whiteSpace: "nowrap",        // Giữ các phần tử không xuống hàng
+            height: "250px",             // Chiều cao cố định
+            justifyContent: 'center'
           }}
         >
-          {occupationGroup.map((group) => (
+          {occupationGroup.filter((group) => group?.status).slice(0, 10).map((group) => (
             <Link
               to={`/occupation/${group.id}`}
               key={group.id}
@@ -215,8 +261,10 @@ const HomePage = () => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  width: "60px", // Chiều rộng phần tử
+                  width: "60px", // Chiều rộng cố định
                   gap: "5px", // Khoảng cách giữa ảnh và chữ
+                  overflow: "hidden", // Ngăn chữ vượt quá container
+                  textAlign: "center",
                 }}
               >
                 <img
@@ -226,18 +274,19 @@ const HomePage = () => {
                     width: "100%",
                     height: "60px", // Chiều cao cố định cho ảnh
                     objectFit: "cover",
-                    borderRadius: "50%", // Bo tròn ảnh
+                    borderRadius: "10%", // Bo tròn ảnh
+                    backgroundColor: "rgba(0, 0, 0, 0.1)", // Màu nền ảnh
                   }}
                 />
                 <Text
-                  size="xxSmall"
+                  size="xxxSmall M"
                   bold
                   style={{
-                    textAlign: "center",
-                    overflow: "hidden",        // Ẩn chữ vượt quá giới hạn
-                    textOverflow: "ellipsis", // Hiển thị "..." nếu chữ quá dài
-                    whiteSpace: "nowrap",     // Giữ chữ trên một dòng
-                    width: "100%",            // Đảm bảo text nằm trong container
+                    textAlign: "center", // Căn giữa chữ
+                    wordWrap: "break-word", // Tự động xuống dòng
+                    wordBreak: "break-word", // Ngắt từ dài
+                    width: "100%", // Giới hạn chiều rộng
+                    overflow: "hidden", // Giới hạn nội dung bên trong
                   }}
                 >
                   {group.name}
@@ -246,6 +295,7 @@ const HomePage = () => {
             </Link>
           ))}
         </div>
+
 
       </Box>
       <Box style={{ padding: '10px' }}>
@@ -265,11 +315,11 @@ const HomePage = () => {
             gap: "10px",                 // Khoảng cách giữa các phần tử
             overflowX: "auto",           // Cho phép cuộn ngang
             width: "100%",               // Chiều rộng container
-            height: "200px",             // Chiều cao cố định
-            whiteSpace: "nowrap",        // Giữ các phần tử không xuống hàng
+            height: "250px",             // Chiều cao cố định
+            justifyContent: 'center'
           }}
         >
-          {majorCategories.map((category) => (
+          {majorCategories?.filter((majorcategory) => majorcategory?.status).slice(0, 10).map((category) => (
             <Link to={`/major/${category?.id}`} key={category.id} style={{ textDecoration: "none" }}>
               <Box
                 style={{
@@ -287,18 +337,18 @@ const HomePage = () => {
                     width: "100%",
                     height: "60px", // Chiều cao cố định cho ảnh
                     objectFit: "cover",
-                    borderRadius: "50%", // Bo tròn ảnh
+                    borderRadius: "10%", // Bo tròn ảnh
+                    backgroundColor: "rgba(0, 0, 0, 0.1)", // Màu nền ảnh
                   }}
                 />
                 <Text
-                  size="xxSmall"
+                  size="xxxSmall M"
                   bold
                   style={{
                     textAlign: "center",
                     overflow: "hidden",        // Ẩn chữ vượt quá giới hạn
-                    textOverflow: "ellipsis", // Hiển thị "..." nếu chữ quá dài
-                    whiteSpace: "nowrap",     // Giữ chữ trên một dòng
                     width: "100%",            // Đảm bảo text nằm trong container
+                    wordWrap: "break-word",   // Tự động xuống dòng
                   }}
                 >
                   {category.name}

@@ -191,13 +191,13 @@ const Occupation = () => {
         flexDirection: "column",
         //  gap: "10px",
       }}>
-        {occupationGroup.map((group) => (
+        {occupationGroup.filter((occupationGroup) => occupationGroup?.status).map((group) => (
           <Link to={`/occupation/${group.id}`} key={group.id} style={{ textDecoration: "none" }}>
             <Box
               key={group.id}
               style={{
                 display: "flex",
-                alignItems: "center",
+                alignItems: "flex-start",
                 gap: "10px",
                 padding: "10px",
                 backgroundColor: "#fff",
@@ -215,7 +215,7 @@ const Occupation = () => {
                   width: "40px",
                   height: "40px",
                   objectFit: "cover",
-                  borderRadius: "50%",
+                  borderRadius: "10%",
                 }}
               />
 
@@ -223,12 +223,13 @@ const Occupation = () => {
               <Box style={{
                 width: "100%", // Đảm bảo Box chiếm hết chiều rộng
               }}>
-                <Text size="small" bold>
+                <Text size="small" bold style={{ marginBottom: '5px' }}>
                   {group.name}
                 </Text>
-                {/* <Text size="xxSmall" color="text.secondary">
-                  {category.description}
-                </Text> */}
+                <Text size="xxSmall" color="text.secondary">
+                  {/* {category.description} */}
+                  Cung cấp các dịch vụ lắp đặt, bảo trì và sửa chữa cho hệ thống, thiết bị hoặc cơ sở vật chất
+                </Text>
               </Box>
             </Box>
           </Link>

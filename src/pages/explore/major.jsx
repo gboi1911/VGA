@@ -178,13 +178,13 @@ const Major = () => {
         flexDirection: "column",
         //  gap: "10px",
       }}>
-        {majorCategories.map((category) => (
+        {majorCategories.filter((majorCategories) => majorCategories?.status).map((category) => (
           <Link to={`/major/${category?.id}`} key={category.id} style={{ textDecoration: "none" }}>
             <Box
               key={category.id}
               style={{
                 display: "flex",
-                alignItems: "center",
+                alignItems: "flex-start",
                 gap: "10px",
                 padding: "10px",
                 backgroundColor: "#fff",
@@ -202,7 +202,7 @@ const Major = () => {
                   width: "40px",
                   height: "40px",
                   objectFit: "cover",
-                  borderRadius: "50%",
+                  borderRadius: "10%",
                 }}
               />
 
@@ -210,12 +210,13 @@ const Major = () => {
               <Box style={{
                 width: "100%", // Đảm bảo Box chiếm hết chiều rộng
               }}>
-                <Text size="small" bold>
+                <Text size="small" bold style={{ marginBottom: '5px' }}>
                   {category.name}
                 </Text>
-                {/* <Text size="xxSmall" color="text.secondary">
-                  {category.description}
-                </Text> */}
+                <Text size="xxSmall" color="text.secondary">
+                  {/* {category.description} */}
+                  "Cung cấp các dịch vụ lắp đặt, bảo trì và sửa chữa cho hệ thống, thiết bị hoặc cơ sở vật chất nhằm đảm bảo "
+                </Text>
               </Box>
             </Box>
           </Link>

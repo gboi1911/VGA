@@ -39,9 +39,9 @@ export default function NewDetail() {
             </Box>
             <Box style={{ height: 'auto', overflow: 'hidden', marginTop: '10px', marginBottom: '10px' }}>
                 {newsDetail?.imageNews?.map((image, index) => (
-                    <Box key={index}>
-                        <img src={image.imageUrl} alt="image" style={{ width: '100%', height: '200px' }} />
-                        <Text style={{ textAlign: 'center' }}>
+                    <Box key={index} style={{ justifyContent: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={image.imageUrl} alt="image" style={{ width: '90%', height: '200px', }} />
+                        <Text size="xxSmall" style={{ textAlign: 'center' }}>
                             {image?.descriptionTitle}
                         </Text>
                     </Box>
