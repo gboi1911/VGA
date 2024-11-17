@@ -19,6 +19,20 @@ const HomePage = () => {
   const [majorCategories, setMajorCategories] = useState([]);
   const [visibleCount, setVisibleCount] = useState(4);
 
+  const exploreCardData = [
+    {
+      id: "mbtiTest",
+      title: "Bài kiểm tra tính cách MBTI",
+      imageUrl: "https://tracuuthansohoc.com/wp-content/uploads/2023/07/bai-trac-nghiem-tinh-cach-mbti.jpg",
+      route: "/mbtiTest",
+    },
+    {
+      id: "hollandTest",
+      title: "Bài kiểm tra nghề nghiệp Holland",
+      imageUrl: "https://res.cloudinary.com/team-odeon/images/w_1640,h_1586,c_scale/f_webp/v1667316862/degreechoices/self-directed-search-sds/self-directed-search-sds.png?_i=AA",
+      route: "/hollandTest",
+    },
+  ]
 
   useEffect(() => {
 
@@ -294,6 +308,92 @@ const HomePage = () => {
           ))}
         </div>
 
+      </Box>
+      <Box style={{ padding: '10px' }}>
+        <Box style={{ display: 'flex', justifyContent: 'space-between', marginBottom: "10px" }}>
+          <Text className=" mt-3" bold size="small">
+            Bài kiểm tra tính cách
+          </Text>
+          {/* <button onClick={() => navigate(`/news`)} className=" mt-3" bold size="xSmall" style={{ borderBottom: '1px solid blue' }}>
+            Xem tất cả
+          </button> */}
+        </Box>
+        <div
+          style={{
+            display: "flex",
+            gap: "10px", // Khoảng cách giữa các Box
+            overflowX: "auto", // Cho phép cuộn ngang khi nội dung vượt khỏi m
+          }}
+        >
+          {exploreCardData.map((card, key) => (
+            <Link style={{ marginTop: '10px' }} key={key} to={card.route}>
+              <Box
+                key={card.id}
+                style={{
+                  background: "#f8f9fa",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  marginBottom: "8px",
+                  alignItems: "center",
+                  flex: "0 0 auto",
+                  marginRight: "10px",
+                  width: "220px",
+                }}
+              // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
+              >
+                <img
+                  src={card.imageUrl}
+                  alt={card.title}
+                  style={{
+                    width: "100%",
+                    borderRadius: "8px",
+                    marginBottom: "10px",
+                    objectFit: "cover",
+                    height: "150px", // Điều chỉnh chiều cao hình ảnh
+                  }}
+                />
+                <Box
+                  style={{
+                    padding: "10px",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    height: "50px",
+                  }}
+                >
+                  <Text bold>
+                    {card.title.charAt(0).toUpperCase() + card.title.slice(1).toLowerCase().slice(0, 40)}
+                    {card.title.length > 40 && "..."} {/* Thêm ba chấm nếu tiêu đề dài hơn 40 ký tự */}
+                  </Text>
+                </Box>
+              </Box>
+            </Link>
+          ))}
+          {/* <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+            <button
+              onClick={() => navigate(`/news`)}
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                border: "none",
+                borderRadius: "50%",
+                padding: "10px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
+                width: "40px",
+                height: "40px",
+                margin: "20px auto",
+                transition: "background-color 0.3s ease", // Thêm hiệu ứng cho nút
+              }}
+            >
+              <EastIcon style={{ fontSize: "20px", color: "#007bff" }} />
+            </button>
+          </Box> */}
+        </div>
       </Box>
       <Box style={{ padding: '10px' }}>
         <Box style={{ display: 'flex', justifyContent: 'space-between', marginBottom: "10px" }}>

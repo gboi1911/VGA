@@ -176,7 +176,7 @@ export default function ConsultantSchedule({ userid }) {
   );
 
   return (
-    <Page className="custom-page">
+    <Page className="custom-page" >
       <Tabs id="contact-list">
         <Tabs.Tab key="tab1" label="Lịch">
           <List>

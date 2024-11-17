@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Page, Text, Box, Modal, Button } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
+import AcUnitIcon from '@mui/icons-material/AcUnit';
 
 const MBTITest = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -28,19 +29,20 @@ const MBTITest = () => {
     console.log("User clicked No");
   }, []);
   return (
-    <Page>
-      <Box className="bg-white rounded-lg shadow-md overflow-hidden">
-        <img
+    <Page style={{ display: 'flex', justifyContent: 'center' }} >
+      <Box style={{ width: '70%' }}>
+        {/* <img
           src="https://freequizgames.com/wp-content/uploads/2022/09/mbti-test-1024x581.jpg"
           alt="image"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: '8px' }}
           role="presentation"
-        />
+        /> */}
+        <AcUnitIcon style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', color: '#FFCC80' }} />
         <div className="p-4">
-          <Text bold className="" size="xLarge">
+          <Text bold className="" size="xLarge" style={{ textAlign: 'center' }}>
             Bài kiểm tra MBTI
           </Text>
-          <Text className="text-gray-600 mt-2 mb-3">
+          <Text className="text-gray-600 mt-2 mb-3" style={{ textAlign: 'center' }}>
             Bài kiểm tra tính cách Myers-Briggs Type Indicator (MBTI) là một
             công cụ đánh giá tâm lý, dựa trên lý thuyết phân loại của Carl
             Gustav Jung, được phát triển bởi Isabel Briggs Myers và mẹ bà,

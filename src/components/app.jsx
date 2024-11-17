@@ -48,57 +48,57 @@ import { login } from "api/login";
 
 const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
-  const [userid, setUserId] = useState("65767ae4-20f8-40a5-8c15-08dcf72eff8e");
-  const [role, setRole] = useState(2);
+  const [userid, setUserId] = useState();
+  const [role, setRole] = useState();
   const [accountid, setAccountId] = useState();
   const [userInfo, setUserInfo] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchToken = async () => {
-  //     try {
-  //       const token = await getDataAccessToken();
-  //       const phoneNumber = await getPhoneNumberUser();
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const token = await getDataAccessToken();
+        const phoneNumber = await getPhoneNumberUser();
 
-  //       var config = {
-  //         method: "get",
-  //         url: "https://graph.zalo.me/v2.0/me/info",
-  //         headers: {
-  //           access_token: token,
-  //           code: phoneNumber.token,
-  //           secret_key: "P5DXS5UHWG7M73DkCLRC",
-  //         },
-  //       };
+        var config = {
+          method: "get",
+          url: "https://graph.zalo.me/v2.0/me/info",
+          headers: {
+            access_token: token,
+            code: phoneNumber.token,
+            secret_key: "P5DXS5UHWG7M73DkCLRC",
+          },
+        };
 
-  //       var response = await axios(config);
-  //       console.log(response);
-  //       const phone = response.data.data.number;
-  //       const userId = await getUserIDUser();
-  //       const userInfo1 = await getUser();
+        var response = await axios(config);
+        console.log(response);
+        const phone = response.data.data.number;
+        const userId = await getUserIDUser();
+        const userInfo1 = await getUser();
 
-  //       setAccessToken(token); // Store the token once fetched
+        setAccessToken(token); // Store the token once fetched
 
-  //       const resposneLogin = await login({
-  //         zaloId: userId,
-  //         phone: phone,
-  //         image_Url: "string",
-  //       });
-  //       console.log(resposneLogin);
-  //       const userid = resposneLogin.data.userId;
-  //       const role = resposneLogin.data.role;
-  //       const accountid = resposneLogin.data.accountId;
-  //       setRole(role);
-  //       setUserId(userid);
-  //       setAccountId(accountid);
+        const resposneLogin = await login({
+          zaloId: userId,
+          phone: phone,
+          image_Url: "string",
+        });
+        console.log(resposneLogin);
+        const userid = resposneLogin.data.userId;
+        const role = resposneLogin.data.role;
+        const accountid = resposneLogin.data.accountId;
+        setRole(role);
+        setUserId(userid);
+        setAccountId(accountid);
 
-  //       const tokenAPI = resposneLogin.data.accessToken;
-  //       localStorage.setItem("token", tokenAPI);
-  //     } catch (error) {
-  //       console.error("Error fetching token:", error);
-  //     }
-  //   };
+        const tokenAPI = resposneLogin.data.accessToken;
+        localStorage.setItem("token", tokenAPI);
+      } catch (error) {
+        console.error("Error fetching token:", error);
+      }
+    };
 
-  //   fetchToken();
-  // }, []);
+    fetchToken();
+  }, []);
 
   console.log("userid", userid);
   console.log("role", role);
@@ -110,11 +110,11 @@ const MyApp = () => {
           <ZMPRouter>
             <HeaderBar />
             <Routes>
-              {role === 2 && (
+              {role === 2 ? (
                 <>
+                  <Route path="/" element={<HomePage />} />
                   <Route path="/news" element={<News />} />
                   <Route path="/newsdetail/:id" element={<NewDetail />} />
-                  <Route path="/" element={<HomePage />} />
                   <Route
                     path="/expert"
                     element={<ExpertPage studentId={userid} />}
@@ -180,14 +180,22 @@ const MyApp = () => {
                     element={<OccupationDetail />}
                   />
                 </>
-              )}
-              {role === 4 && (
+              ) : role === 4 ? (
                 <>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/consultantScheldule" element={<ConsultantSchedulePage userid={userid} />} />
+                  {/* <Route path="/consultantpage/:id" element={<ConsultantPage consultantId={userid} accountId={accountid} />} /> */}
+                  <Route path="/major" element={<Major />} />
+                  <Route path="/major/:id" element={<Majorbycategory />} />
+                  <Route path="/majorDetail/:id" element={<MajorDetail />} />
+                  <Route path="/occupation" element={<Occupation />} />
+                  <Route path='/occupation/:id' element={<Occupationbygroup />} />
                   <Route path="/consultantpage" element={<ConsultantPage consultantId={userid} accountId={accountid} />} />
                   <Route path="/news" element={<News />} />
                   <Route path="/newsdetail/:id" element={<NewDetail />} />
                 </>
-
+              ) : (
+                <Route path="*" element={<NotFound />} /> // Đường dẫn mặc định nếu role không hợp lệ
               )}
             </Routes>
             {role === 4 ? (
