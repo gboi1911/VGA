@@ -85,9 +85,9 @@ export const getAdmissionMethod = async () => {
   }
 };
 
-export const getTestType = async () => {
+export const getTestType = async (id) => {
   try {
-    const response = await axios.get(`${url}/test-types`);
+    const response = await axios.get(`${url}/test-type/${id}`);
     return response;
   } catch (error) {
     console.error("Error in get test types: ", error);

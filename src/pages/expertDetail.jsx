@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { Page, Box, Text, Calendar, Button, Modal } from "zmp-ui";
+import { Page, Box, Text, Calendar, Button, Modal, Header } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBirthdayCake,
@@ -149,6 +149,7 @@ const ExpertDetailPage = ({ studentId }) => {
 
   return (
     <Page className="page" style={{ padding: "10px" }}>
+      <Header title="Thông tin & Đặt lịch" />
       <Box style={{ padding: "10px" }}>
         <Text
           className="text-center mb-6 mt-2"
@@ -166,10 +167,17 @@ const ExpertDetailPage = ({ studentId }) => {
         >
           <img
             // src={expert.image_Url}
-            src={'https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060'}
+            src={
+              "https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060"
+            }
             alt={expert.name}
             // className="w-90 h-32 object-cover rounded-md mt-3"
-            style={{ width: "130px", height: "160px", objectFit: "cover", borderRadius: "8px" }}
+            style={{
+              width: "130px",
+              height: "160px",
+              objectFit: "cover",
+              borderRadius: "8px",
+            }}
           />
           <Box style={{ marginLeft: "10px" }}>
             <Text

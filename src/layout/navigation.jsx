@@ -1,18 +1,37 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Page, Icon, BottomNavigation } from "zmp-ui";
+import React, { useState, useEffect, useMemo } from "react";
+import { Icon, BottomNavigation } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
+import useVirtualKeyboardVisible from "./useVirtualKeyboardVisible";
 
-const BottomNavigationPage = (props) => {
+// Update this to include dynamic route patterns
+export const NO_BOTTOM_NAVIGATION_PAGES = [
+  "/expertDetail/:id",
+  "/testExecute",
+  "/testExecuteHolland",
+  "/universityDetail/:id",
+  "/occupationDetail/:id",
+  "/majorDetail/:id",
+  "/testResult",
+  "/testResultHolland",
+  "/newsdetail/:id",
+  "/filterMajorUniversity",
+  "/ratingMajor",
+  "/personality",
+  "/personalOccupation",
+];
+
+const matchNoBottomNavPages = (pathname) => {
+  return NO_BOTTOM_NAVIGATION_PAGES.some((route) => {
+    const routeRegex = new RegExp(`^${route.replace(":id", "[^/]+")}$`);
+    return routeRegex.test(pathname);
+  });
+};
+
+const BottomNavigationPage = () => {
   const location = useLocation();
+  const keyboardVisible = useVirtualKeyboardVisible();
   const navigate = useNavigate();
   const { pathname } = location;
-
-  const lastPaths = useRef({
-    home: "/",
-    explore: "/explore", // Root path for the "Khám phá" tab
-    expert: "/expert",
-    me: "/user",
-  });
 
   const getTabFromPath = (path) => {
     if (
@@ -27,9 +46,9 @@ const BottomNavigationPage = (props) => {
       path.startsWith("/testExecute") ||
       path.startsWith("/testResult") ||
       path.startsWith("/testResultHolland") ||
-      path.startsWith("/majorDetail/:id") ||
-      path.startsWith("/occupationDetail/:id") ||
-      path.startsWith("/universityDetail/:id") ||
+      path.startsWith("/majorDetail") ||
+      path.startsWith("/occupationDetail") ||
+      path.startsWith("/universityDetail") ||
       path.startsWith("/ratingMajor") ||
       path.startsWith("/filterMajorUniversity")
     ) {
@@ -46,27 +65,35 @@ const BottomNavigationPage = (props) => {
   const [activeTab, setActiveTab] = useState(getTabFromPath(pathname));
 
   useEffect(() => {
-    const currentTab = getTabFromPath(pathname);
-    setActiveTab(currentTab);
-    lastPaths.current[currentTab] = pathname; // Save last visited path for each tab
+    setActiveTab(getTabFromPath(pathname));
   }, [pathname]);
 
-  // Handle tab change and navigate to the root path of the selected tab
   const handleTabChange = (key) => {
-    setActiveTab(key);
-
-    // Check if the user is on a child path of the selected tab
-    if (
-      pathname.startsWith(lastPaths.current[key]) &&
-      pathname !== lastPaths.current[key]
-    ) {
-      // Navigate to the root path of the selected tab (e.g., /explore)
-      navigate(lastPaths.current[key]);
-    } else {
-      // Otherwise, navigate to the last visited path of the tab
-      navigate(lastPaths.current[key]);
+    let targetPath = "/";
+    switch (key) {
+      case "explore":
+        targetPath = "/explore";
+        break;
+      case "expert":
+        targetPath = "/expert";
+        break;
+      case "me":
+        targetPath = "/user";
+        break;
+      default:
+        targetPath = "/";
     }
+    navigate(targetPath);
   };
+
+  const noBottomNav = useMemo(
+    () => matchNoBottomNavPages(location.pathname),
+    [location]
+  );
+
+  if (noBottomNav || keyboardVisible) {
+    return null;
+  }
 
   return (
     <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>

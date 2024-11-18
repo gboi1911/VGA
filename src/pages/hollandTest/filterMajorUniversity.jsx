@@ -36,7 +36,7 @@ const FilterMajorUniversity = () => {
   }, [resultData?.message]);
 
   const handleFinish = () => {
-    navigate("/explore");
+    navigate("/hollandTest");
   };
 
   return (
@@ -64,7 +64,7 @@ const FilterMajorUniversity = () => {
       >
         <Text
           style={{
-            fontSize: "1em",
+            fontSize: "1.2em",
             marginBottom: "20px",
             color: "#0066CC",
           }}

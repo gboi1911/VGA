@@ -1,17 +1,33 @@
-import React, { useState, useCallback } from "react";
-import { Page, Text, Box, Modal, Button } from "zmp-ui";
+import React, { useState, useCallback, useEffect } from "react";
+import { Page, Text, Box, Modal, Button, Header } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import { getTestType } from "api/test";
 
 const HollandTest = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [testType, setTestType] = useState("mbti");
+  const [testTypeData, setTestTypeData] = useState({});
   const navigate = useNavigate();
 
   const handleStartTest = useCallback((type) => {
     setTestType(type);
     setIsModalVisible(true);
     console.log("Test Started", type);
+  }, []);
+
+  useEffect(() => {
+    const fetchTestTypeData = async () => {
+      const id = "b3d9e9d7-6e2a-4d5b-9b35-4f28f9b0a0e8";
+      try {
+        const response = await getTestType(id);
+        setTestTypeData(response.data);
+      } catch (error) {
+        console.error("Error in fetching test type data:", error);
+      }
+    };
+
+    fetchTestTypeData();
   }, []);
 
   const handleYes = useCallback(() => {
@@ -29,20 +45,37 @@ const HollandTest = () => {
     console.log("User clicked No");
   }, []);
   return (
-    <Page style={{ display: 'flex', justifyContent: 'center' }} >
-      <Box style={{ width: '70%' }}>
+    <Page style={{ display: "flex", justifyContent: "center" }}>
+      <Header title="Holland" />
+      <Box style={{ width: "70%" }}>
         {/* <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ44FPSOf4JQ1EvVqK43LjHXnd9pOrZJlnmj8qC7_NZnebwkSkQPICqZY-dRdXKbxXLfs4&usqp=CAU"
           alt="image"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
           role="presentation"
         /> */}
-        <LightbulbIcon style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', color: '#FFCC80' }} />
+        <LightbulbIcon
+          style={{
+            width: "100%",
+            height: "200px",
+            objectFit: "cover",
+            borderRadius: "8px",
+            color: "#0066CC",
+          }}
+        />
         <div className="p-4">
-          <Text bold className="" size="xLarge" style={{ textAlign: 'center' }}>
+          <Text
+            bold
+            className=""
+            size="xLarge"
+            style={{ textAlign: "center", fontSize: "26px" }}
+          >
             Bài kiểm tra Holland
           </Text>
-          <Text className="text-gray-600 mt-2 mb-3" style={{ textAlign: 'center' }}>
+          <Text
+            className="text-gray-600 mt-4 mb-4"
+            style={{ textAlign: "center" }}
+          >
             Lý thuyết lựa chọn nghề nghiệp Holland xuất hiện lần đầu tiên vào
             năm 1959. Đây là công trình của Tiến sỹ Tâm lý người Mỹ John L.
             Holland (1919-2008). Theo lý thuyết, được chọn công việc hoặc môi
@@ -74,7 +107,8 @@ const HollandTest = () => {
               textAlign: "center",
             }}
           >
-            Thực hiện bài kiểm tra này sẽ tốn 20 gold. Bạn đã sẵn sàng ?
+            Thực hiện bài kiểm tra này sẽ tốn {testTypeData.point} gold. Bạn đã
+            sẵn sàng ?
           </Text>
           <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
             <Button className="mr-2" type="danger" onClick={handleNo}>

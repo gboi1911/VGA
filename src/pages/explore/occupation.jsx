@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Page, Text, Box } from "zmp-ui";
+import { Page, Text, Box, Header } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getOccupation, getOccupationalGroup } from "api/occupation";
 import { Link } from "react-router-dom";
@@ -35,8 +35,8 @@ const Occupation = () => {
 
   const filteredOccupations = selectedGroupId
     ? occupation.filter(
-      (occupation) => occupation.occupationalGroup.id === selectedGroupId
-    )
+        (occupation) => occupation.occupationalGroup.id === selectedGroupId
+      )
     : occupation;
 
   return (
@@ -142,6 +142,7 @@ const Occupation = () => {
     //   </Box>
     // </Page>
     <Page className="page">
+      <Header title="Danh mục nghề nghiệp" />
       {/* <Box
         style={{
           display: "grid",
@@ -186,13 +187,19 @@ const Occupation = () => {
         ))}
 
       </Box> */}
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        //  gap: "10px",
-      }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          //  gap: "10px",
+        }}
+      >
         {occupationGroup.map((group) => (
-          <Link to={`/occupation/${group.id}`} key={group.id} style={{ textDecoration: "none" }}>
+          <Link
+            to={`/occupation/${group.id}`}
+            key={group.id}
+            style={{ textDecoration: "none" }}
+          >
             <Box
               key={group.id}
               style={{
@@ -203,13 +210,12 @@ const Occupation = () => {
                 backgroundColor: "#fff",
                 borderBottom: "1px solid #e0e0e0",
 
-
                 // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
               }}
             >
               {/* Icon */}
               <img
-                src='https://cdn-icons-png.flaticon.com/128/7388/7388554.png'
+                src="https://cdn-icons-png.flaticon.com/128/7388/7388554.png"
                 alt={group.name}
                 style={{
                   width: "40px",
@@ -220,9 +226,11 @@ const Occupation = () => {
               />
 
               {/* Nội dung */}
-              <Box style={{
-                width: "100%", // Đảm bảo Box chiếm hết chiều rộng
-              }}>
+              <Box
+                style={{
+                  width: "100%", // Đảm bảo Box chiếm hết chiều rộng
+                }}
+              >
                 <Text size="small" bold>
                   {group.name}
                 </Text>
@@ -234,7 +242,6 @@ const Occupation = () => {
           </Link>
         ))}
       </div>
-
     </Page>
   );
 };

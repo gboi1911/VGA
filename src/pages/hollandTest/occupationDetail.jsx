@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text } from "zmp-ui";
+import { Page, Box, Text, Header } from "zmp-ui";
 import { getOccupationById } from "api/occupation";
 import { useParams } from "react-router-dom";
 
@@ -180,6 +180,7 @@ const OccupationDetail = () => {
         overflow: "hidden",
       }}
     >
+      <Header title="Chi tiết nghề nghiệp" />
       <Box
         style={{
           borderRadius: "10px",
@@ -235,11 +236,11 @@ const OccupationDetail = () => {
         >
           Mô tả công việc:
         </Text>
-        <Text style={{ marginBottom: "15px", color: "#666", textAlign: "justify" }}>
+        <Text
+          style={{ marginBottom: "15px", color: "#666", textAlign: "justify" }}
+        >
           {occupation.howToWork}
         </Text>
-
-
 
         {/* Hiển thị các phần khác khi showMore là true */}
         {showMore ? (
@@ -267,7 +268,13 @@ const OccupationDetail = () => {
             >
               Trình độ học vấn:
             </Text>
-            <Text style={{ marginBottom: "15px", color: "#666", textAlign: "justify" }}>
+            <Text
+              style={{
+                marginBottom: "15px",
+                color: "#666",
+                textAlign: "justify",
+              }}
+            >
               {occupation.education}
             </Text>
 
@@ -281,7 +288,13 @@ const OccupationDetail = () => {
             >
               Mức lương:
             </Text>
-            <Text style={{ marginBottom: "15px", color: "#666", textAlign: "justify" }}>
+            <Text
+              style={{
+                marginBottom: "15px",
+                color: "#666",
+                textAlign: "justify",
+              }}
+            >
               {occupation.payScale}
             </Text>
 
@@ -295,7 +308,13 @@ const OccupationDetail = () => {
             >
               Cơ hội thăng tiến:
             </Text>
-            <Text style={{ marginBottom: "15px", color: "#666", textAlign: "justify" }}>
+            <Text
+              style={{
+                marginBottom: "15px",
+                color: "#666",
+                textAlign: "justify",
+              }}
+            >
               {occupation.jobOutlook}
             </Text>
 
@@ -311,7 +330,11 @@ const OccupationDetail = () => {
             </Text>
             <Box
               as="ul"
-              style={{ paddingLeft: "20px", marginBottom: "15px", color: "#666" }}
+              style={{
+                paddingLeft: "20px",
+                marginBottom: "15px",
+                color: "#666",
+              }}
             >
               {occupation.occupationalSkills &&
                 occupation.occupationalSkills.map((skill) => (
@@ -322,7 +345,7 @@ const OccupationDetail = () => {
             </Box>
           </>
         ) : (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <button
               onClick={handleShowMore}
               style={{

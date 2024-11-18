@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Page, Text, Box, Input } from "zmp-ui";
+import { Page, Text, Box, Input, Header } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getHistoryTest } from "api/personal";
 
@@ -20,6 +20,7 @@ const PersonalOccupation = ({ studentId }) => {
   }, [studentId]);
   return (
     <Page>
+      <Header title="Ngành nghề phù hợp" />
       <Text
         style={{
           fontSize: "24px",

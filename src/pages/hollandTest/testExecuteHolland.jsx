@@ -3,7 +3,7 @@ import { Page, Box, Text, Button, Progress, Icon } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test"; // Điều chỉnh API nếu cần
 
-const TestExecuteHolland = ({ studentId, accountId }) => {
+const TestExecuteHolland = ({ studentId }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
@@ -11,8 +11,11 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
   const [testCompleted, setTestCompleted] = useState(false);
   const navigate = useNavigate();
 
+  const id = "c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7";
+  const accountId = "56e12dea-f5f7-4946-824c-043e9bf284e0";
+  console.log("account id:", accountId);
+
   useEffect(() => {
-    const id = "c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7";
     const fetchQuestions = async () => {
       try {
         const response = await getTestData(id, accountId);
@@ -138,7 +141,15 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
   }
   `}
       </style>
-      <Progress completed={progress} maxCompleted={100} />
+      <Box
+        style={{
+          marginTop: "12px",
+          maxWidth: "95%",
+          marginLeft: "10px",
+        }}
+      >
+        <Progress completed={progress} maxCompleted={100} />
+      </Box>
       <Box
         style={{
           padding: "20px",
@@ -149,16 +160,29 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
           height: "180px",
         }}
       >
-        <Text
-          style={{
-            fontWeight: "bold",
-            fontSize: "18px",
-            color: "#2c5282",
-            marginBottom: "12px",
-          }}
-        >
-          Câu hỏi: {currentQuestionIndex + 1} trên {questions.length}
-        </Text>
+        <div style={{ display: "flex", marginBottom: "12px" }}>
+          <Icon
+            icon="zi-chevron-left"
+            style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
+            onClick={handleBack}
+          />
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: "18px",
+              color: "#2c5282",
+              marginLeft: "10px",
+              marginRight: "10px",
+            }}
+          >
+            Câu hỏi: {currentQuestionIndex + 1} trên {questions.length}
+          </Text>
+          <Icon
+            icon="zi-chevron-right"
+            style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
+            onClick={handleNextQuestion}
+          />
+        </div>
         <Text
           style={{
             border: "2px solid #0066cc",
@@ -227,7 +251,7 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
         </Button>
       </div>
 
-      <div
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "center",
@@ -268,7 +292,7 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
         >
           <Icon icon="zi-chevron-right" />
         </Button>
-      </div>
+      </div> */}
 
       {testCompleted && (
         <div
