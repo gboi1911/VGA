@@ -181,53 +181,57 @@ const Major = () => {
           //  gap: "10px",
         }}
       >
-        {majorCategories.map((category) => (
-          <Link
-            to={`/major/${category?.id}`}
-            key={category.id}
-            style={{ textDecoration: "none" }}
-          >
-            <Box
+        {majorCategories
+          .filter((majorCategories) => majorCategories?.status)
+          .map((category) => (
+            <Link
+              to={`/major/${category?.id}`}
               key={category.id}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "10px",
-                backgroundColor: "#fff",
-                borderBottom: "1px solid #e0e0e0",
-
-                // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-              }}
+              style={{ textDecoration: "none" }}
             >
-              {/* Icon */}
-              <img
-                src="https://cdn-icons-png.flaticon.com/128/7388/7388554.png"
-                alt={category.name}
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  objectFit: "cover",
-                  borderRadius: "50%",
-                }}
-              />
-
-              {/* Nội dung */}
               <Box
+                key={category.id}
                 style={{
-                  width: "100%", // Đảm bảo Box chiếm hết chiều rộng
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "10px",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                  borderBottom: "1px solid #e0e0e0",
+
+                  // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                 }}
               >
-                <Text size="small" bold>
-                  {category.name}
-                </Text>
-                {/* <Text size="xxSmall" color="text.secondary">
-                  {category.description}
-                </Text> */}
+                {/* Icon */}
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/7388/7388554.png"
+                  alt={category.name}
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    objectFit: "cover",
+                    borderRadius: "10%",
+                  }}
+                />
+
+                {/* Nội dung */}
+                <Box
+                  style={{
+                    width: "100%", // Đảm bảo Box chiếm hết chiều rộng
+                  }}
+                >
+                  <Text size="small" bold style={{ marginBottom: "5px" }}>
+                    {category.name}
+                  </Text>
+                  <Text size="xxSmall" color="text.secondary">
+                    {/* {category.description} */}
+                    "Cung cấp các dịch vụ lắp đặt, bảo trì và sửa chữa cho hệ
+                    thống, thiết bị hoặc cơ sở vật chất nhằm đảm bảo "
+                  </Text>
+                </Box>
               </Box>
-            </Box>
-          </Link>
-        ))}
+            </Link>
+          ))}
       </div>
     </Page>
   );
