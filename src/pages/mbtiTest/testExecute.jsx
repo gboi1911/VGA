@@ -157,7 +157,13 @@ const TestExecute = ({ studentId, accountId }) => {
         </style>
 
         {/* Progress Bar */}
-        <Box style={{ marginTop: "12px" }}>
+        <Box
+          style={{
+            marginTop: "12px",
+            maxWidth: "95%",
+            marginLeft: "10px",
+          }}
+        >
           <Progress completed={progressPercentage} maxCompleted={100} />
         </Box>
 
@@ -170,16 +176,35 @@ const TestExecute = ({ studentId, accountId }) => {
             height: "340px",
           }}
         >
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: "18px",
-              color: "#2c5282",
-              marginBottom: "12px",
-            }}
-          >
-            Câu hỏi: {currentQuestionIndex + 1} trên {questions.length}
-          </Text>
+          <div style={{ display: "flex", marginBottom: "12px" }}>
+            <Icon
+              icon="zi-chevron-left"
+              style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
+              onClick={() =>
+                setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))
+              }
+            />
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: "18px",
+                color: "#2c5282",
+                marginLeft: "10px",
+                marginRight: "10px",
+              }}
+            >
+              Câu hỏi: {currentQuestionIndex + 1} trên {questions.length}
+            </Text>
+            <Icon
+              icon="zi-chevron-right"
+              style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
+              onClick={() =>
+                setCurrentQuestionIndex((prev) =>
+                  Math.min(prev + 1, questions.length - 1)
+                )
+              }
+            />
+          </div>
           <Text
             style={{
               color: "#4a5568",
@@ -237,7 +262,7 @@ const TestExecute = ({ studentId, accountId }) => {
           </Box>
         </Box>
       </Box>
-      <Box
+      {/* <Box
         style={{
           display: "flex",
           justifyContent: "center",
@@ -283,13 +308,14 @@ const TestExecute = ({ studentId, accountId }) => {
         >
           <Icon icon="zi-chevron-right" />
         </Button>
-      </Box>
+      </Box> */}
       {currentQuestionIndex === questions.length - 1 && (
         <Box
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            marginTop: "10px",
           }}
         >
           <Button

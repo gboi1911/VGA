@@ -246,7 +246,7 @@ const HomePage = () => {
             gap: "10px",                 // Khoảng cách giữa các phần tử
             overflowX: "auto",           // Cho phép cuộn ngang
             width: "100%",               // Chiều rộng container
-            height: "250px",             // Chiều cao cố định
+            height: "270px",             // Chiều cao cố định
             justifyContent: 'center'
           }}
         >
@@ -315,7 +315,7 @@ const HomePage = () => {
             gap: "10px",                 // Khoảng cách giữa các phần tử
             overflowX: "auto",           // Cho phép cuộn ngang
             width: "100%",               // Chiều rộng container
-            height: "250px",             // Chiều cao cố định
+            height: "270px",             // Chiều cao cố định
             justifyContent: 'center'
           }}
         >

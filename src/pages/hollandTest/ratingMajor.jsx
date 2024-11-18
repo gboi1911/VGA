@@ -219,7 +219,14 @@ const RatingMajor = () => {
 
   const handleNext = () => {
     if (currentCardIndex < ratingMajors.length - 1) {
-      setCurrentCardIndex(currentCardIndex + 1);
+      const nextIndex = currentCardIndex + 1;
+
+      // Reset flip state and fetch the description for the next card
+      setIsFlipped(false);
+      fetchMajorDescription(ratingMajors[nextIndex].id);
+
+      // Update the current card index
+      setCurrentCardIndex(nextIndex);
     }
   };
 
@@ -250,8 +257,9 @@ const RatingMajor = () => {
   };
 
   const handleFlip = (majorId) => {
+    // Toggle the flip state and fetch the description for the current card
     fetchMajorDescription(majorId);
-    setIsFlipped(!isFlipped);
+    setIsFlipped((prevState) => !prevState);
   };
 
   const handleFinish = async () => {
@@ -306,7 +314,57 @@ const RatingMajor = () => {
         backgroundColor: "#f9f9f9",
       }}
     >
-      {completedRatings === ratingMajors.length ? (
+      <Box
+        style={{
+          backgroundColor: "#FFFFFF",
+          padding: "10px",
+          borderRadius: "8px",
+        }}
+      >
+        <Text bold style={{ textAlign: "center", fontSize: "20px" }}>
+          Đánh giá ngành học theo mức độ yêu thích ({completedRatings}/
+          {ratingMajors.length})
+        </Text>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Icon
+            icon="zi-chevron-left"
+            onClick={handleBack}
+            disabled={currentCardIndex === 0}
+          />
+          <div style={{ margin: "20px", display: "flex", flexWrap: "wrap" }}>
+            {ratingMajors.map((major, index) => (
+              <div
+                key={major.id}
+                style={{
+                  display: index === currentCardIndex ? "block" : "none",
+                }}
+              >
+                <RatingCard
+                  major={major}
+                  rating={ratings[major.id]}
+                  onRate={handleRate}
+                  onFlip={() => handleFlip(major.id)}
+                  isFlipped={isFlipped}
+                  description={majorDescription}
+                  onShowMore={handleShowMore}
+                />
+              </div>
+            ))}
+          </div>
+          <Icon
+            icon="zi-chevron-right"
+            onClick={handleNext}
+            disabled={currentCardIndex === ratingMajors.length - 1}
+          />
+        </div>
+      </Box>
+      {completedRatings === ratingMajors.length && (
         <Box
           mt={8}
           style={{
@@ -325,6 +383,15 @@ const RatingMajor = () => {
           >
             Thông tin nguyện vọng trường đại học bạn mong muốn
           </Text.Title>
+          <Text
+            style={{
+              color: "GrayText",
+              textAlign: "center",
+              marginTop: "12px",
+            }}
+          >
+            (Bạn có thể bỏ qua phần tùy chọn này nếu không có nhu cầu)
+          </Text>
           <Box mt={4}>
             <Picker
               label="Học phí hằng năm"
@@ -403,62 +470,6 @@ const RatingMajor = () => {
               onChange={(value) => setSelectedAdmissionMethod(value)} // Capture selected year
             />
           </Box>
-        </Box>
-      ) : (
-        // Display rating cards and counter if ratings are incomplete
-        <>
-          <Box
-            style={{
-              backgroundColor: "#FFFFFF",
-              padding: "10px",
-              borderRadius: "8px",
-            }}
-          >
-            <Text bold style={{ textAlign: "center", fontSize: "20px" }}>
-              Đánh giá ngành học theo mức độ yêu thích ({completedRatings}/
-              {ratingMajors.length})
-            </Text>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Icon
-                icon="zi-chevron-left"
-                onClick={handleBack}
-                disabled={currentCardIndex === 0}
-              />
-              <div
-                style={{ margin: "20px", display: "flex", flexWrap: "wrap" }}
-              >
-                {ratingMajors.map((major, index) => (
-                  <div
-                    key={major.id}
-                    style={{
-                      display: index === currentCardIndex ? "block" : "none",
-                    }}
-                  >
-                    <RatingCard
-                      major={major}
-                      rating={ratings[major.id]}
-                      onRate={handleRate}
-                      onFlip={() => handleFlip(major.id)}
-                      isFlipped={isFlipped}
-                      description={majorDescription}
-                      onShowMore={handleShowMore}
-                    />
-                  </div>
-                ))}
-              </div>
-              <Icon
-                icon="zi-chevron-right"
-                onClick={handleNext}
-                disabled={currentCardIndex === ratingMajors.length - 1}
-              />
-            </div>
-          </Box>
           <Modal
             visible={showModal}
             onClose={handleCloseModal}
@@ -466,7 +477,7 @@ const RatingMajor = () => {
           >
             <Text>{majorDescription}</Text>
           </Modal>
-        </>
+        </Box>
       )}
       <Button
         style={{

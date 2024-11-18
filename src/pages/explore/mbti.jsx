@@ -1,17 +1,33 @@
-import React, { useState, useCallback } from "react";
-import { Page, Text, Box, Modal, Button } from "zmp-ui";
+import React, { useState, useCallback, useEffect } from "react";
+import { Page, Text, Box, Modal, Button, Header } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
-import AcUnitIcon from '@mui/icons-material/AcUnit';
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import { getTestType } from "api/test";
 
 const MBTITest = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [testType, setTestType] = useState("mbti");
+  const [testTypeData, setTestTypeData] = useState({});
   const navigate = useNavigate();
 
   const handleStartTest = useCallback((type) => {
     setTestType(type);
     setIsModalVisible(true);
     console.log("Test Started", type);
+  }, []);
+
+  useEffect(() => {
+    const fetchTestTypeData = async () => {
+      const id = "a5b0a3e1-ca71-493d-9e0d-fb8b0f7e8e84";
+      try {
+        const response = await getTestType(id);
+        setTestTypeData(response.data);
+      } catch (error) {
+        console.error("Error in fetching test type data:", error);
+      }
+    };
+
+    fetchTestTypeData();
   }, []);
 
   const handleYes = useCallback(() => {
@@ -29,20 +45,38 @@ const MBTITest = () => {
     console.log("User clicked No");
   }, []);
   return (
-    <Page style={{ display: 'flex', justifyContent: 'center' }} >
-      <Box style={{ width: '70%' }}>
+    <Page style={{ display: "flex", justifyContent: "center" }}>
+      <Header title="MBTI" />
+      <Box style={{ width: "70%" }}>
         {/* <img
-          src="https://freequizgames.com/wp-content/uploads/2022/09/mbti-test-1024x581.jpg"
+          src="https://png.pngtree.com/element_our/20200702/ourmid/pngtree-cartoon-illustration-blue-light-bulb-image_2284830.jpg"
           alt="image"
-          style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: '8px' }}
+          style={{
+            width: "100%",
+            height: "200px",
+            objectFit: "cover",
+            borderRadius: "8px",
+          }}
           role="presentation"
         /> */}
-        <AcUnitIcon style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', color: '#FFCC80' }} />
+        <TipsAndUpdatesIcon
+          style={{
+            width: "100%",
+            height: "200px",
+            objectFit: "cover",
+            borderRadius: "8px",
+            color: "#0066CC",
+            marginLeft: "20px",
+          }}
+        />
         <div className="p-4">
-          <Text bold className="" size="xLarge" style={{ textAlign: 'center' }}>
+          <Text bold style={{ textAlign: "center", fontSize: "26px" }}>
             Bài kiểm tra MBTI
           </Text>
-          <Text className="text-gray-600 mt-2 mb-3" style={{ textAlign: 'center' }}>
+          <Text
+            className="text-gray-600 mt-4 mb-4"
+            style={{ textAlign: "center" }}
+          >
             Bài kiểm tra tính cách Myers-Briggs Type Indicator (MBTI) là một
             công cụ đánh giá tâm lý, dựa trên lý thuyết phân loại của Carl
             Gustav Jung, được phát triển bởi Isabel Briggs Myers và mẹ bà,
@@ -72,7 +106,8 @@ const MBTITest = () => {
               textAlign: "center",
             }}
           >
-            Thực hiện bài kiểm tra này sẽ tốn 20 gold. Bạn đã sẵn sàng ?
+            Thực hiện bài kiểm tra này sẽ tốn {testTypeData.point} gold. Bạn đã
+            sẵn sàng ?
           </Text>
           <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
             <Button className="mr-2" type="danger" onClick={handleNo}>

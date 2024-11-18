@@ -1,10 +1,11 @@
 import React from "react";
-import { Page, Text, Box } from "zmp-ui";
+import { Page, Text, Box, Header } from "zmp-ui";
 import { Link } from "react-router-dom";
 
 const Personal = () => {
   return (
     <Page className="page">
+      <Header title="Mục cá nhân" />
       <Box
         style={{
           backgroundColor: "#FFFFFF",

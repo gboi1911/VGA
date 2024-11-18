@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Confetti from 'react-confetti';
+import Confetti from "react-confetti";
 import { Page, Box, Text, Button, Progress, Icon } from "zmp-ui";
 
 const careerGroupData = {
@@ -456,7 +456,7 @@ const groupMapping = {
 
 const TestResultHolland = () => {
   const location = useLocation();
-  const { resultData } = location.state || {}; 
+  const { resultData } = location.state || {};
   const percentData = resultData?.percent || [];
   const [showConfetti, setShowConfetti] = useState(false);
   const navigate = useNavigate();
@@ -466,8 +466,8 @@ const TestResultHolland = () => {
   useEffect(() => {
     setShowConfetti(true);
     const timer = setTimeout(() => setShowConfetti(false), 12000);
-    
-    return () => clearTimeout(timer); 
+
+    return () => clearTimeout(timer);
   }, []);
 
   const handleBack = () => {
@@ -478,9 +478,9 @@ const TestResultHolland = () => {
 
   const toggleExpand = (index) => {
     if (expandedGroupIndex === index) {
-      setExpandedGroupIndex(null); 
+      setExpandedGroupIndex(null);
     } else {
-      setExpandedGroupIndex(index); 
+      setExpandedGroupIndex(index);
     }
   };
 
@@ -578,7 +578,7 @@ const TestResultHolland = () => {
               </div>
               <Button
                 onClick={() => toggleExpand(index)}
-                style={{ marginTop: 12, marginBottom: 10 }}
+                style={{ marginTop: 20, marginBottom: 10 }}
               >
                 {expandedGroupIndex === index ? (
                   <>
@@ -597,7 +597,7 @@ const TestResultHolland = () => {
                   {/* "Đặc điểm nổi bật" Text */}
                   <Text
                     bold
-                    className="mb-4 mt-6"
+                    className="mb-4 mt-2"
                     style={{ fontSize: "1.5em" }}
                   >
                     Đặc điểm nổi bật:

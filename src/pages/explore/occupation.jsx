@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Page, Text, Box } from "zmp-ui";
+import { Page, Text, Box, Header } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getOccupation, getOccupationalGroup } from "api/occupation";
 import { Link } from "react-router-dom";
@@ -142,6 +142,7 @@ const Occupation = () => {
     //   </Box>
     // </Page>
     <Page className="page">
+      <Header title="Danh mục nghề nghiệp" />
       {/* <Box
         style={{
           display: "grid",
@@ -186,56 +187,65 @@ const Occupation = () => {
         ))}
 
       </Box> */}
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        //  gap: "10px",
-      }}>
-        {occupationGroup.filter((occupationGroup) => occupationGroup?.status).map((group) => (
-          <Link to={`/occupation/${group.id}`} key={group.id} style={{ textDecoration: "none" }}>
-            <Box
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          //  gap: "10px",
+        }}
+      >
+        {occupationGroup
+          .filter((occupationGroup) => occupationGroup?.status)
+          .map((group) => (
+            <Link
+              to={`/occupation/${group.id}`}
               key={group.id}
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                gap: "10px",
-                padding: "10px",
-                backgroundColor: "#fff",
-                borderBottom: "1px solid #e0e0e0",
-
-
-                // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-              }}
+              style={{ textDecoration: "none" }}
             >
-              {/* Icon */}
-              <img
-                src='https://cdn-icons-png.flaticon.com/128/7388/7388554.png'
-                alt={group.name}
+              <Box
+                key={group.id}
                 style={{
-                  width: "40px",
-                  height: "40px",
-                  objectFit: "cover",
-                  borderRadius: "10%",
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "10px",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                  borderBottom: "1px solid #e0e0e0",
+
+                  // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                 }}
-              />
+              >
+                {/* Icon */}
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/7388/7388554.png"
+                  alt={group.name}
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    objectFit: "cover",
+                    borderRadius: "10%",
+                  }}
+                />
 
-              {/* Nội dung */}
-              <Box style={{
-                width: "100%", // Đảm bảo Box chiếm hết chiều rộng
-              }}>
-                <Text size="small" bold style={{ marginBottom: '5px' }}>
-                  {group.name}
-                </Text>
-                <Text size="xxSmall" color="text.secondary">
-                  {/* {category.description} */}
-                  Cung cấp các dịch vụ lắp đặt, bảo trì và sửa chữa cho hệ thống, thiết bị hoặc cơ sở vật chất
-                </Text>
+                {/* Nội dung */}
+                <Box
+                  style={{
+                    width: "100%", // Đảm bảo Box chiếm hết chiều rộng
+                  }}
+                >
+                  <Text size="small" bold style={{ marginBottom: "5px" }}>
+                    {group.name}
+                  </Text>
+                  <Text size="xxSmall" color="text.secondary">
+                    {group?.description.length > 100
+                      ? `${group.description.slice(0, 100)}...`
+                      : group.description}
+                  </Text>
+                </Box>
               </Box>
-            </Box>
-          </Link>
-        ))}
+            </Link>
+          ))}
       </div>
-
     </Page>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Page, Text, Box } from "zmp-ui";
-import EastIcon from '@mui/icons-material/East';
+import { Page, Text, Box, Header } from "zmp-ui";
+import EastIcon from "@mui/icons-material/East";
 import { useParams, useNavigate } from "react-router-dom";
 import { getUniversityById, getRegionById } from "api/university";
 import { getExpert } from "api/expert";
@@ -15,7 +15,7 @@ const UniversityDetail = () => {
 
   // Số lượng tư vấn viên hiển thị ban đầu
   const handleShowMore = () => {
-    setVisibleCount(prevCount => prevCount + 6); // Thêm 6 tư vấn viên mỗi lần bấm
+    setVisibleCount((prevCount) => prevCount + 6); // Thêm 6 tư vấn viên mỗi lần bấm
   };
 
   useEffect(() => {
@@ -68,6 +68,7 @@ const UniversityDetail = () => {
 
   return (
     <Page className="page">
+      <Header title="Thông tin trường" />
       <Box
         style={{
           display: "flex",
@@ -157,7 +158,7 @@ const UniversityDetail = () => {
           Tư vấn viên được đề xuất
         </Text>
 
-        <div >
+        <div>
           <div
             style={{
               display: "flex",
@@ -204,7 +205,13 @@ const UniversityDetail = () => {
                   }}
                 >
                   <Text bold>{consultant.name}</Text>
-                  <Text style={{ fontSize: "14px", color: "#666", textAlign: "center" }}>
+                  <Text
+                    style={{
+                      fontSize: "14px",
+                      color: "#666",
+                      textAlign: "center",
+                    }}
+                  >
                     {consultant.consultantLevel.name}
                   </Text>
                 </Box>

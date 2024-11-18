@@ -227,7 +227,7 @@ const OccupationDetail = () => {
             marginBottom: "10px",
           }}
         >
-          {occupation?.name || "Không có thông tin"}
+          {occupation?.name || "Tên công việc"}
         </Text>
 
         {/* Mô tả công việc - đoạn ngắn */}
@@ -279,7 +279,6 @@ const OccupationDetail = () => {
           )}
         </Text>
 
-        {/* Lặp logic tương tự cho các phần khác */}
         {/* Mô tả công việc chi tiết */}
         <Text
           style={{
@@ -310,7 +309,7 @@ const OccupationDetail = () => {
               </button>
             </Box>
           )}
-          {showMore?.howToWork && occupation?.howToWork && (
+          {showMore?.howToWork && (
             <>
               {occupation?.howToWork}
               <Box style={{ display: "flex", justifyContent: "center" }}>
@@ -332,9 +331,216 @@ const OccupationDetail = () => {
           )}
         </Text>
 
-        {/* Lặp tương tự cho các phần khác */}
+        {/* Môi trường làm việc */}
+        <Text
+          style={{
+            fontSize: "1.2em",
+            fontWeight: "bold",
+            color: "#333",
+            marginBottom: "5px",
+          }}
+        >
+          Môi trường làm việc:
+        </Text>
+        <Text style={{ marginBottom: "15px", color: "#666" }}>
+          {truncateText(occupation?.workEnvironment, 500)}
+          {occupation?.workEnvironment?.length > 500 && !showMore?.workEnvironment && (
+            <Box style={{ display: "flex", justifyContent: "center" }}>
+              <button
+                onClick={() => handleShowMore("workEnvironment")}
+                style={{
+                  marginTop: "5px",
+                  color: "#007bff",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                }}
+              >
+                Xem thêm
+              </button>
+            </Box>
+          )}
+          {showMore?.workEnvironment && (
+            <>
+              {occupation?.workEnvironment}
+              <Box style={{ display: "flex", justifyContent: "center" }}>
+                <button
+                  onClick={() => handleShowLess("workEnvironment")}
+                  style={{
+                    marginTop: "5px",
+                    color: "#007bff",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Thu gọn
+                </button>
+              </Box>
+            </>
+          )}
+        </Text>
+
+        {/* Trình độ học vấn */}
+        <Text
+          style={{
+            fontSize: "1.2em",
+            fontWeight: "bold",
+            color: "#333",
+            marginBottom: "5px",
+          }}
+        >
+          Trình độ học vấn:
+        </Text>
+        <Text style={{ marginBottom: "15px", color: "#666" }}>
+          {truncateText(occupation?.education, 500)}
+          {occupation?.education?.length > 500 && !showMore?.education && (
+            <Box style={{ display: "flex", justifyContent: "center" }}>
+              <button
+                onClick={() => handleShowMore("education")}
+                style={{
+                  marginTop: "5px",
+                  color: "#007bff",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                }}
+              >
+                Xem thêm
+              </button>
+            </Box>
+          )}
+          {showMore?.education && (
+            <>
+              {occupation?.education}
+              <Box style={{ display: "flex", justifyContent: "center" }}>
+                <button
+                  onClick={() => handleShowLess("education")}
+                  style={{
+                    marginTop: "5px",
+                    color: "#007bff",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Thu gọn
+                </button>
+              </Box>
+            </>
+          )}
+        </Text>
+
+        {/* Mức lương */}
+        <Text
+          style={{
+            fontSize: "1.2em",
+            fontWeight: "bold",
+            color: "#333",
+            marginBottom: "5px",
+          }}
+        >
+          Mức lương:
+        </Text>
+        <Text style={{ marginBottom: "15px", color: "#666" }}>
+          {truncateText(occupation?.payScale, 500)}
+          {occupation?.payScale?.length > 500 && !showMore?.payScale && (
+            <Box style={{ display: "flex", justifyContent: "center" }}>
+              <button
+                onClick={() => handleShowMore("payScale")}
+                style={{
+                  marginTop: "5px",
+                  color: "#007bff",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                }}
+              >
+                Xem thêm
+              </button>
+            </Box>
+          )}
+          {showMore?.payScale && (
+            <>
+              {occupation?.payScale}
+              <Box style={{ display: "flex", justifyContent: "center" }}>
+                <button
+                  onClick={() => handleShowLess("payScale")}
+                  style={{
+                    marginTop: "5px",
+                    color: "#007bff",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Thu gọn
+                </button>
+              </Box>
+            </>
+          )}
+        </Text>
+
+        {/* Cơ hội thăng tiến */}
+        <Text
+          style={{
+            fontSize: "1.2em",
+            fontWeight: "bold",
+            color: "#333",
+            marginBottom: "5px",
+          }}
+        >
+          Cơ hội thăng tiến:
+        </Text>
+        <Text style={{ marginBottom: "15px", color: "#666" }}>
+          {truncateText(occupation?.jobOutlook, 500)}
+          {occupation?.jobOutlook?.length > 500 && !showMore?.jobOutlook && (
+            <Box style={{ display: "flex", justifyContent: "center" }}>
+              <button
+                onClick={() => handleShowMore("jobOutlook")}
+                style={{
+                  marginTop: "5px",
+                  color: "#007bff",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                }}
+              >
+                Xem thêm
+              </button>
+            </Box>
+          )}
+          {showMore?.jobOutlook && (
+            <>
+              {occupation?.jobOutlook}
+              <Box style={{ display: "flex", justifyContent: "center" }}>
+                <button
+                  onClick={() => handleShowLess("jobOutlook")}
+                  style={{
+                    marginTop: "5px",
+                    color: "#007bff",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Thu gọn
+                </button>
+              </Box>
+            </>
+          )}
+        </Text>
       </Box>
     </Page>
+
 
 
 

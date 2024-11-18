@@ -1,5 +1,5 @@
 .page {
-  padding-top: 42px;
+  // padding-top: 42px;
   background-color: #f8f8ff;
   // margin-top: 42px;
   // width: 100%;
@@ -22,12 +22,12 @@
 .zaui-list-item {
   cursor: pointer;
 }
-.zaui-tabs-tabbar-item{
+.zaui-tabs-tabbar-item {
   width: 50%;
   text-align: center;
 }
 
-.custom-header {
+.zaui-header {
   background-color: #0066cc;
   color: #ffffff;
   position: fixed; /* Keep header fixed at the top */
@@ -41,8 +41,8 @@
 .zaui-page {
   // margin-bottom: 48px;
   // margin-top: 90px;
-  padding-top: 70px;
-  padding-bottom: 50px;
+  // padding-top: 70px;
+  // padding-bottom: 50px;
 }
 
 .grid {

@@ -48,9 +48,9 @@ import { login } from "api/login";
 
 const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
-  const [userid, setUserId] = useState('bbc8d0f0-dafa-4329-98e9-b3aeb7ee07e9');
-  const [role, setRole] = useState(2);
-  const [accountid, setAccountId] = useState('56e12dea-f5f7-4946-824c-043e9bf284e0');
+  const [userid, setUserId] = useState("eb0c15b1-7775-40bb-9fa4-8f0f2d3a566d");
+  const [role, setRole] = useState(4);
+  const [accountid, setAccountId] = useState("65767ae4-20f8-40a5-8c15-08dcf72eff8e");
   const [userInfo, setUserInfo] = useState(null);
 
   // useEffect(() => {
@@ -108,7 +108,7 @@ const MyApp = () => {
       <App>
         <SnackbarProvider>
           <ZMPRouter>
-            <HeaderBar />
+            {/* <HeaderBar /> */}
             <Routes>
               {role === 2 ? (
                 <>
@@ -142,7 +142,10 @@ const MyApp = () => {
                   <Route path="/major/:id" element={<Majorbycategory />} />
                   <Route path="/majorDetail/:id" element={<MajorDetail />} />
                   <Route path="/occupation" element={<Occupation />} />
-                  <Route path='/occupation/:id' element={<Occupationbygroup />} />
+                  <Route
+                    path="/occupation/:id"
+                    element={<Occupationbygroup />}
+                  />
                   <Route path="/university" element={<University />} />
                   <Route
                     path="/universityDetail/:id"
@@ -183,19 +186,42 @@ const MyApp = () => {
               ) : role === 4 ? (
                 <>
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/consultantScheldule" element={<ConsultantSchedulePage userid={userid} />} />
+
+                  <Route
+                    path="/consultantScheldule"
+                    element={<ConsultantSchedulePage userid={userid} />}
+                  />
                   {/* <Route path="/consultantpage/:id" element={<ConsultantPage consultantId={userid} accountId={accountid} />} /> */}
                   <Route path="/major" element={<Major />} />
                   <Route path="/major/:id" element={<Majorbycategory />} />
                   <Route path="/majorDetail/:id" element={<MajorDetail />} />
                   <Route path="/occupation" element={<Occupation />} />
-                  <Route path='/occupation/:id' element={<Occupationbygroup />} />
-                  <Route path="/consultantpage" element={<ConsultantPage consultantId={userid} accountId={accountid} />} />
+                  <Route
+                    path="/occupation/:id"
+                    element={<Occupationbygroup />}
+                  />
+                  <Route
+                    path="/consultantpage"
+                    element={
+                      <ConsultantPage
+                        consultantId={userid}
+                        accountId={accountid}
+                      />
+                    }
+                  />
                   <Route path="/news" element={<News />} />
                   <Route path="/newsdetail/:id" element={<NewDetail />} />
                 </>
               ) : (
-                <Route path="*" element={<NotFound />} /> // Đường dẫn mặc định nếu role không hợp lệ
+                <Route
+                  path="/consultantpage"
+                  element={
+                    <ConsultantPage
+                      consultantId={userid}
+                      accountId={accountid}
+                    />
+                  }
+                /> // Đường dẫn mặc định nếu role không hợp lệ
               )}
             </Routes>
             {role === 4 ? (

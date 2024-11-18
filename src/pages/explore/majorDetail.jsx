@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import EastIcon from '@mui/icons-material/East';
-import { Page, Text, Box } from "zmp-ui";
+import EastIcon from "@mui/icons-material/East";
+import { Page, Text, Box, Header } from "zmp-ui";
 import { useParams, useNavigate } from "react-router-dom";
 import { getMajorById } from "api/major";
 
@@ -14,7 +14,7 @@ const MajorDetail = () => {
   const navigate = useNavigate();
 
   const handleShowMore = () => {
-    setVisibleCount(prevCount => prevCount + 6); // Thêm 6 tư vấn viên mỗi lần bấm
+    setVisibleCount((prevCount) => prevCount + 6); // Thêm 6 tư vấn viên mỗi lần bấm
   };
   const handleShowMore1 = (field) => {
     setShowMore((prevState) => ({
@@ -56,6 +56,7 @@ const MajorDetail = () => {
 
   return (
     <Page className="page">
+      <Header title="Chi tiết ngành học" />
       <Box
         style={{
           display: "flex",
