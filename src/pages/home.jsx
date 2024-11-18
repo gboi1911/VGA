@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Page, Box, Text, Input, Grid, Swiper } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
-import EastIcon from '@mui/icons-material/East';
+import EastIcon from "@mui/icons-material/East";
 import { Link } from "react-router-dom";
-import { Carousel } from 'antd';
+import { Carousel } from "antd";
 import { getNews } from "api/news";
-import './home.css';
+import "./home.css";
 
 import { getMajorCategory } from "api/major";
-
 
 import { getOccupationalGroup } from "api/occupation";
 
@@ -23,19 +22,20 @@ const HomePage = () => {
     {
       id: "mbtiTest",
       title: "Bài kiểm tra tính cách MBTI",
-      imageUrl: "https://tracuuthansohoc.com/wp-content/uploads/2023/07/bai-trac-nghiem-tinh-cach-mbti.jpg",
+      imageUrl:
+        "https://tracuuthansohoc.com/wp-content/uploads/2023/07/bai-trac-nghiem-tinh-cach-mbti.jpg",
       route: "/mbtiTest",
     },
     {
       id: "hollandTest",
       title: "Bài kiểm tra nghề nghiệp Holland",
-      imageUrl: "https://res.cloudinary.com/team-odeon/images/w_1640,h_1586,c_scale/f_webp/v1667316862/degreechoices/self-directed-search-sds/self-directed-search-sds.png?_i=AA",
+      imageUrl:
+        "https://res.cloudinary.com/team-odeon/images/w_1640,h_1586,c_scale/f_webp/v1667316862/degreechoices/self-directed-search-sds/self-directed-search-sds.png?_i=AA",
       route: "/hollandTest",
     },
-  ]
+  ];
 
   useEffect(() => {
-
     const fetchMajorCategories = async () => {
       try {
         const response = await getMajorCategory();
@@ -51,20 +51,23 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const contentStyle = {
-    height: '250px',
-    color: '#fff',
-    lineHeight: '400px',
-    textAlign: 'center',
-    background: '#364d79',
-    marginTop: '0px'
+    height: "250px",
+    color: "#fff",
+    lineHeight: "400px",
+    textAlign: "center",
+    background: "#364d79",
+    marginTop: "0px",
   };
-
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await getNews();
-        if (response.data && response.data._news && response.data._news.length > 0) {
+        if (
+          response.data &&
+          response.data._news &&
+          response.data._news.length > 0
+        ) {
           setNews(response.data._news); // Store all news items
           setFilteredNews(response.data._news); // Initially, set filtered news to all news
         } else {
@@ -79,8 +82,6 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-
-
     const fetchOccupationGroup = async () => {
       try {
         const response = await getOccupationalGroup();
@@ -220,7 +221,7 @@ const HomePage = () => {
 
       </Box> */}
 
-      <Box style={{ padding: '10px' }}>
+      <Box style={{ padding: "10px" }}>
         <Input.Search
           label="Label"
           placeholder="Tìm kiếm..."
@@ -228,12 +229,24 @@ const HomePage = () => {
           style={{ marginTop: "10px" }}
         />
       </Box>
-      <Box style={{ padding: '10px' }}>
-        <Box style={{ display: 'flex', justifyContent: 'space-between', marginBottom: "10px" }}>
+      <Box style={{ padding: "10px" }}>
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "10px",
+          }}
+        >
           <Text className=" mt-3" bold size="small">
             Danh mục nghề nghiệp
           </Text>
-          <button onClick={() => navigate(`/occupation`)} className=" mt-3" bold size="xSmall" style={{ borderBottom: '1px solid blue' }}>
+          <button
+            onClick={() => navigate(`/occupation`)}
+            className=" mt-3"
+            bold
+            size="xSmall"
+            style={{ borderBottom: "1px solid blue" }}
+          >
             Xem tất cả
           </button>
         </Box>
@@ -250,60 +263,73 @@ const HomePage = () => {
             justifyContent: 'center'
           }}
         >
-          {occupationGroup.filter((group) => group?.status).slice(0, 10).map((group) => (
-            <Link
-              to={`/occupation/${group.id}`}
-              key={group.id}
-              style={{ textDecoration: "none" }}
-            >
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: "60px", // Chiều rộng cố định
-                  gap: "5px", // Khoảng cách giữa ảnh và chữ
-                  overflow: "hidden", // Ngăn chữ vượt quá container
-                  textAlign: "center",
-                }}
+          {occupationGroup
+            .filter((group) => group?.status)
+            .slice(0, 10)
+            .map((group) => (
+              <Link
+                to={`/occupation/${group.id}`}
+                key={group.id}
+                style={{ textDecoration: "none" }}
               >
-                <img
-                  src="https://work247.vn/pictures/images/major-la-gi-6.jpg"
-                  alt={group.name}
+                <Box
                   style={{
-                    width: "100%",
-                    height: "60px", // Chiều cao cố định cho ảnh
-                    objectFit: "cover",
-                    borderRadius: "10%", // Bo tròn ảnh
-                    backgroundColor: "rgba(0, 0, 0, 0.1)", // Màu nền ảnh
-                  }}
-                />
-                <Text
-                  size="xxxSmall M"
-                  bold
-                  style={{
-                    textAlign: "center", // Căn giữa chữ
-                    wordWrap: "break-word", // Tự động xuống dòng
-                    wordBreak: "break-word", // Ngắt từ dài
-                    width: "100%", // Giới hạn chiều rộng
-                    overflow: "hidden", // Giới hạn nội dung bên trong
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    width: "60px", // Chiều rộng cố định
+                    gap: "5px", // Khoảng cách giữa ảnh và chữ
+                    overflow: "hidden", // Ngăn chữ vượt quá container
+                    textAlign: "center",
                   }}
                 >
-                  {group.name}
-                </Text>
-              </Box>
-            </Link>
-          ))}
+                  <img
+                    src={group.image}
+                    alt={group.name}
+                    style={{
+                      width: "100%",
+                      height: "60px", // Chiều cao cố định cho ảnh
+                      objectFit: "cover",
+                      borderRadius: "10%", // Bo tròn ảnh
+                      backgroundColor: "rgba(0, 0, 0, 0.1)", // Màu nền ảnh
+                    }}
+                  />
+                  <Text
+                    size="xxxSmall M"
+                    bold
+                    style={{
+                      textAlign: "center", // Căn giữa chữ
+                      wordWrap: "break-word", // Tự động xuống dòng
+                      wordBreak: "break-word", // Ngắt từ dài
+                      width: "100%", // Giới hạn chiều rộng
+                      overflow: "hidden", // Giới hạn nội dung bên trong
+                    }}
+                  >
+                    {group.name}
+                  </Text>
+                </Box>
+              </Link>
+            ))}
         </div>
-
-
       </Box>
-      <Box style={{ padding: '10px' }}>
-        <Box style={{ display: 'flex', justifyContent: 'space-between', marginBottom: "10px" }}>
+      <Box style={{ padding: "10px" }}>
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "10px",
+          }}
+        >
           <Text className=" mt-3" bold size="small">
             Danh mục ngành học
           </Text>
-          <button onClick={() => navigate(`/major`)} className=" mt-3" bold size="xSmall" style={{ borderBottom: '1px solid blue' }}>
+          <button
+            onClick={() => navigate(`/major`)}
+            className=" mt-3"
+            bold
+            size="xSmall"
+            style={{ borderBottom: "1px solid blue" }}
+          >
             Xem tất cả
           </button>
         </Box>
@@ -319,48 +345,60 @@ const HomePage = () => {
             justifyContent: 'center'
           }}
         >
-          {majorCategories?.filter((majorcategory) => majorcategory?.status).slice(0, 10).map((category) => (
-            <Link to={`/major/${category?.id}`} key={category.id} style={{ textDecoration: "none" }}>
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: "60px", // Chiều rộng phần tử
-                  gap: "5px", // Khoảng cách giữa ảnh và chữ
-                }}
+          {majorCategories
+            ?.filter((majorcategory) => majorcategory?.status)
+            .slice(0, 10)
+            .map((category) => (
+              <Link
+                to={`/major/${category?.id}`}
+                key={category.id}
+                style={{ textDecoration: "none" }}
               >
-                <img
-                  src="https://work247.vn/pictures/images/major-la-gi-6.jpg"
-                  alt={category.name}
+                <Box
                   style={{
-                    width: "100%",
-                    height: "60px", // Chiều cao cố định cho ảnh
-                    objectFit: "cover",
-                    borderRadius: "10%", // Bo tròn ảnh
-                    backgroundColor: "rgba(0, 0, 0, 0.1)", // Màu nền ảnh
-                  }}
-                />
-                <Text
-                  size="xxxSmall M"
-                  bold
-                  style={{
-                    textAlign: "center",
-                    overflow: "hidden",        // Ẩn chữ vượt quá giới hạn
-                    width: "100%",            // Đảm bảo text nằm trong container
-                    wordWrap: "break-word",   // Tự động xuống dòng
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    width: "60px", // Chiều rộng phần tử
+                    gap: "5px", // Khoảng cách giữa ảnh và chữ
                   }}
                 >
-                  {category.name}
-                </Text>
-              </Box>
-            </Link>
-          ))}
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    style={{
+                      width: "100%",
+                      height: "60px", // Chiều cao cố định cho ảnh
+                      objectFit: "cover",
+                      borderRadius: "10%", // Bo tròn ảnh
+                      backgroundColor: "rgba(0, 0, 0, 0.1)", // Màu nền ảnh
+                    }}
+                  />
+                  <Text
+                    size="xxxSmall M"
+                    bold
+                    style={{
+                      textAlign: "center",
+                      overflow: "hidden", // Ẩn chữ vượt quá giới hạn
+                      width: "100%", // Đảm bảo text nằm trong container
+                      wordWrap: "break-word", // Tự động xuống dòng
+                    }}
+                  >
+                    {category.name}
+                  </Text>
+                </Box>
+              </Link>
+            ))}
         </div>
-
       </Box>
-      <Box style={{ padding: '10px' }}>
-        <Box style={{ display: 'flex', justifyContent: 'space-between', marginBottom: "10px" }}>
+      <Box style={{ padding: "10px" }}>
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "10px",
+          }}
+        >
           <Text className=" mt-3" bold size="small">
             Bài kiểm tra tính cách
           </Text>
@@ -376,7 +414,7 @@ const HomePage = () => {
           }}
         >
           {exploreCardData.map((card, key) => (
-            <Link style={{ marginTop: '10px' }} key={key} to={card.route}>
+            <Link style={{ marginTop: "10px" }} key={key} to={card.route}>
               <Box
                 key={card.id}
                 style={{
@@ -413,8 +451,10 @@ const HomePage = () => {
                   }}
                 >
                   <Text bold>
-                    {card.title.charAt(0).toUpperCase() + card.title.slice(1).toLowerCase().slice(0, 40)}
-                    {card.title.length > 40 && "..."} {/* Thêm ba chấm nếu tiêu đề dài hơn 40 ký tự */}
+                    {card.title.charAt(0).toUpperCase() +
+                      card.title.slice(1).toLowerCase().slice(0, 40)}
+                    {card.title.length > 40 && "..."}{" "}
+                    {/* Thêm ba chấm nếu tiêu đề dài hơn 40 ký tự */}
                   </Text>
                 </Box>
               </Box>
@@ -445,12 +485,24 @@ const HomePage = () => {
           </Box> */}
         </div>
       </Box>
-      <Box style={{ padding: '10px' }}>
-        <Box style={{ display: 'flex', justifyContent: 'space-between', marginBottom: "10px" }}>
+      <Box style={{ padding: "10px" }}>
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "10px",
+          }}
+        >
           <Text className=" mt-3" bold size="small">
             Tin tức mới nhất
           </Text>
-          <button onClick={() => navigate(`/news`)} className=" mt-3" bold size="xSmall" style={{ borderBottom: '1px solid blue' }}>
+          <button
+            onClick={() => navigate(`/news`)}
+            className=" mt-3"
+            bold
+            size="xSmall"
+            style={{ borderBottom: "1px solid blue" }}
+          >
             Xem tất cả
           </button>
         </Box>
@@ -462,7 +514,11 @@ const HomePage = () => {
           }}
         >
           {news.slice(0, visibleCount).map((newsItem) => (
-            <Link style={{ marginTop: '10px' }} key={newsItem.id} to={`/newsdetail/${newsItem.id}`}>
+            <Link
+              style={{ marginTop: "10px" }}
+              key={newsItem.id}
+              to={`/newsdetail/${newsItem.id}`}
+            >
               <Box
                 key={newsItem.id}
                 style={{
@@ -499,15 +555,22 @@ const HomePage = () => {
                   }}
                 >
                   <Text bold>
-                    {newsItem.title.charAt(0).toUpperCase() + newsItem.title.slice(1).toLowerCase().slice(0, 40)}
-                    {newsItem.title.length > 40 && "..."} {/* Thêm ba chấm nếu tiêu đề dài hơn 40 ký tự */}
+                    {newsItem.title.charAt(0).toUpperCase() +
+                      newsItem.title.slice(1).toLowerCase().slice(0, 40)}
+                    {newsItem.title.length > 40 && "..."}{" "}
+                    {/* Thêm ba chấm nếu tiêu đề dài hơn 40 ký tự */}
                   </Text>
                 </Box>
               </Box>
             </Link>
           ))}
-          <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <button
               onClick={() => navigate(`/news`)}
               style={{
@@ -557,7 +620,6 @@ const HomePage = () => {
           )} */}
         </div>
       </Box>
-
     </Page>
   );
 };
