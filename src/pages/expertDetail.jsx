@@ -219,7 +219,7 @@ const ExpertDetailPage = ({ studentId }) => {
                 icon={faDollarSign}
                 style={{ marginRight: "5px" }}
               />
-              {`${expert.consultantLevel.priceOnSlot} điểm` ||
+              {`${expert.consultantLevel.priceOnSlot} điểm / slot` ||
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
             </Text>
           </Box>

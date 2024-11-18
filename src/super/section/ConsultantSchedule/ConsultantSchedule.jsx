@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Button, Grid, Modal, Box, Text, Page, Calendar, Icon, Input, Tabs, List, Avatar } from "zmp-ui";
+import {
+  Button,
+  Grid,
+  Modal,
+  Box,
+  Text,
+  Page,
+  Calendar,
+  Icon,
+  Input,
+  Tabs,
+  List,
+  Avatar,
+} from "zmp-ui";
 import axios from "axios";
 import Typography from "@mui/material/Typography";
 import { getTimeSlot } from "api/super";
@@ -176,14 +189,11 @@ export default function ConsultantSchedule({ userid }) {
   );
 
   return (
-    <Page className="custom-page" >
+    <Page className="custom-page">
       <Tabs id="contact-list">
         <Tabs.Tab key="tab1" label="Lịch">
           <List>
-            <Typography
-              variant="h6"
-              sx={{ pb: 2, textAlign: "center" }}
-            >
+            <Typography variant="h6" sx={{ pb: 2, textAlign: "center" }}>
               Tạo lịch tư vấn
             </Typography>
             <Calendar onSelect={handleDateChange} />
@@ -230,8 +240,8 @@ export default function ConsultantSchedule({ userid }) {
                       backgroundColor: completedSlot
                         ? "#4caf50"
                         : selectedTimeSlots.includes(slot)
-                          ? "#e0e0e0"
-                          : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
+                        ? "#e0e0e0"
+                        : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
                       color: "#000000",
                       padding: "10px",
                       textAlign: "center",
@@ -245,14 +255,21 @@ export default function ConsultantSchedule({ userid }) {
                     }}
                     size="medium"
                   >
-                    <Text>{`${slot.startTime.slice(0, 5)} - ${slot.endTime.slice(0, 5)}`}</Text>
+                    <Text>{`${slot.startTime.slice(
+                      0,
+                      5
+                    )} - ${slot.endTime.slice(0, 5)}`}</Text>
                   </Button>
                 );
               })}
             </Grid>
             <Grid
               space="1rem"
-              style={{ marginTop: "25%", justifyContent: "end", display: "flex" }}
+              style={{
+                marginTop: "25%",
+                justifyContent: "end",
+                display: "flex",
+              }}
             >
               <Box>
                 <button
@@ -297,7 +314,10 @@ export default function ConsultantSchedule({ userid }) {
                 description={`Bạn đã chọn lịch vào ngày ${selectedDate} cho các khung giờ ${selectedTimeSlots
                   .map(
                     (slot) =>
-                      `${slot.startTime.slice(0, 5)} - ${slot.endTime.slice(0, 5)}`
+                      `${slot.startTime.slice(0, 5)} - ${slot.endTime.slice(
+                        0,
+                        5
+                      )}`
                   )
                   .join(", ")}`}
               >
@@ -348,6 +368,7 @@ export default function ConsultantSchedule({ userid }) {
             {bookings.map((booking) => (
               <BookingCardConsultant
                 key={booking.id}
+                studentId={booking.studentId}
                 studentName={booking.studentName}
                 startTime={booking.startTime}
                 endTime={booking.endTime}
@@ -362,7 +383,6 @@ export default function ConsultantSchedule({ userid }) {
           Tab 3 content
         </Tabs.Tab> */}
       </Tabs>
-
     </Page>
   );
 }

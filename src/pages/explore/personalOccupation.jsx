@@ -19,7 +19,7 @@ const PersonalOccupation = ({ studentId }) => {
     fetchOccupation();
   }, [studentId]);
   return (
-    <Page>
+    <Page style={{ marginTop: "52px", marginBottom: "40px" }}>
       <Header title="Ngành nghề phù hợp" />
       <Text
         style={{

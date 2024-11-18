@@ -128,7 +128,7 @@ const Major = () => {
     //     ))}
     //   </Box>
     // </Page>
-    <Page className="page">
+    <Page className="page" style={{ marginTop: "36px", marginBottom: "40px" }}>
       <Header title="Danh mục ngành học" />
       {/* <Box
         style={{

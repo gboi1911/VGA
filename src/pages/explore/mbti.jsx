@@ -45,7 +45,14 @@ const MBTITest = () => {
     console.log("User clicked No");
   }, []);
   return (
-    <Page style={{ display: "flex", justifyContent: "center" }}>
+    <Page
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "60px",
+        marginBottom: "40px",
+      }}
+    >
       <Header title="MBTI" />
       <Box style={{ width: "70%" }}>
         {/* <img
@@ -74,7 +81,7 @@ const MBTITest = () => {
             Bài kiểm tra MBTI
           </Text>
           <Text
-            className="text-gray-600 mt-4 mb-4"
+            className="text-gray-600 mt-4 mb-6"
             style={{ textAlign: "center" }}
           >
             Bài kiểm tra tính cách Myers-Briggs Type Indicator (MBTI) là một

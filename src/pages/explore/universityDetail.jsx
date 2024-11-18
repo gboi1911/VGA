@@ -67,7 +67,7 @@ const UniversityDetail = () => {
   }
 
   return (
-    <Page className="page">
+    <Page className="page" style={{ marginTop: "40px" }}>
       <Header title="Thông tin trường" />
       <Box
         style={{

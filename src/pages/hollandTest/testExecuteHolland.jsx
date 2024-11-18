@@ -3,7 +3,7 @@ import { Page, Box, Text, Button, Progress, Icon } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test"; // Điều chỉnh API nếu cần
 
-const TestExecuteHolland = ({ studentId }) => {
+const TestExecuteHolland = ({ studentId, accountId }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
@@ -12,8 +12,6 @@ const TestExecuteHolland = ({ studentId }) => {
   const navigate = useNavigate();
 
   const id = "c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7";
-  const accountId = "56e12dea-f5f7-4946-824c-043e9bf284e0";
-  console.log("account id:", accountId);
 
   useEffect(() => {
     const fetchQuestions = async () => {

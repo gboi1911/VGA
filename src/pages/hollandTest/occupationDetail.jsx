@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text } from "zmp-ui";
+import { Page, Box, Text, Header } from "zmp-ui";
 import { getOccupationById } from "api/occupation";
 import { useParams } from "react-router-dom";
 
@@ -197,6 +197,7 @@ const OccupationDetail = () => {
         overflow: "hidden",
       }}
     >
+      <Header title="Chi tiết nghề nghiệp" />
       <Box
         style={{
           borderRadius: "10px",
@@ -290,7 +291,9 @@ const OccupationDetail = () => {
         >
           Mô tả công việc:
         </Text>
-        <Text style={{ marginBottom: "15px", color: "#666", textAlign: "justify" }}>
+        <Text
+          style={{ marginBottom: "15px", color: "#666", textAlign: "justify" }}
+        >
           {truncateText(occupation?.howToWork, 500)}
           {occupation?.howToWork?.length > 500 && !showMore?.howToWork && (
             <Box style={{ display: "flex", justifyContent: "center" }}>
@@ -344,23 +347,24 @@ const OccupationDetail = () => {
         </Text>
         <Text style={{ marginBottom: "15px", color: "#666" }}>
           {truncateText(occupation?.workEnvironment, 500)}
-          {occupation?.workEnvironment?.length > 500 && !showMore?.workEnvironment && (
-            <Box style={{ display: "flex", justifyContent: "center" }}>
-              <button
-                onClick={() => handleShowMore("workEnvironment")}
-                style={{
-                  marginTop: "5px",
-                  color: "#007bff",
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  textDecoration: "underline",
-                }}
-              >
-                Xem thêm
-              </button>
-            </Box>
-          )}
+          {occupation?.workEnvironment?.length > 500 &&
+            !showMore?.workEnvironment && (
+              <Box style={{ display: "flex", justifyContent: "center" }}>
+                <button
+                  onClick={() => handleShowMore("workEnvironment")}
+                  style={{
+                    marginTop: "5px",
+                    color: "#007bff",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Xem thêm
+                </button>
+              </Box>
+            )}
           {showMore?.workEnvironment && (
             <>
               {occupation?.workEnvironment}
@@ -540,11 +544,6 @@ const OccupationDetail = () => {
         </Text>
       </Box>
     </Page>
-
-
-
-
-
   );
 };
 

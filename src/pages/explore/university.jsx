@@ -89,7 +89,7 @@ const University = () => {
     //     ))}
     //   </Box>
     // </Page>
-    <Page className="page">
+    <Page className="page" style={{ marginTop: "40px" }}>
       <Header title="Đại học" />
       <Box
         style={{

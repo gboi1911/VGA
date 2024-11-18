@@ -23,7 +23,7 @@ export default function Majorbycategory() {
   }, [id]);
 
   return (
-    <Page className="page">
+    <Page className="page" style={{ marginTop: "36px", marginBottom: "40px" }}>
       <Header title="Ngành học" />
       {/* <Box
                 style={{

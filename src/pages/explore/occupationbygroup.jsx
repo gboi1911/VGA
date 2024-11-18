@@ -23,7 +23,7 @@ export default function Occupationbygroup() {
   }, [id]);
 
   return (
-    <Page className="page">
+    <Page className="page" style={{ marginTop: "36px", marginBottom: "40px" }}>
       <Header title="Nghề nghiệp" />
       {/* <Box
                 style={{

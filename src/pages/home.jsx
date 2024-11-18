@@ -106,7 +106,12 @@ const HomePage = () => {
   };
 
   return (
-    <Page className="page bg-gray-100 w-full no-padding-top">
+    <Page
+      className="page bg-gray-100 w-full no-padding-top"
+      style={{
+        marginBottom: "40px",
+      }}
+    >
       {/* <Carousel className="carousel-container" autoplay >
         <div>
           <h3 style={contentStyle}>
@@ -157,35 +162,35 @@ const HomePage = () => {
           <Swiper.Slide>
             <img
               className="slide-img"
-              src="https://stc-zmp.zadn.vn/zmp-zaui/images/0e05d63a7a93a6cdff826.jpg"
+              src="https://dnuni.fpt.edu.vn/wp-content/uploads/2022/02/Untitled-design-12-min-1600x900.png"
               alt="slide-1"
             />
           </Swiper.Slide>
           <Swiper.Slide>
             <img
               className="slide-img"
-              src="https://stc-zmp.zadn.vn/zmp-zaui/images/0f7c061caab576eb2fa45.jpg"
+              src="https://tuyensinh.ueh.edu.vn/wp-content/uploads/2024/06/1920x1080.png"
               alt="slide-2"
             />
           </Swiper.Slide>
           <Swiper.Slide>
             <img
               className="slide-img"
-              src="https://stc-zmp.zadn.vn/zmp-zaui/images/321fb45f18f6c4a89de78.jpg"
+              src="https://vluwebmedia.s3.ap-southeast-1.amazonaws.com/large_xet_hoc_ba_1920x1080_01_5d8328bee8.jpg"
               alt="slide-3"
             />
           </Swiper.Slide>
           <Swiper.Slide>
             <img
               className="slide-img"
-              src="https://stc-zmp.zadn.vn/zmp-zaui/images/4f417921d58809d650997.jpg"
+              src="https://www.hoasen.edu.vn/tuyensinh/wp-content/uploads/sites/7/2024/07/tuyensinh.png"
               alt="slide-4"
             />
           </Swiper.Slide>
           <Swiper.Slide>
             <img
               className="slide-img"
-              src="https://stc-zmp.zadn.vn/zmp-zaui/images/677fad2e0187ddd984969.jpg"
+              src="https://westernsydney.edu.vn/wp-content/uploads/2020/05/wsu-tuyen-sinh-cu-nhan-kinh-doan-western-sydney-bbus-1.png"
               alt="slide-5"
             />
           </Swiper.Slide>
@@ -237,7 +242,7 @@ const HomePage = () => {
             marginBottom: "10px",
           }}
         >
-          <Text className=" mt-3" bold size="small">
+          <Text className=" mt-3" bold size="normal">
             Danh mục nghề nghiệp
           </Text>
           <button
@@ -255,12 +260,12 @@ const HomePage = () => {
           style={{
             display: "grid",
             gridTemplateRows: "1fr 1fr", // Chia thành 2 hàng
-            gridAutoFlow: "column",      // Bố trí theo chiều ngang
-            gap: "10px",                 // Khoảng cách giữa các phần tử
-            overflowX: "auto",           // Cho phép cuộn ngang
-            width: "100%",               // Chiều rộng container
-            height: "270px",             // Chiều cao cố định
-            justifyContent: 'center'
+            gridAutoFlow: "column", // Bố trí theo chiều ngang
+            gap: "10px", // Khoảng cách giữa các phần tử
+            overflowX: "auto", // Cho phép cuộn ngang
+            width: "100%", // Chiều rộng container
+            height: "270px", // Chiều cao cố định
+            justifyContent: "center",
           }}
         >
           {occupationGroup
@@ -320,7 +325,7 @@ const HomePage = () => {
             marginBottom: "10px",
           }}
         >
-          <Text className=" mt-3" bold size="small">
+          <Text className=" mt-3" bold size="normal">
             Danh mục ngành học
           </Text>
           <button
@@ -337,12 +342,12 @@ const HomePage = () => {
           style={{
             display: "grid",
             gridTemplateRows: "1fr 1fr", // Chia thành 2 hàng
-            gridAutoFlow: "column",      // Bố trí theo chiều ngang
-            gap: "10px",                 // Khoảng cách giữa các phần tử
-            overflowX: "auto",           // Cho phép cuộn ngang
-            width: "100%",               // Chiều rộng container
-            height: "270px",             // Chiều cao cố định
-            justifyContent: 'center'
+            gridAutoFlow: "column", // Bố trí theo chiều ngang
+            gap: "10px", // Khoảng cách giữa các phần tử
+            overflowX: "auto", // Cho phép cuộn ngang
+            width: "100%", // Chiều rộng container
+            height: "270px", // Chiều cao cố định
+            justifyContent: "center",
           }}
         >
           {majorCategories
@@ -399,7 +404,7 @@ const HomePage = () => {
             marginBottom: "10px",
           }}
         >
-          <Text className=" mt-3" bold size="small">
+          <Text className=" mt-3" bold size="normal">
             Bài kiểm tra tính cách
           </Text>
           {/* <button onClick={() => navigate(`/news`)} className=" mt-3" bold size="xSmall" style={{ borderBottom: '1px solid blue' }}>
@@ -428,7 +433,7 @@ const HomePage = () => {
                   marginRight: "10px",
                   width: "220px",
                 }}
-              // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
+                // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
               >
                 <img
                   src={card.imageUrl}
@@ -493,7 +498,7 @@ const HomePage = () => {
             marginBottom: "10px",
           }}
         >
-          <Text className=" mt-3" bold size="small">
+          <Text className=" mt-3" bold size="normal">
             Tin tức mới nhất
           </Text>
           <button
@@ -532,7 +537,7 @@ const HomePage = () => {
                   marginRight: "10px",
                   width: "220px",
                 }}
-              // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
+                // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
               >
                 <img
                   src={newsItem?.imageNews?.[0]?.imageUrl}

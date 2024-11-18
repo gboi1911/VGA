@@ -8,7 +8,7 @@ const TestResult = () => {
   const { resultData } = location.state || {};
 
   const handleBack = () => {
-    navigate("/mbtiTest");
+    navigate("/explore");
   };
 
   return (

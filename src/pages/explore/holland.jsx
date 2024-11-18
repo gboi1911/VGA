@@ -45,7 +45,14 @@ const HollandTest = () => {
     console.log("User clicked No");
   }, []);
   return (
-    <Page style={{ display: "flex", justifyContent: "center" }}>
+    <Page
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "60px",
+        marginBottom: "40px",
+      }}
+    >
       <Header title="Holland" />
       <Box style={{ width: "70%" }}>
         {/* <img
@@ -73,7 +80,7 @@ const HollandTest = () => {
             Bài kiểm tra Holland
           </Text>
           <Text
-            className="text-gray-600 mt-4 mb-4"
+            className="text-gray-600 mt-4 mb-6"
             style={{ textAlign: "center" }}
           >
             Lý thuyết lựa chọn nghề nghiệp Holland xuất hiện lần đầu tiên vào

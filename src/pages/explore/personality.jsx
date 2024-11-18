@@ -19,7 +19,7 @@ const Personality = ({ studentId }) => {
     fetchOccupation();
   }, [studentId]);
   return (
-    <Page>
+    <Page style={{ marginTop: "46px", marginBottom: "20px" }}>
       <Header title="Tính cách cá nhân" />
       {personality?.historyTests?.map((test) => (
         <Box

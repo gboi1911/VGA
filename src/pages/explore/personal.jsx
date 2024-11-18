@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Personal = () => {
   return (
-    <Page className="page">
+    <Page className="page" style={{ marginTop: "46px", marginBottom: "40px" }}>
       <Header title="Mục cá nhân" />
       <Box
         style={{

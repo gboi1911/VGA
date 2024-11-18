@@ -51,7 +51,7 @@ const UserPage = ({ studentId, accountId }) => {
   }
 
   return (
-    <Page className="page">
+    <Page className="page" style={{ marginBottom: "48px" }}>
       {/* User Info Section (First Box) */}
       <Box
         style={{

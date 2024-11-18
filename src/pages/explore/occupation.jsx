@@ -35,8 +35,8 @@ const Occupation = () => {
 
   const filteredOccupations = selectedGroupId
     ? occupation.filter(
-      (occupation) => occupation.occupationalGroup.id === selectedGroupId
-    )
+        (occupation) => occupation.occupationalGroup.id === selectedGroupId
+      )
     : occupation;
 
   return (
@@ -141,7 +141,7 @@ const Occupation = () => {
     //     ))}
     //   </Box>
     // </Page>
-    <Page className="page">
+    <Page className="page" style={{ marginTop: "36px", marginBottom: "40px" }}>
       <Header title="Danh mục nghề nghiệp" />
       {/* <Box
         style={{

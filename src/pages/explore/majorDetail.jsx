@@ -55,7 +55,7 @@ const MajorDetail = () => {
   }
 
   return (
-    <Page className="page">
+    <Page className="page" style={{ marginTop: "36px" }}>
       <Header title="Chi tiết ngành học" />
       <Box
         style={{
