@@ -6,11 +6,13 @@
     "textColor": "white",
     "textAlign": "left",
     "statusBarColor": "#1843EF",
-    "leftButton": "back",
-    "statusBar": "hidden",
+    "leftButton": "none",
+    "statusBar": "transparent",
+    "selfControlLoading": false,
     "actionBarHidden": true,
     "hideAndroidBottomNavigationBar": true,
-    "hideIOSSafeAreaBottom": false
+    "hideIOSSafeAreaBottom": true,
+    "actionBarHidden": true
   },
   "debug": false,
   "pages": [],

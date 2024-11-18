@@ -12,6 +12,7 @@ import {
   Tabs,
   List,
   Avatar,
+  Header,
 } from "zmp-ui";
 import axios from "axios";
 import Typography from "@mui/material/Typography";
@@ -189,7 +190,8 @@ export default function ConsultantSchedule({ userid }) {
   );
 
   return (
-    <Page className="custom-page">
+    <Page style={{ marginTop: "80px", marginBottom: "60px" }}>
+      <Header title="Tạo lịch" />
       <Tabs id="contact-list">
         <Tabs.Tab key="tab1" label="Lịch">
           <List>
@@ -266,7 +268,7 @@ export default function ConsultantSchedule({ userid }) {
             <Grid
               space="1rem"
               style={{
-                marginTop: "25%",
+                marginTop: "10%",
                 justifyContent: "end",
                 display: "flex",
               }}

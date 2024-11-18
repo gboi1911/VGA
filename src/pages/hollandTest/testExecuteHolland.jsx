@@ -109,7 +109,11 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
   return (
     <Page
       className="page bg-theme-image3"
-      style={{ position: "relative", fontFamily: "Arial, sans-serif" }}
+      style={{
+        position: "relative",
+        fontFamily: "Arial, sans-serif",
+        marginTop: "40px",
+      }}
     >
       <Box>
         <img
@@ -158,7 +162,14 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
           height: "180px",
         }}
       >
-        <div style={{ display: "flex", marginBottom: "12px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "12px",
+          }}
+        >
           <Icon
             icon="zi-chevron-left"
             style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}

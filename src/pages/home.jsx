@@ -107,7 +107,7 @@ const HomePage = () => {
 
   return (
     <Page
-      className="page bg-gray-100 w-full no-padding-top"
+      className="page bg-gray-100 w-full"
       style={{
         marginBottom: "40px",
       }}

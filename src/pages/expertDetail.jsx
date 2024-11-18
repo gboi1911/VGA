@@ -260,10 +260,10 @@ const ExpertDetailPage = ({ studentId }) => {
 
           <Box style={{ display: "flex" }}>
             <Text className="mt-4 ml-4 text-lg font-semibold text-[#007BFF] tracking-wide ">
-              Chọn Thời Gian:
+              Chọn slot:
             </Text>
             <select
-              className="mt-2 ml-10 p-2 border rounded"
+              className="mt-2 ml-2 border rounded"
               value={time}
               onChange={(e) => setTime(e.target.value)}
             >
@@ -275,8 +275,14 @@ const ExpertDetailPage = ({ studentId }) => {
                   <option
                     key={index}
                     value={`${slot.startTime} - ${slot.endTime}`}
+                    style={{
+                      backgroundColor: slot.status !== 0 ? "#f8d7da" : "white", // Red background for booked slots
+                      color: slot.status !== 0 ? "#721c24" : "black", // Dark red text for booked slots
+                    }}
+                    disabled={slot.status !== 0} // Disable booked slots
                   >
-                    {`${slot.startTime} - ${slot.endTime}`}
+                    {`${slot.startTime} - ${slot.endTime}`}{" "}
+                    {slot.status !== 0 && "(Đã đặt)"}
                   </option>
                 ))
               ) : (

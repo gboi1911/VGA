@@ -152,7 +152,7 @@ const ConsultantPage = ({ consultantId, accountId }) => {
                 }}
               >
                 <Text style={{ fontWeight: "bold", color: "#FFCC00" }}>
-                  - {transaction?.goldAmount}{" "}
+                  + {transaction?.goldAmount}{" "}
                   <FontAwesomeIcon
                     icon={faCoins}
                     size="xl"
@@ -258,7 +258,9 @@ const ConsultantPage = ({ consultantId, accountId }) => {
           style={{ marginRight: "10px" }}
         />
         <Text bold>Tư vấn viên: </Text>
-        <Text style={{ marginLeft: "5px" }}>{userInfo?.consultantLevel?.name}</Text>
+        <Text style={{ marginLeft: "5px" }}>
+          {userInfo?.consultantLevel?.name}
+        </Text>
       </Box>
     </Page>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { Page, Text } from "zmp-ui";
+import { Page, Text, Header } from "zmp-ui";
 import { Link } from "react-router-dom";
 import Grid from "@mui/system/Grid";
 import Typography from "@mui/material/Typography";
@@ -137,7 +137,18 @@ const Explore = () => {
           )
         )}
       </Box> */}
-
+      <Box className="mb-6">
+        <Text
+          bold
+          className="text-center mb-8 mt-8"
+          style={{
+            fontSize: "2.5em",
+            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          Khám phá
+        </Text>
+      </Box>
       <div
         style={{
           display: "flex",
