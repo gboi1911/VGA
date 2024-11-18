@@ -103,7 +103,7 @@ const MajorDetail = () => {
         >
           {truncateText(major?.description, 500)}
           {major?.description?.length > 500 && !showMore.description && (
-            <Box style={{ display: 'flex', justifyContent: 'center' }}>
+            <Box style={{ display: "flex", justifyContent: "center" }}>
               <button
                 onClick={() => handleShowMore1("description")}
                 style={{
@@ -122,7 +122,7 @@ const MajorDetail = () => {
           {showMore.description && major?.description && (
             <>
               {major.description}
-              <Box style={{ display: 'flex', justifyContent: 'center' }}>
+              <Box style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={() => handleShowLess("description")}
                   style={{
@@ -174,7 +174,7 @@ const MajorDetail = () => {
               >
                 <img
                   src={
-                    occupation.imageUrl ||
+                    occupation.image ||
                     "https://img.freepik.com/free-vector/collection-police-illustration_23-2148521822.jpg?t=st=1730737506~exp=1730741106~hmac=435fe33a5949a8cc6d0507ede5684de43c9dc61c0549429698ee374ce71afd29&w=1060"
                   }
                   alt={occupation.name}
@@ -248,7 +248,7 @@ const MajorDetail = () => {
             >
               <img
                 src={
-                  university.imageUrl ||
+                  university.image ||
                   "https://img.freepik.com/free-photo/harvard-university-cambridge-usa_1268-14363.jpg?t=st=1730792592~exp=1730796192~hmac=42fcd53feeadc8ec715f921aebe589e40f358baeba4d390d8c58c98ee8735fcd&w=1060"
                 }
                 alt={university.name}

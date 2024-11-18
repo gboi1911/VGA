@@ -1,8 +1,8 @@
 import React from "react";
-import { Page, Text, } from "zmp-ui";
+import { Page, Text } from "zmp-ui";
 import { Link } from "react-router-dom";
 import Grid from "@mui/system/Grid";
-import Typography from '@mui/material/Typography';
+import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { borderBottom } from "@mui/system";
 
@@ -48,13 +48,15 @@ const exploreCardData = [
   {
     id: "mbtiTest",
     title: "Bài kiểm tra tính cách MBTI",
-    imageUrl: "https://tracuuthansohoc.com/wp-content/uploads/2023/07/bai-trac-nghiem-tinh-cach-mbti.jpg",
+    imageUrl:
+      "https://tracuuthansohoc.com/wp-content/uploads/2023/07/bai-trac-nghiem-tinh-cach-mbti.jpg",
     route: "/mbtiTest",
   },
   {
     id: "hollandTest",
     title: "Bài kiểm tra nghề nghiệp Holland",
-    imageUrl: "https://res.cloudinary.com/team-odeon/images/w_1640,h_1586,c_scale/f_webp/v1667316862/degreechoices/self-directed-search-sds/self-directed-search-sds.png?_i=AA",
+    imageUrl:
+      "https://res.cloudinary.com/team-odeon/images/w_1640,h_1586,c_scale/f_webp/v1667316862/degreechoices/self-directed-search-sds/self-directed-search-sds.png?_i=AA",
     route: "/hollandTest",
   },
   {
@@ -66,19 +68,22 @@ const exploreCardData = [
   {
     id: "occupation",
     title: "Nghề nghiệp",
-    imageUrl: "https://img.freepik.com/premium-vector/group-different-occupations-standing-white-background_218660-287.jpg?w=1380",
+    imageUrl:
+      "https://img.freepik.com/premium-vector/group-different-occupations-standing-white-background_218660-287.jpg?w=1380",
     route: "/occupation",
   },
   {
     id: "university",
     title: "Đại học",
-    imageUrl: "https://img.freepik.com/free-vector/student-campus-flat-composition-with-university-building-background-vector-illustration_1284-81556.jpg",
+    imageUrl:
+      "https://img.freepik.com/free-vector/student-campus-flat-composition-with-university-building-background-vector-illustration_1284-81556.jpg",
     route: "/university",
   },
   {
     id: "personal",
     title: "Cá nhân",
-    imageUrl: "https://cdn.vietnambiz.vn/171464876016439296/2020/5/8/personal-branding-15889101272222135142228.png",
+    imageUrl:
+      "https://cdn.vietnambiz.vn/171464876016439296/2020/5/8/personal-branding-15889101272222135142228.png",
     route: "/personal",
   },
 ];
@@ -133,7 +138,14 @@ const Explore = () => {
         )}
       </Box> */}
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px", margin: '5px' }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "5px",
+          margin: "5px",
+        }}
+      >
         {exploreCardData?.map((card, key) => (
           <Link to={card.route} key={key} style={{ textDecoration: "none" }}>
             <Box
@@ -173,7 +185,6 @@ const Explore = () => {
           </Link>
         ))}
       </div>
-
     </Page>
   );
 };
