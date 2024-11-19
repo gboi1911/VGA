@@ -9,6 +9,7 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState({}); // Quản lý trạng thái đã chọn
   const [testCompleted, setTestCompleted] = useState(false);
+  const [vibrateEffect, setVibrateEffect] = useState(false);
   const navigate = useNavigate();
 
   const id = "c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7";
@@ -51,15 +52,61 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
   };
 
   const handleNextQuestion = () => {
-    setCurrentQuestionIndex((prevIndex) => {
-      const nextIndex = prevIndex + 1;
-      if (nextIndex < questions.length) {
-        return nextIndex;
-      } else {
+    setCurrentQuestionIndex((prev) => {
+      const nextIndex = prev + 1;
+      if (nextIndex >= questions.length) {
         setTestCompleted(true);
-        return prevIndex;
       }
+      return Math.min(nextIndex, questions.length - 1);
     });
+  };
+
+  const progress =
+    questions.length > 0
+      ? ((currentQuestionIndex + 1) / questions.length) * 100
+      : 0;
+
+  const handleNextClick = () => {
+    if (!selectedAnswer[currentQuestion.id]) {
+      setVibrateEffect(true);
+      setTimeout(() => setVibrateEffect(false), 500);
+    } else {
+      setCurrentQuestionIndex((prev) =>
+        Math.min(prev + 1, questions.length - 1)
+      );
+    }
+  };
+
+  const handleFinish = () => {
+    if (!testCompleted) {
+      console.warn("Test is not completed yet!");
+      return;
+    }
+
+    const postResults = async () => {
+      const payload = {
+        studentId,
+        personalTestId: id,
+        listQuestionId: selectedQuestionIds,
+        listAnswerId: [],
+        date: new Date().toISOString(),
+      };
+
+      try {
+        const response = await postMBTIResult(payload);
+        if (response && response.data) {
+          navigate("/testResultHolland", {
+            state: { resultData: response.data },
+          });
+        } else {
+          console.error("Failed to submit test results:", response);
+        }
+      } catch (error) {
+        console.error("Error submitting test results:", error);
+      }
+    };
+
+    postResults();
   };
 
   const handleBack = () => {
@@ -69,37 +116,6 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
       }
       return prevIndex;
     });
-  };
-
-  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-
-  const handleFinish = () => {
-    if (testCompleted) {
-      const postResults = async () => {
-        const payload = {
-          studentId: studentId,
-          personalTestId: "c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7",
-          listQuestionId: selectedQuestionIds,
-          listAnswerId: [], // Thêm câu trả lời nếu có
-          date: new Date().toISOString(),
-        };
-
-        try {
-          const response = await postMBTIResult(payload);
-          if (response && response.data) {
-            navigate("/testResultHolland", {
-              state: { resultData: response.data },
-            });
-          } else {
-            console.error("Failed to submit test results:", response);
-          }
-        } catch (error) {
-          console.error("Error submitting test results:", error);
-        }
-      };
-
-      postResults();
-    }
   };
 
   if (!currentQuestion) {
@@ -141,6 +157,14 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
       transform: scale(0.9); /* Quay về kích thước ban đầu */
     }
   }
+
+  @keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
   `}
       </style>
       <Box
@@ -160,6 +184,8 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
           maxWidth: "600px",
           textAlign: "center",
           height: "180px",
+          border: `2px solid ${vibrateEffect ? "#e53e3e" : "#2b6cb0"}`,
+          animation: vibrateEffect ? "shake 0.5s" : "none",
         }}
       >
         <div
@@ -189,7 +215,7 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
           <Icon
             icon="zi-chevron-right"
             style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
-            onClick={handleNextQuestion}
+            onClick={handleNextClick}
           />
         </div>
         <Text
@@ -208,9 +234,6 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
           }}
         >
           {currentQuestion.content}
-        </Text>
-        <Text size="xxxSmall" style={{ marginTop: "5px", color: "grey" }}>
-          (Những câu hỏi không có đáp án đồng nghĩa với câu trả lời "Sai")
         </Text>
       </Box>
 

@@ -48,9 +48,9 @@ import { login } from "api/login";
 
 const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
-  const [userid, setUserId] = useState("bbc8d0f0-dafa-4329-98e9-b3aeb7ee07e9");
-  const [role, setRole] = useState(2);
-  const [accountid, setAccountId] = useState('56e12dea-f5f7-4946-824c-043e9bf284e0');
+  const [userid, setUserId] = useState();
+  const [role, setRole] = useState();
+  const [accountid, setAccountId] = useState();
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {

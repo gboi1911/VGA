@@ -470,13 +470,6 @@ const RatingMajor = () => {
               onChange={(value) => setSelectedAdmissionMethod(value)} // Capture selected year
             />
           </Box>
-          <Modal
-            visible={showModal}
-            onClose={handleCloseModal}
-            title="Mô tả đầy đủ"
-          >
-            <Text>{majorDescription}</Text>
-          </Modal>
         </Box>
       )}
       <Button
@@ -494,6 +487,13 @@ const RatingMajor = () => {
       >
         Tiếp theo
       </Button>
+      <Modal
+        visible={showModal}
+        onClose={handleCloseModal}
+        title="Mô tả đầy đủ"
+      >
+        <Text>{majorDescription}</Text>
+      </Modal>
     </Page>
   );
 };
