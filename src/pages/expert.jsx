@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text, Input, Tabs } from "zmp-ui";
+import { Page, Box, Text, Input, Tabs, Header, } from "zmp-ui";
 import ExpertCard from "../components/expertCard";
 import { getExpert, getBooking } from "api/expert";
 import BookingCard from "../components/bookingCard";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 const ExpertPage = ({ studentId }) => {
   const [experts, setExperts] = useState([]);
@@ -48,7 +49,8 @@ const ExpertPage = ({ studentId }) => {
   };
 
   return (
-    <Page className="page bg-gray-100 w-full">
+    <Page className="page w-full" style={{ marginTop: "40px" }}>
+      <Header title="Tư vấn" showBackIcon={false} style={{ textAlign: 'center' }} />
       <Box
         style={{
           backgroundColor: "#FFFFFF",
@@ -56,7 +58,7 @@ const ExpertPage = ({ studentId }) => {
           borderRadius: "8px",
         }}
       >
-        <Box className="mb-6">
+        {/* <Box className="mb-6">
           <Text
             bold
             className="text-center mb-8 mt-4"
@@ -67,7 +69,7 @@ const ExpertPage = ({ studentId }) => {
           >
             Tư vấn
           </Text>
-        </Box>
+        </Box> */}
         <Box
           style={{
             backgroundColor: "#FFCC66",

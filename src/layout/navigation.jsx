@@ -69,6 +69,7 @@ const BottomNavigationPage = () => {
   }, [pathname]);
 
   const handleTabChange = (key) => {
+    // Logic điều hướng
     let targetPath = "/";
     switch (key) {
       case "explore":
@@ -84,7 +85,37 @@ const BottomNavigationPage = () => {
         targetPath = "/";
     }
     navigate(targetPath);
+    setActiveTab(key); // Cập nhật tab hiện tại
   };
+
+  const handleTabClick = (key) => {
+    if (activeTab === key) {
+      // Tab hiện tại được nhấn, xử lý refresh
+      console.log("Tab hiện tại được nhấn lại:", key);
+      handleTabChange(key);
+    } else {
+      // Chuyển sang tab khác
+      handleTabChange(key);
+    }
+  };
+
+  const getIcon = (key, isActive) => {
+    switch (key) {
+      case "home":
+        return isActive ? "zi-home" : "zi-home";
+      case "explore":
+        return isActive ? "zi-more-grid-solid" : "zi-more-grid";
+      case "expert":
+        return isActive ? "zi-chat-solid" : "zi-chat";
+      case "me":
+        return isActive ? "zi-user-solid" : "zi-user";
+      default:
+        return "zi-home";
+    }
+  };
+
+
+
 
   const noBottomNav = useMemo(
     () => matchNoBottomNavPages(location.pathname),
@@ -96,32 +127,44 @@ const BottomNavigationPage = () => {
   }
 
   return (
+    // <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>
+    //   <BottomNavigation.Item
+    //     key="home"
+    //     label="Trang chủ"
+    //     icon={<Icon icon="zi-home" />}
+    //     activeIcon={<Icon icon="zi-home" />}
+    //   />
+    //   <BottomNavigation.Item
+    //     label="Khám phá"
+    //     key="explore"
+    //     icon={<Icon icon="zi-more-grid" />}
+    //     activeIcon={<Icon icon="zi-more-grid-solid" />}
+    //   />
+    //   <BottomNavigation.Item
+    //     label="Tư vấn"
+    //     key="expert"
+    //     icon={<Icon icon="zi-chat" />}
+    //     activeIcon={<Icon icon="zi-chat-solid" />}
+    //   />
+    //   <BottomNavigation.Item
+    //     key="me"
+    //     label="Cá nhân"
+    //     icon={<Icon icon="zi-user" />}
+    //     activeIcon={<Icon icon="zi-user-solid" />}
+    //   />
+    // </BottomNavigation>
     <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>
-      <BottomNavigation.Item
-        key="home"
-        label="Trang chủ"
-        icon={<Icon icon="zi-home" />}
-        activeIcon={<Icon icon="zi-home" />}
-      />
-      <BottomNavigation.Item
-        label="Khám phá"
-        key="explore"
-        icon={<Icon icon="zi-more-grid" />}
-        activeIcon={<Icon icon="zi-more-grid-solid" />}
-      />
-      <BottomNavigation.Item
-        label="Tư vấn"
-        key="expert"
-        icon={<Icon icon="zi-chat" />}
-        activeIcon={<Icon icon="zi-chat-solid" />}
-      />
-      <BottomNavigation.Item
-        key="me"
-        label="Cá nhân"
-        icon={<Icon icon="zi-user" />}
-        activeIcon={<Icon icon="zi-user-solid" />}
-      />
+      {["home", "explore", "expert", "me"].map((key) => (
+        <BottomNavigation.Item
+          key={key}
+          label={key === "home" ? "Trang chủ" : key === "explore" ? "Khám phá" : key === "expert" ? "Tư vấn" : "Cá nhân"}
+          icon={<Icon icon={getIcon(key, false)} />}
+          activeIcon={<Icon icon={getIcon(key, true)} />}
+          onClick={() => handleTabClick(key)} // Bắt click kể cả khi không đổi tab
+        />
+      ))}
     </BottomNavigation>
+
   );
 };
 

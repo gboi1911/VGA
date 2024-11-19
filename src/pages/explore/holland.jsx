@@ -49,7 +49,7 @@ const HollandTest = () => {
       style={{
         display: "flex",
         justifyContent: "center",
-        marginTop: "60px",
+        marginTop: "150px",
         marginBottom: "40px",
       }}
     >

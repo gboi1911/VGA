@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, List, Text, Box, Page, Button } from "zmp-ui";
+import { Avatar, List, Text, Box, Page, Button, Header } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import {
@@ -52,7 +52,8 @@ const ConsultantPage = ({ consultantId, accountId }) => {
   }
 
   return (
-    <Page className="page">
+    <Page className="page" style={{ marginTop: '40px' }}>
+      <Header title="Thông tin cá nhân" showBackIcon={false} style={{ textAlign: 'center' }} />
       <Box
         style={{
           display: "flex",
@@ -152,7 +153,7 @@ const ConsultantPage = ({ consultantId, accountId }) => {
                 }}
               >
                 <Text style={{ fontWeight: "bold", color: "#FFCC00" }}>
-                  - {transaction?.goldAmount}{" "}
+                  + {transaction?.goldAmount}{" "}
                   <FontAwesomeIcon
                     icon={faCoins}
                     size="xl"
@@ -258,7 +259,9 @@ const ConsultantPage = ({ consultantId, accountId }) => {
           style={{ marginRight: "10px" }}
         />
         <Text bold>Tư vấn viên: </Text>
-        <Text style={{ marginLeft: "5px" }}>{userInfo?.consultantLevel?.name}</Text>
+        <Text style={{ marginLeft: "5px" }}>
+          {userInfo?.consultantLevel?.name}
+        </Text>
       </Box>
     </Page>
   );

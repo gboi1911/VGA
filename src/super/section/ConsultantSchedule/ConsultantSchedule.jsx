@@ -12,6 +12,7 @@ import {
   Tabs,
   List,
   Avatar,
+  Header,
 } from "zmp-ui";
 import axios from "axios";
 import Typography from "@mui/material/Typography";
@@ -189,8 +190,9 @@ export default function ConsultantSchedule({ userid }) {
   );
 
   return (
-    <Page className="custom-page">
-      <Tabs id="contact-list">
+    <Page className="page" style={{ marginTop: '40px' }}>
+      <Header title="Tạo lịch" showBackIcon={false} style={{ textAlign: 'center' }} />
+      <Tabs id="contact-list" >
         <Tabs.Tab key="tab1" label="Lịch">
           <List>
             <Typography variant="h6" sx={{ pb: 2, textAlign: "center" }}>
@@ -240,8 +242,8 @@ export default function ConsultantSchedule({ userid }) {
                       backgroundColor: completedSlot
                         ? "#4caf50"
                         : selectedTimeSlots.includes(slot)
-                        ? "#e0e0e0"
-                        : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
+                          ? "#e0e0e0"
+                          : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
                       color: "#000000",
                       padding: "10px",
                       textAlign: "center",
@@ -266,7 +268,7 @@ export default function ConsultantSchedule({ userid }) {
             <Grid
               space="1rem"
               style={{
-                marginTop: "25%",
+                marginTop: "10%",
                 justifyContent: "end",
                 display: "flex",
               }}

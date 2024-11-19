@@ -23,7 +23,15 @@ export default function NewDetail() {
   }, [id]);
 
   return (
-    <Page style={{ marginLeft: "10px", marginRight: "10px", width: "97%" }}>
+    <Page
+      style={{
+        marginLeft: "10px",
+        marginRight: "10px",
+        width: "97%",
+        marginTop: "80px",
+        marginBottom: "80px",
+      }}
+    >
       <Header title="Tin tức" />
       <Box>
         <Text size="large" bold>
@@ -53,7 +61,15 @@ export default function NewDetail() {
         }}
       >
         {newsDetail?.imageNews?.map((image, index) => (
-          <Box key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+          <Box
+            key={index}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
             <img
               src={image.imageUrl}
               alt="image"

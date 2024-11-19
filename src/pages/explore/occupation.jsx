@@ -35,8 +35,8 @@ const Occupation = () => {
 
   const filteredOccupations = selectedGroupId
     ? occupation.filter(
-        (occupation) => occupation.occupationalGroup.id === selectedGroupId
-      )
+      (occupation) => occupation.occupationalGroup.id === selectedGroupId
+    )
     : occupation;
 
   return (

@@ -1,10 +1,11 @@
 import React from "react";
-import { Page, Text } from "zmp-ui";
+import { Page, Text, Header } from "zmp-ui";
 import { Link } from "react-router-dom";
 import Grid from "@mui/system/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { borderBottom } from "@mui/system";
+import { borderBottom, height } from "@mui/system";
+
 
 // const exploreCardData = {
 //   mbtiTest: {
@@ -48,6 +49,7 @@ const exploreCardData = [
   {
     id: "mbtiTest",
     title: "Bài kiểm tra tính cách MBTI",
+    description: "Khám phá tính cách qua bài kiểm tra MBTI phổ biến.",
     imageUrl:
       "https://tracuuthansohoc.com/wp-content/uploads/2023/07/bai-trac-nghiem-tinh-cach-mbti.jpg",
     route: "/mbtiTest",
@@ -55,6 +57,7 @@ const exploreCardData = [
   {
     id: "hollandTest",
     title: "Bài kiểm tra nghề nghiệp Holland",
+    description: "Tìm hiểu nghề nghiệp phù hợp với bài kiểm tra Holland.",
     imageUrl:
       "https://res.cloudinary.com/team-odeon/images/w_1640,h_1586,c_scale/f_webp/v1667316862/degreechoices/self-directed-search-sds/self-directed-search-sds.png?_i=AA",
     route: "/hollandTest",
@@ -62,12 +65,14 @@ const exploreCardData = [
   {
     id: "major",
     title: "Ngành học",
+    description: "Tìm hiểu thông tin chi tiết về các ngành học.",
     imageUrl: "https://work247.vn/pictures/images/major-la-gi-6.jpg",
     route: "/major",
   },
   {
     id: "occupation",
     title: "Nghề nghiệp",
+    description: "Khám phá các lĩnh vực nghề nghiệp đa dạng.",
     imageUrl:
       "https://img.freepik.com/premium-vector/group-different-occupations-standing-white-background_218660-287.jpg?w=1380",
     route: "/occupation",
@@ -75,6 +80,7 @@ const exploreCardData = [
   {
     id: "university",
     title: "Đại học",
+    description: "Thông tin về các trường đại học hàng đầu.",
     imageUrl:
       "https://img.freepik.com/free-vector/student-campus-flat-composition-with-university-building-background-vector-illustration_1284-81556.jpg",
     route: "/university",
@@ -82,15 +88,18 @@ const exploreCardData = [
   {
     id: "personal",
     title: "Cá nhân",
+    description: "Quản lý và phát triển thương hiệu cá nhân.",
     imageUrl:
       "https://cdn.vietnambiz.vn/171464876016439296/2020/5/8/personal-branding-15889101272222135142228.png",
     route: "/personal",
   },
 ];
+;
 
 const Explore = () => {
   return (
-    <Page className="page">
+    <Page className="page" style={{ marginTop: "40px" }}>
+      <Header title="Khám phá" showBackIcon={false} style={{ textAlign: 'center' }} />
       {/* <Box
         style={{
           display: "grid",
@@ -137,7 +146,18 @@ const Explore = () => {
           )
         )}
       </Box> */}
-
+      {/* <Box className="mb-6">
+        <Text
+          bold
+          className="text-center mb-8 mt-8"
+          style={{
+            fontSize: "2.5em",
+            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          Khám phá
+        </Text>
+      </Box> */}
       <div
         style={{
           display: "flex",
@@ -152,6 +172,7 @@ const Explore = () => {
               key={card.id}
               style={{
                 display: "flex",
+                height: '80px',
                 alignItems: "center",
                 gap: "10px",
                 padding: "10px",
@@ -165,8 +186,8 @@ const Explore = () => {
                 src={card.imageUrl}
                 alt={card.title}
                 style={{
-                  width: "40px",
-                  height: "40px",
+                  width: "50px",
+                  height: "50px",
                   objectFit: "cover",
                   borderRadius: "50%",
                 }}

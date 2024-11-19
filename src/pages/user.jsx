@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, List, Text, Box, Page, Button } from "zmp-ui";
+import { Avatar, List, Text, Box, Page, Button, Header } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import {
@@ -51,8 +51,9 @@ const UserPage = ({ studentId, accountId }) => {
   }
 
   return (
-    <Page className="page" style={{ marginBottom: "48px" }}>
+    <Page className="page" style={{ marginBottom: "48px", marginTop: '40px' }}>
       {/* User Info Section (First Box) */}
+      <Header title="Thông tin cá nhân" showBackIcon={false} style={{ textAlign: 'center' }} />
       <Box
         style={{
           display: "flex",

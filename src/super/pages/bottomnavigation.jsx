@@ -19,48 +19,60 @@ const CustomBottomNavigation = ({ userid, accountid }) => {
 
   const [activeTab, setActiveTab] = useState(getTabFromPath(pathname));
 
+  const handleTabClick = (key) => {
+    debugger;
+    if (activeTab === key) {
+      // Tab hiện tại được nhấn, xử lý refresh
+      console.log("Tab hiện tại được nhấn lại:", key);
+      handleTabChange(key);
+    } else {
+      // Chuyển sang tab khác
+      handleTabChange(key);
+    }
+  };
+
   useEffect(() => {
     setActiveTab(getTabFromPath(pathname));
   }, [pathname]);
 
   const handleTabChange = (key) => {
-    setActiveTab(key);
+    debugger
+    let targetPath = "/";
 
     switch (key) {
       case "homepage":
-        navigate("/news");
+        targetPath = "/news";
         break;
       case "schedule":
-        navigate("/consultantScheldule");
+        targetPath = "/consultantScheldule";
         break;
       case "me":
-        navigate("/consultantpage");
+        targetPath = "/consultantpage";
         break;
       default:
-        break;
+        targetPath = "/";
     }
+    navigate(targetPath);
+    setActiveTab(key); // Cập nhật tab hiện tại
   };
 
   return (
     <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>
-      <BottomNavigation.Item
-        key="homepage"
-        label="Trang chủ"
-        icon={<Icon icon="zi-home" />}
-        activeIcon={<Icon icon="zi-home" />}
-      />
-      <BottomNavigation.Item
-        label="Tạo lịch"
-        key="schedule"
-        icon={<Icon icon="zi-clock-1-solid" />}
-        activeIcon={<Icon icon="zi-clock-1-solid" />}
-      />
-      <BottomNavigation.Item
-        key="me"
-        label="Cá nhân"
-        icon={<Icon icon="zi-user" />}
-        activeIcon={<Icon icon="zi-user-solid" />}
-      />
+      {["homepage", "schedule", "me"].map((key) => (
+        <BottomNavigation.Item
+          key={key}
+          label={
+            key === "homepage"
+              ? "Trang chủ"
+              : key === "schedule"
+                ? "Tạo lịch"
+                : "Cá nhân"
+          }
+          icon={<Icon icon={key === "homepage" ? "zi-home" : key === "schedule" ? "zi-clock-1-solid" : "zi-user"} />}
+          activeIcon={<Icon icon={key === "homepage" ? "zi-home" : key === "schedule" ? "zi-clock-1-solid" : "zi-user-solid"} />}
+          onClick={() => handleTabClick(key)} // Bắt sự kiện click
+        />
+      ))}
     </BottomNavigation>
   );
 };

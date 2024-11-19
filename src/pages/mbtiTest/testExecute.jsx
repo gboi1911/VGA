@@ -19,6 +19,7 @@ const TestExecute = ({ studentId, accountId }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [vibrateEffect, setVibrateEffect] = useState(false);
   const navigate = useNavigate();
 
   console.log("account id:", accountId);
@@ -69,6 +70,21 @@ const TestExecute = ({ studentId, accountId }) => {
         return prevIndex;
       });
     }, 1000); // Adjust the delay time as needed
+  };
+
+  const handleNextClick = () => {
+    const currentQuestionId = questions[currentQuestionIndex].id;
+
+    if (!answers[currentQuestionId]) {
+      // Trigger vibration and red border effect
+      setVibrateEffect(true);
+      setTimeout(() => setVibrateEffect(false), 500); // Remove the effect after 500ms
+    } else {
+      // Move to the next question if answered
+      setCurrentQuestionIndex((prev) =>
+        Math.min(prev + 1, questions.length - 1)
+      );
+    }
   };
 
   const handleFinish = async () => {
@@ -124,7 +140,10 @@ const TestExecute = ({ studentId, accountId }) => {
     (Object.keys(answers).length / questions.length) * 100;
 
   return (
-    <Page className="page bg-theme-image" style={{ minHeight: "100vh" }}>
+    <Page
+      className="page bg-theme-image"
+      style={{ minHeight: "100vh", marginTop: "40px" }}
+    >
       <Box style={{ padding: "8px" }}>
         <Box>
           <img
@@ -153,6 +172,15 @@ const TestExecute = ({ studentId, accountId }) => {
       transform: scale(0.9); /* Quay về kích thước ban đầu */
     }
   }
+
+  @keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
   `}
         </style>
 
@@ -174,9 +202,18 @@ const TestExecute = ({ studentId, accountId }) => {
             borderRadius: "8px",
             boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             height: "340px",
+            border: `2px solid ${vibrateEffect ? "#e53e3e" : "#2b6cb0"}`,
+            animation: vibrateEffect ? "shake 0.5s" : "none",
           }}
         >
-          <div style={{ display: "flex", marginBottom: "12px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "12px",
+            }}
+          >
             <Icon
               icon="zi-chevron-left"
               style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
@@ -189,8 +226,8 @@ const TestExecute = ({ studentId, accountId }) => {
                 fontWeight: "bold",
                 fontSize: "18px",
                 color: "#2c5282",
-                marginLeft: "10px",
-                marginRight: "10px",
+                textAlign: "center",
+                flex: 1, // Ensure the text takes up the remaining space
               }}
             >
               Câu hỏi: {currentQuestionIndex + 1} trên {questions.length}
@@ -198,11 +235,7 @@ const TestExecute = ({ studentId, accountId }) => {
             <Icon
               icon="zi-chevron-right"
               style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
-              onClick={() =>
-                setCurrentQuestionIndex((prev) =>
-                  Math.min(prev + 1, questions.length - 1)
-                )
-              }
+              onClick={handleNextClick}
             />
           </div>
           <Text

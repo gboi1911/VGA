@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text, Input, Grid, Swiper } from "zmp-ui";
+import { Page, Box, Text, Input, Grid, Swiper, Header } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import EastIcon from "@mui/icons-material/East";
 import { Link } from "react-router-dom";
@@ -107,52 +107,14 @@ const HomePage = () => {
 
   return (
     <Page
-      className="page bg-gray-100 w-full no-padding-top"
+      className="page"
       style={{
+        marginTop: "40px",
         marginBottom: "40px",
       }}
     >
-      {/* <Carousel className="carousel-container" autoplay >
-        <div>
-          <h3 style={contentStyle}>
-            <img
-              src="https://work247.vn/pictures/images/major-la-gi-6.jpg"
-              alt="img"
-              style={{ width: '100%', height: '250px', objectFit: 'cover' }}
-            />
-          </h3>
-
-        </div>
-        <div>
-          <h3 style={contentStyle}>
-            <img
-              src="https://img.freepik.com/premium-vector/group-different-occupations-standing-white-background_218660-287.jpg?w=1380"
-              alt="img"
-              style={{ width: '100%', height: '250px', objectFit: 'cover' }}
-            />
-          </h3>
-        </div>
-        <div>
-          <h3 style={contentStyle}>
-            <img
-              src="https://cdn.vietnambiz.vn/171464876016439296/2020/5/8/personal-branding-15889101272222135142228.png"
-              alt="img"
-              style={{ width: '100%', height: '250px', objectFit: 'cover' }}
-            />
-          </h3>
-        </div>
-        <div>
-          <h3 style={contentStyle}>
-            <img
-              src="https://tracuuthansohoc.com/wp-content/uploads/2023/07/bai-trac-nghiem-tinh-cach-mbti.jpg"
-              alt="img"
-              style={{ width: '100%', height: '250px', objectFit: 'cover' }}
-            />
-          </h3>
-        </div>
-      </Carousel> */}
+      <Header title="Trang chủ" showBackIcon={false} style={{ textAlign: "center" }} />
       <Box
-        mt={6}
         flex
         flexDirection="column"
         justifyContent="center"
@@ -196,35 +158,6 @@ const HomePage = () => {
           </Swiper.Slide>
         </Swiper>
       </Box>
-      {/* <Box style={{ padding: '10px' }}>
-        <Input.Search
-          label="Label"
-          placeholder="Trường đại học bạn muốn tìm ?"
-          onChange={(e) => handleSearch(e.target.value)} // Call handleSearch on input change
-          style={{ marginTop: "10px" }}
-        />
-        <Text className=" mt-3" bold style={{ fontSize: "1.2em", marginBottom: '15px' }}>
-          Tin tức mới nhất
-        </Text>
-        {filteredNews.map((news) => (
-          <Link style={{ marginTop: '10px' }} key={news.id} to={`/newsdetail/${news.id}`}>
-            <Box style={{ height: '150px', borderTop: '1px solid rgba(0, 0, 0, 0.2)', alignItems: 'center', display: 'flex' }}>
-              <Box flex>
-                <Box style={{ marginRight: '2%' }}>
-                  <Text bold size="large">
-                    {news.title}
-                  </Text>
-                  <Text className="text-gray-500">{news.createdAt}</Text>
-                </Box>
-                <img style={{ borderRadius: '10px' }} src={news?.imageNews?.[0]?.imageUrl} alt="image" width={120} />
-              </Box>
-
-            </Box>
-          </Link>
-        ))}
-  
-
-      </Box> */}
 
       <Box style={{ padding: "10px" }}>
         <Input.Search
@@ -326,6 +259,77 @@ const HomePage = () => {
           }}
         >
           <Text className=" mt-3" bold size="normal">
+            Bài kiểm tra tính cách
+          </Text>
+          {/* <button onClick={() => navigate(`/news`)} className=" mt-3" bold size="xSmall" style={{ borderBottom: '1px solid blue' }}>
+            Xem tất cả
+          </button> */}
+        </Box>
+        <div
+          style={{
+            display: "flex",
+            gap: "10px", // Khoảng cách giữa các Box
+            overflowX: "auto", // Cho phép cuộn ngang khi nội dung vượt khỏi m
+          }}
+        >
+          {exploreCardData.map((card, key) => (
+            <Link style={{ marginTop: "10px" }} key={key} to={card.route}>
+              <Box
+                key={card.id}
+                style={{
+                  background: "#f8f9fa",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  marginBottom: "8px",
+                  alignItems: "center",
+                  flex: "0 0 auto",
+                  marginRight: "10px",
+                  width: "220px",
+                }}
+              // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
+              >
+                <img
+                  src={card.imageUrl}
+                  alt={card.title}
+                  style={{
+                    width: "100%",
+                    borderRadius: "8px",
+                    marginBottom: "10px",
+                    objectFit: "cover",
+                    height: "150px", // Điều chỉnh chiều cao hình ảnh
+                  }}
+                />
+                <Box
+                  style={{
+                    padding: "10px",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    height: "50px",
+                  }}
+                >
+                  <Text bold>
+                    {card.title.charAt(0).toUpperCase() +
+                      card.title.slice(1).toLowerCase().slice(0, 40)}
+                    {card.title.length > 40 && "..."}{" "}
+                    {/* Thêm ba chấm nếu tiêu đề dài hơn 40 ký tự */}
+                  </Text>
+                </Box>
+              </Box>
+            </Link>
+          ))}
+        </div>
+      </Box>
+      <Box style={{ padding: "10px" }}>
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "10px",
+          }}
+        >
+          <Text className=" mt-3" bold size="normal">
             Danh mục ngành học
           </Text>
           <button
@@ -396,100 +400,7 @@ const HomePage = () => {
             ))}
         </div>
       </Box>
-      <Box style={{ padding: "10px" }}>
-        <Box
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "10px",
-          }}
-        >
-          <Text className=" mt-3" bold size="normal">
-            Bài kiểm tra tính cách
-          </Text>
-          {/* <button onClick={() => navigate(`/news`)} className=" mt-3" bold size="xSmall" style={{ borderBottom: '1px solid blue' }}>
-            Xem tất cả
-          </button> */}
-        </Box>
-        <div
-          style={{
-            display: "flex",
-            gap: "10px", // Khoảng cách giữa các Box
-            overflowX: "auto", // Cho phép cuộn ngang khi nội dung vượt khỏi m
-          }}
-        >
-          {exploreCardData.map((card, key) => (
-            <Link style={{ marginTop: "10px" }} key={key} to={card.route}>
-              <Box
-                key={card.id}
-                style={{
-                  background: "#f8f9fa",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                  marginBottom: "8px",
-                  alignItems: "center",
-                  flex: "0 0 auto",
-                  marginRight: "10px",
-                  width: "220px",
-                }}
-                // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
-              >
-                <img
-                  src={card.imageUrl}
-                  alt={card.title}
-                  style={{
-                    width: "100%",
-                    borderRadius: "8px",
-                    marginBottom: "10px",
-                    objectFit: "cover",
-                    height: "150px", // Điều chỉnh chiều cao hình ảnh
-                  }}
-                />
-                <Box
-                  style={{
-                    padding: "10px",
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    height: "50px",
-                  }}
-                >
-                  <Text bold>
-                    {card.title.charAt(0).toUpperCase() +
-                      card.title.slice(1).toLowerCase().slice(0, 40)}
-                    {card.title.length > 40 && "..."}{" "}
-                    {/* Thêm ba chấm nếu tiêu đề dài hơn 40 ký tự */}
-                  </Text>
-                </Box>
-              </Box>
-            </Link>
-          ))}
-          {/* <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
-            <button
-              onClick={() => navigate(`/news`)}
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                border: "none",
-                borderRadius: "50%",
-                padding: "10px",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
-                width: "40px",
-                height: "40px",
-                margin: "20px auto",
-                transition: "background-color 0.3s ease", // Thêm hiệu ứng cho nút
-              }}
-            >
-              <EastIcon style={{ fontSize: "20px", color: "#007bff" }} />
-            </button>
-          </Box> */}
-        </div>
-      </Box>
       <Box style={{ padding: "10px" }}>
         <Box
           style={{
@@ -537,7 +448,7 @@ const HomePage = () => {
                   marginRight: "10px",
                   width: "220px",
                 }}
-                // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
+              // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
               >
                 <img
                   src={newsItem?.imageNews?.[0]?.imageUrl}

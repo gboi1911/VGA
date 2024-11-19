@@ -27,9 +27,7 @@ export default function News() {
     }, []);
 
     return (
-
-
-        <Page className=" p-4 bg-gray-100 w-full no-padding-top " style={{ paddingTop: '0px !important' }}>
+        <Page className=" p-4 w-full no-padding-top " style={{ paddingTop: '0px !important' }}>
             <Text className=" mt-3" bold style={{ fontSize: "1.2em", marginBottom: '15px' }}>
                 Tin tức mới nhất
             </Text>
