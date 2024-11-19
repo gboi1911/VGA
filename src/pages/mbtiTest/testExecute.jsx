@@ -69,7 +69,7 @@ const TestExecute = ({ studentId, accountId }) => {
         }
         return prevIndex;
       });
-    }, 1000); // Adjust the delay time as needed
+    }, 200); // Adjust the delay time as needed
   };
 
   const handleNextClick = () => {
