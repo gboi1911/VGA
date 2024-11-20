@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Page, Text, List, Box, Header } from "zmp-ui";
 import { Link, Route, useParams } from "react-router-dom";
-import axios from "axios";
+import { getNewsDetail } from "api/news";
 
 export default function NewDetail() {
   const [newsDetail, setNewsDetail] = useState(null);
@@ -11,9 +11,7 @@ export default function NewDetail() {
   useEffect(() => {
     const fetchNewsDetail = async () => {
       try {
-        const response = await axios.get(
-          `https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/news/${id}`
-        );
+        const response = await getNewsDetail(id);
         setNewsDetail(response.data);
       } catch (error) {
         console.log("Error fetching news detail:", error);

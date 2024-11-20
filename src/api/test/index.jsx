@@ -23,7 +23,11 @@ export const getTestData = async (id, accountId) => {
 
 export const postMBTIResult = async (payload) => {
   try {
-    const response = await axios.post(`${url}/personal-test-result`, payload);
+    const response = await axios.post(`${url}/personal-test-result`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error posting answers:", error);
@@ -44,7 +48,11 @@ export const postMBTIResult = async (payload) => {
 
 export const getRatingMajor = async (id) => {
   try {
-    const response = await axios.get(`${url}/majors-by-personality/${id}`);
+    const response = await axios.get(`${url}/majors-by-personality/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log("Error in get data rating major:", error);
@@ -54,7 +62,11 @@ export const getRatingMajor = async (id) => {
 
 export const getRegion = async () => {
   try {
-    const response = await axios.get(`${url}/regions`);
+    const response = await axios.get(`${url}/regions`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log("Error in get regions: ", error);
@@ -66,7 +78,12 @@ export const postMajor = async (payload) => {
   try {
     const response = await axios.post(
       `${url}/filter-major-university`,
-      payload
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response;
   } catch (error) {
@@ -77,7 +94,11 @@ export const postMajor = async (payload) => {
 
 export const getAdmissionMethod = async () => {
   try {
-    const response = await axios.get(`${url}/admission-methods`);
+    const response = await axios.get(`${url}/admission-methods`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log("Error in get admission methods: ", error);
@@ -87,7 +108,11 @@ export const getAdmissionMethod = async () => {
 
 export const getTestType = async (id) => {
   try {
-    const response = await axios.get(`${url}/test-type/${id}`);
+    const response = await axios.get(`${url}/test-type/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response;
   } catch (error) {
     console.error("Error in get test types: ", error);

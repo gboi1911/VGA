@@ -1,16 +1,14 @@
 import axios from "axios";
 
 const url = import.meta.env.VITE_APP_BASE_API;
+const token = localStorage.getItem("token");
 const MAX_RETRIES = 3;
 
 export const getExpert = async (retries = 0) => {
   try {
     const { data } = await axios.get(`${url}/consultants`, {
       headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // Allow requests from any origin
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS", // Allowed HTTP methods
-        "Access-Control-Allow-Headers": "Content-Type, Authorization", // Allowed headers
+        Authorization: `Bearer ${token}`,
       },
     });
     return data;
@@ -31,6 +29,9 @@ export const getDay = async (id) => {
   try {
     const response = await axios.get(`${url}/consultation-days`, {
       params: { "consultant-id": id },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response.data;
   } catch (error) {
@@ -46,6 +47,9 @@ export const postBook = async (studId, timeId) => {
         consultationTimeId: timeId,
         studentId: studId,
       },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response;
   } catch (error) {
@@ -60,6 +64,9 @@ export const getBooking = async (stuId) => {
       params: {
         "student-id": stuId,
       },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response;
   } catch (error) {
@@ -73,6 +80,9 @@ export const getBookingConsul = async (userId) => {
       params: {
         "consultant-id": userId,
       },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response;
   } catch (error) {
@@ -83,7 +93,11 @@ export const getBookingConsul = async (userId) => {
 
 export const getExpertById = async (id) => {
   try {
-    const response = await axios.get(`${url}/consultant/${id}`);
+    const response = await axios.get(`${url}/consultant/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log("Error in get major by id:", error);
@@ -93,7 +107,11 @@ export const getExpertById = async (id) => {
 
 export const getTimebyId = async (id) => {
   try {
-    const response = await axios.get(`${url}/consultation-time/${id}`);
+    const response = await axios.get(`${url}/consultation-time/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log("Error in get time by id:", error);
@@ -107,6 +125,9 @@ export const getBookingConsultant = async (constId, day) => {
       params: {
         "consultant-id": constId,
         "day-in-week": day,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
     });
     return response;

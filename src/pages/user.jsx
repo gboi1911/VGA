@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, List, Text, Box, Page, Button, Header } from "zmp-ui";
+import { Avatar, List, Text, Box, Page, Button, Header, Spinner } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import {
@@ -14,20 +14,17 @@ const UserPage = ({ studentId, accountId }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [schoolName, setSchoolName] = useState(null);
   const [transactions, setTransactions] = useState([]);
+  const [loadingTransactions, setLoadingTransactions] = useState(true); // Add loading state
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const data = await getStudentInfo(studentId);
         setUserInfo(data);
-        console.log("Student info: ", data);
 
-        // Call fetchSchoolName after userInfo is set
         const highSchoolId = data.data.highSchoolId;
-        console.log("Highschool ID:", highSchoolId);
         const schoolName = await getSchoolName(highSchoolId);
         setSchoolName(schoolName);
-        console.log("School info: ", schoolName);
       } catch (error) {
         console.error("Error fetching user info:", error);
       }
@@ -35,10 +32,13 @@ const UserPage = ({ studentId, accountId }) => {
 
     const fetchTransactions = async () => {
       try {
+        setLoadingTransactions(true); // Start loading
         const response = await getTransaction(accountId);
         setTransactions(response.data.transactions);
       } catch (error) {
         console.error("Error in fetching transaction:", error);
+      } finally {
+        setLoadingTransactions(false); // End loading
       }
     };
 
@@ -47,13 +47,16 @@ const UserPage = ({ studentId, accountId }) => {
   }, []);
 
   if (!userInfo) {
-    return <div>Loading...</div>;
+    return <div>Loading user info...</div>;
   }
 
   return (
-    <Page className="page" style={{ marginBottom: "48px", marginTop: '40px' }}>
-      {/* User Info Section (First Box) */}
-      <Header title="Thông tin cá nhân" showBackIcon={false} style={{ textAlign: 'center' }} />
+    <Page className="page" style={{ marginBottom: "48px", marginTop: "40px" }}>
+      <Header
+        title="Thông tin cá nhân"
+        showBackIcon={false}
+        style={{ textAlign: "center" }}
+      />
       <Box
         style={{
           display: "flex",
@@ -61,8 +64,8 @@ const UserPage = ({ studentId, accountId }) => {
           gap: "20px",
           padding: "20px",
           borderRadius: "5px",
-          backgroundColor: "white", // White background
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          backgroundColor: "white",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
         }}
       >
         <Avatar
@@ -75,7 +78,6 @@ const UserPage = ({ studentId, accountId }) => {
         </Text>
       </Box>
 
-      {/* Gold Info Section (Second Box) */}
       <Box
         style={{
           display: "flex",
@@ -85,9 +87,9 @@ const UserPage = ({ studentId, accountId }) => {
             "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-3bjkd32XySUSA_7HFCvui8pjysieOdWfUA&s)",
           gap: "80px",
           borderRadius: "5px",
-          backgroundColor: "white", // White background
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
-          borderBottom: "1px solid #ddd", // Divider line
+          backgroundColor: "white",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          borderBottom: "1px solid #ddd",
           marginTop: "5px",
         }}
       >
@@ -118,14 +120,13 @@ const UserPage = ({ studentId, accountId }) => {
           Mua
         </Button>
       </Box>
+
       <Box
         style={{
           padding: "10px",
           borderRadius: "5px",
           backgroundColor: "white",
           marginTop: "5px",
-          // Limit height to 300px
-          // Enable vertical scrolling
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
         }}
       >
@@ -133,116 +134,62 @@ const UserPage = ({ studentId, accountId }) => {
           Lịch sử giao dịch
         </Text>
         <div style={{ overflowY: "auto", maxHeight: "300px" }}>
-          {transactions.map((transaction) => (
-            <Box
-              key={transaction.id}
-              style={{
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "10px",
-                borderBottom: "1px solid #ddd",
-                marginTop: "5px",
-                backgroundColor: "#F9F9F9",
-                borderRadius: "5px",
-              }}
-            >
+          {loadingTransactions ? ( // Show loading spinner or message
+            <div style={{ textAlign: "center", padding: "20px" }}>
+              <Spinner size="large" color="primary" />
+              <Text size="medium" style={{ marginTop: "10px" }}>
+                Đang tải giao dịch...
+              </Text>
+            </div>
+          ) : (
+            transactions.map((transaction) => (
               <Box
+                key={transaction.id}
                 style={{
-                  display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  padding: "10px",
+                  borderBottom: "1px solid #ddd",
+                  marginTop: "5px",
+                  backgroundColor: "#F9F9F9",
+                  borderRadius: "5px",
                 }}
               >
-                <Text style={{ fontWeight: "bold", color: "#FFCC00" }}>
-                  - {transaction.goldAmount}{" "}
-                  <FontAwesomeIcon
-                    icon={faCoins}
-                    size="xl"
-                    style={{
-                      marginRight: "10px",
-                      color: "#FFD700",
-                      marginLeft: "5px",
-                    }}
-                  />
-                </Text>
-                <Text
-                  size="small"
-                  style={{ color: "#888", textAlign: "right" }}
+                <Box
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
-                  {moment(transaction.transactionDateTime).format(
-                    "DD/MM/YYYY HH:mm"
-                  )}
+                  <Text style={{ fontWeight: "bold", color: "#FFCC00" }}>
+                    - {transaction.goldAmount}{" "}
+                    <FontAwesomeIcon
+                      icon={faCoins}
+                      size="xl"
+                      style={{
+                        marginRight: "10px",
+                        color: "#FFD700",
+                        marginLeft: "5px",
+                      }}
+                    />
+                  </Text>
+                  <Text
+                    size="small"
+                    style={{ color: "#888", textAlign: "right" }}
+                  >
+                    {moment(transaction.transactionDateTime).format(
+                      "DD/MM/YYYY HH:mm"
+                    )}
+                  </Text>
+                </Box>
+                <Text size="large" style={{ color: "#555", marginTop: "8px" }}>
+                  {transaction.description}
                 </Text>
               </Box>
-              <Text size="large" style={{ color: "#555", marginTop: "8px" }}>
-                {transaction.description}
-              </Text>
-            </Box>
-          ))}
+            ))
+          )}
         </div>
-      </Box>
-
-      {/* User Details Section (Following Boxes) */}
-      <Box
-        style={{
-          display: "flex",
-          alignItems: "center",
-          padding: "10px",
-          borderRadius: "5px",
-          backgroundColor: "white", // White background
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
-          borderBottom: "1px solid #ddd", // Divider line
-          marginTop: "5px",
-        }}
-      >
-        <FontAwesomeIcon
-          icon={faTransgender}
-          size="lg"
-          style={{ marginRight: "10px" }}
-        />
-        <Text bold>Giới tính: </Text>
-        <Text style={{ marginLeft: "5px" }}>
-          {userInfo.data.gender ? "Nam" : "Nữ"}
-        </Text>
-      </Box>
-      <Box
-        style={{
-          display: "flex",
-          alignItems: "center",
-          padding: "10px",
-          borderRadius: "5px",
-          backgroundColor: "white", // White background
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
-          borderBottom: "1px solid #ddd", // Divider line
-          marginTop: "5px",
-        }}
-      >
-        <FontAwesomeIcon
-          icon={faSchool}
-          size="lg"
-          style={{ marginRight: "10px" }}
-        />
-        {schoolName && <Text size="large">{schoolName.data.account.name}</Text>}
-        {!schoolName && <Text>Đang lấy thông tin trường...</Text>}
-      </Box>
-      <Box
-        style={{
-          display: "flex",
-          alignItems: "center",
-          padding: "10px",
-          borderRadius: "5px",
-          backgroundColor: "white", // White background
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
-          marginTop: "5px",
-        }}
-      >
-        <FontAwesomeIcon
-          icon={faGraduationCap}
-          size="lg"
-          style={{ marginRight: "10px" }}
-        />
-        <Text bold>Năm tốt nghiệp: </Text>
-        <Text style={{ marginLeft: "5px" }}>{userInfo.data.schoolYears}</Text>
       </Box>
     </Page>
   );

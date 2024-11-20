@@ -113,7 +113,11 @@ const HomePage = () => {
         marginBottom: "40px",
       }}
     >
-      <Header title="Trang chủ" showBackIcon={false} style={{ textAlign: "center" }} />
+      <Header
+        title="Trang chủ"
+        showBackIcon={false}
+        style={{ textAlign: "center" }}
+      />
       <Box
         flex
         flexDirection="column"
@@ -287,7 +291,7 @@ const HomePage = () => {
                   marginRight: "10px",
                   width: "220px",
                 }}
-              // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
+                // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
               >
                 <img
                   src={card.imageUrl}
@@ -448,7 +452,7 @@ const HomePage = () => {
                   marginRight: "10px",
                   width: "220px",
                 }}
-              // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
+                // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
               >
                 <img
                   src={newsItem?.imageNews?.[0]?.imageUrl}

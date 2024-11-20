@@ -46,82 +46,141 @@ const FilterMajorUniversity = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
+        backgroundColor: "#f4f4f8",
         minHeight: "100vh",
-        backgroundColor: "#f9f9f9",
+        padding: "20px",
       }}
     >
+      {/* Title Section */}
       <Box
         style={{
-          padding: "20px",
-          backgroundColor: "#fff",
-          borderRadius: "8px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          maxWidth: "600px",
-          width: "100%",
           textAlign: "center",
+          marginBottom: "10px",
+          width: "100%",
+          padding: "20px 0",
         }}
       >
         <Text
           style={{
-            fontSize: "1.2em",
-            marginBottom: "20px",
-            color: "#0066CC",
+            fontSize: "2rem",
+            fontWeight: "bold",
+            color: "#3B3B98",
+            letterSpacing: "0.5px",
           }}
         >
-          {displayedMessage}
+          Ngành nghề phù hợp
         </Text>
-        <Box
+        <Text
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "100%",
+            fontSize: "1.1rem",
+            color: "#7D8799",
+            marginTop: "20px",
           }}
         >
-          {resultData?.data?.map((major, majorIndex) => (
-            <div
-              key={majorIndex}
+          {resultData.message}
+        </Text>
+      </Box>
+
+      {/* Cards Section */}
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          width: "100%",
+          maxWidth: "700px",
+        }}
+      >
+        {resultData?.data?.map((major, majorIndex) => (
+          <Box
+            key={majorIndex}
+            style={{
+              background: "white",
+              borderRadius: "15px",
+              boxShadow: "0 8px 20px rgba(0, 0, 0, 0.1)",
+              overflow: "hidden",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {/* Card Header */}
+            <Box
               style={{
-                marginBottom: "20px",
-                textAlign: "center",
-                width: "100%",
+                background: "linear-gradient(135deg, #667eea, #764ba2)",
+                padding: "20px 25px",
+                borderRadius: "12px",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                boxShadow: "0 8px 15px rgba(0, 0, 0, 0.15)", // Adds depth
+                position: "relative", // For adding accents
               }}
             >
+              {/* Decorative Accent */}
+              <Box
+                style={{
+                  position: "absolute",
+                  top: "-10px",
+                  left: "-10px",
+                  width: "30px",
+                  height: "30px",
+                  background: "rgba(255, 255, 255, 0.2)",
+                  borderRadius: "50%",
+                  boxShadow: "0 4px 10px rgba(255, 255, 255, 0.3)",
+                  zIndex: 0,
+                }}
+              />
+
+              {/* Main Text */}
               <Text
-                style={{ fontWeight: "bold", margin: "20px 0", color: "#333" }}
+                style={{
+                  color: "white",
+                  fontSize: "1.5rem", // Increased for clarity
+                  fontWeight: "600",
+                  textShadow: "1px 1px 5px rgba(0, 0, 0, 0.3)", // Enhances readability
+                  zIndex: 1,
+                  lineHeight: "1.5rem",
+                  textAlign: "center",
+                }}
               >
                 {major.majorName}
               </Text>
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                {major._occupations?.map((occupation, occupationIndex) => (
-                  <OccupationCard
-                    key={occupationIndex}
-                    occupation={occupation}
-                  />
-                ))}
-              </Box>
-            </div>
-          ))}
-        </Box>
+            </Box>
+
+            {/* Card Body */}
+            <Box
+              style={{
+                padding: "20px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "20px", // Better spacing between items
+              }}
+            >
+              {major._occupations?.map((occupation, occupationIndex) => (
+                <OccupationCard
+                  key={occupationIndex}
+                  occupation={occupation}
+                  index={occupationIndex}
+                />
+              ))}
+            </Box>
+          </Box>
+        ))}
       </Box>
+
+      {/* Finish Button */}
       <Button
         style={{
-          backgroundColor: "#FF6600",
-          color: "#FFF",
-          borderRadius: "8px",
-          padding: "12px 24px",
-          marginTop: "30px",
-          fontSize: "1.2em",
-          width: "80%",
-          maxWidth: "300px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          background: "linear-gradient(90deg, #ff6a00, #ee0979)",
+          color: "white",
+          fontSize: "1.2rem",
+          fontWeight: "bold",
+          borderRadius: "10px",
+          padding: "15px 40px",
+          marginTop: "40px",
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.15)",
         }}
         onClick={handleFinish}
       >

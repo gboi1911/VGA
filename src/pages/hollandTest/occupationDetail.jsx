@@ -209,15 +209,25 @@ const OccupationDetail = () => {
         }}
       >
         {/* Hình ảnh */}
-        <img
-          src="https://jobsgo.vn/blog/wp-content/uploads/2021/07/ky-nang-nghe-nghiep-2.jpg"
-          alt={occupation?.name || "Occupation"}
+
+        <div
           style={{
-            width: "100%",
-            borderRadius: "10px",
-            marginBottom: "15px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center", // Optional if vertical centering is needed
           }}
-        />
+        >
+          <img
+            src={occupation.image}
+            alt={occupation?.name || "Occupation"}
+            style={{
+              width: "60%",
+              height: "auto",
+              borderRadius: "10px",
+              marginBottom: "15px",
+            }}
+          />
+        </div>
 
         {/* Tên công việc */}
         <Text

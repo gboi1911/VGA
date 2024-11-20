@@ -1,10 +1,15 @@
 import axios from "axios";
 
 const url = import.meta.env.VITE_APP_BASE_API;
+const token = localStorage.getItem("token");
 
 export const getOccupation = async () => {
   try {
-    const response = await axios.get(`${url}/occupations`);
+    const response = await axios.get(`${url}/occupations`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log("Error in get occupations:", error);
@@ -14,7 +19,11 @@ export const getOccupation = async () => {
 
 export const getOccupationalGroup = async () => {
   try {
-    const response = await axios.get(`${url}/occupational-groups`);
+    const response = await axios.get(`${url}/occupational-groups`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log("Error in get occupational group:", error);
@@ -24,7 +33,11 @@ export const getOccupationalGroup = async () => {
 
 export const getOccupationById = async (id) => {
   try {
-    const response = await axios.get(`${url}/occupation/${id}`);
+    const response = await axios.get(`${url}/occupation/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log("Error in get occupation by id:", error);
@@ -32,12 +45,14 @@ export const getOccupationById = async (id) => {
   }
 };
 
-
 export const getOccupationGroupId = async (occupationGroupId) => {
   try {
     const response = await axios.get(`${url}/occupations`, {
       params: {
-        'occupational-group-id': occupationGroupId,
+        "occupational-group-id": occupationGroupId,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
     });
     return response;

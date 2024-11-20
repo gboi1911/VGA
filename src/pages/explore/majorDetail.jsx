@@ -66,32 +66,39 @@ const MajorDetail = () => {
         }}
       >
         {/* Major Image */}
-        <img
-          src={
-            major.imageUrl ||
-            "https://img.freepik.com/free-vector/professional-people-labor-day_24908-56745.jpg?t=st=1730737111~exp=1730740711~hmac=9a3489f4390c2eef0e7b3f9aab0f75a4ada397baf20c3d1cb8786feff0f0113d&w=740"
-          }
-          alt={major.name}
+        <div
           style={{
-            width: "100%",
-            height: "200px",
-            borderRadius: "8px",
-            marginBottom: "16px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center", // Optional if vertical centering is needed
           }}
-        />
+        >
+          <img
+            src={
+              major.image ||
+              "https://img.freepik.com/free-vector/professional-people-labor-day_24908-56745.jpg?t=st=1730737111~exp=1730740711~hmac=9a3489f4390c2eef0e7b3f9aab0f75a4ada397baf20c3d1cb8786feff0f0113d&w=740"
+            }
+            alt={major.name}
+            style={{
+              width: "60%",
+              height: "100%",
+              borderRadius: "8px",
+              marginBottom: "16px",
+            }}
+          />
+        </div>
 
         {/* Major Name */}
         <Text
           style={{
             fontSize: "24px",
             fontWeight: "bold",
-            marginBottom: "8px",
+            marginBottom: "24px",
             textAlign: "center",
           }}
         >
           {major.name}
         </Text>
-
         {/* Major Description */}
         <Text
           style={{
@@ -140,7 +147,6 @@ const MajorDetail = () => {
             </>
           )}
         </Text>
-
         {/* Suggested Occupations */}
         <Text
           style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "8px" }}
@@ -165,26 +171,37 @@ const MajorDetail = () => {
                   borderRadius: "8px",
                   boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                   marginBottom: "8px",
-                  alignItems: "center",
                   flex: "0 0 auto",
                   marginRight: "10px",
                   width: "220px",
+                  cursor: "pointer",
                 }}
                 onClick={() => navigate(`/occupationDetail/${occupation.id}`)}
               >
-                <img
-                  src={
-                    occupation.image ||
-                    "https://img.freepik.com/free-vector/collection-police-illustration_23-2148521822.jpg?t=st=1730737506~exp=1730741106~hmac=435fe33a5949a8cc6d0507ede5684de43c9dc61c0549429698ee374ce71afd29&w=1060"
-                  }
-                  alt={occupation.name}
+                {/* Centered Image */}
+                <div
                   style={{
-                    width: "100%",
-                    height: "120px",
-                    objectFit: "cover",
-                    borderRadius: "8px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center", // Optional if vertical centering is needed
                   }}
-                />
+                >
+                  <img
+                    src={
+                      occupation.image ||
+                      "https://img.freepik.com/free-vector/collection-police-illustration_23-2148521822.jpg?t=st=1730737506~exp=1730741106~hmac=435fe33a5949a8cc6d0507ede5684de43c9dc61c0549429698ee374ce71afd29&w=1060"
+                    }
+                    alt={occupation.name}
+                    style={{
+                      width: "60%",
+                      height: "120px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                    }}
+                  />
+                </div>
+
+                {/* Occupation Name */}
                 <Box
                   style={{
                     padding: "10px",
