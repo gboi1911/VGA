@@ -42,24 +42,24 @@ const UniversityDetail = () => {
       }
     };
 
-    const fetchConsultants = async () => {
-      try {
-        const response = await getExpert();
-        if (response.consultants) {
-          const consultantsData = response.consultants.filter(
-            (consultant) => consultant.university?.id === id
-          );
-          setConsultants(consultantsData);
-        } else {
-          console.log("No consultants data found in the response.");
-        }
-      } catch (error) {
-        console.error("Error in fetching consultants data: ", error);
-      }
-    };
+    // const fetchConsultants = async () => {
+    //   try {
+    //     const response = await getExpert();
+    //     if (response.consultants) {
+    //       const consultantsData = response.consultants.filter(
+    //         (consultant) => consultant.university?.id === id
+    //       );
+    //       setConsultants(consultantsData);
+    //     } else {
+    //       console.log("No consultants data found in the response.");
+    //     }
+    //   } catch (error) {
+    //     console.error("Error in fetching consultants data: ", error);
+    //   }
+    // };
 
     fetchUniversity();
-    fetchConsultants();
+    // fetchConsultants();
   }, [id]);
 
   if (!university) {
@@ -80,8 +80,8 @@ const UniversityDetail = () => {
       >
         <img
           src={
-            university.imageUrl ||
-            "https://img.freepik.com/premium-photo/large-brick-building-with-tower-that-says-university-america_551880-7776.jpg?w=1380"
+            university.account.image_Url ||
+            "https://img.freepik.com/free-photo/students-jumping-college_23-2147679009.jpg?t=st=1732298195~exp=1732301795~hmac=0295c2ee8cbffdfb9fd1d8aff982c2743a4ec26677de0b88830633f1e719057e&w=1060"
           }
           alt={university.account.name}
           style={{
@@ -127,7 +127,7 @@ const UniversityDetail = () => {
               ))}
             </>
           ) : (
-            locations.map((location, index) => (
+            university.universityLocations.map((location, index) => (
               <Text key={index} style={{ fontSize: "16px", color: "#666" }}>
                 Địa chỉ: {location.address}
               </Text>
@@ -167,7 +167,7 @@ const UniversityDetail = () => {
               alignItems: "center",
             }}
           >
-            {consultants.slice(0, visibleCount).map((consultant) => (
+            {university.consultants.slice(0, visibleCount).map((consultant) => (
               <Box
                 key={consultant.id}
                 style={{
@@ -219,7 +219,7 @@ const UniversityDetail = () => {
             ))}
 
             {/* Nút "Xem thêm" */}
-            {visibleCount < consultants.length && (
+            {visibleCount < university.consultants.length && (
               <button
                 onClick={handleShowMore}
                 style={{

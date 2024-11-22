@@ -9,6 +9,7 @@ import {
   faAddressCard,
   faDollarSign,
   faCoins,
+  faSchool,
 } from "@fortawesome/free-solid-svg-icons";
 import { getDay, postBook, getBooking } from "api/expert";
 import { getExpertById } from "api/expert";
@@ -213,6 +214,10 @@ const ExpertDetailPage = ({ studentId }) => {
               />
               {expert.description ||
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+            </Text>
+            <Text className="text-gray-600 mt-2">
+              <FontAwesomeIcon icon={faSchool} style={{ marginRight: "5px" }} />{" "}
+              {expert.university.code}
             </Text>
             <Text className="text-base text-gray-700 mt-2">
               <FontAwesomeIcon

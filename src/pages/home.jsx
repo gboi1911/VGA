@@ -455,14 +455,23 @@ const HomePage = () => {
                 // onClick={() => navigate(`/newsdetail/${newsItem.id}`)}
               >
                 <img
-                  src={newsItem?.imageNews?.[0]?.imageUrl}
-                  alt={newsItem.title}
+                  src={
+                    newsItem?.imageNews?.[0]?.imageUrl ||
+                    "https://trungtamnnth.ctuet.edu.vn/wp-content/uploads/2020/10/tin-tuc-giao-dich-ngoai-hoi-clarity.jpg"
+                  }
+                  alt={newsItem.title || "Default news image"}
                   style={{
                     width: "100%",
                     borderRadius: "8px",
                     marginBottom: "10px",
                     objectFit: "cover",
-                    height: "150px", // Điều chỉnh chiều cao hình ảnh
+                    height: "150px",
+                  }}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.target.onerror = null; // Prevents infinite loop in case fallback also fails
+                    e.target.src =
+                      "https://trungtamnnth.ctuet.edu.vn/wp-content/uploads/2020/10/tin-tuc-giao-dich-ngoai-hoi-clarity.jpg";
                   }}
                 />
                 <Box
