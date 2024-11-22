@@ -60,14 +60,14 @@ export const postBook = async (studId, timeId) => {
 
 export const getBooking = async (stuId) => {
   try {
-    const response = await axios.get(`${url}/bookings`, {
-      params: {
-        "student-id": stuId,
-      },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${url}/bookings?student-id=${stuId}&sort-by-day=true&descending=true`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response;
   } catch (error) {
     console.log("Error in get bookings:", error);
@@ -76,14 +76,14 @@ export const getBooking = async (stuId) => {
 };
 export const getBookingConsul = async (userId) => {
   try {
-    const response = await axios.get(`${url}/bookings`, {
-      params: {
-        "consultant-id": userId,
-      },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${url}/bookings?consultant-id=${userId}&sort-by-day=true&descending=true`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response;
   } catch (error) {
     console.log("Error in get bookings:", error);

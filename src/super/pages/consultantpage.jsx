@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, List, Text, Box, Page, Button, Header } from "zmp-ui";
+import {
+  Avatar,
+  List,
+  Text,
+  Box,
+  Page,
+  Button,
+  Header,
+  Modal,
+  Input,
+} from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import {
@@ -8,12 +18,23 @@ import {
   faSchool,
   faGraduationCap,
 } from "@fortawesome/free-solid-svg-icons";
-import { getConsultantInfo, getSchoolName, getTransaction } from "api/userInfo";
+import {
+  getConsultantInfo,
+  getSchoolName,
+  getTransaction,
+  postWithdrawRequest,
+  getGoldBallanceConsultant,
+} from "api/userInfo";
 
 const ConsultantPage = ({ consultantId, accountId }) => {
   const [userInfo, setUserInfo] = useState(null);
   // const [schoolName, setSchoolName] = useState(null);
   const [transactions, setTransactions] = useState([]);
+  const [goldAmount, setGoldAmount] = useState("");
+  const [isInputModalOpen, setIsInputModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [goldBallance, setGoldBallance] = useState({});
+  const [resultModal, setResultModal] = useState({ open: false, message: "" });
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -43,17 +64,86 @@ const ConsultantPage = ({ consultantId, accountId }) => {
       }
     };
 
+    const fetchGoldBallance = async () => {
+      try {
+        const response = await getGoldBallanceConsultant(accountId);
+        setGoldBallance(response.data);
+      } catch (error) {
+        console.error("Error in fetching gold balance:", error);
+      }
+    };
+
     fetchUserInfo();
     fetchTransactions();
+    fetchGoldBallance();
   }, []);
+
+  const handleWithdraw = async () => {
+    try {
+      // Ensure proper arguments are passed to the API function
+      const response = await postWithdrawRequest(
+        consultantId,
+        Number(goldAmount)
+      );
+      // Check the success status and set the message accordingly
+      if (response.isSuccess) {
+        setResultModal({
+          open: true,
+          message: "Yêu cầu đổi điểm của bạn đã thành công!",
+        });
+      } else {
+        setResultModal({
+          open: true,
+          message: "Yêu cầu không thành công. Vui lòng thử lại.",
+        });
+      }
+    } catch (error) {
+      // Show error message
+      setResultModal({
+        open: true,
+        message:
+          error.response?.data?.message ||
+          "Đã xảy ra lỗi khi xử lý yêu cầu của bạn.",
+      });
+    } finally {
+      // Reset modal and input state
+      setIsConfirmModalOpen(false);
+      setGoldAmount("");
+    }
+  };
+
+  const handleGoldAmountInput = () => {
+    if (Number(goldAmount) > goldBallance.goldBalance) {
+      setResultModal({
+        open: true,
+        message: "Số điểm trong ví không đủ, vui lòng nhập lại số điểm phù hợp",
+      });
+      // Stay in the input modal
+    } else {
+      setIsInputModalOpen(false); // Close input modal
+      setIsConfirmModalOpen(true); // Open confirm modal
+    }
+  };
+
+  const handleModalClose = () => {
+    // Reload the page if the exchange was successful
+    if (resultModal.message === "Yêu cầu đổi điểm của bạn đã thành công!") {
+      window.location.reload();
+    }
+    setResultModal({ open: false, message: "" });
+  };
 
   if (!userInfo) {
     return <div>Loading...</div>;
   }
 
   return (
-    <Page className="page" style={{ marginTop: '40px' }}>
-      <Header title="Thông tin cá nhân" showBackIcon={false} style={{ textAlign: 'center' }} />
+    <Page className="page" style={{ marginTop: "40px" }}>
+      <Header
+        title="Thông tin cá nhân"
+        showBackIcon={false}
+        style={{ textAlign: "center" }}
+      />
       <Box
         style={{
           display: "flex",
@@ -101,7 +191,7 @@ const ConsultantPage = ({ consultantId, accountId }) => {
         >
           <Text bold size="large" style={{ color: "#FFCC00" }}>
             {/* {userInfo?.account.wallet.goldBalance} */}
-            50000
+            {goldBallance.goldBalance}
           </Text>
           <FontAwesomeIcon
             icon={faCoins}
@@ -113,7 +203,10 @@ const ConsultantPage = ({ consultantId, accountId }) => {
             }}
           />
         </Box>
-        <Button style={{ backgroundColor: "#FF6600", color: "white" }}>
+        <Button
+          style={{ backgroundColor: "#FF6600", color: "white" }}
+          onClick={() => setIsInputModalOpen(true)}
+        >
           Đổi điểm
         </Button>
       </Box>
@@ -153,7 +246,8 @@ const ConsultantPage = ({ consultantId, accountId }) => {
                 }}
               >
                 <Text style={{ fontWeight: "bold", color: "#FFCC00" }}>
-                  + {transaction?.goldAmount}{" "}
+                  {transaction?.transactionType === 1 ? "+" : "-"}{" "}
+                  {transaction?.goldAmount}{" "}
                   <FontAwesomeIcon
                     icon={faCoins}
                     size="xl"
@@ -164,6 +258,7 @@ const ConsultantPage = ({ consultantId, accountId }) => {
                     }}
                   />
                 </Text>
+
                 <Text
                   size="small"
                   style={{ color: "#888", textAlign: "right" }}
@@ -263,6 +358,91 @@ const ConsultantPage = ({ consultantId, accountId }) => {
           {userInfo?.consultantLevel?.name}
         </Text>
       </Box>
+      {/* Input Modal */}
+      <Modal
+        visible={isInputModalOpen}
+        onClose={() => setIsInputModalOpen(false)}
+        title="Đổi điểm"
+      >
+        <Box mt={5}>
+          <Input
+            type="number"
+            value={goldAmount}
+            onChange={(e) => setGoldAmount(e.target.value)}
+            placeholder="Nhập số điểm"
+            label="Nhập số điểm muốn đổi"
+            helperText="1 điểm = 1000 VNĐ"
+          />
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "30px",
+            }}
+          >
+            <Button
+              onClick={() => {
+                if (!goldAmount || parseInt(goldAmount) <= 0) {
+                  return;
+                }
+                handleGoldAmountInput();
+              }}
+            >
+              Xác nhận
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* Confirm Modal */}
+      <Modal
+        visible={isConfirmModalOpen}
+        title="Xác nhận"
+        onClose={() => setIsConfirmModalOpen(false)}
+      >
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <Text size="large">Bạn có xác nhận muốn đổi {goldAmount} điểm ?</Text>
+          <Box style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+            <Button
+              style={{
+                marginTop: "10px",
+                backgroundColor: "red",
+                color: "white",
+              }}
+              onClick={() => {
+                setIsConfirmModalOpen(false); // Close Confirm modal
+                setIsInputModalOpen(true); // Reopen Input modal
+              }}
+            >
+              Hủy
+            </Button>
+            <Button style={{ marginTop: "10px" }} onClick={handleWithdraw}>
+              Đồng ý
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* Result Modal */}
+      <Modal
+        visible={resultModal.open}
+        title="Thông báo"
+        onClose={handleModalClose}
+      >
+        <Box>
+          <Text size="large" style={{ textAlign: "center" }}>
+            {resultModal.message}
+          </Text>
+        </Box>
+      </Modal>
     </Page>
   );
 };

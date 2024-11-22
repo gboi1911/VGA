@@ -163,7 +163,8 @@ const UserPage = ({ studentId, accountId }) => {
                   }}
                 >
                   <Text style={{ fontWeight: "bold", color: "#FFCC00" }}>
-                    - {transaction.goldAmount}{" "}
+                    {transaction?.transactionType === 1 ? "+" : "-"}{" "}
+                    {transaction?.goldAmount}{" "}
                     <FontAwesomeIcon
                       icon={faCoins}
                       size="xl"
@@ -190,6 +191,70 @@ const UserPage = ({ studentId, accountId }) => {
             ))
           )}
         </div>
+      </Box>
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "10px",
+          borderRadius: "5px",
+          backgroundColor: "white", // White background
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          borderBottom: "1px solid #ddd", // Divider line
+          marginTop: "5px",
+        }}
+      >
+        <FontAwesomeIcon
+          icon={faTransgender}
+          size="lg"
+          style={{ marginRight: "10px" }}
+        />
+        <Text bold>Giới tính: </Text>
+        <Text style={{ marginLeft: "5px" }}>
+          {userInfo.data.gender ? "Nam" : "Nữ"}
+        </Text>
+      </Box>
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "10px",
+          borderRadius: "5px",
+          backgroundColor: "white", // White background
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          borderBottom: "1px solid #ddd", // Divider line
+          marginTop: "5px",
+        }}
+      >
+        <FontAwesomeIcon
+          icon={faSchool}
+          size="lg"
+          style={{ marginRight: "10px" }}
+        />
+        <Text bold>Trường: </Text>
+        <Text style={{ marginLeft: "5px" }}>
+          {schoolName?.data?.account?.name}
+        </Text>
+      </Box>
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "10px",
+          borderRadius: "5px",
+          backgroundColor: "white", // White background
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          borderBottom: "1px solid #ddd", // Divider line
+          marginTop: "5px",
+        }}
+      >
+        <FontAwesomeIcon
+          icon={faGraduationCap}
+          size="lg"
+          style={{ marginRight: "10px" }}
+        />
+        <Text bold>Năm học: </Text>
+        <Text style={{ marginLeft: "5px" }}>{userInfo.data.schoolYears}</Text>
       </Box>
     </Page>
   );

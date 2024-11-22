@@ -3,11 +3,14 @@ import { Page, Text, Box, Modal, Button, Header } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import { getTestType } from "api/test";
+import { getStudentInfo } from "api/userInfo";
 
-const HollandTest = () => {
+const HollandTest = ({ studentId }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [testType, setTestType] = useState("mbti");
   const [testTypeData, setTestTypeData] = useState({});
+  const [userInfo, setUserInfo] = useState(null);
+  const [isBalanceModalVisible, setIsBalanceModalVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleStartTest = useCallback((type) => {
@@ -27,18 +30,48 @@ const HollandTest = () => {
       }
     };
 
+    const fetchUserInfo = async () => {
+      try {
+        const data = await getStudentInfo(studentId);
+        console.log("Fetched userInfo:", data); // Debug log
+        setUserInfo(data?.data || {});
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+
     fetchTestTypeData();
+    fetchUserInfo();
   }, []);
 
   const handleYes = useCallback(() => {
     setIsModalVisible(false);
-    console.log("User clicked Yes for", testType);
-    if (testType === "mbti") {
-      navigate("/testExecute");
-    } else if (testType === "holland") {
-      navigate("/testExecuteHolland");
+
+    if (userInfo && testTypeData) {
+      // Safely access nested properties
+      const goldBalance = userInfo?.account?.wallet?.goldBalance || 0;
+      console.log("Gold Balance:", goldBalance);
+
+      const requiredGold = testTypeData?.point || 0;
+      console.log("Required Gold:", requiredGold);
+
+      if (goldBalance >= requiredGold) {
+        // User has enough gold, proceed to the test page
+        console.log("Sufficient balance. Starting test:", testType);
+        if (testType === "mbti") {
+          navigate("/testExecute");
+        } else if (testType === "holland") {
+          navigate("/testExecuteHolland");
+        }
+      } else {
+        // Insufficient balance, display a modal
+        console.log("Insufficient balance. Staying on current page.");
+        setIsBalanceModalVisible(true);
+      }
+    } else {
+      console.error("User info or test type data is not available.");
     }
-  }, [testType, navigate]);
+  }, [testType, navigate, userInfo, testTypeData]);
 
   const handleNo = useCallback(() => {
     setIsModalVisible(false);
@@ -130,6 +163,35 @@ const HollandTest = () => {
               }}
             >
               Đồng ý
+            </Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        visible={isBalanceModalVisible}
+        onClose={() => setIsBalanceModalVisible(false)}
+        title="Thông báo"
+      >
+        <div className="p-4">
+          <Text
+            className="text-lg"
+            style={{
+              textAlign: "center",
+            }}
+          >
+            Số dư không đủ để thực hiện bài kiểm tra này. Vui lòng nạp thêm
+            gold.
+          </Text>
+          <div className="flex justify-end mt-4">
+            <Button
+              className="mr-2"
+              type="primary"
+              onClick={() => setIsBalanceModalVisible(false)}
+              style={{
+                backgroundColor: "#0066CC",
+              }}
+            >
+              Đóng
             </Button>
           </div>
         </div>

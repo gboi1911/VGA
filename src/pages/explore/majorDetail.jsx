@@ -204,11 +204,11 @@ const MajorDetail = () => {
                 {/* Occupation Name */}
                 <Box
                   style={{
-                    padding: "10px",
                     fontSize: "16px",
                     fontWeight: "bold",
                     textAlign: "center",
                     height: "50px",
+                    marginTop: "10px",
                   }}
                 >
                   <Text bold>{occupation.name}</Text>
