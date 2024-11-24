@@ -13,37 +13,37 @@ const Notification = ({ accountId }) => {
 
   const accessToken = token; // Your JWT token
 
-  useEffect(() => {
-    const connection = new signalR.HubConnectionBuilder()
-      .withUrl(
-        `https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/notification_hub`,
-        {
-          accessTokenFactory: () => accessToken,
-        }
-      )
-      .withAutomaticReconnect()
-      .build();
+  // useEffect(() => {
+  //   const connection = new signalR.HubConnectionBuilder()
+  //     .withUrl(
+  //       `https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/notification_hub`,
+  //       {
+  //         accessTokenFactory: () => accessToken,
+  //       }
+  //     )
+  //     .withAutomaticReconnect()
+  //     .build();
 
-    connection
-      .start()
-      .then(() => {
-        setStatus("Connected to SignalR");
-        console.log("Connected to SignalR hub.");
+  //   connection
+  //     .start()
+  //     .then(() => {
+  //       setStatus("Connected to SignalR");
+  //       console.log("Connected to SignalR hub.");
 
-        connection.on("ReceiveNotification", (message) => {
-          console.log("Received notification:", message);
-          setMessages((prevMessages) => [...prevMessages, message]);
-        });
-      })
-      .catch((err) => {
-        setStatus(`Connection failed: ${err}`);
-        console.error(err);
-      });
+  //       connection.on("ReceiveNotification", (message) => {
+  //         console.log("Received notification:", message);
+  //         setMessages((prevMessages) => [...prevMessages, message]);
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       setStatus(`Connection failed: ${err}`);
+  //       console.error(err);
+  //     });
 
-    return () => {
-      connection.stop();
-    };
-  }, [accessToken]);
+  //   return () => {
+  //     connection.stop();
+  //   };
+  // }, [accessToken]);
 
   useEffect(() => {
     const fetchNotification = async () => {
@@ -85,7 +85,11 @@ const Notification = ({ accountId }) => {
 
   return (
     <Page>
-      <Header title="Thông báo" />
+      <Header
+        title="Thông báo"
+        showBackIcon={false}
+        style={{ textAlign: "center" }}
+      />
 
       <Box style={{ padding: "16px", textAlign: "center" }}>
         <Text>{status}</Text>

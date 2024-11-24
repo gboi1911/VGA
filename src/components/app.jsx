@@ -36,6 +36,7 @@ import ConsultantSchedulePage from "super/pages/ConsultantSchedulePage";
 import News from "pages/news/news";
 import ConsultantPage from "super/pages/consultantpage";
 import Notification from "pages/notification";
+import * as signalR from "@microsoft/signalr";
 
 import {
   getDataAccessToken,
@@ -53,6 +54,8 @@ const MyApp = () => {
   const [role, setRole] = useState();
   const [accountid, setAccountId] = useState();
   const [userInfo, setUserInfo] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -100,6 +103,39 @@ const MyApp = () => {
 
     fetchToken();
   }, []);
+
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl(
+        `https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/notification_hub`,
+        {
+          accessTokenFactory: () => token,
+        }
+      )
+      .withAutomaticReconnect()
+      .build();
+
+    connection
+      .start()
+      .then(() => {
+        setStatus("Connected to SignalR");
+        console.log("Connected to SignalR hub.");
+
+        connection.on("ReceiveNotification", (message) => {
+          console.log("Received notification:", message);
+          setMessages((prevMessages) => [...prevMessages, message]);
+        });
+      })
+      .catch((err) => {
+        setStatus(`Connection failed: ${err}`);
+        console.error(err);
+      });
+
+    return () => {
+      connection.stop();
+    };
+  }, [token]);
 
   console.log("userid", userid);
   console.log("role", role);

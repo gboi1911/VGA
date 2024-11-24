@@ -114,39 +114,9 @@ const HomePage = () => {
       }}
     >
       <Header
-        title={
-          <Box
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "space-between",
-              width: "100%",
-              padding: "0 100px",
-            }}
-          >
-            {/* Centered Text */}
-            <Text
-              bold
-              size="large"
-              style={{
-                textAlign: "center",
-                marginLeft: "70px",
-              }}
-            >
-              Trang chủ
-            </Text>
-
-            {/* Notification Icon */}
-            <Icon
-              icon="zi-notif"
-              style={{
-                marginLeft: "40px",
-              }}
-              onClick={() => navigate(`/notification`)}
-            />
-          </Box>
-        }
+        title={"Trang chủ"}
         showBackIcon={false}
+        style={{ textAlign: "center" }}
       />
       <Box
         flex

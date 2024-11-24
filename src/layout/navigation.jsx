@@ -57,6 +57,8 @@ const BottomNavigationPage = () => {
       return "expert";
     } else if (path === "/user") {
       return "me";
+    } else if (path === "/notification") {
+      return "notify";
     } else {
       return "home";
     }
@@ -80,6 +82,9 @@ const BottomNavigationPage = () => {
         break;
       case "me":
         targetPath = "/user";
+        break;
+      case "notify":
+        targetPath = "/notification";
         break;
       default:
         targetPath = "/";
@@ -109,13 +114,12 @@ const BottomNavigationPage = () => {
         return isActive ? "zi-chat-solid" : "zi-chat";
       case "me":
         return isActive ? "zi-user-solid" : "zi-user";
+      case "notify":
+        return isActive ? "zi-notif" : "zi-notif";
       default:
         return "zi-home";
     }
   };
-
-
-
 
   const noBottomNav = useMemo(
     () => matchNoBottomNavPages(location.pathname),
@@ -154,17 +158,26 @@ const BottomNavigationPage = () => {
     //   />
     // </BottomNavigation>
     <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>
-      {["home", "explore", "expert", "me"].map((key) => (
+      {["home", "explore", "expert", "notify", "me"].map((key) => (
         <BottomNavigation.Item
           key={key}
-          label={key === "home" ? "Trang chủ" : key === "explore" ? "Khám phá" : key === "expert" ? "Tư vấn" : "Cá nhân"}
+          label={
+            key === "home"
+              ? "Trang chủ"
+              : key === "explore"
+              ? "Khám phá"
+              : key === "notify"
+              ? "Thông báo"
+              : key === "expert"
+              ? "Tư vấn"
+              : "Cá nhân"
+          }
           icon={<Icon icon={getIcon(key, false)} />}
           activeIcon={<Icon icon={getIcon(key, true)} />}
           onClick={() => handleTabClick(key)} // Bắt click kể cả khi không đổi tab
         />
       ))}
     </BottomNavigation>
-
   );
 };
 
