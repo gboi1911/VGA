@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text, Input, Grid, Swiper, Header } from "zmp-ui";
+import { Page, Box, Text, Input, Grid, Swiper, Header, Icon } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import EastIcon from "@mui/icons-material/East";
 import { Link } from "react-router-dom";
@@ -114,9 +114,39 @@ const HomePage = () => {
       }}
     >
       <Header
-        title="Trang chủ"
+        title={
+          <Box
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: "0 100px",
+            }}
+          >
+            {/* Centered Text */}
+            <Text
+              bold
+              size="large"
+              style={{
+                textAlign: "center",
+                marginLeft: "70px",
+              }}
+            >
+              Trang chủ
+            </Text>
+
+            {/* Notification Icon */}
+            <Icon
+              icon="zi-notif"
+              style={{
+                marginLeft: "40px",
+              }}
+              onClick={() => navigate(`/notification`)}
+            />
+          </Box>
+        }
         showBackIcon={false}
-        style={{ textAlign: "center" }}
       />
       <Box
         flex

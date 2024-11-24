@@ -91,3 +91,39 @@ export const getGoldBallanceConsultant = async (accountId) => {
     throw error;
   }
 };
+
+export const getNotification = async (accountId) => {
+  try {
+    const response = await axios.get(
+      `${url}/notification/account/${accountId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error in get notification:", error);
+    throw error;
+  }
+};
+
+export const updateNotificationStatus = async (id, status) => {
+  try {
+    const response = await axios.put(
+      `https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/Notification?id=${id}&status=${status}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error in updating notification status:", error);
+    throw error;
+  }
+};

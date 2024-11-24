@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text, Input, Tabs, Header, } from "zmp-ui";
+import { Page, Box, Text, Input, Tabs, Header } from "zmp-ui";
 import ExpertCard from "../components/expertCard";
 import { getExpert, getBooking } from "api/expert";
 import BookingCard from "../components/bookingCard";
 import { text } from "@fortawesome/fontawesome-svg-core";
+import { useLocation } from "react-router-dom";
 
 const ExpertPage = ({ studentId }) => {
   const [experts, setExperts] = useState([]);
   const [filteredExperts, setFilteredExperts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [bookings, setBookings] = useState([]);
+  const location = useLocation();
+  const initialTab = location.state?.tab || "consultant";
 
   useEffect(() => {
     const fetchExpert = async () => {
@@ -50,7 +53,11 @@ const ExpertPage = ({ studentId }) => {
 
   return (
     <Page className="page w-full" style={{ marginTop: "40px" }}>
-      <Header title="Tư vấn" showBackIcon={false} style={{ textAlign: 'center' }} />
+      <Header
+        title="Tư vấn"
+        showBackIcon={false}
+        style={{ textAlign: "center" }}
+      />
       <Box
         style={{
           backgroundColor: "#FFFFFF",
@@ -77,7 +84,7 @@ const ExpertPage = ({ studentId }) => {
             borderRadius: "8px",
           }}
         >
-          <Tabs>
+          <Tabs defaultActiveKey={initialTab}>
             <Tabs.Tab key="consultant" label="Tư vấn viên">
               <Input.Search
                 label="Label"

@@ -116,8 +116,13 @@ const UserPage = ({ studentId, accountId }) => {
             }}
           />
         </Box>
-        <Button style={{ backgroundColor: "#FF6600", color: "white" }}>
-          Mua
+        <Button
+          style={{ backgroundColor: "#FF6600", color: "white" }}
+          onClick={() =>
+            (window.location.href = "https://vga-beta.vercel.app/Payment")
+          }
+        >
+          Nạp điểm
         </Button>
       </Box>
 

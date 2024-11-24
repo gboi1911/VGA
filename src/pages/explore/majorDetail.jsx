@@ -276,7 +276,13 @@ const MajorDetail = () => {
                   borderRadius: "8px",
                 }}
               />
-              <Text style={{ fontWeight: "bold", textAlign: "center" }}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  marginTop: "10px",
+                }}
+              >
                 {university.name}
               </Text>
             </Box>

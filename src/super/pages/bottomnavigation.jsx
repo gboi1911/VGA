@@ -20,7 +20,6 @@ const CustomBottomNavigation = ({ userid, accountid }) => {
   const [activeTab, setActiveTab] = useState(getTabFromPath(pathname));
 
   const handleTabClick = (key) => {
-    debugger;
     if (activeTab === key) {
       // Tab hiện tại được nhấn, xử lý refresh
       console.log("Tab hiện tại được nhấn lại:", key);
@@ -36,7 +35,6 @@ const CustomBottomNavigation = ({ userid, accountid }) => {
   }, [pathname]);
 
   const handleTabChange = (key) => {
-    debugger
     let targetPath = "/";
 
     switch (key) {

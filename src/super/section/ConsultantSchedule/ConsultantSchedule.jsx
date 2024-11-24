@@ -16,8 +16,12 @@ import {
 } from "zmp-ui";
 import axios from "axios";
 import Typography from "@mui/material/Typography";
-import { getTimeSlot } from "api/super";
-import { getBookingConsul } from "api/expert";
+import { getTimeSlot, createSchedule, deleteTimeSlot } from "api/super";
+import {
+  getBookingConsul,
+  getTimeslotSelected,
+  getCompleteBooking,
+} from "api/expert";
 import BookingCardConsultant from "../../../components/bookingCardConsultant";
 
 import "./ConsultantSchedule.css";
@@ -40,9 +44,7 @@ export default function ConsultantSchedule({ userid }) {
   useEffect(() => {
     const fetchTimeSlots = async () => {
       try {
-        const response = await axios.get(
-          "https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/timeslots"
-        );
+        const response = await getTimeSlot();
         setTimeSlots(response.data.timeSlots);
       } catch (error) {
         console.error("Error fetching time slot:", error);
@@ -62,14 +64,7 @@ export default function ConsultantSchedule({ userid }) {
   useEffect(() => {
     const getCompleteSchedule = async () => {
       try {
-        const response = await axios.get(
-          "https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/bookings",
-          {
-            params: {
-              day: selectedDate,
-            },
-          }
-        );
+        const response = await getCompleteBooking(selectedDate);
         setcompleteSchedule(response.data.bookings);
       } catch (error) {
         console.error("Error fetching time slot:", error);
@@ -83,15 +78,7 @@ export default function ConsultantSchedule({ userid }) {
   useEffect(() => {
     const fetchTimeSlotSelected = async () => {
       try {
-        const response = await axios.get(
-          "https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/consultation-days",
-          {
-            params: {
-              day: selectedDate,
-              "consultant-id": userid,
-            },
-          }
-        );
+        const response = await getTimeslotSelected(userid, selectedDate);
 
         const consultationDay = response.data.consultationDay;
 
@@ -113,9 +100,7 @@ export default function ConsultantSchedule({ userid }) {
 
   const handleDelete = async (idConsultantTime) => {
     try {
-      const response = await axios.delete(
-        `https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/consultation-time/${idConsultantTime}`
-      );
+      const response = await deleteTimeSlot(idConsultantTime);
       console.log("Xóa lịch thành công:", response.data);
       setSlotBooked((prevSlots) =>
         prevSlots.filter((s) => s.id !== idConsultantTime)
@@ -144,19 +129,16 @@ export default function ConsultantSchedule({ userid }) {
     // Dữ liệu với nhiều slot chọn
     console.log("handleCreate được gọi"); // Kiểm tra xem hàm có chạy
     const formData = {
-      consultantId: userid,
-      day: selectedDate,
-      consultationTimes: selectedTimeSlots.map((slot) => ({
-        timeSlotId: slot.id,
-        note: googleMeetLink,
+      "consultantId": userid,
+      "day": selectedDate,
+      "consultationTimes": selectedTimeSlots.map((slot) => ({
+        "timeSlotId": slot.id,
+        "note": googleMeetLink,
       })),
     };
 
     try {
-      const response = await axios.post(
-        "https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/v1/consultation-days",
-        formData
-      );
+      const response = await createSchedule(formData);
       if (response.status === 200) {
         setDialogVisible("CreateSuccess");
       }
@@ -175,6 +157,7 @@ export default function ConsultantSchedule({ userid }) {
       // set lại selectedTimeSlots về rỗng
       setSelectedTimeSlots([]);
       setDialogVisible(false);
+      setGoogleMeetLink('');
     } catch (error) {
       console.error("Error creating consultation:", error);
       setSelectedTimeSlots([]);
@@ -190,9 +173,13 @@ export default function ConsultantSchedule({ userid }) {
   );
 
   return (
-    <Page className="page" style={{ marginTop: '40px' }}>
-      <Header title="Tạo lịch" showBackIcon={false} style={{ textAlign: 'center' }} />
-      <Tabs id="contact-list" >
+    <Page className="page" style={{ marginTop: "40px" }}>
+      <Header
+        title="Tạo lịch"
+        showBackIcon={false}
+        style={{ textAlign: "center" }}
+      />
+      <Tabs id="contact-list">
         <Tabs.Tab key="tab1" label="Lịch">
           <List>
             <Typography variant="h6" sx={{ pb: 2, textAlign: "center" }}>
@@ -213,19 +200,23 @@ export default function ConsultantSchedule({ userid }) {
                 const bookedSlot = slotGroups[0].find(
                   (booked) => booked.timeSlotId === slot.id
                 ); // Đã đặt
+                console.log('bookedSlot',bookedSlot)
                 const completedSlot = slotGroups[1].find(
                   (booked) => booked.timeSlotId === slot.id
                 ); // Hoàn thành
+                console.log('completedSlot',completedSlot)
                 const canceledSlot = slotGroups[2].find(
                   (booked) => booked.timeSlotId === slot.id
                 ); // Bị hủy
+                console.log('canceledSlot', canceledSlot)
                 return (
                   <Button
                     onClick={() => {
                       if (bookedSlot) {
                         // Nếu slot đã được đặt, mở modal Delete
                         setDialogVisible("Delete");
-                        setIdConsultantTime(bookedSlot.id);
+                        console.log('haha', bookedSlot)
+                        setIdConsultantTime(bookedSlot?.id);
                       } else if (completedSlot) {
                         // Nếu slot đã hoàn thành, không làm gì cả
                       } else if (canceledSlot) {
@@ -242,8 +233,8 @@ export default function ConsultantSchedule({ userid }) {
                       backgroundColor: completedSlot
                         ? "#4caf50"
                         : selectedTimeSlots.includes(slot)
-                          ? "#e0e0e0"
-                          : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
+                        ? "#e0e0e0"
+                        : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
                       color: "#000000",
                       padding: "10px",
                       textAlign: "center",

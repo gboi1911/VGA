@@ -86,9 +86,10 @@ const UniversityDetail = () => {
           alt={university.account.name}
           style={{
             width: "100%",
-            height: "200px",
+            height: "280px",
             borderRadius: "8px",
             marginBottom: "16px",
+            objectFit: "cover",
           }}
         />
         <Text
@@ -147,6 +148,128 @@ const UniversityDetail = () => {
         <Text style={{ fontSize: "16px", color: "#666", marginBottom: "6px" }}>
           {university.description}
         </Text>
+        <Text
+          style={{
+            fontSize: "18px",
+            fontWeight: "bold",
+            marginBottom: "8px",
+            marginTop: "16px",
+          }}
+        >
+          Thông tin tuyển sinh
+        </Text>
+        <div>
+          <div
+            style={{
+              display: "flex",
+              overflowX: "auto",
+              marginBottom: "16px",
+            }}
+          >
+            {university.admissionInformation
+              .slice(0, visibleCount)
+              .map((admission) => (
+                <Box
+                  key={admission.id}
+                  style={{
+                    background: "#f8f9fa",
+                    padding: "10px",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    marginBottom: "8px",
+                    flex: "0 0 auto",
+                    marginRight: "10px",
+                    width: "260px",
+                    height: "auto",
+                  }}
+                  onClick={() => navigate(`/majorDetail/${admission.majorId}`)}
+                >
+                  <Box
+                    style={{
+                      padding: "10px",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      height: "auto",
+                    }}
+                  >
+                    <Text bold>{admission.majorName}</Text>
+                  </Box>
+                  <Text
+                    style={{
+                      fontSize: "14px",
+                      color: "#666",
+                    }}
+                  >
+                    Phương thức tuyển sinh: {admission.admissionMethodName}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "14px",
+                      color: "#666",
+                    }}
+                  >
+                    Học phí: {admission.tuitionFee} VNĐ / năm
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "14px",
+                      color: "#666",
+                    }}
+                  >
+                    Năm tuyển sinh: {admission.year}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "14px",
+                      color: "#666",
+                    }}
+                  >
+                    Chỉ tiêu: {admission.quantityTarget} sinh viên
+                  </Text>
+                  <Box style={{ display: "flex", justifyContent: "center" }}>
+                    <button
+                      onClick={() =>
+                        navigate(`/majorDetail/${admission.majorId}`)
+                      }
+                      style={{
+                        marginTop: "5px",
+                        color: "#007bff",
+                        background: "none",
+                        border: "none",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      Xem chi tiết ngành học
+                    </button>
+                  </Box>
+                </Box>
+              ))}
+
+            {/* Nút "Xem thêm" */}
+            {visibleCount < university.admissionInformation.length && (
+              <button
+                onClick={handleShowMore}
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.8)",
+                  border: "none",
+                  borderRadius: "50%",
+                  padding: "10px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
+                  width: "40px",
+                  height: "40px",
+                  margin: "10px auto",
+                }}
+              >
+                <EastIcon style={{ fontSize: "20px", color: "#007bff" }} />
+              </button>
+            )}
+          </div>
+        </div>
         <Text
           style={{
             fontSize: "18px",

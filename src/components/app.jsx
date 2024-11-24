@@ -35,6 +35,7 @@ import Personality from "pages/explore/personality";
 import ConsultantSchedulePage from "super/pages/ConsultantSchedulePage";
 import News from "pages/news/news";
 import ConsultantPage from "super/pages/consultantpage";
+import Notification from "pages/notification";
 
 import {
   getDataAccessToken,
@@ -114,6 +115,10 @@ const MyApp = () => {
                 <>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/news" element={<News />} />
+                  <Route
+                    path="/notification"
+                    element={<Notification accountId={accountid} />}
+                  />
                   <Route path="/newsdetail/:id" element={<NewDetail />} />
                   <Route
                     path="/expert"

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const url = import.meta.env.VITE_APP_BASE_API;
-const token = localStorage.getItem("token");
+let token = localStorage.getItem('token')
 const MAX_RETRIES = 3;
 
 export const getExpert = async (retries = 0) => {
@@ -125,6 +125,38 @@ export const getBookingConsultant = async (constId, day) => {
       params: {
         "consultant-id": constId,
         "day-in-week": day,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log("Error in get bookings of consultant:", error);
+    throw error;
+  }
+};
+
+export const getTimeslotSelected = async (id, selectedDate) => {
+  try {
+    const response = await axios.get(`${url}/consultation-days`, {
+      params: { "consultant-id": id, day: selectedDate },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching consultation days:", error);
+    throw error;
+  }
+};
+
+export const getCompleteBooking = async (selectedDate) => {
+  try {
+    const response = await axios.get(`${url}/consultation-days`, {
+      params: {
+        day: selectedDate,
       },
       headers: {
         Authorization: `Bearer ${token}`,
