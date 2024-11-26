@@ -163,7 +163,7 @@ const ExpertDetailPage = ({ studentId }) => {
           Thông tin tư vấn viên
         </Text>
         <Box
-          className="section-container bg-white rounded-lg shadow-md p-4"
+          className="section-container bg-white rounded-lg shadow-md p-2"
           style={{ display: "flex" }}
         >
           <div style={{ justifyContent: "center" }}>
@@ -207,7 +207,7 @@ const ExpertDetailPage = ({ studentId }) => {
               <FontAwesomeIcon
                 icon={faEnvelope}
                 style={{ marginRight: "5px" }}
-              />{" "}
+              />
               {expert.email}
             </Text>
             <Text className="text-base text-gray-700 mt-2">
@@ -220,7 +220,7 @@ const ExpertDetailPage = ({ studentId }) => {
             </Text>
             <Text className="text-gray-600 mt-2">
               <FontAwesomeIcon icon={faSchool} style={{ marginRight: "5px" }} />{" "}
-              {expert.university.code}
+              {expert.university.account.name}
             </Text>
             <Text className="text-base text-gray-700 mt-2">
               <FontAwesomeIcon

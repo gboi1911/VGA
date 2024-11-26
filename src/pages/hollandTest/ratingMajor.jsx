@@ -164,9 +164,6 @@ const RatingMajor = () => {
   const { resultData } = location.state || {};
 
   const tuitionFees = [
-    { value: 10000000, displayName: "10 triệu" },
-    { value: 20000000, displayName: "20 triệu" },
-    { value: 30000000, displayName: "30 triệu" },
     { value: 50000000, displayName: "50 triệu" },
     { value: 100000000, displayName: "100 triệu" },
     { value: 200000000, displayName: "200 triệu" },
@@ -368,10 +365,10 @@ const RatingMajor = () => {
         <Box
           mt={8}
           style={{
-            width: "350px",
+            width: "100%",
             borderRadius: "10px",
             backgroundColor: "white",
-            padding: "10px",
+            padding: "20px",
           }}
         >
           <Text.Title
@@ -470,23 +467,24 @@ const RatingMajor = () => {
               onChange={(value) => setSelectedAdmissionMethod(value)} // Capture selected year
             />
           </Box>
+          <Button
+            style={{
+              backgroundColor: "#FF6600",
+              color: "#FFF",
+              borderRadius: "8px",
+              padding: "12px 24px",
+              marginTop: "30px",
+              fontSize: "1.2em",
+              width: "90%",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+              marginLeft: "15px",
+            }}
+            onClick={handleFinish} // Call handleFinish on button click
+          >
+            Tiếp theo
+          </Button>
         </Box>
       )}
-      <Button
-        style={{
-          backgroundColor: "#FF6600",
-          color: "#FFF",
-          borderRadius: "8px",
-          padding: "12px 24px",
-          marginTop: "30px",
-          fontSize: "1.2em",
-          width: "90%",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-        }}
-        onClick={handleFinish} // Call handleFinish on button click
-      >
-        Tiếp theo
-      </Button>
       <Modal
         visible={showModal}
         onClose={handleCloseModal}
