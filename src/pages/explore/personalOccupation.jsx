@@ -55,11 +55,11 @@ const PersonalOccupation = ({ studentId }) => {
             onClick={() => navigate(`/majorDetail/${major.majorId}`)}
           >
             <img
-              src="https://img.freepik.com/free-vector/internship-job-concept-illustration_23-2148754785.jpg?t=st=1730826649~exp=1730830249~hmac=15c033cb1760b40e7d7d9cc0de0090b0ea875bf12accaf07fef9ddebdeb7caca&w=740"
+              src={major.image}
               alt={major.majorName}
               style={{
                 width: "100%",
-                height: "140px",
+                height: "150px",
                 objectFit: "cover",
                 borderRadius: "8px",
                 marginBottom: "12px",

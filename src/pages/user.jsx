@@ -168,7 +168,13 @@ const UserPage = ({ studentId, accountId, info }) => {
                   }}
                 >
                   <Text style={{ fontWeight: "bold", color: "#FFCC00" }}>
-                    {transaction?.transactionType === 1 ? "+" : "-"}{" "}
+                    {transaction?.transactionType === 1
+                      ? "+"
+                      : transaction?.transactionType === 7
+                      ? "+"
+                      : transaction?.transactionType === 4
+                      ? " "
+                      : "-"}
                     {transaction?.goldAmount}{" "}
                     <FontAwesomeIcon
                       icon={faCoins}

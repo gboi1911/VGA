@@ -27,7 +27,6 @@ const Personality = ({ studentId }) => {
           style={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
             padding: "20px",
             backgroundColor: "#fff",
             borderRadius: "8px",
@@ -54,23 +53,32 @@ const Personality = ({ studentId }) => {
               height: "280px",
               borderRadius: "8px",
               marginBottom: "16px",
+              marginLeft: "18px",
             }}
           />
           <Text
             style={{
-              fontSize: "1.2em",
+              fontSize: "1.5em",
               fontWeight: "bold",
               color: "#333",
               marginBottom: "8px",
+              textAlign: "center",
             }}
           >
             {test.personalTestName}
           </Text>
-          <Text style={{ color: "#666", marginBottom: "8px" }}>
+          <Text
+            style={{ color: "#666", marginBottom: "8px", textAlign: "center" }}
+          >
             Mã nhóm: <strong>{test.personalGroupCode}</strong>
           </Text>
           <Text
-            style={{ color: "#333", fontWeight: "bold", marginBottom: "8px" }}
+            style={{
+              color: "#333",
+              fontWeight: "bold",
+              marginBottom: "8px",
+              textAlign: "center",
+            }}
           >
             {test.personalGroupName}
           </Text>
