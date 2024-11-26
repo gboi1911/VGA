@@ -1,5 +1,5 @@
 const url = import.meta.env.VITE_APP_BASE_API;
-const token = localStorage.getItem("token");
+let token = localStorage.getItem("token");
 import axios from "axios";
 
 export const getStudentInfo = async (id) => {
@@ -33,7 +33,7 @@ export const getSchoolName = async (id) => {
 export const getTransaction = async (accountId) => {
   try {
     const response = await axios.get(
-      `${url}/transactions/?account_id=${accountId}&sort-by-date-time=true&descending=true`,
+      `${url}/transactions/?account-id=${accountId}&sort-by-date-time=true&descending=true`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -46,6 +46,7 @@ export const getTransaction = async (accountId) => {
     throw error;
   }
 };
+
 export const getConsultantInfo = async (id) => {
   try {
     const response = await axios.get(`${url}/consultant/${id}`, {

@@ -1,7 +1,7 @@
 const url = import.meta.env.VITE_APP_BASE_API;
 import axios from "axios";
 
-const token = localStorage.getItem("token");
+let token = localStorage.getItem("token");
 
 export const getTestData = async (id, accountId) => {
   try {

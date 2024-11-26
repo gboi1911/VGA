@@ -91,6 +91,8 @@ const ExpertPage = ({ studentId }) => {
                 placeholder="Tư vấn viên bạn muốn tìm?"
                 onChange={(e) => handleSearch(e.target.value)}
                 style={{ marginTop: "10px" }}
+                maxLength={25}
+                clearable
               />
               <Box className="grid grid-cols-1 md:grid-cols-2 gap-4" mt={3}>
                 {filteredExperts.length > 0 ? (

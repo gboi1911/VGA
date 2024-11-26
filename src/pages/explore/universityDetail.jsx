@@ -112,6 +112,16 @@ const UniversityDetail = () => {
 
         {/* Display university location(s) */}
         <Box>
+          <Text
+            style={{
+              fontSize: "18px",
+              fontWeight: "bold",
+              marginBottom: "6px",
+              marginTop: "16px",
+            }}
+          >
+            Địa chỉ
+          </Text>
           {locations.length > 1 ? (
             <>
               {locations.map((location, index) => (
@@ -130,7 +140,7 @@ const UniversityDetail = () => {
           ) : (
             university.universityLocations.map((location, index) => (
               <Text key={index} style={{ fontSize: "16px", color: "#666" }}>
-                Địa chỉ: {location.address}
+                {location.address}
               </Text>
             ))
           )}

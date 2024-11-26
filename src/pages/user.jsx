@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { getStudentInfo, getSchoolName, getTransaction } from "api/userInfo";
 
-const UserPage = ({ studentId, accountId }) => {
+const UserPage = ({ studentId, accountId, info }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [schoolName, setSchoolName] = useState(null);
   const [transactions, setTransactions] = useState([]);
@@ -69,7 +69,7 @@ const UserPage = ({ studentId, accountId }) => {
         }}
       >
         <Avatar
-          src={userInfo.avatar}
+          src={info.userInfo.avatar}
           size="large"
           style={{ width: "80px", height: "80px" }}
         />
@@ -119,7 +119,7 @@ const UserPage = ({ studentId, accountId }) => {
         <Button
           style={{ backgroundColor: "#FF6600", color: "white" }}
           onClick={() =>
-            (window.location.href = "https://vga-beta.vercel.app/Payment")
+            (window.location.href = "https://vga-payment.vercel.app")
           }
         >
           Nạp điểm

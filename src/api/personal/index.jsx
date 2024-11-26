@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const url = import.meta.env.VITE_APP_BASE_API;
-const token = localStorage.getItem("token");
+let token = localStorage.getItem("token");
 
 export const getHistoryTest = async (id) => {
   try {

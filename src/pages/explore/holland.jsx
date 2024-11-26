@@ -147,7 +147,7 @@ const HollandTest = ({ studentId }) => {
               textAlign: "center",
             }}
           >
-            Thực hiện bài kiểm tra này sẽ tốn {testTypeData.point} gold. Bạn đã
+            Thực hiện bài kiểm tra này sẽ tốn {testTypeData.point} điểm. Bạn đã
             sẵn sàng ?
           </Text>
           <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
@@ -180,9 +180,19 @@ const HollandTest = ({ studentId }) => {
             }}
           >
             Số dư không đủ để thực hiện bài kiểm tra này. Vui lòng nạp thêm
-            gold.
+            điểm.
           </Text>
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
+            <Button
+              className="mr-2"
+              type="primary"
+              onClick={() => navigate("/user")}
+              style={{
+                backgroundColor: "#f26d0f",
+              }}
+            >
+              Nạp ngay
+            </Button>
             <Button
               className="mr-2"
               type="primary"

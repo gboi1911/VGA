@@ -20,7 +20,11 @@ export default function News() {
 
   return (
     <Page className="page" style={{ marginTop: "40px", marginBottom: "70px" }}>
-      <Header title="Tin tức" showBackIcon={false} style={{ textAlign: 'center' }} />
+      <Header
+        title="Tin tức"
+        showBackIcon={false}
+        style={{ textAlign: "center" }}
+      />
       <Box
         flex
         flexDirection="column"
@@ -71,6 +75,8 @@ export default function News() {
           placeholder="Tìm kiếm tin tức ?"
           onChange={(e) => handleSearch(e.target.value)}
           style={{ marginTop: "10px" }}
+          maxLength={25}
+          clearable
         />
         <Text
           className=" mt-3"
@@ -122,7 +128,7 @@ export default function News() {
                       textAlign: "justify",
                     }}
                   >
-                    {news.createdAt}
+                    {new Date(news.createdAt).toLocaleDateString("vi-VN")}
                   </Text>
                 </Box>
 

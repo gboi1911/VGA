@@ -23,6 +23,7 @@ import {
   getCompleteBooking,
 } from "api/expert";
 import BookingCardConsultant from "../../../components/bookingCardConsultant";
+import { useLocation } from "react-router-dom";
 
 import "./ConsultantSchedule.css";
 
@@ -36,11 +37,13 @@ export default function ConsultantSchedule({ userid }) {
   const [completeSchedule, setcompleteSchedule] = useState([]);
   const [googleMeetLink, setGoogleMeetLink] = useState("");
   const [bookings, setBookings] = useState([]);
+  const [responseCreate, setResponseCreate] = useState("");
   console.log("completeSchedule:", completeSchedule); // Kiểm tra xem completeSchedule có thay đổi khi chọn slot không
   console.log("idConsultantTime:", idConsultantTime); // Kiểm tra xem idConsultantTime có thay đổi khi chọn slot không
   console.log("slotBooked:", slotBooked); // Kiểm tra xem slotBooked có thay đổi khi chọn slot không
   console.log("selectedTimeSlots:", selectedTimeSlots); // Kiểm tra xem selectedTimeSlots có thay đổi khi chọn slot không
-
+  const location = useLocation();
+  const initialTab = location.state?.tab || "tab1";
   useEffect(() => {
     const fetchTimeSlots = async () => {
       try {
@@ -126,43 +129,46 @@ export default function ConsultantSchedule({ userid }) {
   };
 
   const handleCreate = async () => {
-    // Dữ liệu với nhiều slot chọn
     console.log("handleCreate được gọi"); // Kiểm tra xem hàm có chạy
     const formData = {
-      "consultantId": userid,
-      "day": selectedDate,
-      "consultationTimes": selectedTimeSlots.map((slot) => ({
-        "timeSlotId": slot.id,
-        "note": googleMeetLink,
+      consultantId: userid,
+      day: selectedDate,
+      consultationTimes: selectedTimeSlots.map((slot) => ({
+        timeSlotId: slot.id,
+        note: googleMeetLink,
       })),
     };
 
     try {
       const response = await createSchedule(formData);
       if (response.status === 200) {
-        setDialogVisible("CreateSuccess");
+        setDialogVisible("CreateSuccess"); // Show success modal
+        setResponseCreate(response.message);
+      } else {
+        setDialogVisible("CreateFail"); // Show fail modal if response is not successful
+        setResponseCreate(response.message);
       }
       console.log("Tạo lịch thành công:", response.data);
-      // Cập nhật slotBooked với các slot vừa chọn
       setSlotBooked((prevSlots) => [
         ...prevSlots,
         ...selectedTimeSlots.map((slot) => ({
-          id: slot.id, // Đảm bảo có id để tìm kiếm slot dễ hơn
-          timeSlotId: slot.id, // timeSlotId của slot mới
-          status: 0, // Đặt trạng thái thành 0 nếu slot được đặt mới
-          startTime: slot.startTime, // Thêm thời gian bắt đầu
-          endTime: slot.endTime, // Thêm thời gian kết thúc
+          id: slot.id,
+          timeSlotId: slot.id,
+          status: 0,
+          startTime: slot.startTime,
+          endTime: slot.endTime,
         })),
       ]);
-      // set lại selectedTimeSlots về rỗng
-      setSelectedTimeSlots([]);
-      setDialogVisible(false);
-      setGoogleMeetLink('');
+      setSelectedTimeSlots([]); // Clear selected slots
+      setGoogleMeetLink(""); // Reset Google Meet link
     } catch (error) {
       console.error("Error creating consultation:", error);
+      setDialogVisible("CreateFail"); // Show fail modal in case of error
       setSelectedTimeSlots([]);
     }
+    console.log("message:", responseCreate);
   };
+
   const slotGroups = slotBooked.reduce(
     (acc, booked) => {
       if (!acc[booked.status]) acc[booked.status] = [];
@@ -179,7 +185,7 @@ export default function ConsultantSchedule({ userid }) {
         showBackIcon={false}
         style={{ textAlign: "center" }}
       />
-      <Tabs id="contact-list">
+      <Tabs id="contact-list" defaultActiveKey={initialTab}>
         <Tabs.Tab key="tab1" label="Lịch">
           <List>
             <Typography variant="h6" sx={{ pb: 2, textAlign: "center" }}>
@@ -200,22 +206,22 @@ export default function ConsultantSchedule({ userid }) {
                 const bookedSlot = slotGroups[0].find(
                   (booked) => booked.timeSlotId === slot.id
                 ); // Đã đặt
-                console.log('bookedSlot',bookedSlot)
+                console.log("bookedSlot", bookedSlot);
                 const completedSlot = slotGroups[1].find(
                   (booked) => booked.timeSlotId === slot.id
                 ); // Hoàn thành
-                console.log('completedSlot',completedSlot)
+                console.log("completedSlot", completedSlot);
                 const canceledSlot = slotGroups[2].find(
                   (booked) => booked.timeSlotId === slot.id
                 ); // Bị hủy
-                console.log('canceledSlot', canceledSlot)
+                console.log("canceledSlot", canceledSlot);
                 return (
                   <Button
                     onClick={() => {
                       if (bookedSlot) {
                         // Nếu slot đã được đặt, mở modal Delete
                         setDialogVisible("Delete");
-                        console.log('haha', bookedSlot)
+                        console.log("haha", bookedSlot);
                         setIdConsultantTime(bookedSlot?.id);
                       } else if (completedSlot) {
                         // Nếu slot đã hoàn thành, không làm gì cả
@@ -289,7 +295,10 @@ export default function ConsultantSchedule({ userid }) {
               <Modal
                 visible={dialogVisible === "Create"}
                 title="Ban có chắc chắn muốn Tạo lịch không?"
-                onClose={() => setDialogVisible(false)}
+                onClose={() => {
+                  setDialogVisible(false);
+                  setGoogleMeetLink("");
+                }}
                 actions={[
                   {
                     text: "Hủy bỏ",
@@ -315,6 +324,7 @@ export default function ConsultantSchedule({ userid }) {
                   .join(", ")}`}
               >
                 <Input
+                  clearable
                   type="text"
                   placeholder="Nhập link Google Meet"
                   value={googleMeetLink}
@@ -333,7 +343,24 @@ export default function ConsultantSchedule({ userid }) {
                     justifyContent: "center",
                   },
                 ]}
-              />
+              >
+                {" "}
+                <Text>{responseCreate}</Text>
+              </Modal>
+              <Modal
+                visible={dialogVisible === "CreateFail"}
+                title="Đặt lịch thất bại"
+                onClose={() => setDialogVisible(false)}
+                actions={[
+                  {
+                    text: "Đóng",
+                    close: true,
+                    justifyContent: "center",
+                  },
+                ]}
+              >
+                <Text>{responseCreate}</Text>
+              </Modal>
               <Modal
                 visible={dialogVisible === "Delete"}
                 title="Bạn có chắc chắn muốn xóa lịch không?"

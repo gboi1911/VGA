@@ -246,48 +246,93 @@ const MajorDetail = () => {
         >
           Trường đại học phù hợp
         </Text>
-        <Box style={{ width: "100%" }}>
-          {major.universities.map((university) => (
-            <Box
-              key={university.id}
-              style={{
-                background: "#f8f9fa",
-                padding: "10px",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                marginBottom: "8px",
-                alignItems: "center",
-                flex: "0 0 auto",
-                marginRight: "10px",
-                width: "220px",
-              }}
-              onClick={() => navigate(`/universityDetail/${university.id}`)}
-            >
-              <img
-                src={
-                  university.image ||
-                  "https://img.freepik.com/free-photo/harvard-university-cambridge-usa_1268-14363.jpg?t=st=1730792592~exp=1730796192~hmac=42fcd53feeadc8ec715f921aebe589e40f358baeba4d390d8c58c98ee8735fcd&w=1060"
-                }
-                alt={university.name}
+        <div>
+          <div
+            style={{
+              display: "flex",
+              overflowX: "auto",
+              marginBottom: "16px",
+              alignItems: "center",
+            }}
+          >
+            {major.universities.slice(0, visibleCount).map((university) => (
+              <Box
+                key={university.id}
                 style={{
-                  width: "100%",
-                  height: "120px",
-                  objectFit: "cover",
+                  background: "#f8f9fa",
+                  padding: "10px",
                   borderRadius: "8px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  marginBottom: "8px",
+                  flex: "0 0 auto",
+                  marginRight: "10px",
+                  width: "220px",
+                  cursor: "pointer",
                 }}
-              />
-              <Text
+                onClick={() => navigate(`/universityDetail/${university.id}`)}
+              >
+                {/* Centered Image */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center", // Optional if vertical centering is needed
+                  }}
+                >
+                  <img
+                    src={
+                      university.image ||
+                      "https://img.freepik.com/free-photo/harvard-university-cambridge-usa_1268-14363.jpg?t=st=1730792592~exp=1730796192~hmac=42fcd53feeadc8ec715f921aebe589e40f358baeba4d390d8c58c98ee8735fcd&w=1060"
+                    }
+                    alt={university.name}
+                    style={{
+                      width: "60%",
+                      height: "120px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                    }}
+                  />
+                </div>
+
+                {/* Occupation Name */}
+                <Box
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    height: "50px",
+                    marginTop: "10px",
+                  }}
+                >
+                  <Text bold>{university.name}</Text>
+                </Box>
+              </Box>
+            ))}
+
+            {/* Nút "Xem thêm" */}
+            {visibleCount < major.universities.length && (
+              <button
+                onClick={handleShowMore}
                 style={{
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  marginTop: "10px",
+                  backgroundColor: "rgba(255, 255, 255, 0.8)",
+                  border: "none",
+                  borderRadius: "50%",
+                  padding: "10px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
+                  width: "40px",
+                  height: "40px",
+                  margin: "10px auto",
                 }}
               >
-                {university.name}
-              </Text>
-            </Box>
-          ))}
-        </Box>
+                <EastIcon style={{ fontSize: "20px", color: "#007bff" }} />
+              </button>
+            )}
+          </div>
+        </div>
       </Box>
     </Page>
   );

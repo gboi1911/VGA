@@ -22,22 +22,26 @@ const TestExecute = ({ studentId, accountId }) => {
   const [vibrateEffect, setVibrateEffect] = useState(false);
   const navigate = useNavigate();
 
-  console.log("account id:", accountId);
-
   useEffect(() => {
     const fetchQuestions = async () => {
       const id = "d7eae2f2-ff5c-4b5d-8c6c-4b5e21d8a57c";
       try {
         const response = await getTestData(id, accountId);
-        if (response && response.data && response.data.questionModels) {
+        if (
+          response &&
+          response.data &&
+          Array.isArray(response.data.questionModels)
+        ) {
           const fetchedQuestions = response.data.questionModels.map((q) => ({
             id: q.id,
             content: q.content,
-            answers: q.answerModels.map((ans) => ({
-              id: ans.id,
-              content: ans.content,
-              answerValue: ans.answerValue,
-            })),
+            answers: Array.isArray(q.answers)
+              ? q.answers.map((ans) => ({
+                  id: ans.id,
+                  content: ans.content,
+                  answerValue: ans.answerValue,
+                }))
+              : [], // Fallback to an empty array if answers is not an array
           }));
           setQuestions(fetchedQuestions);
         } else {
@@ -52,7 +56,7 @@ const TestExecute = ({ studentId, accountId }) => {
     };
 
     fetchQuestions();
-  }, []);
+  }, [accountId]);
 
   const handleChoiceChange = (questionId, choice) => {
     setAnswers((prevAnswers) => ({

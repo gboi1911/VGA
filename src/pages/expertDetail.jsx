@@ -166,20 +166,23 @@ const ExpertDetailPage = ({ studentId }) => {
           className="section-container bg-white rounded-lg shadow-md p-4"
           style={{ display: "flex" }}
         >
-          <img
-            // src={expert.image_Url}
-            src={
-              "https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060"
-            }
-            alt={expert.name}
-            // className="w-90 h-32 object-cover rounded-md mt-3"
-            style={{
-              width: "130px",
-              height: "160px",
-              objectFit: "cover",
-              borderRadius: "8px",
-            }}
-          />
+          <div style={{ justifyContent: "center" }}>
+            <img
+              // src={expert.image_Url}
+              src={
+                expert.image_Url ||
+                "https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060"
+              }
+              alt={expert.name}
+              // className="w-90 h-32 object-cover rounded-md mt-3"
+              style={{
+                width: "130px",
+                height: "160px",
+                objectFit: "cover",
+                borderRadius: "8px",
+              }}
+            />
+          </div>
           <Box style={{ marginLeft: "10px" }}>
             <Text
               className="text-orange-700"

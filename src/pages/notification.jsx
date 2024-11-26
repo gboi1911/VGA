@@ -4,7 +4,7 @@ import { Page, Box, Text, Header } from "zmp-ui";
 import { getNotification, updateNotificationStatus } from "api/userInfo";
 import { useNavigate } from "react-router-dom";
 
-const Notification = ({ accountId }) => {
+const Notification = ({ accountId, role }) => {
   const token = localStorage.getItem("token");
   const [messages, setMessages] = useState([]);
   const [status, setStatus] = useState("");
@@ -74,12 +74,20 @@ const Notification = ({ accountId }) => {
     }
 
     // Navigate based on notification message
-    if (notification.title.includes("lịch tư vấn mới")) {
-      navigate("/expert", { state: { tab: "history" } });
-    } else if (notification.title.includes("cập nhật số lượng xu")) {
-      navigate("/user");
-    } else if (notification.title.includes("yêu cầu đổi điểm thưởng")) {
-      navigate("/user");
+    // if (notification.title.includes("lịch tư vấn mới")) {
+    //   navigate("/expert", { state: { tab: "history" } });
+    if (notification.title.includes("cập nhật thông tin điểm")) {
+      if (role === 2) {
+        navigate("/user");
+      } else if (role === 4) {
+        navigate("/consultantpage");
+      }
+    } else if (
+      notification.title.includes("yêu cầu rút tiền đã xử lý thành công")
+    ) {
+      navigate("/consultantpage");
+    } else if (notification.title.includes("có lịch tư vấn đã được đặt")) {
+      navigate("/consultantScheldule", { state: { tab: "tab2" } });
     }
   };
 

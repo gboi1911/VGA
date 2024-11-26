@@ -17,6 +17,8 @@ import {
   faTransgender,
   faSchool,
   faGraduationCap,
+  faAddressCard,
+  faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   getConsultantInfo,
@@ -35,6 +37,18 @@ const ConsultantPage = ({ consultantId, accountId }) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [goldBallance, setGoldBallance] = useState({});
   const [resultModal, setResultModal] = useState({ open: false, message: "" });
+  const [errorText, setErrorText] = useState("");
+  const [status, setStatus] = useState("");
+
+  const fetchTransactions = async () => {
+    try {
+      const response = await getTransaction(accountId);
+      setTransactions(response.data.transactions);
+      console.log("Transaction info: ", response.data.transactions);
+    } catch (error) {
+      console.error("Error in fetching transaction:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -54,15 +68,15 @@ const ConsultantPage = ({ consultantId, accountId }) => {
       }
     };
 
-    const fetchTransactions = async () => {
-      try {
-        const response = await getTransaction(accountId);
-        setTransactions(response.data.transactions);
-        console.log("Transaction info: ", response.data.transactions);
-      } catch (error) {
-        console.error("Error in fetching transaction:", error);
-      }
-    };
+    // const fetchTransactions = async () => {
+    //   try {
+    //     const response = await getTransaction(accountId);
+    //     setTransactions(response.data.transactions);
+    //     console.log("Transaction info: ", response.data.transactions);
+    //   } catch (error) {
+    //     console.error("Error in fetching transaction:", error);
+    //   }
+    // };
 
     const fetchGoldBallance = async () => {
       try {
@@ -118,6 +132,7 @@ const ConsultantPage = ({ consultantId, accountId }) => {
         open: true,
         message: "Số điểm trong ví không đủ, vui lòng nhập lại số điểm phù hợp",
       });
+      setGoldAmount("");
       // Stay in the input modal
     } else {
       setIsInputModalOpen(false); // Close input modal
@@ -128,7 +143,8 @@ const ConsultantPage = ({ consultantId, accountId }) => {
   const handleModalClose = () => {
     // Reload the page if the exchange was successful
     if (resultModal.message === "Yêu cầu đổi điểm của bạn đã thành công!") {
-      window.location.reload();
+      // window.location.reload();
+      fetchTransactions();
     }
     setResultModal({ open: false, message: "" });
   };
@@ -246,7 +262,11 @@ const ConsultantPage = ({ consultantId, accountId }) => {
                 }}
               >
                 <Text style={{ fontWeight: "bold", color: "#FFCC00" }}>
-                  {transaction?.transactionType === 1 ? "+" : "-"}{" "}
+                  {transaction?.transactionType === 1
+                    ? "+"
+                    : transaction?.transactionType === 4
+                    ? " "
+                    : "-"}
                   {transaction?.goldAmount}{" "}
                   <FontAwesomeIcon
                     icon={faCoins}
@@ -312,7 +332,7 @@ const ConsultantPage = ({ consultantId, accountId }) => {
         }}
       >
         <FontAwesomeIcon
-          icon={faSchool}
+          icon={faEnvelope}
           size="lg"
           style={{ marginRight: "10px" }}
         />
@@ -330,11 +350,11 @@ const ConsultantPage = ({ consultantId, accountId }) => {
         }}
       >
         <FontAwesomeIcon
-          icon={faGraduationCap}
+          icon={faAddressCard}
           size="lg"
           style={{ marginRight: "10px" }}
         />
-        <Text bold>Tư vấn viên: </Text>
+        <Text bold>Mô tả: </Text>
         <Text style={{ marginLeft: "5px" }}>{userInfo?.description}</Text>
       </Box>
       <Box
@@ -353,26 +373,72 @@ const ConsultantPage = ({ consultantId, accountId }) => {
           size="lg"
           style={{ marginRight: "10px" }}
         />
-        <Text bold>Tư vấn viên: </Text>
+        <Text bold>Cấp độ tư vấn viên: </Text>
         <Text style={{ marginLeft: "5px" }}>
           {userInfo?.consultantLevel?.name}
+        </Text>
+      </Box>
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "10px",
+          borderRadius: "5px",
+          backgroundColor: "white", // White background
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          marginTop: "5px",
+        }}
+      >
+        <FontAwesomeIcon
+          icon={faSchool}
+          size="lg"
+          style={{ marginRight: "10px" }}
+        />
+        <Text bold>Đại học: </Text>
+        <Text style={{ marginLeft: "5px" }}>
+          {userInfo?.university?.account?.name}
         </Text>
       </Box>
       {/* Input Modal */}
       <Modal
         visible={isInputModalOpen}
-        onClose={() => setIsInputModalOpen(false)}
+        onClose={() => {
+          setIsInputModalOpen(false); // Close the modal
+          setGoldAmount(""); // Clear the input
+          setErrorText(""); // Clear the error message
+          setStatus("");
+        }}
         title="Đổi điểm"
       >
         <Box mt={5}>
           <Input
-            type="number"
+            type="text"
             value={goldAmount}
-            onChange={(e) => setGoldAmount(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              const numericValue = value.replace(/[^0-9]/g, "");
+
+              if (numericValue.length <= 6) {
+                setGoldAmount(numericValue);
+                setErrorText("");
+                setStatus("");
+              } else {
+                setStatus("error");
+                setErrorText("Chỉ được nhập tối đa 6 chữ số.");
+              }
+
+              if (value !== numericValue) {
+                setStatus("error");
+                setErrorText("Chỉ được nhập số.");
+              }
+            }}
             placeholder="Nhập số điểm"
             label="Nhập số điểm muốn đổi"
-            helperText="1 điểm = 1000 VNĐ"
+            helperText="1 điểm = 1.000 VNĐ"
+            errorText={errorText}
+            status={status}
           />
+
           <Box
             style={{
               display: "flex",
@@ -382,9 +448,18 @@ const ConsultantPage = ({ consultantId, accountId }) => {
           >
             <Button
               onClick={() => {
-                if (!goldAmount || parseInt(goldAmount) <= 0) {
+                const normalizedGoldAmount = goldAmount.replace(/^0+/, "");
+
+                if (
+                  !normalizedGoldAmount ||
+                  parseInt(normalizedGoldAmount) <= 0
+                ) {
+                  setErrorText("Số điểm phải lớn hơn 0.");
+                  setStatus("error");
                   return;
                 }
+
+                setGoldAmount(normalizedGoldAmount);
                 handleGoldAmountInput();
               }}
             >

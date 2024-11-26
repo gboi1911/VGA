@@ -3,7 +3,6 @@ import { Icon, BottomNavigation } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
 import useVirtualKeyboardVisible from "./useVirtualKeyboardVisible";
 
-// Update this to include dynamic route patterns
 export const NO_BOTTOM_NAVIGATION_PAGES = [
   "/expertDetail/:id",
   "/testExecute",
@@ -27,11 +26,16 @@ const matchNoBottomNavPages = (pathname) => {
   });
 };
 
-const BottomNavigationPage = () => {
+const BottomNavigationPage = ({ hasNewNotification }) => {
   const location = useLocation();
   const keyboardVisible = useVirtualKeyboardVisible();
   const navigate = useNavigate();
   const { pathname } = location;
+  const [on, setOn] = useState(hasNewNotification);
+
+  useEffect(() => {
+    setOn(hasNewNotification);
+  }, [hasNewNotification]);
 
   const getTabFromPath = (path) => {
     if (
@@ -63,7 +67,6 @@ const BottomNavigationPage = () => {
       return "home";
     }
   };
-
   const [activeTab, setActiveTab] = useState(getTabFromPath(pathname));
 
   useEffect(() => {
@@ -71,7 +74,6 @@ const BottomNavigationPage = () => {
   }, [pathname]);
 
   const handleTabChange = (key) => {
-    // Logic điều hướng
     let targetPath = "/";
     switch (key) {
       case "explore":
@@ -85,40 +87,41 @@ const BottomNavigationPage = () => {
         break;
       case "notify":
         targetPath = "/notification";
+        setOn(false);
         break;
       default:
         targetPath = "/";
     }
     navigate(targetPath);
-    setActiveTab(key); // Cập nhật tab hiện tại
+    setActiveTab(key);
   };
 
   const handleTabClick = (key) => {
     if (activeTab === key) {
-      // Tab hiện tại được nhấn, xử lý refresh
       console.log("Tab hiện tại được nhấn lại:", key);
       handleTabChange(key);
     } else {
-      // Chuyển sang tab khác
       handleTabChange(key);
     }
   };
 
   const getIcon = (key, isActive) => {
-    switch (key) {
-      case "home":
-        return isActive ? "zi-home" : "zi-home";
-      case "explore":
-        return isActive ? "zi-more-grid-solid" : "zi-more-grid";
-      case "expert":
-        return isActive ? "zi-chat-solid" : "zi-chat";
-      case "me":
-        return isActive ? "zi-user-solid" : "zi-user";
-      case "notify":
-        return isActive ? "zi-notif" : "zi-notif";
-      default:
-        return "zi-home";
+    const baseIcon = {
+      home: "zi-home",
+      explore: "zi-more-grid",
+      expert: "zi-chat",
+      me: "zi-user",
+      notify: "zi-notif",
+    };
+
+    // Icons without solid variants
+    const noSolidIcons = ["home", "notify"];
+
+    if (noSolidIcons.includes(key)) {
+      return baseIcon[key]; // Return the base icon for home and notify
     }
+
+    return isActive ? baseIcon[key] + "-solid" : baseIcon[key];
   };
 
   const noBottomNav = useMemo(
@@ -131,32 +134,6 @@ const BottomNavigationPage = () => {
   }
 
   return (
-    // <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>
-    //   <BottomNavigation.Item
-    //     key="home"
-    //     label="Trang chủ"
-    //     icon={<Icon icon="zi-home" />}
-    //     activeIcon={<Icon icon="zi-home" />}
-    //   />
-    //   <BottomNavigation.Item
-    //     label="Khám phá"
-    //     key="explore"
-    //     icon={<Icon icon="zi-more-grid" />}
-    //     activeIcon={<Icon icon="zi-more-grid-solid" />}
-    //   />
-    //   <BottomNavigation.Item
-    //     label="Tư vấn"
-    //     key="expert"
-    //     icon={<Icon icon="zi-chat" />}
-    //     activeIcon={<Icon icon="zi-chat-solid" />}
-    //   />
-    //   <BottomNavigation.Item
-    //     key="me"
-    //     label="Cá nhân"
-    //     icon={<Icon icon="zi-user" />}
-    //     activeIcon={<Icon icon="zi-user-solid" />}
-    //   />
-    // </BottomNavigation>
     <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>
       {["home", "explore", "expert", "notify", "me"].map((key) => (
         <BottomNavigation.Item
@@ -172,9 +149,31 @@ const BottomNavigationPage = () => {
               ? "Tư vấn"
               : "Cá nhân"
           }
-          icon={<Icon icon={getIcon(key, false)} />}
-          activeIcon={<Icon icon={getIcon(key, true)} />}
-          onClick={() => handleTabClick(key)} // Bắt click kể cả khi không đổi tab
+          icon={
+            key === "notify" ? (
+              <div className="relative">
+                <Icon icon={getIcon(key, activeTab === key)} />
+                {on && (
+                  <span className="absolute top-0 right-0 h-2.5 w-2.5 bg-red-500 rounded-full border border-white"></span>
+                )}
+              </div>
+            ) : (
+              <Icon icon={getIcon(key, activeTab === key)} />
+            )
+          }
+          activeIcon={
+            key === "notify" ? (
+              <div className="relative">
+                <Icon icon={getIcon(key, true)} />
+                {on && (
+                  <span className="absolute top-0 right-0 h-2.5 w-2.5 bg-red-500 rounded-full border border-white"></span>
+                )}
+              </div>
+            ) : (
+              <Icon icon={getIcon(key, true)} />
+            )
+          }
+          onClick={() => handleTabClick(key)}
         />
       ))}
     </BottomNavigation>

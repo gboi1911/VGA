@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const url = import.meta.env.VITE_APP_BASE_API;
-let token = localStorage.getItem('token')
+let token = localStorage.getItem("token");
 const MAX_RETRIES = 3;
 
 export const getExpert = async (retries = 0) => {

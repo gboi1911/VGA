@@ -56,6 +56,7 @@ const MyApp = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [messages, setMessages] = useState([]);
   const [status, setStatus] = useState("");
+  const [hasNewNotification, setHasNewNotification] = useState(false);
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -79,6 +80,9 @@ const MyApp = () => {
         const userId = await getUserIDUser();
         const userInfo1 = await getUser();
 
+        console.log(userInfo1);
+        setUserInfo(userInfo1);
+
         setAccessToken(token); // Store the token once fetched
 
         const resposneLogin = await login({
@@ -95,6 +99,7 @@ const MyApp = () => {
         setAccountId(accountid);
 
         const tokenAPI = resposneLogin.data.accessToken;
+        console.log("token:", tokenAPI);
         localStorage.setItem("token", tokenAPI);
       } catch (error) {
         console.error("Error fetching token:", error);
@@ -125,6 +130,7 @@ const MyApp = () => {
         connection.on("ReceiveNotification", (message) => {
           console.log("Received notification:", message);
           setMessages((prevMessages) => [...prevMessages, message]);
+          setHasNewNotification(true);
         });
       })
       .catch((err) => {
@@ -153,7 +159,7 @@ const MyApp = () => {
                   <Route path="/news" element={<News />} />
                   <Route
                     path="/notification"
-                    element={<Notification accountId={accountid} />}
+                    element={<Notification accountId={accountid} role={role} />}
                   />
                   <Route path="/newsdetail/:id" element={<NewDetail />} />
                   <Route
@@ -166,7 +172,13 @@ const MyApp = () => {
                   />
                   <Route
                     path="/user"
-                    element={<User studentId={userid} accountId={accountid} />}
+                    element={
+                      <User
+                        studentId={userid}
+                        accountId={accountid}
+                        info={userInfo}
+                      />
+                    }
                   />
                   <Route path="/test" element={<TestPage />} />
                   <Route
@@ -244,6 +256,10 @@ const MyApp = () => {
                   <Route path="/majorDetail/:id" element={<MajorDetail />} />
                   <Route path="/occupation" element={<Occupation />} />
                   <Route
+                    path="/notification"
+                    element={<Notification accountId={accountid} role={role} />}
+                  />
+                  <Route
                     path="/occupation/:id"
                     element={<Occupationbygroup />}
                   />
@@ -273,10 +289,13 @@ const MyApp = () => {
             </Routes>
             {role === 4 ? (
               <>
-                <CustomBottomNavigation userid={userid} />
+                <CustomBottomNavigation
+                  userid={userid}
+                  hasNewNotification={hasNewNotification}
+                />
               </>
             ) : (
-              <BottomNavigationPage />
+              <BottomNavigationPage hasNewNotification={hasNewNotification} />
             )}
           </ZMPRouter>
         </SnackbarProvider>
