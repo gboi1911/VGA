@@ -1,6 +1,8 @@
 const url = import.meta.env.VITE_APP_BASE_API;
-let token = localStorage.getItem("token");
+
 import axios from "axios";
+
+let token = localStorage.getItem("token");
 
 export const getStudentInfo = async (id) => {
   try {
