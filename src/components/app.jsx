@@ -80,7 +80,7 @@ const MyApp = () => {
         const userId = await getUserIDUser();
         const userInfo1 = await getUser();
 
-        console.log(userInfo1);
+        console.log("userinfo", userInfo1);
         setUserInfo(userInfo1);
 
         setAccessToken(token); // Store the token once fetched
@@ -88,7 +88,7 @@ const MyApp = () => {
         const resposneLogin = await login({
           zaloId: userId,
           phone: phone,
-          image_Url: "string",
+          image_Url: userInfo1.userInfo.avatar,
         });
         console.log(resposneLogin);
         const userid = resposneLogin.data.userId;

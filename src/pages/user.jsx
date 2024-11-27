@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, List, Text, Box, Page, Button, Header, Spinner } from "zmp-ui";
+import {
+  Avatar,
+  List,
+  Text,
+  Box,
+  Page,
+  Button,
+  Header,
+  Spinner,
+  Modal,
+} from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import {
@@ -9,12 +19,16 @@ import {
   faGraduationCap,
 } from "@fortawesome/free-solid-svg-icons";
 import { getStudentInfo, getSchoolName, getTransaction } from "api/userInfo";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const UserPage = ({ studentId, accountId, info }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [schoolName, setSchoolName] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [loadingTransactions, setLoadingTransactions] = useState(true); // Add loading state
+  const [visible, setVisible] = useState(false);
+
+  const paymentLink = "https://vga-payment.vercel.app";
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -68,6 +82,28 @@ const UserPage = ({ studentId, accountId, info }) => {
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
         }}
       >
+        <Modal
+          visible={visible}
+          title="Nạp điểm"
+          onClose={() => setVisible(false)}
+        >
+          <Text style={{ marginBottom: "10px" }}>
+            Để nạp điểm, hãy copy link dưới đây và dán vào trình duyệt để thực
+            hiện nạp điểm.
+          </Text>
+          <Box
+            style={{
+              display: "flex",
+              alignItems: "center",
+              padding: "10px",
+              backgroundColor: "#F9F9F9",
+              borderRadius: "5px",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text>{paymentLink}</Text>
+          </Box>
+        </Modal>
         <Avatar
           src={info.userInfo.avatar}
           size="large"
@@ -77,7 +113,6 @@ const UserPage = ({ studentId, accountId, info }) => {
           {userInfo.data.account.name}
         </Text>
       </Box>
-
       <Box
         style={{
           display: "flex",
@@ -118,14 +153,16 @@ const UserPage = ({ studentId, accountId, info }) => {
         </Box>
         <Button
           style={{ backgroundColor: "#FF6600", color: "white" }}
-          onClick={() =>
-            (window.location.href = "https://vga-payment.vercel.app")
-          }
+          onClick={() => {
+            setVisible(true);
+          }}
+          // onClick={() =>
+          //   (window.location.href = "https://vga-payment.vercel.app")
+          // }
         >
           Nạp điểm
         </Button>
       </Box>
-
       <Box
         style={{
           padding: "10px",
@@ -173,6 +210,8 @@ const UserPage = ({ studentId, accountId, info }) => {
                       : transaction?.transactionType === 7
                       ? "+"
                       : transaction?.transactionType === 4
+                      ? " "
+                      : transaction?.transactionType === 5
                       ? " "
                       : "-"}
                     {transaction?.goldAmount}{" "}
