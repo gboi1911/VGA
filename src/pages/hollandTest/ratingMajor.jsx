@@ -75,7 +75,7 @@ const RatingCard = ({
               alignItems: "center",
               textAlign: "center",
               marginBottom: "15px",
-              height: "50px",
+              height: "70px",
               marginTop: "20px",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -158,10 +158,15 @@ const RatingMajor = () => {
   const [showModal, setShowModal] = useState(false);
   const [admissionMethod, setAdmissionMethod] = useState([]);
   const [selectedAdmissionMethod, setSelectedAdmissionMethod] = useState(null);
+  const [isRatingView, setIsRatingView] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [isDisplay, setIsDisplay] = useState(false);
+  const [expandedCategories, setExpandedCategories] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
 
   const { resultData } = location.state || {};
+  console.log("data:", resultData);
 
   const tuitionFees = [
     { value: 50000000, displayName: "50 triệu" },
@@ -299,6 +304,13 @@ const RatingMajor = () => {
     setShowModal(false);
   };
 
+  const handleToggleCategory = (categoryIndex) => {
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [categoryIndex]: !prev[categoryIndex],
+    }));
+  };
+
   return (
     <Page
       className="page"
@@ -311,162 +323,181 @@ const RatingMajor = () => {
         backgroundColor: "#f9f9f9",
       }}
     >
-      <Box
-        style={{
-          backgroundColor: "#FFFFFF",
-          padding: "10px",
-          borderRadius: "8px",
-        }}
-      >
-        <Text bold style={{ textAlign: "center", fontSize: "20px" }}>
-          Đánh giá ngành học theo mức độ yêu thích ({completedRatings}/
-          {ratingMajors.length})
-        </Text>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Icon
-            icon="zi-chevron-left"
-            onClick={handleBack}
-            disabled={currentCardIndex === 0}
-          />
-          <div style={{ margin: "20px", display: "flex", flexWrap: "wrap" }}>
-            {ratingMajors.map((major, index) => (
-              <div
-                key={major.id}
+      {/* Conditional Rendering for Major List or Rating View */}
+      {!isRatingView ? (
+        <>
+          {/* Major List Section */}
+          <Box
+            style={{
+              textAlign: "center",
+              marginBottom: "10px",
+              width: "100%",
+              padding: "20px 0",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: "2rem",
+                fontWeight: "bold",
+                color: "#3B3B98",
+                letterSpacing: "0.5px",
+              }}
+            >
+              Ngành nghề phù hợp
+            </Text>
+            <Text
+              style={{
+                fontSize: "1.1rem",
+                color: "#7D8799",
+                marginTop: "20px",
+              }}
+            >
+              Dưới đây là danh sách các ngành học phù hợp dựa theo kết quả bài
+              test bạn đã thực hiện
+            </Text>
+          </Box>
+
+          {/* Cards Section */}
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              width: "100%",
+              maxWidth: "700px",
+            }}
+          >
+            {resultData?.majorCategories.map((category, categoryIndex) => (
+              <Box
+                key={categoryIndex}
                 style={{
-                  display: index === currentCardIndex ? "block" : "none",
+                  background: "white",
+                  borderRadius: "15px",
+                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.1)",
+                  overflow: "hidden",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
-                <RatingCard
-                  major={major}
-                  rating={ratings[major.id]}
-                  onRate={handleRate}
-                  onFlip={() => handleFlip(major.id)}
-                  isFlipped={isFlipped}
-                  description={majorDescription}
-                  onShowMore={handleShowMore}
-                />
-              </div>
+                {/* Card Header */}
+                <Box
+                  style={{
+                    background: "linear-gradient(135deg, #667eea, #764ba2)",
+                    padding: "20px 25px",
+                    borderRadius: "12px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    position: "relative",
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: "1.5rem",
+                      fontWeight: "600",
+                      zIndex: 1,
+                    }}
+                  >
+                    {category.name}
+                  </Text>
+                </Box>
+
+                {/* Majors List */}
+                <Box
+                  style={{
+                    padding: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                  }}
+                >
+                  {category.majors
+                    .slice(
+                      0,
+                      expandedCategories[categoryIndex]
+                        ? category.majors.length
+                        : 10
+                    )
+                    .map((major, majorIndex) => (
+                      <Box
+                        key={majorIndex}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "#f9f9f9",
+                          borderRadius: "8px",
+                          padding: "10px",
+                          boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+                        }}
+                      >
+                        <img
+                          src={major.image}
+                          alt={major.name}
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "50%",
+                            marginRight: "15px",
+                          }}
+                        />
+                        <Text style={{ fontWeight: "bold", flex: 1 }}>
+                          {major.name}
+                        </Text>
+                      </Box>
+                    ))}
+
+                  {/* "Xem thêm" Button */}
+                  {category.majors.length > 10 && (
+                    <Button
+                      style={{
+                        marginTop: "10px",
+                        color: "white",
+                        fontWeight: "bold",
+                        fontSize: "1rem",
+                      }}
+                      onClick={() => handleToggleCategory(categoryIndex)}
+                    >
+                      {expandedCategories[categoryIndex]
+                        ? "Thu gọn"
+                        : "Xem thêm"}
+                    </Button>
+                  )}
+                </Box>
+              </Box>
             ))}
-          </div>
-          <Icon
-            icon="zi-chevron-right"
-            onClick={handleNext}
-            disabled={currentCardIndex === ratingMajors.length - 1}
-          />
-        </div>
-      </Box>
-      {completedRatings === ratingMajors.length && (
-        <Box
-          mt={8}
-          style={{
-            width: "100%",
-            borderRadius: "10px",
-            backgroundColor: "white",
-            padding: "20px",
-          }}
-        >
-          <Text.Title
-            size="large"
-            style={{
-              alignItems: "center",
-              textAlign: "center",
-            }}
-          >
-            Thông tin nguyện vọng trường đại học bạn mong muốn
-          </Text.Title>
-          <Text
-            style={{
-              color: "GrayText",
-              textAlign: "center",
-              marginTop: "12px",
-            }}
-          >
-            (Bạn có thể bỏ qua phần tùy chọn này nếu không có nhu cầu)
-          </Text>
-          <Box mt={4}>
-            <Picker
-              label="Học phí hằng năm"
-              placeholder="Chọn học phí"
-              helperText="Mức học phí dao động"
-              mask
-              maskClosable
-              title="Học phí hằng năm"
-              action={{
-                text: "Close",
-                close: true,
-              }}
-              data={[{ options: tuitionFees, name: "tuition" }]}
-              onChange={(value) => setSelectedTuitionFee(value)} // Capture selected tuition fee
-            />
+            <Modal
+              visible={showConfirmModal}
+              onClose={handleCloseModal}
+              title="Thông báo"
+            >
+              <Text style={{ textAlign: "center" }}>
+                Việc đánh giá dựa theo sở thich về các ngành học phù hợp với bạn
+                để hệ thống chúng tôi gợi ý các nghề nghiệp tương lai
+              </Text>
+              <Box
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: "30px",
+                }}
+              >
+                <Button
+                  style={{
+                    color: "#FFF",
+                    padding: "12px 24px",
+                    fontSize: "1.2em",
+                  }}
+                  onClick={() => setIsRatingView(true)}
+                >
+                  Bắt đầu
+                </Button>
+              </Box>
+            </Modal>
           </Box>
-          <Box mt={2}>
-            <Picker
-              label="Tỉnh thành"
-              placeholder="Chọn tỉnh thành"
-              mask
-              maskClosable
-              title="Tỉnh thành"
-              action={{
-                text: "Close",
-                close: true,
-              }}
-              data={[
-                {
-                  options: regions.map((region) => ({
-                    value: region.id,
-                    displayName: region.name,
-                  })),
-                  name: "region",
-                },
-              ]}
-              onChange={(value) => setSelectedRegion(value)} // Capture selected region
-            />
-          </Box>
-          <Box mt={2}>
-            <Picker
-              label="Năm nhập học"
-              placeholder="Chọn năm học"
-              mask
-              maskClosable
-              title="Năm nhập học"
-              action={{
-                text: "Close",
-                close: true,
-              }}
-              data={[{ options: academicYears, name: "academicYear" }]}
-              defaultValue={[2025]}
-              onChange={(value) => setSelectedYear(value)} // Capture selected year
-            />
-          </Box>
-          <Box mt={2}>
-            <Picker
-              label="Phương thức xét tuyển"
-              placeholder="Chọn phương thức xét tuyển"
-              mask
-              maskClosable
-              title="Phương thức xét tuyển"
-              action={{
-                text: "Close",
-                close: true,
-              }}
-              data={[
-                {
-                  options: admissionMethod.map((method) => ({
-                    value: method.id,
-                    displayName: method.name,
-                  })),
-                  name: "method",
-                },
-              ]}
-              onChange={(value) => setSelectedAdmissionMethod(value)} // Capture selected year
-            />
-          </Box>
+
+          {/* Navigate to Rating View */}
           <Button
             style={{
               backgroundColor: "#FF6600",
@@ -475,23 +506,216 @@ const RatingMajor = () => {
               padding: "12px 24px",
               marginTop: "30px",
               fontSize: "1.2em",
-              width: "90%",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-              marginLeft: "15px",
             }}
-            onClick={handleFinish} // Call handleFinish on button click
+            onClick={() => setShowConfirmModal(true)}
           >
-            Tiếp theo
+            Đánh giá
           </Button>
-        </Box>
+        </>
+      ) : (
+        <>
+          {/* Rating View */}
+          {(completedRatings === ratingMajors.length || !isDisplay) && (
+            <Box
+              style={{
+                // backgroundColor: "#FFFFFF",
+                padding: "10px",
+                borderRadius: "8px",
+              }}
+            >
+              <Text bold style={{ textAlign: "center", fontSize: "20px" }}>
+                Đánh giá ngành học theo mức độ yêu thích ({completedRatings}/
+                {ratingMajors.length})
+              </Text>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Icon
+                  icon="zi-chevron-left"
+                  onClick={handleBack}
+                  disabled={currentCardIndex === 0}
+                />
+                <div
+                  style={{ margin: "20px", display: "flex", flexWrap: "wrap" }}
+                >
+                  {ratingMajors.map((major, index) => (
+                    <div
+                      key={major.id}
+                      style={{
+                        display: index === currentCardIndex ? "block" : "none",
+                      }}
+                    >
+                      <RatingCard
+                        major={major}
+                        rating={ratings[major.id]}
+                        onRate={handleRate}
+                        onFlip={() => handleFlip(major.id)}
+                        isFlipped={isFlipped}
+                        description={majorDescription}
+                        onShowMore={handleShowMore}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <Icon
+                  icon="zi-chevron-right"
+                  onClick={handleNext}
+                  disabled={currentCardIndex === ratingMajors.length - 1}
+                />
+              </div>
+              {completedRatings != 0 && (
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "blue",
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => setIsDisplay(true)}
+                >
+                  Bỏ qua
+                </Text>
+              )}
+            </Box>
+          )}
+
+          {/* Other Rating Components */}
+          {(completedRatings === ratingMajors.length || isDisplay) && (
+            <Box
+              mt={8}
+              style={{
+                width: "100%",
+                borderRadius: "10px",
+                backgroundColor: "white",
+                padding: "20px",
+              }}
+            >
+              <Text.Title
+                size="large"
+                style={{
+                  alignItems: "center",
+                  textAlign: "center",
+                }}
+              >
+                Thông tin nguyện vọng trường đại học bạn mong muốn
+              </Text.Title>
+              <Text
+                style={{
+                  color: "GrayText",
+                  textAlign: "center",
+                  marginTop: "12px",
+                }}
+              >
+                (Bạn có thể bỏ qua phần tùy chọn này nếu không có nhu cầu)
+              </Text>
+              <Box mt={4}>
+                <Picker
+                  label="Học phí hằng năm"
+                  placeholder="Chọn học phí"
+                  helperText="Mức học phí dao động"
+                  mask
+                  maskClosable
+                  title="Học phí hằng năm"
+                  action={{
+                    text: "Close",
+                    close: true,
+                  }}
+                  data={[{ options: tuitionFees, name: "tuition" }]}
+                  onChange={(value) => setSelectedTuitionFee(value)} // Capture selected tuition fee
+                />
+              </Box>
+              <Box mt={2}>
+                <Picker
+                  label="Tỉnh thành"
+                  placeholder="Chọn tỉnh thành"
+                  mask
+                  maskClosable
+                  title="Tỉnh thành"
+                  action={{
+                    text: "Close",
+                    close: true,
+                  }}
+                  data={[
+                    {
+                      options: regions.map((region) => ({
+                        value: region.id,
+                        displayName: region.name,
+                      })),
+                      name: "region",
+                    },
+                  ]}
+                  onChange={(value) => setSelectedRegion(value)} // Capture selected region
+                />
+              </Box>
+              <Box mt={2}>
+                <Picker
+                  label="Năm nhập học"
+                  placeholder="Chọn năm học"
+                  mask
+                  maskClosable
+                  title="Năm nhập học"
+                  action={{
+                    text: "Close",
+                    close: true,
+                  }}
+                  data={[{ options: academicYears, name: "academicYear" }]}
+                  defaultValue={[2025]}
+                  onChange={(value) => setSelectedYear(value)} // Capture selected year
+                />
+              </Box>
+              <Box mt={2}>
+                <Picker
+                  label="Phương thức xét tuyển"
+                  placeholder="Chọn phương thức xét tuyển"
+                  mask
+                  maskClosable
+                  title="Phương thức xét tuyển"
+                  action={{
+                    text: "Close",
+                    close: true,
+                  }}
+                  data={[
+                    {
+                      options: admissionMethod.map((method) => ({
+                        value: method.id,
+                        displayName: method.name,
+                      })),
+                      name: "method",
+                    },
+                  ]}
+                  onChange={(value) => setSelectedAdmissionMethod(value)} // Capture selected year
+                />
+              </Box>
+              <Button
+                style={{
+                  backgroundColor: "#FF6600",
+                  color: "#FFF",
+                  borderRadius: "8px",
+                  padding: "12px 24px",
+                  marginTop: "30px",
+                  fontSize: "1.2em",
+                  width: "90%",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                  marginLeft: "15px",
+                }}
+                onClick={handleFinish} // Call handleFinish on button click
+              >
+                Tiếp theo
+              </Button>
+            </Box>
+          )}
+          <Modal
+            visible={showModal}
+            onClose={handleCloseModal}
+            title="Mô tả đầy đủ"
+          >
+            <Text>{majorDescription}</Text>
+          </Modal>
+        </>
       )}
-      <Modal
-        visible={showModal}
-        onClose={handleCloseModal}
-        title="Mô tả đầy đủ"
-      >
-        <Text>{majorDescription}</Text>
-      </Modal>
     </Page>
   );
 };

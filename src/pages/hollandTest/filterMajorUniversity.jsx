@@ -2,12 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import { Page, Box, Text, Button } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
 import OccupationCard from "../../components/occupationCard"; // Adjust the path as needed
+import { major } from "@mui/material";
 
 const FilterMajorUniversity = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { resultData } = location.state || {};
   const [displayedMessage, setDisplayedMessage] = useState("");
+  const [expandedCategories, setExpandedCategories] = useState({});
   const typingTimeoutRef = useRef(null);
 
   useEffect(() => {
@@ -37,6 +39,13 @@ const FilterMajorUniversity = () => {
 
   const handleFinish = () => {
     navigate("/explore");
+  };
+
+  const handleToggleCategory = (majorIndex) => {
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [majorIndex]: !prev[majorIndex],
+    }));
   };
 
   return (
@@ -158,14 +167,34 @@ const FilterMajorUniversity = () => {
                 gap: "20px", // Better spacing between items
               }}
             >
-              {major._occupations?.map((occupation, occupationIndex) => (
-                <OccupationCard
-                  key={occupationIndex}
-                  occupation={occupation}
-                  index={occupationIndex}
-                />
-              ))}
+              {major._occupations
+                .slice(
+                  0,
+                  expandedCategories[majorIndex]
+                    ? major._occupations.length
+                    : 10
+                )
+                .map((occupation, occupationIndex) => (
+                  <OccupationCard
+                    key={occupationIndex}
+                    occupation={occupation}
+                    index={occupationIndex}
+                  />
+                ))}
             </Box>
+            {major._occupations?.length > 10 && (
+              <Button
+                style={{
+                  margin: "16px",
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "1rem",
+                }}
+                onClick={() => handleToggleCategory(majorIndex)}
+              >
+                {expandedCategories[majorIndex] ? "Thu gọn" : "Xem thêm"}
+              </Button>
+            )}
           </Box>
         ))}
       </Box>

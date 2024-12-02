@@ -83,7 +83,7 @@ const Personal = () => {
               }}
             >
               <Text bold style={{ fontSize: "20px" }}>
-                Ngành nghề phù hợp
+                Ngành học phù hợp
               </Text>
             </Box>
           </Box>

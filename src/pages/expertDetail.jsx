@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { Page, Box, Text, Calendar, Button, Modal, Header } from "zmp-ui";
+import {
+  Page,
+  Box,
+  Text,
+  Calendar,
+  Button,
+  Modal,
+  Header,
+  ImageViewer,
+} from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBirthdayCake,
@@ -26,6 +35,8 @@ const ExpertDetailPage = ({ studentId }) => {
   const [bookingConfirmation, setBookingConfirmation] = useState(null);
   const [bookingError, setBookingError] = useState(null);
   const [expert, setExpert] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [visible, setVisible] = useState(false);
 
   // useEffect(() => {
   //   const fetchExpert = async () => {
@@ -162,75 +173,127 @@ const ExpertDetailPage = ({ studentId }) => {
         >
           Thông tin tư vấn viên
         </Text>
-        <Box
-          className="section-container bg-white rounded-lg shadow-md p-2"
-          style={{ display: "flex" }}
-        >
-          <div style={{ justifyContent: "center" }}>
-            <img
-              // src={expert.image_Url}
-              src={
-                expert.image_Url ||
-                "https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060"
-              }
-              alt={expert.name}
-              // className="w-90 h-32 object-cover rounded-md mt-3"
-              style={{
-                width: "130px",
-                height: "160px",
-                objectFit: "cover",
-                borderRadius: "8px",
-              }}
-            />
+        <Box className="section-container bg-white rounded-lg shadow-md p-2">
+          <div style={{ display: "flex" }}>
+            <div style={{ justifyContent: "center" }}>
+              <img
+                // src={expert.image_Url}
+                src={
+                  expert.image_Url ||
+                  "https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060"
+                }
+                alt={expert.name}
+                // className="w-90 h-32 object-cover rounded-md mt-3"
+                style={{
+                  width: "130px",
+                  height: "160px",
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                }}
+              />
+            </div>
+            <Box style={{ marginLeft: "10px" }}>
+              <Text
+                className="text-orange-700"
+                size="xLarge"
+                bold
+                style={{ textAlign: "center" }}
+              >
+                {expert.name}
+              </Text>
+              <Text className="text-gray-600 mt-2">
+                <FontAwesomeIcon
+                  icon={faBirthdayCake}
+                  style={{ marginRight: "5px" }}
+                />{" "}
+                {new Date(expert.dateOfBirth).toLocaleDateString("en-GB")}
+              </Text>
+              <Text className="text-gray-600 mt-2">
+                <FontAwesomeIcon icon={faStar} style={{ marginRight: "5px" }} />{" "}
+                {expert.consultantLevel.id}
+              </Text>
+              <Text className="text-gray-600 mt-2">
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  style={{ marginRight: "5px" }}
+                />
+                {expert.email}
+              </Text>
+              <Text className="text-base text-gray-700 mt-2">
+                <FontAwesomeIcon
+                  icon={faAddressCard}
+                  style={{ marginRight: "5px" }}
+                />
+                {expert.description ||
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+              </Text>
+              <Text className="text-gray-600 mt-2">
+                <FontAwesomeIcon
+                  icon={faSchool}
+                  style={{ marginRight: "5px" }}
+                />{" "}
+                {expert.university.account.name}
+              </Text>
+              <Text className=" text-gray-700 mt-2">
+                <FontAwesomeIcon
+                  icon={faDollarSign}
+                  style={{ marginRight: "5px" }}
+                />
+                {`${expert.consultantLevel.priceOnSlot} điểm / slot` ||
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+              </Text>
+            </Box>
           </div>
-          <Box style={{ marginLeft: "10px" }}>
-            <Text
-              className="text-orange-700"
-              size="xLarge"
-              bold
-              style={{ textAlign: "center" }}
-            >
-              {expert.name}
-            </Text>
-            <Text className="text-gray-600 mt-2">
-              <FontAwesomeIcon
-                icon={faBirthdayCake}
-                style={{ marginRight: "5px" }}
-              />{" "}
-              {new Date(expert.dateOfBirth).toLocaleDateString("en-GB")}
-            </Text>
-            <Text className="text-gray-600 mt-2">
-              <FontAwesomeIcon icon={faStar} style={{ marginRight: "5px" }} />{" "}
-              {expert.consultantLevel.id}
-            </Text>
-            <Text className="text-gray-600 mt-2">
-              <FontAwesomeIcon
-                icon={faEnvelope}
-                style={{ marginRight: "5px" }}
-              />
-              {expert.email}
-            </Text>
-            <Text className="text-base text-gray-700 mt-2">
-              <FontAwesomeIcon
-                icon={faAddressCard}
-                style={{ marginRight: "5px" }}
-              />
-              {expert.description ||
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
-            </Text>
-            <Text className="text-gray-600 mt-2">
-              <FontAwesomeIcon icon={faSchool} style={{ marginRight: "5px" }} />{" "}
-              {expert.university.account.name}
-            </Text>
-            <Text className="text-base text-gray-700 mt-2">
-              <FontAwesomeIcon
-                icon={faDollarSign}
-                style={{ marginRight: "5px" }}
-              />
-              {`${expert.consultantLevel.priceOnSlot} điểm / slot` ||
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
-            </Text>
+          <Text
+            className="text-center mb-3 mt-2"
+            style={{
+              fontSize: "18px",
+              fontWeight: "bold",
+              marginTop: "20px",
+              color: "#0066CC",
+            }}
+          >
+            Chứng chỉ
+          </Text>
+          <Text>
+            Những chứng chỉ dưới đây để xác nhận trình độ và độ uy tín của tư
+            vấn viên
+          </Text>
+          <Box flex flexDirection="row" flexWrap="nowrap" mt={2}>
+            {expert?.certifications.map((img, index) => (
+              <Box
+                mr={1}
+                key={img.id}
+                style={{
+                  width: "68px",
+                  height: "69px",
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                }}
+              >
+                <img
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                  role="presentation"
+                  onClick={() => {
+                    setActiveIndex(index);
+                    setVisible(true);
+                  }}
+                  src={img.imageUrl}
+                  alt={img.description}
+                />
+              </Box>
+            ))}
           </Box>
+          <ImageViewer
+            onClose={() => setVisible(false)}
+            activeIndex={activeIndex}
+            images={expert.certifications}
+            visible={visible}
+          />
         </Box>
 
         <Text
