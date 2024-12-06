@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { borderBottom, height } from "@mui/system";
 
-
 // const exploreCardData = {
 //   mbtiTest: {
 //     title: "Bài kiểm tra tính cách MBTI",
@@ -47,20 +46,20 @@ import { borderBottom, height } from "@mui/system";
 
 const exploreCardData = [
   {
-    id: "mbtiTest",
+    id: "mbtiList",
     title: "Bài kiểm tra tính cách MBTI",
     description: "Khám phá tính cách qua bài kiểm tra MBTI phổ biến.",
     imageUrl:
       "https://tracuuthansohoc.com/wp-content/uploads/2023/07/bai-trac-nghiem-tinh-cach-mbti.jpg",
-    route: "/mbtiTest",
+    route: "/mbtiList",
   },
   {
-    id: "hollandTest",
+    id: "hollandList",
     title: "Bài kiểm tra nghề nghiệp Holland",
     description: "Tìm hiểu nghề nghiệp phù hợp với bài kiểm tra Holland.",
     imageUrl:
       "https://res.cloudinary.com/team-odeon/images/w_1640,h_1586,c_scale/f_webp/v1667316862/degreechoices/self-directed-search-sds/self-directed-search-sds.png?_i=AA",
-    route: "/hollandTest",
+    route: "/hollandList",
   },
   {
     id: "major",
@@ -94,12 +93,14 @@ const exploreCardData = [
     route: "/personal",
   },
 ];
-;
-
 const Explore = () => {
   return (
     <Page className="page" style={{ marginTop: "40px" }}>
-      <Header title="Khám phá" showBackIcon={false} style={{ textAlign: 'center' }} />
+      <Header
+        title="Khám phá"
+        showBackIcon={false}
+        style={{ textAlign: "center" }}
+      />
       {/* <Box
         style={{
           display: "grid",
@@ -172,7 +173,7 @@ const Explore = () => {
               key={card.id}
               style={{
                 display: "flex",
-                height: '80px',
+                height: "80px",
                 alignItems: "center",
                 gap: "10px",
                 padding: "10px",

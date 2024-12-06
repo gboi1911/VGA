@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Page, Box, Text, Button, Progress, Icon, Header } from "zmp-ui";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test"; // Điều chỉnh API nếu cần
 
 const TestExecuteHolland = ({ studentId, accountId }) => {
@@ -11,8 +11,10 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
   const [testCompleted, setTestCompleted] = useState(false);
   const [vibrateEffect, setVibrateEffect] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { id } = location.state || {};
 
-  const id = "c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7";
+  // const id = "c8f6e5a3-4b3c-4d3a-8f5e-1c9a7d40d0b7";
 
   useEffect(() => {
     const fetchQuestions = async () => {

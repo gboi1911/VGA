@@ -36,6 +36,8 @@ import ConsultantSchedulePage from "super/pages/ConsultantSchedulePage";
 import News from "pages/news/news";
 import ConsultantPage from "super/pages/consultantpage";
 import Notification from "pages/notification";
+import MBTI from "pages/explore/mbtiList";
+import Holland from "pages/explore/hollandList";
 import * as signalR from "@microsoft/signalr";
 
 import {
@@ -193,6 +195,8 @@ const MyApp = () => {
                     path="/mbtiTest"
                     element={<MBTITest studentId={userid} />}
                   />
+                  <Route path="/mbtiList" element={<MBTI />} />
+                  <Route path="/hollandList" element={<Holland />} />
                   <Route
                     path="/hollandTest"
                     element={<HollandTest studentId={userid} />}

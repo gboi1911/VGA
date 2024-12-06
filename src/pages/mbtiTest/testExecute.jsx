@@ -10,7 +10,7 @@ import {
   Spinner,
   Progress,
 } from "zmp-ui"; // Import Progress
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test";
 
 const TestExecute = ({ studentId, accountId }) => {
@@ -21,10 +21,12 @@ const TestExecute = ({ studentId, accountId }) => {
   const [loading, setLoading] = useState(false);
   const [vibrateEffect, setVibrateEffect] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { id } = location.state || {};
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const id = "d7eae2f2-ff5c-4b5d-8c6c-4b5e21d8a57c";
+      // const id = "d7eae2f2-ff5c-4b5d-8c6c-4b5e21d8a57c";
       try {
         const response = await getTestData(id, accountId);
         if (

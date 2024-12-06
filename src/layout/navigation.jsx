@@ -41,6 +41,8 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
     if (
       path.startsWith("/explore") ||
       path.startsWith("/hollandTest") ||
+      path.startsWith("/hollandList") ||
+      path.startsWith("/mbtiList") ||
       path.startsWith("/mbtiTest") ||
       path.startsWith("/major") ||
       path.startsWith("/occupation") ||

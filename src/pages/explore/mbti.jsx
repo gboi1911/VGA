@@ -1,17 +1,19 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Page, Text, Box, Modal, Button, Header } from "zmp-ui";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
-import { getTestType } from "api/test";
+// import { getTestType } from "api/test";
 import { getStudentInfo } from "api/userInfo";
 
 const MBTITest = ({ studentId }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [testType, setTestType] = useState("mbti");
-  const [testTypeData, setTestTypeData] = useState({});
+  // const [testTypeData, setTestTypeData] = useState({});
   const [userInfo, setUserInfo] = useState(null);
   const [isBalanceModalVisible, setIsBalanceModalVisible] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { id, point } = location.state || {};
 
   const handleStartTest = useCallback((type) => {
     setTestType(type);
@@ -20,15 +22,15 @@ const MBTITest = ({ studentId }) => {
   }, []);
 
   useEffect(() => {
-    const fetchTestTypeData = async () => {
-      const id = "a5b0a3e1-ca71-493d-9e0d-fb8b0f7e8e84";
-      try {
-        const response = await getTestType(id);
-        setTestTypeData(response.data);
-      } catch (error) {
-        console.error("Error in fetching test type data:", error);
-      }
-    };
+    // const fetchTestTypeData = async () => {
+    //   const id = "a5b0a3e1-ca71-493d-9e0d-fb8b0f7e8e84";
+    //   try {
+    //     const response = await getTestType(id);
+    //     setTestTypeData(response.data);
+    //   } catch (error) {
+    //     console.error("Error in fetching test type data:", error);
+    //   }
+    // };
 
     const fetchUserInfo = async () => {
       try {
@@ -40,26 +42,26 @@ const MBTITest = ({ studentId }) => {
       }
     };
 
-    fetchTestTypeData();
+    // fetchTestTypeData();
     fetchUserInfo();
   }, []);
 
   const handleYes = useCallback(() => {
     setIsModalVisible(false);
 
-    if (userInfo && testTypeData) {
+    if (userInfo) {
       // Safely access nested properties
       const goldBalance = userInfo?.account?.wallet?.goldBalance || 0;
       console.log("Gold Balance:", goldBalance);
 
-      const requiredGold = testTypeData?.point || 0;
-      console.log("Required Gold:", requiredGold);
+      // const requiredGold = testTypeData?.point || 0;
+      // console.log("Required Gold:", requiredGold);
 
-      if (goldBalance >= requiredGold) {
+      if (goldBalance >= point) {
         // User has enough gold, proceed to the test page
         console.log("Sufficient balance. Starting test:", testType);
         if (testType === "mbti") {
-          navigate("/testExecute");
+          navigate("/testExecute", { state: { id } });
         } else if (testType === "holland") {
           navigate("/testExecuteHolland");
         }
@@ -71,7 +73,7 @@ const MBTITest = ({ studentId }) => {
     } else {
       console.error("User info or test type data is not available.");
     }
-  }, [testType, navigate, userInfo, testTypeData]);
+  }, [testType, navigate, userInfo]);
 
   const handleNo = useCallback(() => {
     setIsModalVisible(false);
@@ -146,8 +148,7 @@ const MBTITest = ({ studentId }) => {
               textAlign: "center",
             }}
           >
-            Thực hiện bài kiểm tra này sẽ tốn {testTypeData.point} điểm. Bạn đã
-            sẵn sàng ?
+            Thực hiện bài kiểm tra này sẽ tốn {point} điểm. Bạn đã sẵn sàng ?
           </Text>
           <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
             <Button className="mr-2" type="danger" onClick={handleNo}>

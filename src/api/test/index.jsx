@@ -119,3 +119,17 @@ export const getTestType = async (id) => {
     throw error;
   }
 };
+
+export const getTestList = async () => {
+  try {
+    const response = await axios.get(`${url}/personal-tests`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error in get test list: ", error);
+    throw error;
+  }
+};

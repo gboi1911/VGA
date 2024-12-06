@@ -201,17 +201,22 @@ const ExpertDetailPage = ({ studentId }) => {
               >
                 {expert.name}
               </Text>
-              <Text className="text-gray-600 mt-2">
-                <FontAwesomeIcon
-                  icon={faBirthdayCake}
-                  style={{ marginRight: "5px" }}
-                />{" "}
-                {new Date(expert.dateOfBirth).toLocaleDateString("en-GB")}
-              </Text>
-              <Text className="text-gray-600 mt-2">
-                <FontAwesomeIcon icon={faStar} style={{ marginRight: "5px" }} />{" "}
-                {expert.consultantLevel.id}
-              </Text>
+              <div style={{ display: "flex", gap: "26px" }}>
+                <Text className="text-gray-600 mt-2">
+                  <FontAwesomeIcon
+                    icon={faBirthdayCake}
+                    style={{ marginRight: "5px" }}
+                  />{" "}
+                  {new Date(expert.dateOfBirth).toLocaleDateString("en-GB")}
+                </Text>
+                <Text className="text-gray-600 mt-2">
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    style={{ marginRight: "5px" }}
+                  />{" "}
+                  {expert.consultantLevel.id}
+                </Text>
+              </div>
               <Text className="text-gray-600 mt-2">
                 <FontAwesomeIcon
                   icon={faEnvelope}
