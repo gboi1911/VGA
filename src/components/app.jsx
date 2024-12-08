@@ -38,6 +38,9 @@ import ConsultantPage from "super/pages/consultantpage";
 import Notification from "pages/notification";
 import MBTI from "pages/explore/mbtiList";
 import Holland from "pages/explore/hollandList";
+import Transaction from "pages/transaction";
+import MajorCareList from "pages/explore/majorCareList";
+import OccupationCareList from "pages/explore/occupationCareList";
 import * as signalR from "@microsoft/signalr";
 
 import {
@@ -64,22 +67,22 @@ const MyApp = () => {
     const fetchToken = async () => {
       try {
         const token = await getDataAccessToken();
-        const phoneNumber = await getPhoneNumberUser();
+        // const phoneNumber = await getPhoneNumberUser();
 
-        var config = {
-          method: "get",
-          url: "https://graph.zalo.me/v2.0/me/info",
-          headers: {
-            access_token: token,
-            code: phoneNumber.token,
-            secret_key: "P5DXS5UHWG7M73DkCLRC",
-          },
-        };
+        // var config = {
+        //   method: "get",
+        //   url: "https://graph.zalo.me/v2.0/me/info",
+        //   headers: {
+        //     access_token: token,
+        //     code: phoneNumber.token,
+        //     secret_key: "P5DXS5UHWG7M73DkCLRC",
+        //   },
+        // };
 
-        var response = await axios(config);
-        console.log(response);
-        const phone = response.data.data.number;
-        const userId = await getUserIDUser();
+        // var response = await axios(config);
+        // console.log(response);
+        // const phone = response.data.data.number;
+        // const userId = await getUserIDUser();
         const userInfo1 = await getUser();
 
         console.log("userinfo", userInfo1);
@@ -88,9 +91,9 @@ const MyApp = () => {
         setAccessToken(token); // Store the token once fetched
 
         const resposneLogin = await login({
-          zaloId: userId,
-          phone: phone,
-          image_Url: userInfo1.userInfo.avatar,
+          zaloId: "14253715154",
+          phone: "84918107843",
+          image_Url: "string",
         });
         console.log(resposneLogin);
         const userid = resposneLogin.data.userId;
@@ -182,6 +185,10 @@ const MyApp = () => {
                       />
                     }
                   />
+                  <Route
+                    path="/transaction"
+                    element={<Transaction accountId={accountid} />}
+                  />
                   <Route path="/test" element={<TestPage />} />
                   <Route
                     path="/testExecute"
@@ -203,7 +210,18 @@ const MyApp = () => {
                   />
                   <Route path="/major" element={<Major />} />
                   <Route path="/major/:id" element={<Majorbycategory />} />
-                  <Route path="/majorDetail/:id" element={<MajorDetail />} />
+                  <Route
+                    path="/majorCare"
+                    element={<MajorCareList studentId={userid} />}
+                  />
+                  <Route
+                    path="/occupationCare"
+                    element={<OccupationCareList studentId={userid} />}
+                  />
+                  <Route
+                    path="/majorDetail/:id"
+                    element={<MajorDetail studentId={userid} />}
+                  />
                   <Route path="/occupation" element={<Occupation />} />
                   <Route
                     path="/occupation/:id"
@@ -243,7 +261,7 @@ const MyApp = () => {
                   />
                   <Route
                     path="/occupationDetail/:id"
-                    element={<OccupationDetail />}
+                    element={<OccupationDetail studentId={userid} />}
                   />
                 </>
               ) : role === 4 ? (

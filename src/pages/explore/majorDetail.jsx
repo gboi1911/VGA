@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import EastIcon from "@mui/icons-material/East";
-import { Page, Text, Box, Header } from "zmp-ui";
+import { Page, Text, Box, Header, Icon, Modal, Radio } from "zmp-ui";
 import { useParams, useNavigate } from "react-router-dom";
-import { getMajorById } from "api/major";
+import { getMajorById, postStudentCare } from "api/major";
 
-const MajorDetail = () => {
+const MajorDetail = ({ studentId }) => {
   const { id } = useParams();
   const [major, setMajor] = useState(null);
   const [visibleCount, setVisibleCount] = useState(6);
   const [showMore, setShowMore] = useState({}); // Lưu trạng thái xem thêm cho từng thuộc tính
+  const [selectedValue, setSelectedValue] = useState("");
+  const [visible, setVisible] = useState(false);
   console.log(showMore);
 
   const navigate = useNavigate();
@@ -54,6 +56,60 @@ const MajorDetail = () => {
     return <Text>Đang tải...</Text>;
   }
 
+  const handleCare = () => {
+    // Update the selectedValue state
+    const newSelectedValue = selectedValue === 3 ? 0 : 3;
+    setSelectedValue(newSelectedValue);
+
+    // Payload should use the updated selectedValue
+    const payload = {
+      studentId: studentId,
+      majorOrOccupationId: id,
+      rating: newSelectedValue, // Use the new selectedValue
+      isMajor: true,
+    };
+
+    // Define async function outside the handler for better readability
+    const postStudentCareData = async () => {
+      try {
+        const response = await postStudentCare(payload);
+        console.log("Post Success:", response); // Optionally log the response
+      } catch (error) {
+        console.error("Error in post student care: ", error);
+      }
+    };
+
+    // Call the async function
+    postStudentCareData();
+  };
+
+  const handleVeryCare = () => {
+    // Update the selectedValue state
+    const newSelectedValue = selectedValue === 5 ? 0 : 5;
+    setSelectedValue(newSelectedValue);
+
+    // Payload should use the updated selectedValue
+    const payload = {
+      studentId: studentId,
+      majorOrOccupationId: id,
+      rating: newSelectedValue, // Use the new selectedValue
+      isMajor: true,
+    };
+
+    // Define async function outside the handler for better readability
+    const postStudentCareData = async () => {
+      try {
+        const response = await postStudentCare(payload);
+        console.log("Post Success:", response); // Optionally log the response
+      } catch (error) {
+        console.error("Error in post student care: ", error);
+      }
+    };
+
+    // Call the async function
+    postStudentCareData();
+  };
+
   return (
     <Page className="page" style={{ marginTop: "36px" }}>
       <Header title="Chi tiết ngành học" />
@@ -87,18 +143,32 @@ const MajorDetail = () => {
             }}
           />
         </div>
-
         {/* Major Name */}
-        <Text
+
+        <div
           style={{
-            fontSize: "24px",
-            fontWeight: "bold",
-            marginBottom: "24px",
-            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between", // Ensures space between the items
+            borderBottom: "1px solid #ccc", // Adds a line below the row
+            paddingBottom: "8px", // Padding below the items to separate them from the line
           }}
         >
-          {major.name}
-        </Text>
+          <Text
+            style={{
+              fontSize: "24px",
+              fontWeight: "bold",
+            }}
+          >
+            {major.name}
+          </Text>
+          <Icon
+            icon={selectedValue ? "zi-heart-solid" : "zi-heart"}
+            onClick={() => setVisible(true)}
+            style={{ color: "red" }}
+          />
+        </div>
+
         {/* Major Description */}
         <Text
           style={{
@@ -106,6 +176,7 @@ const MajorDetail = () => {
             color: "#666",
             marginBottom: "24px",
             textAlign: "justify",
+            marginTop: "10px",
           }}
         >
           {truncateText(major?.description, 500)}
@@ -244,7 +315,7 @@ const MajorDetail = () => {
         <Text
           style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "8px" }}
         >
-          Trường đại học phù hợp
+          Trường đại học có đào tạo
         </Text>
         <div>
           <div
@@ -334,6 +405,62 @@ const MajorDetail = () => {
           </div>
         </div>
       </Box>
+      <Modal
+        visible={visible}
+        title="Mức độ quan tâm ngành học"
+        onClose={() => setVisible(false)}
+      >
+        <Box
+          style={{
+            display: "flex", // Ensures flex layout
+            justifyContent: "center", // Centers the options horizontally
+            alignItems: "center", // Centers the options vertically
+            gap: "20px", // Adds space between the two options
+            width: "100%", // Ensures the container spans the full width
+          }}
+        >
+          {/* Option 1: Quan tâm */}
+          <Box
+            onClick={handleCare}
+            style={{
+              padding: "16px 24px",
+              borderRadius: "12px",
+              textAlign: "center",
+              backgroundColor: selectedValue === 3 ? "#FF9900" : "#EEEEEE",
+              transition: "all 0.3s",
+              flex: "1", // Makes both options equal in size
+              maxWidth: "200px", // Optional: Prevents the boxes from stretching too much
+            }}
+          >
+            <Text
+              bold
+              style={{ color: selectedValue === 3 ? "white" : "black" }}
+            >
+              Quan tâm
+            </Text>
+          </Box>
+          {/* Option 2: Rất quan tâm */}
+          <Box
+            onClick={handleVeryCare}
+            style={{
+              padding: "16px 24px",
+              borderRadius: "12px",
+              textAlign: "center",
+              backgroundColor: selectedValue === 5 ? "#FF6600" : "#EEEEEE",
+              transition: "all 0.3s",
+              flex: "1", // Makes both options equal in size
+              maxWidth: "200px", // Optional: Prevents the boxes from stretching too much
+            }}
+          >
+            <Text
+              bold
+              style={{ color: selectedValue === 5 ? "white" : "black" }}
+            >
+              Rất quan tâm
+            </Text>
+          </Box>
+        </Box>
+      </Modal>
     </Page>
   );
 };

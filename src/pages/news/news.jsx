@@ -5,25 +5,54 @@ import { getNews } from "api/news";
 
 export default function News() {
   const [news, setNews] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await getNews();
+        const response = await getNews({ searchValue });
         setNews(response.data._news || []);
       } catch (error) {
         console.error("Error fetching news:", error);
       }
     };
     fetchNews();
-  }, []);
+  }, [searchValue]);
+
+  // Xử lý khi người dùng nhập vào ô tìm kiếm
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+    console.log("Search value:", e.target.value); // Thay bằng logic xử lý tìm kiếm
+  };
 
   return (
     <Page className="page" style={{ marginTop: "40px", marginBottom: "70px" }}>
       <Header
-        title="Tin tức"
-        showBackIcon={false}
+        showBackIcon={true}
         style={{ textAlign: "center" }}
+        textColor="white" // Truyền textColor vào header
+        title={
+          <div className="header-title">
+            <Input.Search
+              style={{
+                width: "90%",
+                height: "36px",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                padding: "0 12px",
+                fontSize: "14px",
+                outline: "none",
+                background: "transparent", // Đặt nền của input thành trong suốt
+                color: "white",
+              }}
+              type="text"
+              placeholder="Tìm kiếm tin tức..."
+              value={searchValue}
+              onChange={handleSearchChange}
+              className="header-search-input"
+            />
+          </div>
+        }
       />
       <Box
         flex
@@ -70,14 +99,14 @@ export default function News() {
         </Swiper>
       </Box>
       <Box style={{ padding: "10px" }}>
-        <Input.Search
+        {/* <Input.Search
           label="Label"
           placeholder="Tìm kiếm tin tức ?"
           onChange={(e) => handleSearch(e.target.value)}
           style={{ marginTop: "10px" }}
           maxLength={25}
           clearable
-        />
+        /> */}
         <Text
           className=" mt-3"
           bold
@@ -119,7 +148,9 @@ export default function News() {
                     size="large"
                     style={{ wordWrap: "break-word", textAlign: "justify" }}
                   >
-                    {news.title}
+                    {news.title?.length > 50
+                      ? news.title.slice(0, 50) + "..."
+                      : news.title}
                   </Text>
                   <Text
                     className="text-gray-500"
@@ -130,6 +161,15 @@ export default function News() {
                   >
                     {new Date(news.createdAt).toLocaleDateString("vi-VN")}
                   </Text>
+                  <Text
+                    className="text-gray-500"
+                    style={{
+                      marginTop: "5px",
+                      textAlign: "justify",
+                    }}
+                  >
+                    {news?.universityName}
+                  </Text>
                 </Box>
 
                 {/* Image Section */}
@@ -138,7 +178,8 @@ export default function News() {
                     borderRadius: "10px",
                     flexShrink: 0,
                     width: "120px",
-                    height: "auto",
+                    height: "120px",
+                    objectFit: "cover",
                   }}
                   src={
                     news?.imageNews?.[0]?.imageUrl ||

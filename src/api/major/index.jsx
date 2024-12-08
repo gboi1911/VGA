@@ -61,3 +61,31 @@ export const getMajorCategoryId = async (majorCategoryId) => {
     throw error;
   }
 };
+
+export const postStudentCare = async (payload) => {
+  try {
+    const response = await axios.post(`${url}/student-care`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log("Error in post student care:", error);
+    throw error;
+  }
+};
+
+export const getListCare = async (studentId) => {
+  try {
+    const response = await axios.get(`${url}/student-care/${studentId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log("Error in get list care:", error);
+    throw error;
+  }
+};

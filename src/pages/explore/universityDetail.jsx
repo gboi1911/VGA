@@ -42,24 +42,24 @@ const UniversityDetail = () => {
       }
     };
 
-    // const fetchConsultants = async () => {
-    //   try {
-    //     const response = await getExpert();
-    //     if (response.consultants) {
-    //       const consultantsData = response.consultants.filter(
-    //         (consultant) => consultant.university?.id === id
-    //       );
-    //       setConsultants(consultantsData);
-    //     } else {
-    //       console.log("No consultants data found in the response.");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error in fetching consultants data: ", error);
-    //   }
-    // };
+    const fetchConsultants = async () => {
+      try {
+        const response = await getExpert();
+        if (response.consultants) {
+          const consultantsData = response.consultants.filter(
+            (consultant) => consultant.university?.id === id
+          );
+          setConsultants(consultantsData);
+        } else {
+          console.log("No consultants data found in the response.");
+        }
+      } catch (error) {
+        console.error("Error in fetching consultants data: ", error);
+      }
+    };
 
     fetchUniversity();
-    // fetchConsultants();
+    fetchConsultants();
   }, [id]);
 
   if (!university) {
@@ -300,59 +300,61 @@ const UniversityDetail = () => {
               alignItems: "center",
             }}
           >
-            {university.consultants.slice(0, visibleCount).map((consultant) => (
-              <Box
-                key={consultant.id}
-                style={{
-                  background: "#f8f9fa",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                  marginBottom: "8px",
-                  alignItems: "center",
-                  flex: "0 0 auto",
-                  marginRight: "10px",
-                  width: "220px",
-                }}
-                onClick={() => navigate(`/expertDetail/${consultant.id}`)}
-              >
-                <img
-                  src={
-                    consultant.image_Url ||
-                    "https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060"
-                  }
-                  alt={consultant.name}
-                  style={{
-                    width: "100%",
-                    height: "150px",
-                    objectFit: "cover",
-                  }}
-                />
+            {university?.consultants
+              ?.slice(0, visibleCount)
+              ?.map((consultant) => (
                 <Box
+                  key={consultant.id}
                   style={{
+                    background: "#f8f9fa",
                     padding: "10px",
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    height: "50px",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    marginBottom: "8px",
+                    alignItems: "center",
+                    flex: "0 0 auto",
+                    marginRight: "10px",
+                    width: "220px",
                   }}
+                  onClick={() => navigate(`/expertDetail/${consultant.id}`)}
                 >
-                  <Text bold>{consultant.name}</Text>
-                  <Text
+                  <img
+                    src={
+                      consultant.image_Url ||
+                      "https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060"
+                    }
+                    alt={consultant.name}
                     style={{
-                      fontSize: "14px",
-                      color: "#666",
+                      width: "100%",
+                      height: "150px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <Box
+                    style={{
+                      padding: "10px",
+                      fontSize: "16px",
+                      fontWeight: "bold",
                       textAlign: "center",
+                      height: "50px",
                     }}
                   >
-                    {consultant.consultantLevel.name}
-                  </Text>
+                    <Text bold>{consultant.name}</Text>
+                    <Text
+                      style={{
+                        fontSize: "14px",
+                        color: "#666",
+                        textAlign: "center",
+                      }}
+                    >
+                      {consultant.consultantLevel.name}
+                    </Text>
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              ))}
 
             {/* Nút "Xem thêm" */}
-            {visibleCount < university.consultants.length && (
+            {visibleCount < university?.consultants?.length && (
               <button
                 onClick={handleShowMore}
                 style={{
