@@ -26,6 +26,7 @@ export const getExpert = async (retries = 0) => {
 };
 
 export const getDay = async (id) => {
+  debugger
   try {
     const response = await axios.get(`${url}/consultation-days`, {
       params: { "consultant-id": id },
