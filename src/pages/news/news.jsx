@@ -170,6 +170,15 @@ export default function News() {
                   >
                     {news?.universityName}
                   </Text>
+                  {/* <Text
+                    className="text-gray-500"
+                    style={{
+                      marginTop: "5px",
+                      textAlign: "justify",
+                    }}
+                  >
+                    {news?._HashTag?.map((tag) => `#${tag?.values} `)}
+                  </Text> */}
                 </Box>
 
                 {/* Image Section */}

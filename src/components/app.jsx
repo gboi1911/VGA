@@ -57,7 +57,7 @@ import { login } from "api/login";
 const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [userid, setUserId] = useState();
-  const [role, setRole] = useState();
+  const [role, setRole] = useState(4);
   const [accountid, setAccountId] = useState();
   const [userInfo, setUserInfo] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -69,7 +69,17 @@ const MyApp = () => {
       try {
         const token = await getDataAccessToken();
         // const phoneNumber = await getPhoneNumberUser();
+        // const phoneNumber = await getPhoneNumberUser();
 
+        // var config = {
+        //   method: "get",
+        //   url: "https://graph.zalo.me/v2.0/me/info",
+        //   headers: {
+        //     access_token: token,
+        //     code: phoneNumber.token,
+        //     secret_key: "P5DXS5UHWG7M73DkCLRC",
+        //   },
+        // };
         // var config = {
         //   method: "get",
         //   url: "https://graph.zalo.me/v2.0/me/info",
@@ -84,6 +94,10 @@ const MyApp = () => {
         // console.log(response);
         // const phone = response.data.data.number;
         // const userId = await getUserIDUser();
+        // var response = await axios(config);
+        // console.log(response);
+        // const phone = response.data.data.number;
+        // const userId = await getUserIDUser();
         const userInfo1 = await getUser();
 
         console.log("userinfo", userInfo1);
@@ -92,13 +106,13 @@ const MyApp = () => {
         setAccessToken(token); // Store the token once fetched
 
         const resposneLogin = await login({
-          zaloId: "14253715154",
-          phone: "84918107843",
+          zaloId: '15757557577',
+          phone: '84347707045',
           image_Url: "string",
         });
         console.log(resposneLogin);
         const userid = resposneLogin.data.userId;
-        const role = resposneLogin.data.role;
+        // const role = resposneLogin.data.role;
         const accountid = resposneLogin.data.accountId;
         setRole(role);
         setUserId(userid);
@@ -115,39 +129,41 @@ const MyApp = () => {
     fetchToken();
   }, []);
 
+  const userID = localStorage.setItem("userID", userid);
+
   const token = localStorage.getItem("token");
-  useEffect(() => {
-    const connection = new signalR.HubConnectionBuilder()
-      .withUrl(
-        `https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/notification_hub`,
-        {
-          accessTokenFactory: () => token,
-        }
-      )
-      .withAutomaticReconnect()
-      .build();
+  // useEffect(() => {
+  //   const connection = new signalR.HubConnectionBuilder()
+  //     .withUrl(
+  //       `https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/notification_hub`,
+  //       {
+  //         accessTokenFactory: () => token,
+  //       }
+  //     )
+  //     .withAutomaticReconnect()
+  //     .build();
 
-    connection
-      .start()
-      .then(() => {
-        setStatus("Connected to SignalR");
-        console.log("Connected to SignalR hub.");
+  //   connection
+  //     .start()
+  //     .then(() => {
+  //       setStatus("Connected to SignalR");
+  //       console.log("Connected to SignalR hub.");
 
-        connection.on("ReceiveNotification", (message) => {
-          console.log("Received notification:", message);
-          setMessages((prevMessages) => [...prevMessages, message]);
-          setHasNewNotification(true);
-        });
-      })
-      .catch((err) => {
-        setStatus(`Connection failed: ${err}`);
-        console.error(err);
-      });
+  //       connection.on("ReceiveNotification", (message) => {
+  //         console.log("Received notification:", message);
+  //         setMessages((prevMessages) => [...prevMessages, message]);
+  //         setHasNewNotification(true);
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       setStatus(`Connection failed: ${err}`);
+  //       console.error(err);
+  //     });
 
-    return () => {
-      connection.stop();
-    };
-  }, [token]);
+  //   return () => {
+  //     connection.stop();
+  //   };
+  // }, [token]);
 
   console.log("userid", userid);
   console.log("role", role);

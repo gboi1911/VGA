@@ -37,6 +37,7 @@ export default function ConsultantSchedule({ userid }) {
   const [completeSchedule, setcompleteSchedule] = useState([]);
   const [googleMeetLink, setGoogleMeetLink] = useState("");
   const [bookings, setBookings] = useState([]);
+  console.log('booking:', bookings);
   const [responseCreate, setResponseCreate] = useState("");
   console.log("completeSchedule:", completeSchedule); // Kiểm tra xem completeSchedule có thay đổi khi chọn slot không
   console.log("idConsultantTime:", idConsultantTime); // Kiểm tra xem idConsultantTime có thay đổi khi chọn slot không
@@ -44,62 +45,8 @@ export default function ConsultantSchedule({ userid }) {
   console.log("selectedTimeSlots:", selectedTimeSlots); // Kiểm tra xem selectedTimeSlots có thay đổi khi chọn slot không
   const location = useLocation();
   const initialTab = location.state?.tab || "tab1";
-  useEffect(() => {
-    const fetchTimeSlots = async () => {
-      try {
-        const response = await getTimeSlot();
-        setTimeSlots(response.data.timeSlots);
-      } catch (error) {
-        console.error("Error fetching time slot:", error);
-      }
-    };
-    const fetchBookings = async () => {
-      try {
-        const response = await getBookingConsul(userid);
-        setBookings(response.data.bookings);
-      } catch (error) {
-        console.log("Error fetching bookings:", error);
-      }
-    };
-    fetchBookings();
-    fetchTimeSlots();
-  }, []);
-  useEffect(() => {
-    const getCompleteSchedule = async () => {
-      try {
-        const response = await getCompleteBooking(selectedDate);
-        setcompleteSchedule(response.data.bookings);
-      } catch (error) {
-        console.error("Error fetching time slot:", error);
-      }
-    };
-    if (selectedDate) {
-      getCompleteSchedule();
-    }
-  }, [selectedDate]);
 
-  useEffect(() => {
-    const fetchTimeSlotSelected = async () => {
-      try {
-        const response = await getTimeslotSelected(userid, selectedDate);
 
-        const consultationDay = response.data.consultationDay;
-
-        if (consultationDay && consultationDay.length > 0) {
-          // Lấy consultationTimes từ phần tử đầu tiên của consultationDay
-          setSlotBooked(consultationDay[0].consultationTimes);
-          console.log("consultationDay:", consultationDay[0].consultationTimes);
-        } else {
-          // Không có dữ liệu cho ngày đã chọn
-          setSlotBooked([]);
-        }
-      } catch (error) {
-        console.error("Error fetching time slot:", error);
-      }
-    };
-
-    fetchTimeSlotSelected();
-  }, [selectedDate]);
 
   const handleDelete = async (idConsultantTime) => {
     try {
@@ -138,12 +85,16 @@ export default function ConsultantSchedule({ userid }) {
         note: googleMeetLink,
       })),
     };
-
     try {
       const response = await createSchedule(formData);
       if (response.status === 200) {
         setDialogVisible("CreateSuccess"); // Show success modal
         setResponseCreate(response.message);
+        // Gọi lại các API để làm mới dữ liệu
+        fetchTimeSlots();
+        fetchBookings();
+        getCompleteSchedule();
+        fetchTimeSlotSelected();
       } else {
         setDialogVisible("CreateFail"); // Show fail modal if response is not successful
         setResponseCreate(response.message);
@@ -178,6 +129,114 @@ export default function ConsultantSchedule({ userid }) {
     { 0: [], 1: [], 2: [] }
   );
 
+  const fetchTimeSlots = async () => {
+    try {
+      const response = await getTimeSlot();
+      setTimeSlots(response.data.timeSlots);
+    } catch (error) {
+      console.error("Error fetching time slot:", error);
+    }
+  };
+  const fetchBookings = async () => {
+    try {
+      const response = await getBookingConsul(userid);
+      setBookings(response.data.bookings);
+    } catch (error) {
+      console.log("Error fetching bookings:", error);
+    }
+  };
+  const getCompleteSchedule = async () => {
+    try {
+      const response = await getCompleteBooking(selectedDate);
+      setcompleteSchedule(response.data.bookings);
+    } catch (error) {
+      console.error("Error fetching time slot:", error);
+    }
+  };
+  const fetchTimeSlotSelected = async () => {
+    try {
+      const response = await getTimeslotSelected(userid, selectedDate);
+
+      const consultationDay = response.data.consultationDay;
+
+      if (consultationDay && consultationDay.length > 0) {
+        // Lấy consultationTimes từ phần tử đầu tiên của consultationDay
+        setSlotBooked(consultationDay[0].consultationTimes);
+        console.log("consultationDay:", consultationDay[0].consultationTimes);
+      } else {
+        // Không có dữ liệu cho ngày đã chọn
+        setSlotBooked([]);
+      }
+    } catch (error) {
+      console.error("Error fetching time slot:", error);
+    }
+  };
+
+  const reloadPage = () => {
+    fetchTimeSlots();
+    fetchBookings();
+    getCompleteSchedule();
+    fetchTimeSlotSelected();
+  };
+
+  useEffect(() => {
+    fetchBookings();
+    fetchTimeSlots();
+  }, []);
+  useEffect(() => {
+    if (selectedDate) {
+      getCompleteSchedule();
+    }
+  }, [selectedDate]);
+
+  useEffect(() => {
+    fetchTimeSlotSelected();
+  }, [selectedDate]);
+
+  const eventDates = [
+    new Date(2024, 11, 20), // 20 tháng 12 năm 2024
+    new Date(2024, 11, 22), // 22 tháng 12 năm 2024
+  ];
+
+  // Hàm render cell
+  const cellRender = (currentDate) => {
+    const isEventDay = eventDates.some(
+      (eventDate) =>
+        currentDate.getDate() === eventDate.getDate() &&
+        currentDate.getMonth() === eventDate.getMonth() &&
+        currentDate.getFullYear() === eventDate.getFullYear()
+    );
+
+    return (
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        {/* <span>{currentDate.getDate()}</span> */}
+        {isEventDay && (
+          <div
+            style={{
+              position: "absolute",
+              bottom: 4,
+              right: 4,
+              width: 8,
+              height: 8,
+              backgroundColor: "red",
+              borderRadius: "50%",
+            }}
+          ></div>
+        )}
+      </div>
+    );
+  };
+
+
   return (
     <Page className="page" style={{ marginTop: "40px" }}>
       <Header
@@ -191,7 +250,11 @@ export default function ConsultantSchedule({ userid }) {
             <Typography variant="h6" sx={{ pb: 2, textAlign: "center" }}>
               Tạo lịch tư vấn
             </Typography>
-            <Calendar onSelect={handleDateChange} />
+            <Calendar onSelect={handleDateChange} cellRender={cellRender} disabledDate={(currentDate) => {
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              return currentDate < today;
+            }} />
             <Grid
               space="1rem"
               columnCount={2}
@@ -239,8 +302,8 @@ export default function ConsultantSchedule({ userid }) {
                       backgroundColor: completedSlot
                         ? "#4caf50"
                         : selectedTimeSlots.includes(slot)
-                        ? "#e0e0e0"
-                        : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
+                          ? "#e0e0e0"
+                          : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
                       color: "#000000",
                       padding: "10px",
                       textAlign: "center",
@@ -385,9 +448,9 @@ export default function ConsultantSchedule({ userid }) {
         </Tabs.Tab>
         <Tabs.Tab key="tab2" label="Lịch đã đặt">
           <Box mb={10} className="p-4 bg-white rounded-lg shadow-md">
-            {bookings.map((booking) => (
+            {bookings?.map((booking, index) => (
               <BookingCardConsultant
-                key={booking.id}
+                key={index}
                 studentId={booking.studentId}
                 studentName={booking.studentName}
                 startTime={booking.startTime}
@@ -395,6 +458,8 @@ export default function ConsultantSchedule({ userid }) {
                 consultationDay={booking.consultationDay}
                 status={booking.status}
                 dayId={booking.consultationTimeId}
+                id={booking.id}
+                onStatusChange={reloadPage} // Truyền hàm reloadPage
               />
             ))}
           </Box>

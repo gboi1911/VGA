@@ -1,5 +1,5 @@
 const url = import.meta.env.VITE_APP_BASE_API;
- let token = localStorage.getItem('token')
+let token = localStorage.getItem('token')
 import axios from "axios";
 
 export const getTimeSlot = async () => {
@@ -20,7 +20,7 @@ export const createSchedule = async (formData) => {
   try {
     const response = await axios.post(
       `${url}/consultation-days`,
-      formData ,
+      formData,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -33,6 +33,25 @@ export const createSchedule = async (formData) => {
     throw error;
   }
 };
+export const createComment = async ({ formDataComment, id }) => {
+  debugger
+  try {
+    const response = await axios.put(
+      `${url}/booking/${id}`,
+      formDataComment,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  }
+  catch (error) {
+    console.log("Error in create comment:", error);
+    throw error;
+  }
+}
 
 export const deleteTimeSlot = async (idConsultantTime) => {
   try {
