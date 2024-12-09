@@ -22,6 +22,7 @@ import {
 import { getStudentInfo, getSchoolName, getTransaction } from "api/userInfo";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useNavigate } from "react-router-dom";
+import { Phone } from "@mui/icons-material";
 
 const UserPage = ({ studentId, accountId, info }) => {
   const [userInfo, setUserInfo] = useState(null);
@@ -30,6 +31,7 @@ const UserPage = ({ studentId, accountId, info }) => {
   const [loadingTransactions, setLoadingTransactions] = useState(true); // Add loading state
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
+  const { Item } = List;
 
   const paymentLink = "https://vga-payment.vercel.app";
 
@@ -115,7 +117,26 @@ const UserPage = ({ studentId, accountId, info }) => {
           <Text size="large" style={{ fontWeight: "bold", fontSize: "20px" }}>
             {userInfo.data.account.name}
           </Text>
-          <Text style={{ color: "grey", marginTop: "10px" }}>
+          <Text
+            style={{ color: "grey", marginTop: "6px" }}
+            onClick={() =>
+              navigate("/userInfo", {
+                state: {
+                  gender: userInfo.data.gender,
+                  schoolName: schoolName?.data?.account?.name,
+                  schoolYears: userInfo.data.schoolYears,
+                  date: userInfo.data.dateOfBirth,
+                  name: userInfo.data.account.name,
+                  phone: userInfo.data.account.phone,
+                  avatar: info.userInfo.avatar,
+                },
+              })
+            }
+          >
+            Xem thông tin
+          </Text>
+
+          {/* <Text style={{ color: "grey", marginTop: "10px" }}>
             Giới tính: {userInfo.data.gender ? "Nam" : "Nữ"}
           </Text>
           <Text style={{ color: "grey" }}>
@@ -123,7 +144,7 @@ const UserPage = ({ studentId, accountId, info }) => {
           </Text>
           <Text style={{ color: "grey" }}>
             Năm học: {userInfo.data.schoolYears}
-          </Text>
+          </Text> */}
         </div>
       </Box>
       <Box
@@ -137,7 +158,7 @@ const UserPage = ({ studentId, accountId, info }) => {
           backgroundColor: "white",
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
           borderBottom: "1px solid #ddd",
-          marginTop: "2px",
+          marginTop: "10px",
         }}
       >
         <Box
@@ -175,26 +196,8 @@ const UserPage = ({ studentId, accountId, info }) => {
           Nạp điểm
         </Button>
       </Box>
-      <Box
-        style={{
-          padding: "10px",
-          backgroundColor: "white",
-          marginTop: "2px",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-        onClick={() => navigate("/transaction")}
-      >
-        <Text bold size="xLarge" style={{ padding: "10px" }}>
-          Lịch sử giao dịch
-        </Text>
-        <Icon
-          icon="zi-chevron-right"
-          style={{ color: "grey", fontSize: "30px" }}
-        />
-        {/* <div style={{ overflowY: "auto", maxHeight: "300px" }}>
+
+      {/* <div style={{ overflowY: "auto", maxHeight: "300px" }}>
           {loadingTransactions ? ( // Show loading spinner or message
             <div style={{ textAlign: "center", padding: "20px" }}>
               <Spinner size="large" color="primary" />
@@ -260,6 +263,25 @@ const UserPage = ({ studentId, accountId, info }) => {
             ))
           )}
         </div> */}
+      {/* <Box
+        style={{
+          padding: "10px",
+          backgroundColor: "white",
+          marginTop: "2px",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+        onClick={() => navigate("/transaction")}
+      >
+        <Text bold size="xLarge" style={{ padding: "10px" }}>
+          Lịch sử giao dịch
+        </Text>
+        <Icon
+          icon="zi-chevron-right"
+          style={{ color: "grey", fontSize: "30px" }}
+        />
       </Box>
       <Box
         style={{
@@ -342,6 +364,44 @@ const UserPage = ({ studentId, accountId, info }) => {
           icon="zi-chevron-right"
           style={{ color: "grey", fontSize: "30px" }}
         />
+      </Box> */}
+      <Box style={{ backgroundColor: "white", marginTop: "10px" }}>
+        <List>
+          <Item
+            style={{ marginBottom: "0px" }}
+            title="Lịch sử giao dịch"
+            prefix={<Icon icon="zi-poll" style={{ color: "blue" }} />}
+            suffix={<Icon icon="zi-chevron-right" />}
+            onClick={() => navigate("/transaction")}
+          />
+          <Item
+            style={{ marginBottom: "0px" }}
+            title="Lịch sử đã đặt tư vấn"
+            prefix={<Icon icon="zi-calendar" style={{ color: "blue" }} />}
+            suffix={<Icon icon="zi-chevron-right" />}
+            onClick={() => navigate("/expert")}
+          />
+          <Item
+            style={{ marginBottom: "0px" }}
+            title="Tính cách cá nhân"
+            prefix={<Icon icon="zi-stranger" style={{ color: "blue" }} />}
+            suffix={<Icon icon="zi-chevron-right" />}
+            onClick={() => navigate("/personal")}
+          />
+          <Item
+            style={{ marginBottom: "0px" }}
+            title="Ngành học quan tâm"
+            prefix={<Icon icon="zi-heart" style={{ color: "blue" }} />}
+            suffix={<Icon icon="zi-chevron-right" />}
+            onClick={() => navigate("/majorCare")}
+          />
+          <Item
+            title="Nghề nghiệp quan tâm"
+            prefix={<Icon icon="zi-star" style={{ color: "blue" }} />}
+            suffix={<Icon icon="zi-chevron-right" />}
+            onClick={() => navigate("/occupationCare")}
+          />
+        </List>
       </Box>
 
       {/* <Box

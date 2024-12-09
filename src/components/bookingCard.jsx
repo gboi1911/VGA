@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Text, Icon, Modal, Input, Button } from "zmp-ui";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { getTimebyId } from "api/expert"; // Import the API method
+import { getTimebyId, putReport } from "api/expert"; // Import the API method
 
 const BookingCard = ({
   consultantName,
@@ -11,6 +11,7 @@ const BookingCard = ({
   status,
   consultationDay,
   dayId,
+  id,
 }) => {
   const [link, setLink] = useState(""); // Store the link state
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
@@ -45,6 +46,20 @@ const BookingCard = ({
   // Handle report button click
   const handleReport = () => {
     console.log("Report submitted with input:", inputText, "and image:", image);
+    const payload = {
+      comment: inputText,
+      image: image,
+    };
+    const putReport = async () => {
+      try {
+        const response = await putReport(id, payload);
+        console.log(response);
+      } catch (error) {
+        console.error("Error in put report: ", error);
+      }
+
+      putReport();
+    };
     toggleModal(); // Close the modal after reporting
   };
 
@@ -92,7 +107,7 @@ const BookingCard = ({
         }}
         onClick={toggleModal} // Open the modal when clicked
       >
-        <Icon icon="zi-warning" style={{ color: "red" }} />
+        <Icon icon="zi-exclamation" style={{ color: "orange" }} />
       </div>
 
       {/* Modal for report */}

@@ -31,16 +31,16 @@ const OccupationDetail = ({ studentId }) => {
     }
     return text;
   };
+  const fetchOccupation = async () => {
+    try {
+      const response = await getOccupationById(id, studentId);
+      setOccupation(response.data.data);
+      setSelectedValue(response.data.data.careLevel);
+    } catch (error) {
+      console.error("Error in fetching occupation: ", error);
+    }
+  };
   useEffect(() => {
-    const fetchOccupation = async () => {
-      try {
-        const response = await getOccupationById(id);
-        setOccupation(response.data.data);
-      } catch (error) {
-        console.error("Error in fetching occupation: ", error);
-      }
-    };
-
     fetchOccupation();
   }, [id]);
 
@@ -190,32 +190,32 @@ const OccupationDetail = ({ studentId }) => {
   //     </Box>
   //   </Box>
   // </Page>
-  const handleCare = () => {
-    // Update the selectedValue state
-    const newSelectedValue = selectedValue === 3 ? 0 : 3;
-    setSelectedValue(newSelectedValue);
+  // const handleCare = () => {
+  //   // Update the selectedValue state
+  //   const newSelectedValue = selectedValue === 3 ? 0 : 3;
+  //   setSelectedValue(newSelectedValue);
 
-    // Payload should use the updated selectedValue
-    const payload = {
-      studentId: studentId,
-      majorOrOccupationId: id,
-      rating: newSelectedValue, // Use the new selectedValue
-      isMajor: false,
-    };
+  //   // Payload should use the updated selectedValue
+  //   const payload = {
+  //     studentId: studentId,
+  //     majorOrOccupationId: id,
+  //     rating: newSelectedValue, // Use the new selectedValue
+  //     isMajor: false,
+  //   };
 
-    // Define async function outside the handler for better readability
-    const postStudentCareData = async () => {
-      try {
-        const response = await postStudentCare(payload);
-        console.log("Post Success:", response); // Optionally log the response
-      } catch (error) {
-        console.error("Error in post student care: ", error);
-      }
-    };
+  //   // Define async function outside the handler for better readability
+  //   const postStudentCareData = async () => {
+  //     try {
+  //       const response = await postStudentCare(payload);
+  //       console.log("Post Success:", response); // Optionally log the response
+  //     } catch (error) {
+  //       console.error("Error in post student care: ", error);
+  //     }
+  //   };
 
-    // Call the async function
-    postStudentCareData();
-  };
+  //   // Call the async function
+  //   postStudentCareData();
+  // };
 
   const handleVeryCare = () => {
     // Update the selectedValue state
@@ -235,6 +235,7 @@ const OccupationDetail = ({ studentId }) => {
       try {
         const response = await postStudentCare(payload);
         console.log("Post Success:", response); // Optionally log the response
+        fetchOccupation();
       } catch (error) {
         console.error("Error in post student care: ", error);
       }
@@ -303,11 +304,23 @@ const OccupationDetail = ({ studentId }) => {
           >
             {occupation?.name}
           </Text>
-          <Icon
-            icon={selectedValue ? "zi-heart-solid" : "zi-heart"}
-            onClick={() => setVisible(true)}
-            style={{ color: "red" }}
-          />
+          <div style={{ display: "flex" }}>
+            <Icon
+              icon={selectedValue ? "zi-heart-solid" : "zi-heart"}
+              onClick={handleVeryCare}
+              style={{ color: "red" }}
+            />
+            <Text
+              style={{
+                color: "grey",
+                fontSize: "16px",
+                marginLeft: "2px",
+                marginTop: "2px",
+              }}
+            >
+              {occupation.numberCare}
+            </Text>
+          </div>
         </div>
 
         {/* Mô tả công việc - đoạn ngắn */}
@@ -623,7 +636,7 @@ const OccupationDetail = ({ studentId }) => {
           )}
         </Text>
       </Box>
-      <Modal
+      {/* <Modal
         visible={visible}
         title="Mức độ quan tâm nghề nghiệp"
         onClose={() => setVisible(false)}
@@ -636,9 +649,9 @@ const OccupationDetail = ({ studentId }) => {
             gap: "20px", // Adds space between the two options
             width: "100%", // Ensures the container spans the full width
           }}
-        >
-          {/* Option 1: Quan tâm */}
-          <Box
+        > */}
+      {/* Option 1: Quan tâm */}
+      {/* <Box
             onClick={handleCare}
             style={{
               padding: "16px 24px",
@@ -656,9 +669,9 @@ const OccupationDetail = ({ studentId }) => {
             >
               Quan tâm
             </Text>
-          </Box>
-          {/* Option 2: Rất quan tâm */}
-          <Box
+          </Box> */}
+      {/* Option 2: Rất quan tâm */}
+      {/* <Box
             onClick={handleVeryCare}
             style={{
               padding: "16px 24px",
@@ -678,7 +691,7 @@ const OccupationDetail = ({ studentId }) => {
             </Text>
           </Box>
         </Box>
-      </Modal>
+      </Modal> */}
     </Page>
   );
 };

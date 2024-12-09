@@ -12,6 +12,7 @@ import {
 } from "zmp-ui"; // Import Progress
 import { useNavigate, useLocation } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test";
+import moment from "moment";
 
 const TestExecute = ({ studentId, accountId }) => {
   const [answers, setAnswers] = useState({});
@@ -108,7 +109,7 @@ const TestExecute = ({ studentId, accountId }) => {
       personalTestId: "d7eae2f2-ff5c-4b5d-8c6c-4b5e21d8a57c",
       listQuestionId: listQuestionId,
       listAnswerId: listAnswerId,
-      date: new Date().toISOString(),
+      date: moment().format("YYYY-MM-DDTHH:mm:ss.SSS"),
     };
 
     try {

@@ -3,19 +3,15 @@ import axios from "axios";
 const url = import.meta.env.VITE_APP_BASE_API;
 let token = localStorage.getItem("token");
 
-export const getNews = async ({ searchValue }) => {
+export const getNews = async (searchValue) => {
   try {
-    // Tạo đối tượng params, nếu có title thì thêm vào
-    const params = {};
-    if (searchValue) {
-      params.tilte = searchValue; // Sử dụng 'tilte' thay vì 'title'
-    }
-
     const response = await axios.get(`${url}/news`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      params, // Truyền đối tượng params vào request
+      params: {
+        tilte: searchValue,  // Passing searchValue as 'title' query param
+      },
     });
     return response;
   } catch (error) {
@@ -23,6 +19,7 @@ export const getNews = async ({ searchValue }) => {
     throw error;
   }
 };
+
 
 export const getNewsDetail = async (id) => {
   try {

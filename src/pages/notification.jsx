@@ -110,29 +110,40 @@ const Notification = ({ accountId, role }) => {
               key={index}
               onClick={() => handleNotificationClick(noti)}
               style={{
+                display: "flex",
+                alignItems: "center",
                 border: "1px solid #ddd",
                 borderRadius: "8px",
                 padding: "12px",
                 marginBottom: "4px",
-                backgroundColor: noti.status === 0 ? "#ffe4e1" : "#fff",
-                animation: noti.status === 0 ? "twinkle 2s infinite" : "none",
+                backgroundColor: noti.status === 0 ? "#66CCFF" : "#fff",
+                // animation: noti.status === 0 ? "twinkle 2s infinite" : "none",
               }}
             >
-              <Text
+              <img
+                src="https://cdn-icons-png.freepik.com/256/9187/9187529.png?ga=GA1.1.1580058560.1730717628&semt=ais_hybrid"
                 style={{
-                  fontWeight: "bold",
-                  marginBottom: "8px",
-                  fontSize: "16px",
+                  height: "50px",
+                  width: "50px",
                 }}
-              >
-                {noti.title}
-              </Text>
-              <Text style={{ marginBottom: "4px" }}>{noti.message}</Text>
-              <Text
-                style={{ fontSize: "12px", color: "#888", textAlign: "end" }}
-              >
-                {new Date(noti.createdAt).toLocaleString("vi-VN")}
-              </Text>
+              />
+              <div style={{ marginLeft: "10px" }}>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    marginBottom: "8px",
+                    fontSize: "16px",
+                  }}
+                >
+                  {noti.title}
+                </Text>
+                <Text style={{ marginBottom: "4px" }}>{noti.message}</Text>
+                <Text
+                  style={{ fontSize: "12px", color: "#888", textAlign: "end" }}
+                >
+                  {new Date(noti.createdAt).toLocaleString("vi-VN")}
+                </Text>
+              </div>
             </Box>
           ))
         ) : (
@@ -142,14 +153,14 @@ const Notification = ({ accountId, role }) => {
         )}
       </Box>
 
-      <style>
+      {/* <style>
         {`
           @keyframes twinkle {
             0%, 100% { background-color: #99FFFF; }
             50% { background-color: #33CCFF; }
           }
         `}
-      </style>
+      </style> */}
     </Page>
   );
 };

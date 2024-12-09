@@ -31,13 +31,16 @@ export const getMajorCategory = async () => {
   }
 };
 
-export const getMajorById = async (id) => {
+export const getMajorById = async (id, studentId) => {
   try {
-    const response = await axios.get(`${url}/major-and-relation/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${url}/major-and-relation/${id}?studentId=${studentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response;
   } catch (error) {
     console.log("Error in get major:", error);
@@ -45,11 +48,12 @@ export const getMajorById = async (id) => {
   }
 };
 
-export const getMajorCategoryId = async (majorCategoryId) => {
+export const getMajorCategoryId = async (majorCategoryId, searchValue) => {
   try {
     const response = await axios.get(`${url}/majors`, {
       params: {
         "major-category-id": majorCategoryId,
+        name: searchValue,
       },
       headers: {
         Authorization: `Bearer ${token}`,

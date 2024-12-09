@@ -1,30 +1,62 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Page, Text, Box, Header } from "zmp-ui";
+import { Page, Text, Box, Header, Input } from "zmp-ui";
 
 import { getOccupationGroupId } from "api/occupation";
 
 export default function Occupationbygroup() {
   const [occupation, setOccupation] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   const { id } = useParams();
 
   useEffect(() => {
     const getOccupationbygroup = async () => {
       try {
-        const response = await getOccupationGroupId(id);
-        setOccupation(response.data.occupations);
+        const response = await getOccupationGroupId(id, searchValue);
+        setOccupation(response.data.occupations || []);
       } catch (error) {
         console.error("Error fetching occupation details:", error);
       }
     };
     getOccupationbygroup();
-  }, [id]);
+  }, [id, searchValue]);
+
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+    console.log("Search value:", e.target.value); // Thay bằng logic xử lý tìm kiếm
+  };
 
   return (
     <Page className="page" style={{ marginTop: "36px", marginBottom: "40px" }}>
-      <Header title="Nghề nghiệp" />
+      <Header
+        showBackIcon={true}
+        style={{ textAlign: "center" }}
+        textColor="white" // Truyền textColor vào header
+        title={
+          <div className="header-title">
+            <Input.Search
+              style={{
+                width: "70%",
+                height: "36px",
+                border: "1px solid ",
+                borderRadius: "8px",
+                padding: "0 12px",
+                fontSize: "14px",
+                outline: "none",
+                background: "transparent", // Đặt nền của input thành trong suốt
+                color: "white",
+              }}
+              type="text"
+              placeholder="Tìm kiếm ngành nghề..."
+              value={searchValue}
+              onChange={handleSearchChange}
+              className="header-search-input"
+            />
+          </div>
+        }
+      />
       {/* <Box
                 style={{
                     display: "grid",

@@ -61,6 +61,9 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
     } else if (
       path.startsWith("/user") ||
       path.startsWith("/transaction") ||
+      path.startsWith("/occupationCare") ||
+      path.startsWith("/majorCare") ||
+      path.startsWith("/expert") ||
       path.startsWith("/personal")
     ) {
       return "me";
@@ -72,9 +75,9 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
   };
   const [activeTab, setActiveTab] = useState(getTabFromPath(pathname));
 
-  useEffect(() => {
-    setActiveTab(getTabFromPath(pathname));
-  }, [pathname]);
+  // useEffect(() => {
+  //   setActiveTab(getTabFromPath(pathname));
+  // }, [pathname]);
 
   const handleTabChange = (key) => {
     let targetPath = "/";

@@ -1,30 +1,62 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Page, Text, Box, Header } from "zmp-ui";
+import { Page, Text, Box, Header, Input } from "zmp-ui";
 
 import { getMajorCategoryId } from "api/major";
 
 export default function Majorbycategory() {
   const [major, setMajor] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   const { id } = useParams();
 
   useEffect(() => {
     const getmajorbycategory = async () => {
       try {
-        const response = await getMajorCategoryId(id);
-        setMajor(response.data.majors);
+        const response = await getMajorCategoryId(id, searchValue);
+        setMajor(response.data.majors || []);
       } catch (error) {
         console.error("Error fetching major details:", error);
       }
     };
     getmajorbycategory();
-  }, [id]);
+  }, [id, searchValue]);
+
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+    console.log("Search value:", e.target.value); // Thay bằng logic xử lý tìm kiếm
+  };
 
   return (
     <Page className="page" style={{ marginTop: "36px", marginBottom: "40px" }}>
-      <Header title="Ngành học" />
+      <Header
+        showBackIcon={true}
+        style={{ textAlign: "center" }}
+        textColor="white" // Truyền textColor vào header
+        title={
+          <div className="header-title">
+            <Input.Search
+              style={{
+                width: "70%",
+                height: "36px",
+                border: "1px solid ",
+                borderRadius: "8px",
+                padding: "0 12px",
+                fontSize: "14px",
+                outline: "none",
+                background: "transparent", // Đặt nền của input thành trong suốt
+                color: "white",
+              }}
+              type="text"
+              placeholder="Tìm kiếm ngành học..."
+              value={searchValue}
+              onChange={handleSearchChange}
+              className="header-search-input"
+            />
+          </div>
+        }
+      />
       {/* <Box
                 style={{
                     display: "grid",

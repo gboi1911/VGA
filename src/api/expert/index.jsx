@@ -1,3 +1,4 @@
+import { ErrorOutline } from "@mui/icons-material";
 import axios from "axios";
 
 const url = import.meta.env.VITE_APP_BASE_API;
@@ -166,5 +167,18 @@ export const getCompleteBooking = async (selectedDate) => {
   } catch (error) {
     console.log("Error in get bookings of consultant:", error);
     throw error;
+  }
+};
+
+export const putReport = async (id, payload) => {
+  try {
+    const response = await axios.put(`${url}/booking/report/${id}`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log("Error in put report: ", error);
   }
 };

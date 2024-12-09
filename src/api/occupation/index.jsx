@@ -31,13 +31,16 @@ export const getOccupationalGroup = async () => {
   }
 };
 
-export const getOccupationById = async (id) => {
+export const getOccupationById = async (id, studentId) => {
   try {
-    const response = await axios.get(`${url}/occupation/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${url}/occupation/${id}?studentId=${studentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response;
   } catch (error) {
     console.log("Error in get occupation by id:", error);
@@ -45,11 +48,12 @@ export const getOccupationById = async (id) => {
   }
 };
 
-export const getOccupationGroupId = async (occupationGroupId) => {
+export const getOccupationGroupId = async (occupationGroupId, searchValue) => {
   try {
     const response = await axios.get(`${url}/occupations`, {
       params: {
         "occupational-group-id": occupationGroupId,
+        name: searchValue,
       },
       headers: {
         Authorization: `Bearer ${token}`,

@@ -10,7 +10,7 @@ export default function News() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await getNews({ searchValue });
+        const response = await getNews(searchValue);
         setNews(response.data._news || []);
       } catch (error) {
         console.error("Error fetching news:", error);
@@ -35,7 +35,7 @@ export default function News() {
           <div className="header-title">
             <Input.Search
               style={{
-                width: "90%",
+                width: "70%",
                 height: "36px",
                 border: "1px solid #ccc",
                 borderRadius: "8px",

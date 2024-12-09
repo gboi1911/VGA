@@ -41,6 +41,7 @@ import Holland from "pages/explore/hollandList";
 import Transaction from "pages/transaction";
 import MajorCareList from "pages/explore/majorCareList";
 import OccupationCareList from "pages/explore/occupationCareList";
+import UserInfo from "pages/userInfo";
 import * as signalR from "@microsoft/signalr";
 
 import {
@@ -241,6 +242,7 @@ const MyApp = () => {
                     path="/personality"
                     element={<Personality studentId={userid} />}
                   />
+                  <Route path="/userInfo" element={<UserInfo />} />
                   <Route
                     path="/testExecuteHolland"
                     element={

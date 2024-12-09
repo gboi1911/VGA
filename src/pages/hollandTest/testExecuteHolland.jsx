@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Page, Box, Text, Button, Progress, Icon, Header } from "zmp-ui";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test"; // Điều chỉnh API nếu cần
+import moment from "moment";
 
 const TestExecuteHolland = ({ studentId, accountId }) => {
   const [questions, setQuestions] = useState([]);
@@ -91,7 +92,7 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
         personalTestId: id,
         listQuestionId: selectedQuestionIds,
         listAnswerId: [],
-        date: new Date().toISOString(),
+        date: moment().format("YYYY-MM-DDTHH:mm:ss.SSS"),
       };
 
       try {

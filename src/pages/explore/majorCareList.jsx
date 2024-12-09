@@ -65,15 +65,19 @@ const MajorCareList = ({ studentId }) => {
                   <Text size="small" bold style={{ marginBottom: "5px" }}>
                     {item.majorOrOccupationName}
                   </Text>
-                  {/* <Text size="xxSmall" color="text.secondary">
-                    Rating: {item.rating}
-                  </Text> */}
+                  <Text size="xxSmall" color="text.secondary">
+                    {item?.description.length > 100
+                      ? `${item.description.slice(0, 100)}...`
+                      : item.description}
+                  </Text>
                 </Box>
               </Box>
             </Link>
           ))
         ) : (
-          <Text>No data available.</Text>
+          <Text style={{ textAlign: "center", marginTop: "20px" }}>
+            Chưa có ngành học quan tâm
+          </Text>
         )}
       </div>
     </Page>

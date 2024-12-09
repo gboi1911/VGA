@@ -39,16 +39,17 @@ const MajorDetail = ({ studentId }) => {
     return text;
   };
 
-  useEffect(() => {
-    const fetchMajorDetail = async () => {
-      try {
-        const response = await getMajorById(id);
-        setMajor(response.data.data);
-      } catch (error) {
-        console.error("Error fetching major details:", error);
-      }
-    };
+  const fetchMajorDetail = async () => {
+    try {
+      const response = await getMajorById(id, studentId);
+      setMajor(response.data.data);
+      setSelectedValue(response.data.data.careLevel);
+    } catch (error) {
+      console.error("Error fetching major details:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchMajorDetail();
   }, [id]);
 
@@ -56,32 +57,32 @@ const MajorDetail = ({ studentId }) => {
     return <Text>Đang tải...</Text>;
   }
 
-  const handleCare = () => {
-    // Update the selectedValue state
-    const newSelectedValue = selectedValue === 3 ? 0 : 3;
-    setSelectedValue(newSelectedValue);
+  // const handleCare = () => {
+  //   // Update the selectedValue state
+  //   const newSelectedValue = selectedValue === 3 ? 0 : 3;
+  //   setSelectedValue(newSelectedValue);
 
-    // Payload should use the updated selectedValue
-    const payload = {
-      studentId: studentId,
-      majorOrOccupationId: id,
-      rating: newSelectedValue, // Use the new selectedValue
-      isMajor: true,
-    };
+  //   // Payload should use the updated selectedValue
+  //   const payload = {
+  //     studentId: studentId,
+  //     majorOrOccupationId: id,
+  //     rating: newSelectedValue, // Use the new selectedValue
+  //     isMajor: true,
+  //   };
 
-    // Define async function outside the handler for better readability
-    const postStudentCareData = async () => {
-      try {
-        const response = await postStudentCare(payload);
-        console.log("Post Success:", response); // Optionally log the response
-      } catch (error) {
-        console.error("Error in post student care: ", error);
-      }
-    };
+  //   // Define async function outside the handler for better readability
+  //   const postStudentCareData = async () => {
+  //     try {
+  //       const response = await postStudentCare(payload);
+  //       console.log("Post Success:", response); // Optionally log the response
+  //     } catch (error) {
+  //       console.error("Error in post student care: ", error);
+  //     }
+  //   };
 
-    // Call the async function
-    postStudentCareData();
-  };
+  //   // Call the async function
+  //   postStudentCareData();
+  // };
 
   const handleVeryCare = () => {
     // Update the selectedValue state
@@ -99,8 +100,12 @@ const MajorDetail = ({ studentId }) => {
     // Define async function outside the handler for better readability
     const postStudentCareData = async () => {
       try {
+        // Call the postStudentCare API with the payload
         const response = await postStudentCare(payload);
         console.log("Post Success:", response); // Optionally log the response
+
+        // After posting, fetch the updated major details
+        fetchMajorDetail(); // Call fetchMajorDetail to get updated data
       } catch (error) {
         console.error("Error in post student care: ", error);
       }
@@ -162,11 +167,23 @@ const MajorDetail = ({ studentId }) => {
           >
             {major.name}
           </Text>
-          <Icon
-            icon={selectedValue ? "zi-heart-solid" : "zi-heart"}
-            onClick={() => setVisible(true)}
-            style={{ color: "red" }}
-          />
+          <div style={{ display: "flex" }}>
+            <Icon
+              icon={selectedValue ? "zi-heart-solid" : "zi-heart"}
+              onClick={handleVeryCare}
+              style={{ color: "red" }}
+            />
+            <Text
+              style={{
+                color: "grey",
+                fontSize: "16px",
+                marginLeft: "2px",
+                marginTop: "2px",
+              }}
+            >
+              {major.numberCare}
+            </Text>
+          </div>
         </div>
 
         {/* Major Description */}
@@ -405,7 +422,7 @@ const MajorDetail = ({ studentId }) => {
           </div>
         </div>
       </Box>
-      <Modal
+      {/* <Modal
         visible={visible}
         title="Mức độ quan tâm ngành học"
         onClose={() => setVisible(false)}
@@ -420,7 +437,7 @@ const MajorDetail = ({ studentId }) => {
           }}
         >
           {/* Option 1: Quan tâm */}
-          <Box
+      {/* <Box
             onClick={handleCare}
             style={{
               padding: "16px 24px",
@@ -438,9 +455,9 @@ const MajorDetail = ({ studentId }) => {
             >
               Quan tâm
             </Text>
-          </Box>
-          {/* Option 2: Rất quan tâm */}
-          <Box
+          </Box> */}
+      {/* Option 2: Rất quan tâm */}
+      {/* <Box
             onClick={handleVeryCare}
             style={{
               padding: "16px 24px",
@@ -460,7 +477,7 @@ const MajorDetail = ({ studentId }) => {
             </Text>
           </Box>
         </Box>
-      </Modal>
+      </Modal> */}
     </Page>
   );
 };
