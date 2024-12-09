@@ -56,7 +56,7 @@ import { login } from "api/login";
 const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [userid, setUserId] = useState();
-  const [role, setRole] = useState();
+  const [role, setRole] = useState(4);
   const [accountid, setAccountId] = useState();
   const [userInfo, setUserInfo] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -111,7 +111,7 @@ const MyApp = () => {
         });
         console.log(resposneLogin);
         const userid = resposneLogin.data.userId;
-        const role = resposneLogin.data.role;
+        // const role = resposneLogin.data.role;
         const accountid = resposneLogin.data.accountId;
         setRole(role);
         setUserId(userid);

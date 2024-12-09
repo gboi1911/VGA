@@ -32,6 +32,20 @@ export default function NewDetail() {
     >
       <Header title="Tin tức" />
       <Box>
+        {newsDetail?._HashTag?.map((tag, index) => (
+          <Link to={`/majorDetail/${tag?.keys}`} key={index} style={{ textDecoration: "none" }}>
+            <Text
+              className="text-gray-500"
+              style={{
+                marginTop: "5px",
+                textAlign: "justify",
+                color: "blue",
+              }}
+            >
+              {`# ${tag?.values}`}
+            </Text>
+          </Link>
+        ))}
         <Text size="large" bold>
           {newsDetail?.title}
         </Text>
