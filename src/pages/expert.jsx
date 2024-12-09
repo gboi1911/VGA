@@ -53,11 +53,7 @@ const ExpertPage = ({ studentId }) => {
 
   return (
     <Page className="page w-full" style={{ marginTop: "40px" }}>
-      <Header
-        title="Tư vấn"
-        showBackIcon={false}
-        style={{ textAlign: "center" }}
-      />
+      <Header title="Lịch sử đã đặt tư vấn" />
       <Box
         style={{
           backgroundColor: "#FFFFFF",
@@ -79,13 +75,25 @@ const ExpertPage = ({ studentId }) => {
         </Box> */}
         <Box
           style={{
-            backgroundColor: "#FFCC66",
             padding: "10px",
             borderRadius: "8px",
           }}
         >
-          <Tabs defaultActiveKey={initialTab}>
-            <Tabs.Tab key="consultant" label="Tư vấn viên">
+          <Box mb={10} className="p-4 bg-white rounded-lg shadow-md">
+            {bookings.map((booking) => (
+              <BookingCard
+                key={booking.id}
+                consultantName={booking.consultantName}
+                startTime={booking.startTime}
+                endTime={booking.endTime}
+                consultationDay={booking.consultationDay}
+                status={booking.status}
+                dayId={booking.consultationTimeId}
+              />
+            ))}
+          </Box>
+          {/* <Tabs defaultActiveKey={initialTab}> */}
+          {/* <Tabs.Tab key="consultant" label="Tư vấn viên">
               <Input.Search
                 label="Label"
                 placeholder="Tư vấn viên bạn muốn tìm?"
@@ -103,8 +111,8 @@ const ExpertPage = ({ studentId }) => {
                   <Text>Không tìm thấy.</Text>
                 )}
               </Box>
-            </Tabs.Tab>
-            <Tabs.Tab key="history" label="Lịch sử đặt lịch">
+            </Tabs.Tab> */}
+          {/* <Tabs.Tab key="history" label="Lịch sử đặt lịch">
               <Box mb={10} className="p-4 bg-white rounded-lg shadow-md">
                 {bookings.map((booking) => (
                   <BookingCard
@@ -118,8 +126,8 @@ const ExpertPage = ({ studentId }) => {
                   />
                 ))}
               </Box>
-            </Tabs.Tab>
-          </Tabs>
+            </Tabs.Tab> */}
+          {/* </Tabs> */}
         </Box>
       </Box>
     </Page>

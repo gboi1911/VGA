@@ -237,7 +237,7 @@ const ExpertDetailPage = ({ studentId }) => {
                   icon={faSchool}
                   style={{ marginRight: "5px" }}
                 />{" "}
-                {expert.university.account.name}
+                {expert?.university?.account?.name}
               </Text>
               <Text className=" text-gray-700 mt-2">
                 <FontAwesomeIcon

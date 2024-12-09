@@ -94,16 +94,16 @@ const HomePage = () => {
     fetchOccupationGroup();
   }, []);
 
-  const handleSearch = (text) => {
-    if (text.length < 2) {
-      setFilteredNews(news);
-    } else {
-      const results = news.filter((item) =>
-        item.title.toLowerCase().includes(text.toLowerCase())
-      );
-      setFilteredNews(results);
-    }
-  };
+  // const handleSearch = (text) => {
+  //   if (text.length < 2) {
+  //     setFilteredNews(news);
+  //   } else {
+  //     const results = news.filter((item) =>
+  //       item.title.toLowerCase().includes(text.toLowerCase())
+  //     );
+  //     setFilteredNews(results);
+  //   }
+  // };
 
   return (
     <Page
@@ -163,14 +163,14 @@ const HomePage = () => {
         </Swiper>
       </Box>
 
-      <Box style={{ padding: "10px" }}>
+      {/* <Box style={{ padding: "10px" }}>
         <Input.Search
           label="Label"
           placeholder="Tìm kiếm..."
           onChange={(e) => handleSearch(e.target.value)} // Call handleSearch on input change
           style={{ marginTop: "10px" }}
         />
-      </Box>
+      </Box> */}
       <Box style={{ padding: "10px" }}>
         <Box
           style={{

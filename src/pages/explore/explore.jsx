@@ -84,14 +84,14 @@ const exploreCardData = [
       "https://img.freepik.com/free-vector/student-campus-flat-composition-with-university-building-background-vector-illustration_1284-81556.jpg",
     route: "/university",
   },
-  {
-    id: "personal",
-    title: "Cá nhân",
-    description: "Quản lý và phát triển thương hiệu cá nhân.",
-    imageUrl:
-      "https://cdn.vietnambiz.vn/171464876016439296/2020/5/8/personal-branding-15889101272222135142228.png",
-    route: "/personal",
-  },
+  // {
+  //   id: "personal",
+  //   title: "Cá nhân",
+  //   description: "Quản lý và phát triển thương hiệu cá nhân.",
+  //   imageUrl:
+  //     "https://cdn.vietnambiz.vn/171464876016439296/2020/5/8/personal-branding-15889101272222135142228.png",
+  //   route: "/personal",
+  // },
 ];
 const Explore = () => {
   return (

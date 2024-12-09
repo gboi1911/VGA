@@ -47,7 +47,6 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
       path.startsWith("/major") ||
       path.startsWith("/occupation") ||
       path.startsWith("/university") ||
-      path.startsWith("/personal") ||
       path.startsWith("/testExecuteHolland") ||
       path.startsWith("/testExecute") ||
       path.startsWith("/testResult") ||
@@ -59,9 +58,11 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
       path.startsWith("/filterMajorUniversity")
     ) {
       return "explore";
-    } else if (path.startsWith("/expert") || path.startsWith("/expertDetail")) {
-      return "expert";
-    } else if (path === "/user") {
+    } else if (
+      path.startsWith("/user") ||
+      path.startsWith("/transaction") ||
+      path.startsWith("/personal")
+    ) {
       return "me";
     } else if (path === "/notification") {
       return "notify";
@@ -80,9 +81,6 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
     switch (key) {
       case "explore":
         targetPath = "/explore";
-        break;
-      case "expert":
-        targetPath = "/expert";
         break;
       case "me":
         targetPath = "/user";
@@ -111,7 +109,6 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
     const baseIcon = {
       home: "zi-home",
       explore: "zi-more-grid",
-      expert: "zi-chat",
       me: "zi-user",
       notify: "zi-notif",
     };
@@ -137,7 +134,7 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
 
   return (
     <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>
-      {["home", "explore", "expert", "notify", "me"].map((key) => (
+      {["home", "explore", "notify", "me"].map((key) => (
         <BottomNavigation.Item
           key={key}
           label={
@@ -147,8 +144,6 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
               ? "Khám phá"
               : key === "notify"
               ? "Thông báo"
-              : key === "expert"
-              ? "Tư vấn"
               : "Cá nhân"
           }
           icon={

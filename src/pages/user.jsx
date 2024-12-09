@@ -9,6 +9,7 @@ import {
   Header,
   Spinner,
   Modal,
+  Icon,
 } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
@@ -20,6 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { getStudentInfo, getSchoolName, getTransaction } from "api/userInfo";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useNavigate } from "react-router-dom";
 
 const UserPage = ({ studentId, accountId, info }) => {
   const [userInfo, setUserInfo] = useState(null);
@@ -27,6 +29,7 @@ const UserPage = ({ studentId, accountId, info }) => {
   const [transactions, setTransactions] = useState([]);
   const [loadingTransactions, setLoadingTransactions] = useState(true); // Add loading state
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
 
   const paymentLink = "https://vga-payment.vercel.app";
 
@@ -97,7 +100,6 @@ const UserPage = ({ studentId, accountId, info }) => {
               alignItems: "center",
               padding: "10px",
               backgroundColor: "#F9F9F9",
-              borderRadius: "5px",
               justifyContent: "space-between",
             }}
           >
@@ -109,9 +111,20 @@ const UserPage = ({ studentId, accountId, info }) => {
           size="large"
           style={{ width: "80px", height: "80px" }}
         />
-        <Text size="large" style={{ fontWeight: "bold", fontSize: "20px" }}>
-          {userInfo.data.account.name}
-        </Text>
+        <div>
+          <Text size="large" style={{ fontWeight: "bold", fontSize: "20px" }}>
+            {userInfo.data.account.name}
+          </Text>
+          <Text style={{ color: "grey", marginTop: "10px" }}>
+            Giới tính: {userInfo.data.gender ? "Nam" : "Nữ"}
+          </Text>
+          <Text style={{ color: "grey" }}>
+            {schoolName?.data?.account?.name}
+          </Text>
+          <Text style={{ color: "grey" }}>
+            Năm học: {userInfo.data.schoolYears}
+          </Text>
+        </div>
       </Box>
       <Box
         style={{
@@ -121,11 +134,10 @@ const UserPage = ({ studentId, accountId, info }) => {
           backgroundImage:
             "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-3bjkd32XySUSA_7HFCvui8pjysieOdWfUA&s)",
           gap: "80px",
-          borderRadius: "5px",
           backgroundColor: "white",
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
           borderBottom: "1px solid #ddd",
-          marginTop: "5px",
+          marginTop: "2px",
         }}
       >
         <Box
@@ -166,16 +178,23 @@ const UserPage = ({ studentId, accountId, info }) => {
       <Box
         style={{
           padding: "10px",
-          borderRadius: "5px",
           backgroundColor: "white",
-          marginTop: "5px",
+          marginTop: "2px",
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
+        onClick={() => navigate("/transaction")}
       >
         <Text bold size="xLarge" style={{ padding: "10px" }}>
           Lịch sử giao dịch
         </Text>
-        <div style={{ overflowY: "auto", maxHeight: "300px" }}>
+        <Icon
+          icon="zi-chevron-right"
+          style={{ color: "grey", fontSize: "30px" }}
+        />
+        {/* <div style={{ overflowY: "auto", maxHeight: "300px" }}>
           {loadingTransactions ? ( // Show loading spinner or message
             <div style={{ textAlign: "center", padding: "20px" }}>
               <Spinner size="large" color="primary" />
@@ -240,9 +259,92 @@ const UserPage = ({ studentId, accountId, info }) => {
               </Box>
             ))
           )}
-        </div>
+        </div> */}
       </Box>
       <Box
+        style={{
+          padding: "10px",
+          backgroundColor: "white",
+          marginTop: "2px",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+        onClick={() => navigate("/expert")}
+      >
+        <Text bold size="xLarge" style={{ padding: "10px" }}>
+          Lịch sử đã đặt tư vấn
+        </Text>
+        <Icon
+          icon="zi-chevron-right"
+          style={{ color: "grey", fontSize: "30px" }}
+        />
+      </Box>
+      <Box
+        style={{
+          padding: "10px",
+          backgroundColor: "white",
+          marginTop: "2px",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+        onClick={() => navigate("/personal")}
+      >
+        <Text bold size="xLarge" style={{ padding: "10px" }}>
+          Tính cách cá nhân
+        </Text>
+        <Icon
+          icon="zi-chevron-right"
+          style={{ color: "grey", fontSize: "30px" }}
+        />
+      </Box>
+      <Box
+        style={{
+          padding: "10px",
+          backgroundColor: "white",
+          marginTop: "2px",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          alignItems: "center",
+          whiteSpace: "nowrap",
+          justifyContent: "space-between",
+        }}
+        onClick={() => navigate("/majorCare")}
+      >
+        <Text bold size="xLarge" style={{ padding: "10px" }}>
+          Ngành học quan tâm
+        </Text>
+        <Icon
+          icon="zi-chevron-right"
+          style={{ color: "grey", fontSize: "30px" }}
+        />
+      </Box>
+      <Box
+        style={{
+          padding: "10px",
+          backgroundColor: "white",
+          marginTop: "2px",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          alignItems: "center",
+          whiteSpace: "nowrap",
+          justifyContent: "space-between",
+        }}
+        onClick={() => navigate("/occupationCare")}
+      >
+        <Text bold size="xLarge" style={{ padding: "10px" }}>
+          Nghề nghiệp quan tâm
+        </Text>
+        <Icon
+          icon="zi-chevron-right"
+          style={{ color: "grey", fontSize: "30px" }}
+        />
+      </Box>
+
+      {/* <Box
         style={{
           display: "flex",
           alignItems: "center",
@@ -305,7 +407,7 @@ const UserPage = ({ studentId, accountId, info }) => {
         />
         <Text bold>Năm học: </Text>
         <Text style={{ marginLeft: "5px" }}>{userInfo.data.schoolYears}</Text>
-      </Box>
+      </Box> */}
     </Page>
   );
 };
