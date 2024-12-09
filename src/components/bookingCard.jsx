@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Box, Text, Icon, Modal, Input, Button } from "zmp-ui";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { getTimebyId, putReport } from "api/expert"; // Import the API method
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { storage } from '../firebaseConfig';
+
 
 const BookingCard = ({
   consultantName,
@@ -17,6 +20,7 @@ const BookingCard = ({
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const [image, setImage] = useState(null); // State for storing uploaded image
   const [inputText, setInputText] = useState(""); // State for input text
+  console.log('image', image);
 
   useEffect(() => {
     const fetchLink = async () => {
@@ -36,10 +40,30 @@ const BookingCard = ({
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   // Handle image upload
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(URL.createObjectURL(file)); // Create a local URL for the uploaded image
+  // const file = e.target.files[0];
+  // if (file) {
+  //   setImage(URL.createObjectURL(file)); // Create a local URL for the uploaded image
+  // }
+  const handleImageChange = async (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const fileName = file.name;
+
+      // Hiển thị bản xem trước hình ảnh
+      // const previewUrl = URL.createObjectURL(file);
+      // setPreview(previewUrl);
+      // if (file) {
+      //   setImage(URL.createObjectURL(file)); // Create a local URL for the uploaded image
+      // }
+
+      try {
+        const storageRef = ref(storage, `images/${fileName}`);
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        setImage(url);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
     }
   };
 
@@ -80,7 +104,7 @@ const BookingCard = ({
             <Text>Link Google Meet: </Text>
             <Text
               className="ml-2 text-blue-500 cursor-pointer"
-              // Optional: Show an alert when copied
+            // Optional: Show an alert when copied
             >
               {link}
             </Text>

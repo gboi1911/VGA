@@ -57,7 +57,7 @@ import { login } from "api/login";
 const MyApp = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [userid, setUserId] = useState();
-  const [role, setRole] = useState(4);
+  const [role, setRole] = useState(2);
   const [accountid, setAccountId] = useState();
   const [userInfo, setUserInfo] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -106,8 +106,8 @@ const MyApp = () => {
         setAccessToken(token); // Store the token once fetched
 
         const resposneLogin = await login({
-          zaloId: '15757557577',
-          phone: '84347707045',
+          zaloId: 'string',
+          phone: '84918107843',
           image_Url: "string",
         });
         console.log(resposneLogin);
