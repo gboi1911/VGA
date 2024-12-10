@@ -185,6 +185,9 @@ const MajorDetail = ({ studentId }) => {
             </Text>
           </div>
         </div>
+        <Text style={{ marginTop: "5px", fontSize: "18px", textAlign: "end" }}>
+          {major.code}
+        </Text>
 
         {/* Major Description */}
         <Text

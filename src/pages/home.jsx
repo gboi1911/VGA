@@ -24,14 +24,14 @@ const HomePage = () => {
       title: "Bài kiểm tra tính cách MBTI",
       imageUrl:
         "https://tracuuthansohoc.com/wp-content/uploads/2023/07/bai-trac-nghiem-tinh-cach-mbti.jpg",
-      route: "/mbtiTest",
+      route: "/mbtiList",
     },
     {
       id: "hollandTest",
       title: "Bài kiểm tra nghề nghiệp Holland",
       imageUrl:
         "https://res.cloudinary.com/team-odeon/images/w_1640,h_1586,c_scale/f_webp/v1667316862/degreechoices/self-directed-search-sds/self-directed-search-sds.png?_i=AA",
-      route: "/hollandTest",
+      route: "/hollandList",
     },
   ];
 
