@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Box, Text, Icon, Modal, Input, Button } from "zmp-ui";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { getTimebyId, putReport } from "api/expert"; // Import the API method
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { storage } from '../firebaseConfig';
-
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
+import { storage } from "../firebaseConfig";
 
 const BookingCard = ({
   consultantName,
@@ -20,7 +24,7 @@ const BookingCard = ({
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const [image, setImage] = useState(null); // State for storing uploaded image
   const [inputText, setInputText] = useState(""); // State for input text
-  console.log('image', image);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const fetchLink = async () => {
@@ -49,6 +53,8 @@ const BookingCard = ({
       const file = e.target.files[0];
       const fileName = file.name;
 
+      // setIsUploading(true);
+
       // Hiển thị bản xem trước hình ảnh
       // const previewUrl = URL.createObjectURL(file);
       // setPreview(previewUrl);
@@ -61,18 +67,31 @@ const BookingCard = ({
         await uploadBytes(storageRef, file);
         const url = await getDownloadURL(storageRef);
         setImage(url);
+        console.log(image);
       } catch (error) {
         console.error("Error uploading image:", error);
+      } finally {
+        setIsUploading(false); // Upload complete
       }
     }
   };
 
+  useEffect(() => {
+    if (image) {
+      console.log("Image state updated:", image);
+    }
+  }, [image]);
+
   // Handle report button click
   const handleReport = () => {
+    if (!image) {
+      alert("Please upload an image before submitting the report.");
+      return;
+    }
     console.log("Report submitted with input:", inputText, "and image:", image);
     const payload = {
       comment: inputText,
-      image: image,
+      image,
     };
     const apiPutReport = async () => {
       try {
@@ -103,7 +122,7 @@ const BookingCard = ({
             <Text>Link Google Meet: </Text>
             <Text
               className="ml-2 text-blue-500 cursor-pointer"
-            // Optional: Show an alert when copied
+              // Optional: Show an alert when copied
             >
               {link}
             </Text>

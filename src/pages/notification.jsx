@@ -73,10 +73,13 @@ const Notification = ({ accountId, role }) => {
       }
     }
 
-    // Navigate based on notification message
-    // if (notification.title.includes("lịch tư vấn mới")) {
-    //   navigate("/expert", { state: { tab: "history" } });
-    if (notification.title.includes("cập nhật thông tin điểm")) {
+    // Parse notification message
+    const [messageText, newsId] = notification.message.split("|");
+
+    if (newsId) {
+      // Navigate to the news page
+      navigate(`/newsdetail/${newsId.trim()}`);
+    } else if (notification.title.includes("cập nhật thông tin điểm")) {
       if (role === 2) {
         navigate("/user");
       } else if (role === 4) {
@@ -137,7 +140,10 @@ const Notification = ({ accountId, role }) => {
                 >
                   {noti.title}
                 </Text>
-                <Text style={{ marginBottom: "4px" }}>{noti.message}</Text>
+                <Text style={{ marginBottom: "4px" }}>
+                  {noti.message.split("|")[0]} {/* Display text before `|` */}
+                </Text>
+
                 <Text
                   style={{ fontSize: "12px", color: "#888", textAlign: "end" }}
                 >

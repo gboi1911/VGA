@@ -9,6 +9,7 @@ import {
   Header,
   Modal,
   Input,
+  Icon,
 } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
@@ -27,6 +28,7 @@ import {
   postWithdrawRequest,
   getGoldBallanceConsultant,
 } from "api/userInfo";
+import { useNavigate } from "react-router-dom";
 
 const ConsultantPage = ({ consultantId, accountId }) => {
   const [userInfo, setUserInfo] = useState(null);
@@ -40,15 +42,18 @@ const ConsultantPage = ({ consultantId, accountId }) => {
   const [errorText, setErrorText] = useState("");
   const [status, setStatus] = useState("");
 
-  const fetchTransactions = async () => {
-    try {
-      const response = await getTransaction(accountId);
-      setTransactions(response.data.transactions);
-      console.log("Transaction info: ", response.data.transactions);
-    } catch (error) {
-      console.error("Error in fetching transaction:", error);
-    }
-  };
+  const { Item } = List;
+  const navigate = useNavigate();
+
+  // const fetchTransactions = async () => {
+  //   try {
+  //     const response = await getTransaction(accountId);
+  //     setTransactions(response.data.transactions);
+  //     console.log("Transaction info: ", response.data.transactions);
+  //   } catch (error) {
+  //     console.error("Error in fetching transaction:", error);
+  //   }
+  // };
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -88,7 +93,7 @@ const ConsultantPage = ({ consultantId, accountId }) => {
     };
 
     fetchUserInfo();
-    fetchTransactions();
+    // fetchTransactions();
     fetchGoldBallance();
   }, []);
 
@@ -172,13 +177,34 @@ const ConsultantPage = ({ consultantId, accountId }) => {
         }}
       >
         <Avatar
-          src={userInfo?.avatar}
+          src={userInfo?.image_Url}
           size="large"
           style={{ width: "80px", height: "80px" }}
         />
-        <Text size="Normal" style={{ fontWeight: "bold", fontSize: "20px" }}>
-          {userInfo?.name}
-        </Text>
+        <div>
+          <Text size="Normal" style={{ fontWeight: "bold", fontSize: "20px" }}>
+            {userInfo?.name}
+          </Text>
+          <Text
+            style={{ color: "grey", marginTop: "6px" }}
+            onClick={() =>
+              navigate("/userInfoConst", {
+                state: {
+                  gender: userInfo?.gender,
+                  schoolName: userInfo?.consultantRelations,
+                  date: userInfo?.dateOfBirth,
+                  name: userInfo?.name,
+                  phone: userInfo?.phone,
+                  avatar: userInfo?.image_Url,
+                  email: userInfo?.email,
+                  description: userInfo?.description,
+                },
+              })
+            }
+          >
+            Xem thông tin
+          </Text>
+        </div>
       </Box>
       <Box
         style={{
@@ -192,7 +218,7 @@ const ConsultantPage = ({ consultantId, accountId }) => {
           backgroundColor: "white", // White background
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
           borderBottom: "1px solid #ddd", // Divider line
-          marginTop: "5px",
+          marginTop: "10px",
         }}
       >
         <Box
@@ -226,7 +252,7 @@ const ConsultantPage = ({ consultantId, accountId }) => {
           Đổi điểm
         </Button>
       </Box>
-      <Box
+      {/* <Box
         style={{
           padding: "10px",
           borderRadius: "5px",
@@ -294,10 +320,10 @@ const ConsultantPage = ({ consultantId, accountId }) => {
             </Box>
           ))}
         </div>
-      </Box>
+      </Box> */}
 
       {/* User Details Section (Following Boxes) */}
-      <Box
+      {/* <Box
         style={{
           display: "flex",
           alignItems: "center",
@@ -398,6 +424,17 @@ const ConsultantPage = ({ consultantId, accountId }) => {
         <Text style={{ marginLeft: "5px" }}>
           {userInfo?.university?.account?.name}
         </Text>
+      </Box> */}
+      <Box style={{ backgroundColor: "white", marginTop: "10px" }}>
+        <List>
+          <Item
+            style={{ marginBottom: "0px" }}
+            title="Lịch sử giao dịch"
+            prefix={<Icon icon="zi-poll" style={{ color: "blue" }} />}
+            suffix={<Icon icon="zi-chevron-right" />}
+            onClick={() => navigate("/transaction")}
+          />
+        </List>
       </Box>
       {/* Input Modal */}
       <Modal

@@ -43,6 +43,7 @@ import Transaction from "pages/transaction";
 import MajorCareList from "pages/explore/majorCareList";
 import OccupationCareList from "pages/explore/occupationCareList";
 import UserInfo from "pages/userInfo";
+import UserInfoConst from "super/pages/userInfoConst";
 import * as signalR from "@microsoft/signalr";
 
 import {
@@ -72,7 +73,6 @@ const MyApp = () => {
       try {
         const token = await getDataAccessToken();
         // const phoneNumber = await getPhoneNumberUser();
-        // const phoneNumber = await getPhoneNumberUser();
 
         // var config = {
         //   method: "get",
@@ -83,20 +83,6 @@ const MyApp = () => {
         //     secret_key: "P5DXS5UHWG7M73DkCLRC",
         //   },
         // };
-        // var config = {
-        //   method: "get",
-        //   url: "https://graph.zalo.me/v2.0/me/info",
-        //   headers: {
-        //     access_token: token,
-        //     code: phoneNumber.token,
-        //     secret_key: "P5DXS5UHWG7M73DkCLRC",
-        //   },
-        // };
-
-        // var response = await axios(config);
-        // console.log(response);
-        // const phone = response.data.data.number;
-        // const userId = await getUserIDUser();
         // var response = await axios(config);
         // console.log(response);
         // const phone = response.data.data.number;
@@ -109,8 +95,8 @@ const MyApp = () => {
         setAccessToken(token); // Store the token once fetched
 
         const resposneLogin = await login({
-          zaloId: 'string',
-          phone: '84918107843',
+          zaloId: "string",
+          phone: "84918107843",
           image_Url: "string",
         });
         console.log(resposneLogin);
@@ -131,7 +117,6 @@ const MyApp = () => {
 
     fetchToken();
   }, []);
-
 
   // useEffect(() => {
   //   const connection = new signalR.HubConnectionBuilder()
@@ -189,10 +174,7 @@ const MyApp = () => {
                     path="/expert"
                     element={<ExpertPage studentId={userid} />}
                   />
-                  <Route
-                    path="/allexpert/:id"
-                    element={<AllExpert />}
-                  />
+                  <Route path="/allexpert/:id" element={<AllExpert />} />
                   <Route
                     path="/expertDetail/:id"
                     element={<ExpertDetailPage studentId={userid} />}
@@ -294,6 +276,11 @@ const MyApp = () => {
                   <Route
                     path="/consultantScheldule"
                     element={<ConsultantSchedulePage userid={userid} />}
+                  />
+                  <Route path="/userInfoConst" element={<UserInfoConst />} />
+                  <Route
+                    path="/transaction"
+                    element={<Transaction accountId={accountid} />}
                   />
                   {/* <Route path="/consultantpage/:id" element={<ConsultantPage consultantId={userid} accountId={accountid} />} /> */}
                   <Route path="/major" element={<Major />} />

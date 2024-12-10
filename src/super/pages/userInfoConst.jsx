@@ -5,11 +5,13 @@ import { useState, useEffect } from "react";
 import moment from "moment";
 import "moment/locale/vi";
 
-const UserInfo = () => {
+const UserInfoConst = () => {
   const [dateVn, setDateVn] = useState("");
   const location = useLocation();
-  const { gender, schoolName, schoolYears, name, date, phone, avatar } =
+  const { gender, schoolName, name, date, phone, avatar, email, description } =
     location.state || {};
+
+  console.log(schoolName);
 
   useEffect(() => {
     moment.locale("vi"); // Set locale to Vietnamese
@@ -119,8 +121,8 @@ const UserInfo = () => {
                 width: "100%",
               }}
             >
-              <Text style={{ color: "grey" }}>Trường cấp 3</Text>
-              <Text>{schoolName}</Text>
+              <Text style={{ color: "grey" }}>Email</Text>
+              <Text>{email}</Text>
             </Box>
           </List.Item>
           <List.Item style={{ marginBottom: "0px" }}>
@@ -131,8 +133,27 @@ const UserInfo = () => {
                 width: "100%",
               }}
             >
-              <Text style={{ color: "grey" }}>Niên khóa</Text>
-              <Text>{schoolYears}</Text>
+              <Text style={{ color: "grey" }}>Đại học</Text>
+              <Box>
+                {schoolName.map((university) => (
+                  <Text key={university.id} style={{ textAlign: "right" }}>
+                    {university.universityName}
+                  </Text>
+                ))}
+              </Box>
+            </Box>
+          </List.Item>
+
+          <List.Item style={{ marginBottom: "0px" }}>
+            <Box
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              <Text style={{ color: "grey" }}>Chi tiết</Text>
+              <Text>{description}</Text>
             </Box>
           </List.Item>
         </List>
@@ -141,4 +162,4 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+export default UserInfoConst;

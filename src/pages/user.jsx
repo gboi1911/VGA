@@ -135,16 +135,6 @@ const UserPage = ({ studentId, accountId, info }) => {
           >
             Xem thông tin
           </Text>
-
-          {/* <Text style={{ color: "grey", marginTop: "10px" }}>
-            Giới tính: {userInfo.data.gender ? "Nam" : "Nữ"}
-          </Text>
-          <Text style={{ color: "grey" }}>
-            {schoolName?.data?.account?.name}
-          </Text>
-          <Text style={{ color: "grey" }}>
-            Năm học: {userInfo.data.schoolYears}
-          </Text> */}
         </div>
       </Box>
       <Box
