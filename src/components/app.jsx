@@ -108,6 +108,8 @@ const MyApp = () => {
         const resposneLogin = await login({
           zaloId: 'string',
           phone: '84918107843',
+          zaloId: 'string',
+          phone: '84918107843',
           image_Url: "string",
         });
         console.log(resposneLogin);
