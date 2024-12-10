@@ -4,30 +4,34 @@ import axios from "axios";
 const url = import.meta.env.VITE_APP_BASE_API;
 let token = localStorage.getItem("token");
 const MAX_RETRIES = 3;
-
-export const getExpert = async (retries = 0) => {
+// retries = 0
+export const getExpert = async ({ idUniversity }) => {
   try {
-    const { data } = await axios.get(`${url}/consultants`, {
+    const params = {}
+    if (idUniversity) {
+      params["university-id"] = idUniversity
+    }
+    const response = await axios.get(`${url}/consultants`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      params,
     });
-    return data;
+    return response;
   } catch (error) {
     console.error("Error in getConsultants:", error);
 
     // Check if we have retries left
-    if (retries < MAX_RETRIES) {
-      console.log(`Retrying... Attempt ${retries + 1}`);
-      return getExpert(retries + 1); // Retry the API call
-    } else {
-      throw error; // Throw error after maximum retries
-    }
+    // if (retries < MAX_RETRIES) {
+    //   console.log(`Retrying... Attempt ${retries + 1}`);
+    //   return getExpert(retries + 1); // Retry the API call
+    // } else {
+    //   throw error; // Throw error after maximum retries
+    // }
   }
 };
 
 export const getDay = async (id) => {
-  debugger
   try {
     const response = await axios.get(`${url}/consultation-days`, {
       params: { "consultant-id": id },

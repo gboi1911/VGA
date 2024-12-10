@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Page, Text, Box, Header } from "zmp-ui";
 import EastIcon from "@mui/icons-material/East";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { getUniversityById, getRegionById } from "api/university";
 import { getExpert } from "api/expert";
 
 const UniversityDetail = () => {
   const { id } = useParams();
   const [university, setUniversity] = useState(null);
+  console.log('university', university)
   const [locations, setLocations] = useState([]);
   const [consultants, setConsultants] = useState([]);
   const [visibleCount, setVisibleCount] = useState(6);
@@ -44,15 +45,16 @@ const UniversityDetail = () => {
 
     const fetchConsultants = async () => {
       try {
-        const response = await getExpert();
-        if (response.consultants) {
-          const consultantsData = response.consultants.filter(
-            (consultant) => consultant.university?.id === id
-          );
-          setConsultants(consultantsData);
-        } else {
-          console.log("No consultants data found in the response.");
-        }
+        const response = await getExpert({ idUniversity: id });
+        setConsultants(response.data.consultants);
+        // if (response.consultants) {
+        //   const consultantsData = response.consultants.filter(
+        //     (consultant) => consultant.university?.id === id
+        //   );
+        //   setConsultants(consultantsData);
+        // } else {
+        //   console.log("No consultants data found in the response.");
+        // }
       } catch (error) {
         console.error("Error in fetching consultants data: ", error);
       }
@@ -280,17 +282,29 @@ const UniversityDetail = () => {
             )}
           </div>
         </div>
-        <Text
-          style={{
-            fontSize: "18px",
-            fontWeight: "bold",
-            marginBottom: "8px",
-            marginTop: "16px",
-          }}
-        >
-          Tư vấn viên được đề xuất
-        </Text>
-
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Text
+            style={{
+              fontSize: "18px",
+              fontWeight: "bold",
+              marginBottom: "8px",
+              marginTop: "16px",
+            }}
+          >
+            Tư vấn viên được đề xuất
+          </Text>
+          <Link to={`/allexpert/${id}`}>
+            <Text
+              style={{
+                fontSize: "14px",
+                color: "#666",
+                marginTop: "16px",
+              }}
+            >
+              Xem thêm
+            </Text>
+          </Link>
+        </div>
         <div>
           <div
             style={{
@@ -300,7 +314,7 @@ const UniversityDetail = () => {
               alignItems: "center",
             }}
           >
-            {university?.consultants
+            {consultants
               ?.slice(0, visibleCount)
               ?.map((consultant) => (
                 <Box
