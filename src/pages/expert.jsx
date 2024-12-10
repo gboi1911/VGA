@@ -80,9 +80,9 @@ const ExpertPage = ({ studentId }) => {
           }}
         >
           <Box mb={10} className="p-4 bg-white rounded-lg shadow-md">
-            {bookings.map((booking) => (
+            {bookings.map((booking, index) => (
               <BookingCard
-                key={booking.id}
+                key={index}
                 consultantName={booking.consultantName}
                 startTime={booking.startTime}
                 endTime={booking.endTime}
@@ -90,6 +90,7 @@ const ExpertPage = ({ studentId }) => {
                 status={booking.status}
                 dayId={booking.consultationTimeId}
                 id={booking.id}
+                onImageChange={(e) => handleImageChange(1, e)}
               />
             ))}
           </Box>
