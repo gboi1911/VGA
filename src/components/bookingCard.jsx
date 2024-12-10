@@ -27,19 +27,19 @@ const BookingCard = ({
   const [inputText, setInputText] = useState(""); // State for input text
   const [isUploading, setIsUploading] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchLink = async () => {
-  //     try {
-  //       const response = await getTimebyId(dayId); // Fetch data using dayId
-  //       // Assuming the note contains the Google Meet link
-  //       const meetLink = response.data.data.note;
-  //       setLink(meetLink); // Set the Google Meet link to state
-  //     } catch (error) {
-  //       console.log("Error in fetch link: ", error);
-  //     }
-  //   };
-  //   fetchLink();
-  // }, [dayId]);
+  useEffect(() => {
+    const fetchLink = async () => {
+      try {
+        const response = await getTimebyId(dayId); // Fetch data using dayId
+        // Assuming the note contains the Google Meet link
+        const meetLink = response.data.data.note;
+        setLink(meetLink); // Set the Google Meet link to state
+      } catch (error) {
+        console.log("Error in fetch link: ", error);
+      }
+    };
+    fetchLink();
+  }, [dayId]);
 
   // Handle modal opening/closing
   const toggleModal = () => setIsModalOpen(!isModalOpen);
@@ -62,12 +62,6 @@ const BookingCard = ({
       }
     }
   };
-
-  // useEffect(() => {
-  //   if (image) {
-  //     console.log("Image state updated:", image);
-  //   }
-  // }, [image]);
 
   // Handle report button click
   const handleReport = () => {
