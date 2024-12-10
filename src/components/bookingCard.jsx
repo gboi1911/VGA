@@ -22,32 +22,27 @@ const BookingCard = ({
 }) => {
   const [link, setLink] = useState(""); // Store the link state
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
-  const [image, setImage] = useState(null); // State for storing uploaded image
+  const [image, setImage] = useState(); // State for storing uploaded image
+  const [dialogVisible, setDialogVisible] = useState("");
   const [inputText, setInputText] = useState(""); // State for input text
   const [isUploading, setIsUploading] = useState(false);
 
-  useEffect(() => {
-    const fetchLink = async () => {
-      try {
-        const response = await getTimebyId(dayId); // Fetch data using dayId
-        // Assuming the note contains the Google Meet link
-        const meetLink = response.data.data.note;
-        setLink(meetLink); // Set the Google Meet link to state
-      } catch (error) {
-        console.log("Error in fetch link: ", error);
-      }
-    };
-    fetchLink();
-  }, [dayId]);
+  // useEffect(() => {
+  //   const fetchLink = async () => {
+  //     try {
+  //       const response = await getTimebyId(dayId); // Fetch data using dayId
+  //       // Assuming the note contains the Google Meet link
+  //       const meetLink = response.data.data.note;
+  //       setLink(meetLink); // Set the Google Meet link to state
+  //     } catch (error) {
+  //       console.log("Error in fetch link: ", error);
+  //     }
+  //   };
+  //   fetchLink();
+  // }, [dayId]);
 
   // Handle modal opening/closing
   const toggleModal = () => setIsModalOpen(!isModalOpen);
-
-  // Handle image upload
-  // const file = e.target.files[0];
-  // if (file) {
-  //   setImage(URL.createObjectURL(file)); // Create a local URL for the uploaded image
-  // }
   const handleImageChange = async (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -55,19 +50,11 @@ const BookingCard = ({
 
       // setIsUploading(true);
 
-      // Hiển thị bản xem trước hình ảnh
-      // const previewUrl = URL.createObjectURL(file);
-      // setPreview(previewUrl);
-      // if (file) {
-      //   setImage(URL.createObjectURL(file)); // Create a local URL for the uploaded image
-      // }
-
       try {
         const storageRef = ref(storage, `images/${fileName}`);
         await uploadBytes(storageRef, file);
         const url = await getDownloadURL(storageRef);
         setImage(url);
-        console.log(image);
       } catch (error) {
         console.error("Error uploading image:", error);
       } finally {
@@ -76,11 +63,11 @@ const BookingCard = ({
     }
   };
 
-  useEffect(() => {
-    if (image) {
-      console.log("Image state updated:", image);
-    }
-  }, [image]);
+  // useEffect(() => {
+  //   if (image) {
+  //     console.log("Image state updated:", image);
+  //   }
+  // }, [image]);
 
   // Handle report button click
   const handleReport = () => {
@@ -91,11 +78,16 @@ const BookingCard = ({
     console.log("Report submitted with input:", inputText, "and image:", image);
     const payload = {
       comment: inputText,
-      image,
+      image: image
     };
     const apiPutReport = async () => {
       try {
         const response = await putReport(id, payload);
+        if (response.status === 200) {
+          setDialogVisible('CreateReport');
+        } else {
+          setDialogVisible("CreateReportFail");
+        }
         console.log(response);
       } catch (error) {
         console.error("Error in put report: ", error);
@@ -122,7 +114,7 @@ const BookingCard = ({
             <Text>Link Google Meet: </Text>
             <Text
               className="ml-2 text-blue-500 cursor-pointer"
-              // Optional: Show an alert when copied
+            // Optional: Show an alert when copied
             >
               {link}
             </Text>
@@ -189,7 +181,7 @@ const BookingCard = ({
             >
               {/* Custom file upload button */}
               <label
-                htmlFor="file-upload"
+                htmlFor={`file-upload-${id}`}
                 style={{
                   fontSize: "16px",
                   fontWeight: "bold",
@@ -207,7 +199,7 @@ const BookingCard = ({
                 Chọn ảnh
               </label>
               <input
-                id="file-upload"
+                id={`file-upload-${id}`}
                 type="file"
                 onChange={handleImageChange}
                 accept="image/*"
@@ -253,6 +245,35 @@ const BookingCard = ({
             </Button>
           </div>
         </div>
+      </Modal>
+      <Modal
+        visible={dialogVisible === "CreateReport"}
+        title="Chúc mừng bạn tố cáo thành công"
+        onClose={() => setDialogVisible(false)}
+        actions={[
+          {
+            text: "Đóng",
+            close: true,
+            justifyContent: "center",
+          },
+        ]}
+      >
+        {" "}
+        <Text>Tố cáo thành công. Chúng tôi sẽ gửi kết quả sớm nhất cho các bạn.</Text>
+      </Modal>
+      <Modal
+        visible={dialogVisible === "CreateReportFail"}
+        title="Tố cáo thất bại"
+        onClose={() => setDialogVisible(false)}
+        actions={[
+          {
+            text: "Đóng",
+            close: true,
+            justifyContent: "center",
+          },
+        ]}
+      >
+        <Text>Tố cáo thất bại. Vui lòng thử lại sau.</Text>
       </Modal>
     </Box>
   );
