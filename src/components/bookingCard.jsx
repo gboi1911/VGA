@@ -74,16 +74,15 @@ const BookingCard = ({
       comment: inputText,
       image: image,
     };
-    const putReport = async () => {
+    const apiPutReport = async () => {
       try {
         const response = await putReport(id, payload);
         console.log(response);
       } catch (error) {
         console.error("Error in put report: ", error);
       }
-
-      putReport();
     };
+    apiPutReport();
     toggleModal(); // Close the modal after reporting
   };
 
