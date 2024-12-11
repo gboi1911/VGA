@@ -81,7 +81,7 @@ const Notification = ({ accountId, role }) => {
       navigate(`/newsdetail/${newsId.trim()}`);
     } else if (notification.title.includes("cập nhật thông tin điểm")) {
       if (role === 2) {
-        navigate("/user");
+        navigate("/transaction");
       } else if (role === 4) {
         navigate("/consultantpage");
       }
