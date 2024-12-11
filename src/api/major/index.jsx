@@ -17,9 +17,12 @@ export const getMajor = async () => {
   }
 };
 
-export const getMajorCategory = async () => {
+export const getMajorCategory = async (searchValue) => {
   try {
     const response = await axios.get(`${url}/major-categories`, {
+      params: {
+        name: searchValue,
+      },
       headers: {
         Authorization: `Bearer ${token}`,
       },

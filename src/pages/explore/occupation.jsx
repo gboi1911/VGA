@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Page, Text, Box, Header } from "zmp-ui";
+import { Page, Text, Box, Header, Input } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getOccupation, getOccupationalGroup } from "api/occupation";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ const Occupation = () => {
   const [occupation, setOccupation] = useState([]);
   const [occupationGroup, setOccupationGroup] = useState([]);
   const [selectedGroupId, setSelectedGroupId] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const Occupation = () => {
 
     const fetchOccupationGroup = async () => {
       try {
-        const response = await getOccupationalGroup();
+        const response = await getOccupationalGroup(searchValue);
         setOccupationGroup(response.data.occupationalGroups || []);
       } catch (error) {
         console.error("Error in fetch occupation group: ", error);
@@ -31,12 +32,17 @@ const Occupation = () => {
 
     fetchOccupation();
     fetchOccupationGroup();
-  }, []);
+  }, [searchValue]);
+
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+    console.log("Search value:", e.target.value); // Thay bằng logic xử lý tìm kiếm
+  };
 
   const filteredOccupations = selectedGroupId
     ? occupation.filter(
-      (occupation) => occupation.occupationalGroup.id === selectedGroupId
-    )
+        (occupation) => occupation.occupationalGroup.id === selectedGroupId
+      )
     : occupation;
 
   return (
@@ -142,7 +148,33 @@ const Occupation = () => {
     //   </Box>
     // </Page>
     <Page className="page" style={{ marginTop: "36px", marginBottom: "40px" }}>
-      <Header title="Danh mục nghề nghiệp" />
+      <Header
+        showBackIcon={true}
+        style={{ textAlign: "center" }}
+        textColor="white" // Truyền textColor vào header
+        title={
+          <div className="header-title">
+            <Input.Search
+              style={{
+                width: "70%",
+                height: "36px",
+                border: "1px solid ",
+                borderRadius: "8px",
+                padding: "0 12px",
+                fontSize: "14px",
+                outline: "none",
+                background: "transparent", // Đặt nền của input thành trong suốt
+                color: "white",
+              }}
+              type="text"
+              placeholder="Tìm kiếm danh mục nghề nghiệp..."
+              value={searchValue}
+              onChange={handleSearchChange}
+              className="header-search-input"
+            />
+          </div>
+        }
+      />
       {/* <Box
         style={{
           display: "grid",

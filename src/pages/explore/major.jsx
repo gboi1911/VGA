@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Page, Text, Box, Header } from "zmp-ui";
+import { Page, Text, Box, Header, Input } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getMajor, getMajorCategory } from "api/major";
 import { Link } from "react-router-dom";
@@ -7,12 +7,13 @@ import { Link } from "react-router-dom";
 const Major = () => {
   const [majorCategories, setMajorCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMajorCategories = async () => {
       try {
-        const response = await getMajorCategory();
+        const response = await getMajorCategory(searchValue);
         setMajorCategories(response.data.majorCategorys || []);
       } catch (error) {
         console.error("Error fetching major categories:", error);
@@ -20,7 +21,12 @@ const Major = () => {
     };
 
     fetchMajorCategories();
-  }, []);
+  }, [searchValue]);
+
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+    console.log("Search value:", e.target.value); // Thay bằng logic xử lý tìm kiếm
+  };
 
   // const filteredMajors = selectedCategoryId
   //   ? majors.filter((major) => major.majorCategoryId === selectedCategoryId)
@@ -129,7 +135,33 @@ const Major = () => {
     //   </Box>
     // </Page>
     <Page className="page" style={{ marginTop: "36px", marginBottom: "40px" }}>
-      <Header title="Danh mục ngành học" />
+      <Header
+        showBackIcon={true}
+        style={{ textAlign: "center" }}
+        textColor="white" // Truyền textColor vào header
+        title={
+          <div className="header-title">
+            <Input.Search
+              style={{
+                width: "70%",
+                height: "36px",
+                border: "1px solid ",
+                borderRadius: "8px",
+                padding: "0 12px",
+                fontSize: "14px",
+                outline: "none",
+                background: "transparent", // Đặt nền của input thành trong suốt
+                color: "white",
+              }}
+              type="text"
+              placeholder="Tìm kiếm danh mục ngành học..."
+              value={searchValue}
+              onChange={handleSearchChange}
+              className="header-search-input"
+            />
+          </div>
+        }
+      />
       {/* <Box
         style={{
           display: "grid",

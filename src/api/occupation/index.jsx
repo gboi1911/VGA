@@ -17,9 +17,12 @@ export const getOccupation = async () => {
   }
 };
 
-export const getOccupationalGroup = async () => {
+export const getOccupationalGroup = async (searchValue) => {
   try {
     const response = await axios.get(`${url}/occupational-groups`, {
+      params: {
+        name: searchValue,
+      },
       headers: {
         Authorization: `Bearer ${token}`,
       },

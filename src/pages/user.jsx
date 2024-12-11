@@ -106,6 +106,9 @@ const UserPage = ({ studentId, accountId, info }) => {
             }}
           >
             <Text>{paymentLink}</Text>
+            <CopyToClipboard text={paymentLink}>
+              <Icon icon="zi-copy" onClick={() => alert("Đã sao chép link!")} />
+            </CopyToClipboard>
           </Box>
         </Modal>
         <Avatar
