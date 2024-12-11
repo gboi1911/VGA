@@ -62,6 +62,7 @@ const MyApp = () => {
   const [role, setRole] = useState();
   const [accountid, setAccountId] = useState();
   const [userInfo, setUserInfo] = useState(null);
+  const [phone, setPhone] = useState(null);
   const [messages, setMessages] = useState([]);
   const [status, setStatus] = useState("");
   const [hasNewNotification, setHasNewNotification] = useState(false);
@@ -85,32 +86,15 @@ const MyApp = () => {
         };
         var response = await axios(config);
         console.log(response);
-        const phone = response.data.data.number;
+
+        const phone = response.data.data.number; // Ensure this is valid
         const userId = await getUserIDUser();
         const userInfo1 = await getUser();
 
         console.log("userinfo", userInfo1);
-        setUserInfo(userInfo1);
-
+        setUserInfo(userInfo1); // This updates userInfo state
+        setPhone(phone); // Store phone in state if needed
         setAccessToken(token); // Store the token once fetched
-        console.log(userInfo);
-
-        const resposneLogin = await login({
-          zaloId: userInfo.userInfo.id,
-          phone: phone,
-          image_Url: userInfo.userInfo.avatar,
-        });
-        console.log(resposneLogin);
-        const userid = resposneLogin.data.userId;
-        const role = resposneLogin.data.role;
-        const accountid = resposneLogin.data.accountId;
-        setRole(role);
-        setUserId(userid);
-        setAccountId(accountid);
-
-        const tokenAPI = resposneLogin.data.accessToken;
-        console.log("token:", tokenAPI);
-        localStorage.setItem("token", tokenAPI);
       } catch (error) {
         console.error("Error fetching token:", error);
       }
@@ -118,6 +102,33 @@ const MyApp = () => {
 
     fetchToken();
   }, []);
+
+  useEffect(() => {
+    const fetchLogin = async () => {
+      if (!userInfo || !phone) return; // Ensure values are ready
+
+      try {
+        const resposneLogin = await login({
+          zaloId: userInfo.userInfo.id,
+          phone: phone,
+          image_Url: userInfo.userInfo.avatar,
+        });
+        console.log(resposneLogin);
+
+        const { userId, role, accountId, accessToken } = resposneLogin.data;
+        setRole(role);
+        setUserId(userId);
+        setAccountId(accountId);
+
+        console.log("token:", accessToken);
+        localStorage.setItem("token", accessToken);
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+
+    fetchLogin();
+  }, [userInfo, phone]); // Add dependencies
 
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()

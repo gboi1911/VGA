@@ -185,7 +185,6 @@ const HomePage = () => {
           <button
             onClick={() => navigate(`/occupation`)}
             className=" mt-3"
-            bold
             size="xSmall"
             style={{ borderBottom: "1px solid blue" }}
           >
@@ -339,7 +338,6 @@ const HomePage = () => {
           <button
             onClick={() => navigate(`/major`)}
             className=" mt-3"
-            bold
             size="xSmall"
             style={{ borderBottom: "1px solid blue" }}
           >
@@ -419,7 +417,6 @@ const HomePage = () => {
           <button
             onClick={() => navigate(`/news`)}
             className=" mt-3"
-            bold
             size="xSmall"
             style={{ borderBottom: "1px solid blue" }}
           >
