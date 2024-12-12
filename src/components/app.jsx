@@ -73,27 +73,27 @@ const MyApp = () => {
     const fetchToken = async () => {
       try {
         const token = await getDataAccessToken();
-        const phoneNumber = await getPhoneNumberUser();
+        // const phoneNumber = await getPhoneNumberUser();
 
-        var config = {
-          method: "get",
-          url: "https://graph.zalo.me/v2.0/me/info",
-          headers: {
-            access_token: token,
-            code: phoneNumber.token,
-            secret_key: "P5DXS5UHWG7M73DkCLRC",
-          },
-        };
-        var response = await axios(config);
-        console.log(response);
+        // var config = {
+        //   method: "get",
+        //   url: "https://graph.zalo.me/v2.0/me/info",
+        //   headers: {
+        //     access_token: token,
+        //     code: phoneNumber.token,
+        //     secret_key: "P5DXS5UHWG7M73DkCLRC",
+        //   },
+        // };
+        // var response = await axios(config);
+        // console.log(response);
 
-        const phone = response.data.data.number; // Ensure this is valid
-        const userId = await getUserIDUser();
-        const userInfo1 = await getUser();
+        // const phone = response.data.data.number; // Ensure this is valid
+        // const userId = await getUserIDUser();
+        // const userInfo1 = await getUser();
 
-        console.log("userinfo", userInfo1);
-        setUserInfo(userInfo1); // This updates userInfo state
-        setPhone(phone); // Store phone in state if needed
+        // console.log("userinfo", userInfo1);
+        // setUserInfo(userInfo1); // This updates userInfo state
+        // setPhone(phone); // Store phone in state if needed
         setAccessToken(token); // Store the token once fetched
       } catch (error) {
         console.error("Error fetching token:", error);
@@ -105,16 +105,16 @@ const MyApp = () => {
 
   useEffect(() => {
     const fetchLogin = async () => {
-      if (!userInfo || !phone) return; // Ensure values are ready
+      // if (!userInfo || !phone) return; // Ensure values are ready
 
       try {
         const resposneLogin = await login({
-          zaloId: userInfo.userInfo.id,
-          phone: phone,
-          image_Url: userInfo.userInfo.avatar,
-          // zaloId: "string",
-          // phone: "84918107843",
-          // image_Url: "string",
+          // zaloId: userInfo.userInfo.id,
+          // phone: phone,
+          // image_Url: userInfo.userInfo.avatar,
+          zaloId: "string",
+          phone: "84918107843",
+          image_Url: "string",
         });
         console.log(resposneLogin);
 

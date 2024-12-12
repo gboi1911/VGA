@@ -44,6 +44,10 @@
   padding-bottom: 50px;
 }
 
+.zaui-image-viewer-container {
+  position: fixed;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

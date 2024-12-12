@@ -37,6 +37,7 @@ const ExpertDetailPage = ({ studentId }) => {
   const [expert, setExpert] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
+  const [image, setImage] = useState([]);
 
   // useEffect(() => {
   //   const fetchExpert = async () => {
@@ -84,6 +85,7 @@ const ExpertDetailPage = ({ studentId }) => {
       try {
         const response = await getExpertById(id);
         setExpert(response.data.data);
+        setImage(response.data.data.certifications);
       } catch (error) {
         console.error("Error in fetch expert by id: ", error);
       }
@@ -159,6 +161,8 @@ const ExpertDetailPage = ({ studentId }) => {
     return <Text>Error: Expert not found</Text>;
   }
 
+  console.log(image);
+
   return (
     <Page className="page" style={{ padding: "10px" }}>
       <Header title="Thông tin & Đặt lịch" />
@@ -217,7 +221,10 @@ const ExpertDetailPage = ({ studentId }) => {
                   {expert.consultantLevel.id}
                 </Text>
               </div>
-              <Text className="text-gray-600 mt-2">
+              <Text
+                className="text-gray-600 mt-2"
+                style={{ display: "flex", alignItems: "center" }}
+              >
                 <FontAwesomeIcon
                   icon={faEnvelope}
                   style={{ marginRight: "5px" }}
@@ -232,13 +239,15 @@ const ExpertDetailPage = ({ studentId }) => {
                 {expert.description ||
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
               </Text>
-              <Text className="text-gray-600 mt-2">
-                <FontAwesomeIcon
-                  icon={faSchool}
-                  style={{ marginRight: "5px" }}
-                />{" "}
-                {expert?.university?.account?.name}
-              </Text>
+              {expert?.consultantRelations.map((school, index) => (
+                <Text key={index} className="text-gray-600 mt-2">
+                  <FontAwesomeIcon
+                    icon={faSchool}
+                    style={{ marginRight: "5px" }}
+                  />
+                  {school.universityName}
+                </Text>
+              ))}
               <Text className=" text-gray-700 mt-2">
                 <FontAwesomeIcon
                   icon={faDollarSign}
@@ -296,7 +305,7 @@ const ExpertDetailPage = ({ studentId }) => {
           <ImageViewer
             onClose={() => setVisible(false)}
             activeIndex={activeIndex}
-            images={expert.certifications}
+            images={image}
             visible={visible}
           />
         </Box>

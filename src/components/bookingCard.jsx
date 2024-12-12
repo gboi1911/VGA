@@ -66,19 +66,19 @@ const BookingCard = ({
   // Handle report button click
   const handleReport = () => {
     if (!image) {
-      alert("Please upload an image before submitting the report.");
+      alert("Vui lòng cung cấp hình ảnh chứng minh!");
       return;
     }
     console.log("Report submitted with input:", inputText, "and image:", image);
     const payload = {
       comment: inputText,
-      image: image
+      image: image,
     };
     const apiPutReport = async () => {
       try {
         const response = await putReport(id, payload);
         if (response.status === 200) {
-          setDialogVisible('CreateReport');
+          setDialogVisible("CreateReport");
         } else {
           setDialogVisible("CreateReportFail");
         }
@@ -108,7 +108,7 @@ const BookingCard = ({
             <Text>Link Google Meet: </Text>
             <Text
               className="ml-2 text-blue-500 cursor-pointer"
-            // Optional: Show an alert when copied
+              // Optional: Show an alert when copied
             >
               {link}
             </Text>
@@ -253,7 +253,9 @@ const BookingCard = ({
         ]}
       >
         {" "}
-        <Text>Tố cáo thành công. Chúng tôi sẽ gửi kết quả sớm nhất cho các bạn.</Text>
+        <Text>
+          Tố cáo thành công. Chúng tôi sẽ gửi kết quả sớm nhất cho các bạn.
+        </Text>
       </Modal>
       <Modal
         visible={dialogVisible === "CreateReportFail"}

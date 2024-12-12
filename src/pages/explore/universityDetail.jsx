@@ -8,7 +8,7 @@ import { getExpert } from "api/expert";
 const UniversityDetail = () => {
   const { id } = useParams();
   const [university, setUniversity] = useState(null);
-  console.log('university', university)
+  console.log("university", university);
   const [locations, setLocations] = useState([]);
   const [consultants, setConsultants] = useState([]);
   const [visibleCount, setVisibleCount] = useState(6);
@@ -282,7 +282,7 @@ const UniversityDetail = () => {
             )}
           </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Text
             style={{
               fontSize: "18px",
@@ -314,58 +314,56 @@ const UniversityDetail = () => {
               alignItems: "center",
             }}
           >
-            {consultants
-              ?.slice(0, visibleCount)
-              ?.map((consultant) => (
-                <Box
-                  key={consultant.id}
+            {consultants?.slice(0, visibleCount)?.map((consultant) => (
+              <Box
+                key={consultant.id}
+                style={{
+                  background: "#f8f9fa",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  marginBottom: "8px",
+                  alignItems: "center",
+                  flex: "0 0 auto",
+                  marginRight: "10px",
+                  width: "220px",
+                }}
+                onClick={() => navigate(`/expertDetail/${consultant.id}`)}
+              >
+                <img
+                  src={
+                    consultant.image_Url ||
+                    "https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060"
+                  }
+                  alt={consultant.name}
                   style={{
-                    background: "#f8f9fa",
-                    padding: "10px",
-                    borderRadius: "8px",
-                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                    marginBottom: "8px",
-                    alignItems: "center",
-                    flex: "0 0 auto",
-                    marginRight: "10px",
-                    width: "220px",
+                    width: "100%",
+                    height: "150px",
+                    objectFit: "cover",
                   }}
-                  onClick={() => navigate(`/expertDetail/${consultant.id}`)}
+                />
+                <Box
+                  style={{
+                    padding: "10px",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    height: "50px",
+                  }}
                 >
-                  <img
-                    src={
-                      consultant.image_Url ||
-                      "https://img.freepik.com/premium-photo/business-woman-standing-with-pen-clipboard-her-hands_28586-86.jpg?w=1060"
-                    }
-                    alt={consultant.name}
+                  <Text bold>{consultant.name}</Text>
+                  <Text
                     style={{
-                      width: "100%",
-                      height: "150px",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <Box
-                    style={{
-                      padding: "10px",
-                      fontSize: "16px",
-                      fontWeight: "bold",
+                      fontSize: "14px",
+                      color: "#666",
                       textAlign: "center",
-                      height: "50px",
                     }}
                   >
-                    <Text bold>{consultant.name}</Text>
-                    <Text
-                      style={{
-                        fontSize: "14px",
-                        color: "#666",
-                        textAlign: "center",
-                      }}
-                    >
-                      {consultant.consultantLevel.name}
-                    </Text>
-                  </Box>
+                    {consultant.consultantLevel.name}
+                  </Text>
                 </Box>
-              ))}
+              </Box>
+            ))}
 
             {/* Nút "Xem thêm" */}
             {visibleCount < university?.consultants?.length && (

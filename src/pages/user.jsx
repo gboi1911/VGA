@@ -363,14 +363,14 @@ const UserPage = ({ studentId, accountId, info }) => {
           <Item
             style={{ marginBottom: "0px" }}
             title="Lịch sử giao dịch"
-            prefix={<Icon icon="zi-poll" style={{ color: "blue" }} />}
+            prefix={<Icon icon="zi-poll" style={{ color: "orange" }} />}
             suffix={<Icon icon="zi-chevron-right" />}
             onClick={() => navigate("/transaction")}
           />
           <Item
             style={{ marginBottom: "0px" }}
             title="Lịch sử đã đặt tư vấn"
-            prefix={<Icon icon="zi-calendar" style={{ color: "blue" }} />}
+            prefix={<Icon icon="zi-calendar" style={{ color: "green" }} />}
             suffix={<Icon icon="zi-chevron-right" />}
             onClick={() => navigate("/expert")}
           />
@@ -384,13 +384,13 @@ const UserPage = ({ studentId, accountId, info }) => {
           <Item
             style={{ marginBottom: "0px" }}
             title="Ngành học quan tâm"
-            prefix={<Icon icon="zi-heart" style={{ color: "blue" }} />}
+            prefix={<Icon icon="zi-heart" style={{ color: "red" }} />}
             suffix={<Icon icon="zi-chevron-right" />}
             onClick={() => navigate("/majorCare")}
           />
           <Item
             title="Nghề nghiệp quan tâm"
-            prefix={<Icon icon="zi-star" style={{ color: "blue" }} />}
+            prefix={<Icon icon="zi-star" style={{ color: "yellow" }} />}
             suffix={<Icon icon="zi-chevron-right" />}
             onClick={() => navigate("/occupationCare")}
           />
