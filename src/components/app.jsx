@@ -112,13 +112,14 @@ const MyApp = () => {
           // zaloId: userInfo.userInfo.id,
           // phone: phone,
           // image_Url: userInfo.userInfo.avatar,
-          zaloId: "1232",
-          phone: "84347707045",
+          zaloId: "string",
+          phone: "84918107843",
           image_Url: "string",
         });
         console.log(resposneLogin);
 
         const { userId, role, accountId, accessToken } = resposneLogin.data;
+        localStorage.clear();
         setRole(role);
         setUserId(userId);
         setAccountId(accountId);
@@ -135,12 +136,9 @@ const MyApp = () => {
 
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl(
-        `https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/notification_hub`,
-        {
-          accessTokenFactory: () => token,
-        }
-      )
+      .withUrl(`http://14.225.253.85:8080/notification_hub`, {
+        accessTokenFactory: () => token,
+      })
       .withAutomaticReconnect()
       .build();
 

@@ -38,7 +38,7 @@ const ExpertDetailPage = ({ studentId }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const [image, setImage] = useState([]);
-  console.log('image', image)
+  console.log("image", image);
 
   const filterImage = image?.map((img, index) => ({
     src: img.imageUrl,
@@ -172,7 +172,7 @@ const ExpertDetailPage = ({ studentId }) => {
 
   return (
     <Page className="page" style={{ padding: "10px" }}>
-      <Header style={{ display: 'flex' }} title="Thông tin & Đặt lịch" />
+      <Header style={{ display: "flex" }} title="Thông tin & Đặt lịch" />
       <Box style={{ padding: "10px" }}>
         <Text
           className="text-center mb-6 mt-2"
@@ -184,7 +184,10 @@ const ExpertDetailPage = ({ studentId }) => {
         >
           Thông tin tư vấn viên
         </Text>
-        <Box className="section-container bg-white rounded-lg shadow-md p-2">
+        <Box
+          className="section-container bg-white rounded-lg shadow-md"
+          style={{ padding: 10 }}
+        >
           <div style={{ display: "flex" }}>
             <div style={{ justifyContent: "center" }}>
               <img
@@ -230,29 +233,32 @@ const ExpertDetailPage = ({ studentId }) => {
               </div>
               <Text
                 className="text-gray-600 mt-2"
-                style={{ display: "flex", alignItems: "center" }}
+                style={{
+                  display: "inline-flex",
+                  wordBreak: "break-word",
+                  lineHeight: "0.8",
+                }}
               >
                 <FontAwesomeIcon
                   icon={faEnvelope}
-                  style={{ marginRight: "5px" }}
+                  style={{ marginRight: "5px", flexShrink: 0 }}
                 />
                 {expert.email}
               </Text>
+
               <Text className="text-base text-gray-700 mt-2">
                 <FontAwesomeIcon
                   icon={faAddressCard}
                   style={{ marginRight: "5px" }}
                 />
-                {expert.description ||
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+                {expert.description}
               </Text>
               <Text className=" text-gray-700 mt-2">
                 <FontAwesomeIcon
                   icon={faDollarSign}
                   style={{ marginRight: "5px" }}
                 />
-                {`${expert.consultantLevel.priceOnSlot} điểm / slot` ||
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+                {`${expert.consultantLevel.priceOnSlot} điểm / slot`}
               </Text>
             </Box>
           </div>
