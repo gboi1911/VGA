@@ -133,38 +133,39 @@ const MyApp = () => {
     fetchLogin();
   }, [userInfo, phone]); // Add dependencies
 
-  useEffect(() => {
-    const connection = new signalR.HubConnectionBuilder()
-      .withUrl(
-        `https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/notification_hub`,
-        {
-          accessTokenFactory: () => token,
-        }
-      )
-      .withAutomaticReconnect()
-      .build();
+  // useEffect(() => {
+  //   const connection = new signalR.HubConnectionBuilder()
+  //     .withUrl(
+  //       `http://14.225.253.85:8080/notification_hub`,
+  //       {
+  //         accessTokenFactory: () => token,
+  //       }
+  //     )
+  //     .withAutomaticReconnect()
+  //     .build();
 
-    connection
-      .start()
-      .then(() => {
-        setStatus("Connected to SignalR");
-        console.log("Connected to SignalR hub.");
+  //   connection
+  //     .start()
+  //     .then(() => {
+  //       setStatus("Connected to SignalR");
+  //       console.log("Connected to SignalR hub.");
 
-        connection.on("ReceiveNotification", (message) => {
-          console.log("Received notification:", message);
-          setMessages((prevMessages) => [...prevMessages, message]);
-          setHasNewNotification(true);
-        });
-      })
-      .catch((err) => {
-        setStatus(`Connection failed: ${err}`);
-        console.error(err);
-      });
+  //       connection.on("ReceiveNotification", (message) => {
+  //         console.log("Received notification:", message);
+  //         setMessages((prevMessages) => [...prevMessages, message]);
+  //         setHasNewNotification(true);
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       setStatus(`Connection failed: ${err}`);
+  //       console.error(err);
+  //     });
 
-    return () => {
-      connection.stop();
-    };
-  }, [token]);
+  //   return () => {
+  //     connection.stop();
+  //   };
+  // }, [token]);
+
 
   console.log("userid", userid);
   console.log("role", role);
