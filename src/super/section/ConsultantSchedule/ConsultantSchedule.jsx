@@ -79,7 +79,7 @@ export default function ConsultantSchedule({ userid }) {
     console.log("handleCreate được gọi"); // Kiểm tra xem hàm có chạy
     const formData = {
       consultantId: userid,
-      day: selectedDate,
+      day: selectedDate || new Date(),
       consultationTimes: selectedTimeSlots.map((slot) => ({
         timeSlotId: slot.id,
         note: googleMeetLink,
@@ -223,7 +223,7 @@ export default function ConsultantSchedule({ userid }) {
           <div
             style={{
               position: "absolute",
-              bottom: 4,
+              bottom: 18,
               right: 4,
               width: 8,
               height: 8,

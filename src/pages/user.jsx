@@ -112,7 +112,7 @@ const UserPage = ({ studentId, accountId, info }) => {
           </Box>
         </Modal>
         <Avatar
-          src={info.userInfo.avatar}
+          src={info?.userInfo?.avatar}
           size="large"
           style={{ width: "80px", height: "80px" }}
         />
@@ -182,9 +182,9 @@ const UserPage = ({ studentId, accountId, info }) => {
           onClick={() => {
             setVisible(true);
           }}
-          // onClick={() =>
-          //   (window.location.href = "https://vga-payment.vercel.app")
-          // }
+        // onClick={() =>
+        //   (window.location.href = "https://vga-payment.vercel.app")
+        // }
         >
           Nạp điểm
         </Button>

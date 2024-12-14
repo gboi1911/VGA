@@ -38,6 +38,13 @@ const ExpertDetailPage = ({ studentId }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const [image, setImage] = useState([]);
+  console.log('image', image)
+
+  const filterImage = image?.map((img, index) => ({
+    src: img.imageUrl,
+    alt: img.description,
+    key: img.id,
+  }));
 
   // useEffect(() => {
   //   const fetchExpert = async () => {
@@ -165,7 +172,7 @@ const ExpertDetailPage = ({ studentId }) => {
 
   return (
     <Page className="page" style={{ padding: "10px" }}>
-      <Header title="Thông tin & Đặt lịch" />
+      <Header style={{ display: 'flex' }} title="Thông tin & Đặt lịch" />
       <Box style={{ padding: "10px" }}>
         <Text
           className="text-center mb-6 mt-2"
@@ -239,15 +246,6 @@ const ExpertDetailPage = ({ studentId }) => {
                 {expert.description ||
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
               </Text>
-              {expert?.consultantRelations.map((school, index) => (
-                <Text key={index} className="text-gray-600 mt-2">
-                  <FontAwesomeIcon
-                    icon={faSchool}
-                    style={{ marginRight: "5px" }}
-                  />
-                  {school.universityName}
-                </Text>
-              ))}
               <Text className=" text-gray-700 mt-2">
                 <FontAwesomeIcon
                   icon={faDollarSign}
@@ -273,41 +271,43 @@ const ExpertDetailPage = ({ studentId }) => {
             Những chứng chỉ dưới đây để xác nhận trình độ và độ uy tín của tư
             vấn viên
           </Text>
-          <Box flex flexDirection="row" flexWrap="nowrap" mt={2}>
-            {expert?.certifications.map((img, index) => (
-              <Box
-                mr={1}
-                key={img.id}
-                style={{
-                  width: "68px",
-                  height: "69px",
-                  borderRadius: "8px",
-                  overflow: "hidden",
-                }}
-              >
-                <img
+          <Box mt={2}>
+            <Box flex flexDirection="row" flexWrap="nowrap" mt={2}>
+              {expert?.certifications.map((img, index) => (
+                <Box
+                  mr={1}
+                  key={img.id}
                   style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
+                    width: "68px",
+                    height: "69px",
+                    borderRadius: "8px",
+                    overflow: "hidden",
                   }}
-                  role="presentation"
-                  onClick={() => {
-                    setActiveIndex(index);
-                    setVisible(true);
-                  }}
-                  src={img.imageUrl}
-                  alt={img.description}
-                />
-              </Box>
-            ))}
+                >
+                  <img
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                    role="presentation"
+                    onClick={() => {
+                      setActiveIndex(index);
+                      setVisible(true);
+                    }}
+                    src={img.imageUrl}
+                    alt={img.description}
+                  />
+                </Box>
+              ))}
+            </Box>
+            <ImageViewer
+              onClose={() => setVisible(false)}
+              activeIndex={activeIndex}
+              images={filterImage}
+              visible={visible}
+            />
           </Box>
-          <ImageViewer
-            onClose={() => setVisible(false)}
-            activeIndex={activeIndex}
-            images={image}
-            visible={visible}
-          />
         </Box>
 
         <Text
