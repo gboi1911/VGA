@@ -112,13 +112,14 @@ const MyApp = () => {
           // zaloId: userInfo.userInfo.id,
           // phone: phone,
           // image_Url: userInfo.userInfo.avatar,
-          zaloId: "1232",
+          zaloId: "string",
           phone: "84347707045",
           image_Url: "string",
         });
         console.log(resposneLogin);
 
         const { userId, role, accountId, accessToken } = resposneLogin.data;
+        localStorage.clear();
         setRole(role);
         setUserId(userId);
         setAccountId(accountId);

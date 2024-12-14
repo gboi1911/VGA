@@ -112,10 +112,11 @@ const UserPage = ({ studentId, accountId, info }) => {
           </Box>
         </Modal>
         <Avatar
-          src={info?.userInfo?.avatar}
+          src={info?.userInfo?.avatar || "default-avatar-url"}
           size="large"
           style={{ width: "80px", height: "80px" }}
         />
+
         <div>
           <Text size="large" style={{ fontWeight: "bold", fontSize: "20px" }}>
             {userInfo.data.account.name}
@@ -131,7 +132,7 @@ const UserPage = ({ studentId, accountId, info }) => {
                   date: userInfo.data.dateOfBirth,
                   name: userInfo.data.account.name,
                   phone: userInfo.data.account.phone,
-                  avatar: info.userInfo.avatar,
+                  avatar: info?.userInfo?.avatar || "default-avatar-url",
                 },
               })
             }
@@ -182,9 +183,9 @@ const UserPage = ({ studentId, accountId, info }) => {
           onClick={() => {
             setVisible(true);
           }}
-        // onClick={() =>
-        //   (window.location.href = "https://vga-payment.vercel.app")
-        // }
+          // onClick={() =>
+          //   (window.location.href = "https://vga-payment.vercel.app")
+          // }
         >
           Nạp điểm
         </Button>
@@ -390,7 +391,7 @@ const UserPage = ({ studentId, accountId, info }) => {
           />
           <Item
             title="Nghề nghiệp quan tâm"
-            prefix={<Icon icon="zi-star" style={{ color: "yellow" }} />}
+            prefix={<Icon icon="zi-star" style={{ color: "darkmagenta" }} />}
             suffix={<Icon icon="zi-chevron-right" />}
             onClick={() => navigate("/occupationCare")}
           />
