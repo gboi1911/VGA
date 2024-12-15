@@ -262,7 +262,7 @@ export default function ConsultantSchedule({ userid }) {
               />
               <Grid
                 space="1rem"
-                columnCount={2}
+                columnCount={3}
                 style={{
                   marginTop: "10px",
                   justifyContent: "center",
@@ -307,16 +307,16 @@ export default function ConsultantSchedule({ userid }) {
                         backgroundColor: completedSlot
                           ? "#4caf50"
                           : selectedTimeSlots.includes(slot)
-                          ? "#e0e0e0"
-                          : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
+                            ? "#e0e0e0"
+                            : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
                         color: "#000000",
                         padding: "10px",
                         textAlign: "center",
                         cursor: "pointer",
                         border: "1px solid #ccc",
                         transition: "background-color 0.2s",
-                        marginRight: "10px",
-                        marginLeft: "10px",
+                        marginRight: "9px",
+                        marginLeft: "9px",
                         marginBottom: "10px",
                         opacity: bookedSlot ? 0.5 : completedSlot ? 0.1 : 1, // Đặt opacity mặc định là 1 cho các trạng thái chưa đặt và đã hủy
                       }}
