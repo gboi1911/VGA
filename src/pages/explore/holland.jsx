@@ -81,134 +81,142 @@ const HollandTest = ({ studentId }) => {
     console.log("User clicked No");
   }, []);
   return (
-    <Page
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        marginTop: "150px",
-        marginBottom: "40px",
-      }}
-    >
-      <Header title="Holland" />
-      <Box style={{ width: "70%" }}>
-        {/* <img
+    <>
+      <Box
+        style={{
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
+        }}
+      ></Box>
+      <Page
+        className="page"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Header title="Holland" />
+        <Box style={{ marginTop: 20 }}>
+          {/* <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ44FPSOf4JQ1EvVqK43LjHXnd9pOrZJlnmj8qC7_NZnebwkSkQPICqZY-dRdXKbxXLfs4&usqp=CAU"
           alt="image"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
           role="presentation"
         /> */}
-        <LightbulbIcon
-          style={{
-            width: "100%",
-            height: "200px",
-            objectFit: "cover",
-            borderRadius: "8px",
-            color: "#0066CC",
-          }}
-        />
-        <div className="p-4">
-          <Text
-            bold
-            className=""
-            size="xLarge"
-            style={{ textAlign: "center", fontSize: "26px" }}
-          >
-            Bài kiểm tra Holland
-          </Text>
-          <Text
-            className="text-gray-600 mt-4 mb-6"
-            style={{ textAlign: "center" }}
-          >
-            Lý thuyết lựa chọn nghề nghiệp Holland xuất hiện lần đầu tiên vào
-            năm 1959. Đây là công trình của Tiến sỹ Tâm lý người Mỹ John L.
-            Holland (1919-2008). Theo lý thuyết, được chọn công việc hoặc môi
-            trường có chương trình giáo dục phù hợp, hoặc tương đồng với sở
-            thích và tính cách của bạn, rất có thể giúp bạn cảm thấy hài lòng
-            trong công việc và thành công trong sự nghiệp.
-          </Text>
+          <LightbulbIcon
+            style={{
+              width: "100%",
+              height: "200px",
+              objectFit: "cover",
+              borderRadius: "8px",
+              color: "#0066CC",
+            }}
+          />
+          <div className="p-4">
+            <Text
+              bold
+              className=""
+              size="xLarge"
+              style={{ textAlign: "center", fontSize: "26px" }}
+            >
+              Bài kiểm tra Holland
+            </Text>
+            <Text
+              className="text-gray-600 mt-4 mb-6"
+              style={{ textAlign: "center" }}
+            >
+              Lý thuyết lựa chọn nghề nghiệp Holland xuất hiện lần đầu tiên vào
+              năm 1959. Đây là công trình của Tiến sỹ Tâm lý người Mỹ John L.
+              Holland (1919-2008). Theo lý thuyết, được chọn công việc hoặc môi
+              trường có chương trình giáo dục phù hợp, hoặc tương đồng với sở
+              thích và tính cách của bạn, rất có thể giúp bạn cảm thấy hài lòng
+              trong công việc và thành công trong sự nghiệp.
+            </Text>
 
-          <Button
-            fullWidth
-            onClick={() => handleStartTest("holland")}
-            style={{
-              backgroundColor: "#0066CC",
-            }}
-          >
-            Bắt đầu
-          </Button>
-        </div>
-      </Box>
-      <Modal
-        visible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        title="Thông báo"
-      >
-        <div className="p-4">
-          <Text
-            className="text-lg"
-            style={{
-              textAlign: "center",
-            }}
-          >
-            Thực hiện bài kiểm tra này sẽ tốn {point} điểm. Bạn đã sẵn sàng ?
-          </Text>
-          <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
-            <Button className="mr-2" type="danger" onClick={handleNo}>
-              Hủy
-            </Button>
             <Button
-              className="mr-2"
-              type="primary"
-              onClick={handleYes}
+              fullWidth
+              onClick={() => handleStartTest("holland")}
               style={{
                 backgroundColor: "#0066CC",
               }}
             >
-              Đồng ý
+              Bắt đầu
             </Button>
           </div>
-        </div>
-      </Modal>
-      <Modal
-        visible={isBalanceModalVisible}
-        onClose={() => setIsBalanceModalVisible(false)}
-        title="Thông báo"
-      >
-        <div className="p-4">
-          <Text
-            className="text-lg"
-            style={{
-              textAlign: "center",
-            }}
-          >
-            Số dư không đủ để thực hiện bài kiểm tra này. Vui lòng nạp thêm
-            điểm.
-          </Text>
-          <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
-            <Button
-              className="mr-2"
-              type="primary"
-              onClick={() => navigate("/user")}
+        </Box>
+        <Modal
+          visible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          title="Thông báo"
+        >
+          <div className="p-4">
+            <Text
+              className="text-lg"
               style={{
-                backgroundColor: "#f26d0f",
+                textAlign: "center",
               }}
             >
-              Nạp ngay
-            </Button>
-            <Button
-              className="mr-2"
-              type="primary"
-              onClick={() => setIsBalanceModalVisible(false)}
-              style={{
-                backgroundColor: "#0066CC",
-              }}
-            >
-              Đóng
-            </Button>
+              Thực hiện bài kiểm tra này sẽ tốn {point} điểm. Bạn đã sẵn sàng ?
+            </Text>
+            <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
+              <Button className="mr-2" type="danger" onClick={handleNo}>
+                Hủy
+              </Button>
+              <Button
+                className="mr-2"
+                type="primary"
+                onClick={handleYes}
+                style={{
+                  backgroundColor: "#0066CC",
+                }}
+              >
+                Đồng ý
+              </Button>
+            </div>
           </div>
-        </div>
-      </Modal>
-    </Page>
+        </Modal>
+        <Modal
+          visible={isBalanceModalVisible}
+          onClose={() => setIsBalanceModalVisible(false)}
+          title="Thông báo"
+        >
+          <div className="p-4">
+            <Text
+              className="text-lg"
+              style={{
+                textAlign: "center",
+              }}
+            >
+              Số dư không đủ để thực hiện bài kiểm tra này. Vui lòng nạp thêm
+              điểm.
+            </Text>
+            <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
+              <Button
+                className="mr-2"
+                type="primary"
+                onClick={() => navigate("/user")}
+                style={{
+                  backgroundColor: "#f26d0f",
+                }}
+              >
+                Nạp ngay
+              </Button>
+              <Button
+                className="mr-2"
+                type="primary"
+                onClick={() => setIsBalanceModalVisible(false)}
+                style={{
+                  backgroundColor: "#0066CC",
+                }}
+              >
+                Đóng
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      </Page>
+    </>
   );
 };
 

@@ -29,19 +29,22 @@
 
 .zaui-header {
   padding: 0px;
-  background-color: #0066cc;
+  background-color: #0369a1;
   color: #ffffff;
-  position: fixed; /* Keep header fixed at the top */
+  position: absolute; /* Keep header fixed at the top */
   top: 0;
   width: 100%;
   height: 50px; /* Adjust the height as necessary */
   z-index: 1000; /* Ensure the header is above other content */
+  text-align: center;
 }
 .zaui-page {
   // margin-bottom: 48px;
   // margin-top: 90px;
   padding-top: 50px;
-  padding-bottom: 50px;
+  padding-bottom: 80px;
+  margin-bottom: 70px;
+  position: absolute;
 }
 
 .zaui-image-viewer-container {

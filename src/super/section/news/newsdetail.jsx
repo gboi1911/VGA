@@ -21,78 +21,83 @@ export default function NewDetail() {
   }, [id]);
 
   return (
-    <Page
-      style={{
-        marginLeft: "10px",
-        marginRight: "10px",
-        width: "97%",
-        marginTop: "80px",
-        marginBottom: "80px",
-      }}
-    >
-      <Header title="Tin tức" />
-      <Box>
-        {newsDetail?._HashTag?.map((tag, index) => (
-          <Link to={`/majorDetail/${tag?.keys}`} key={index} style={{ textDecoration: "none" }}>
-            <Text
-              className="text-gray-500"
-              style={{
-                marginTop: "5px",
-                textAlign: "justify",
-                color: "blue",
-              }}
-            >
-              {`# ${tag?.values}`}
-            </Text>
-          </Link>
-        ))}
-        <Text size="large" bold>
-          {newsDetail?.title}
-        </Text>
-        <Text
-          style={{ marginTop: "10px", marginBottom: "10px" }}
-          size="small"
-          className="text-gray-500"
-        >
-          {newsDetail?.createdAt}
-        </Text>
-      </Box>
-      <Box style={{ whiteSpace: "normal" }}>
-        {newsDetail?.content.split("\n").map((paragraph, index) => (
-          <Text key={index} style={{ marginBottom: "8px" }}>
-            {paragraph}
-          </Text>
-        ))}
-      </Box>
+    <>
       <Box
         style={{
-          height: "auto",
-          overflow: "hidden",
-          marginTop: "10px",
-          marginBottom: "10px",
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
         }}
-      >
-        {newsDetail?.imageNews?.map((image, index) => (
-          <Box
-            key={index}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
+      ></Box>
+      <Page>
+        <Header title="Tin tức" />
+        <Box style={{ padding: 10 }}>
+          {newsDetail?._HashTag?.map((tag, index) => (
+            <Link
+              to={`/majorDetail/${tag?.keys}`}
+              key={index}
+              style={{ textDecoration: "none" }}
+            >
+              <Text
+                className="text-gray-500"
+                style={{
+                  marginTop: "5px",
+                  textAlign: "justify",
+                  color: "blue",
+                }}
+              >
+                {`# ${tag?.values}`}
+              </Text>
+            </Link>
+          ))}
+          <Text size="large" bold>
+            {newsDetail?.title}
+          </Text>
+          <Text
+            style={{ marginTop: "10px", marginBottom: "10px" }}
+            size="small"
+            className="text-gray-500"
           >
-            <img
-              src={image.imageUrl}
-              alt="image"
-              style={{ width: "90%", height: "200px" }}
-            />
-            <Text size="xxxSmall" style={{ textAlign: "center" }}>
-              {image?.descriptionTitle}
+            {newsDetail?.createdAt}
+          </Text>
+        </Box>
+        <Box style={{ whiteSpace: "normal", padding: 10 }}>
+          {newsDetail?.content.split("\n").map((paragraph, index) => (
+            <Text key={index} style={{ marginBottom: "8px" }}>
+              {paragraph}
             </Text>
-          </Box>
-        ))}
-      </Box>
-    </Page>
+          ))}
+        </Box>
+        <Box
+          style={{
+            height: "auto",
+            overflow: "hidden",
+            marginTop: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          {newsDetail?.imageNews?.map((image, index) => (
+            <Box
+              key={index}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <img
+                src={image.imageUrl}
+                alt="image"
+                style={{ width: "90%", height: "200px" }}
+              />
+              <Text size="xxxSmall" style={{ textAlign: "center" }}>
+                {image?.descriptionTitle}
+              </Text>
+            </Box>
+          ))}
+        </Box>
+      </Page>
+    </>
   );
 }

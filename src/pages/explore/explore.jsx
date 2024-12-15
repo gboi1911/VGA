@@ -95,13 +95,17 @@ const exploreCardData = [
 ];
 const Explore = () => {
   return (
-    <Page className="page" style={{ marginTop: "40px" }}>
-      <Header
-        title="Khám phá"
-        showBackIcon={false}
-        style={{ textAlign: "center" }}
-      />
-      {/* <Box
+    <>
+      <Box
+        style={{
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
+        }}
+      ></Box>
+      <Page className="page">
+        <Header title="Khám phá" showBackIcon={false} />
+        {/* <Box
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -147,7 +151,7 @@ const Explore = () => {
           )
         )}
       </Box> */}
-      {/* <Box className="mb-6">
+        {/* <Box className="mb-6">
         <Text
           bold
           className="text-center mb-8 mt-8"
@@ -159,55 +163,56 @@ const Explore = () => {
           Khám phá
         </Text>
       </Box> */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "5px",
-          margin: "5px",
-        }}
-      >
-        {exploreCardData?.map((card, key) => (
-          <Link to={card.route} key={key} style={{ textDecoration: "none" }}>
-            <Box
-              key={card.id}
-              style={{
-                display: "flex",
-                height: "80px",
-                alignItems: "center",
-                gap: "10px",
-                padding: "10px",
-                backgroundColor: "#fff",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              {/* Icon */}
-              <img
-                src={card.imageUrl}
-                alt={card.title}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "5px",
+            margin: "5px",
+          }}
+        >
+          {exploreCardData?.map((card, key) => (
+            <Link to={card.route} key={key} style={{ textDecoration: "none" }}>
+              <Box
+                key={card.id}
                 style={{
-                  width: "50px",
-                  height: "50px",
-                  objectFit: "cover",
-                  borderRadius: "50%",
+                  display: "flex",
+                  height: "80px",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                 }}
-              />
+              >
+                {/* Icon */}
+                <img
+                  src={card.imageUrl}
+                  alt={card.title}
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                  }}
+                />
 
-              {/* Nội dung */}
-              <Box>
-                <Text size="small" bold>
-                  {card.title}
-                </Text>
-                <Text size="xxSmall" color="text.secondary">
-                  {card.description}
-                </Text>
+                {/* Nội dung */}
+                <Box>
+                  <Text size="small" bold>
+                    {card.title}
+                  </Text>
+                  <Text size="xxSmall" color="text.secondary">
+                    {card.description}
+                  </Text>
+                </Box>
               </Box>
-            </Box>
-          </Link>
-        ))}
-      </div>
-    </Page>
+            </Link>
+          ))}
+        </div>
+      </Page>
+    </>
   );
 };
 

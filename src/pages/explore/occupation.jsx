@@ -41,8 +41,8 @@ const Occupation = () => {
 
   const filteredOccupations = selectedGroupId
     ? occupation.filter(
-      (occupation) => occupation.occupationalGroup.id === selectedGroupId
-    )
+        (occupation) => occupation.occupationalGroup.id === selectedGroupId
+      )
     : occupation;
 
   return (
@@ -147,35 +147,42 @@ const Occupation = () => {
     //     ))}
     //   </Box>
     // </Page>
-    <Page className="page" style={{ marginTop: "36px", marginBottom: "40px" }}>
-      <Header
-        showBackIcon={true}
-        style={{ textAlign: "center" }}
-        textColor="white" // Truyền textColor vào header
-        title={
-          <div className="header-title">
-            <Input.Search
-              style={{
-                width: "70%",
-                height: "36px",
-                border: "1px solid ",
-                borderRadius: "8px",
-                padding: "0 12px",
-                fontSize: "14px",
-                outline: "none",
-                background: "transparent", // Đặt nền của input thành trong suốt
-                color: "white",
-              }}
-              type="text"
-              placeholder="Tìm kiếm danh mục nghề nghiệp..."
-              value={searchValue}
-              onChange={handleSearchChange}
-              className="header-search-input"
-            />
-          </div>
-        }
-      />
-      {/* <Box
+    <>
+      <Box
+        style={{
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
+        }}
+      ></Box>
+      <Page className="page">
+        <Header
+          showBackIcon={true}
+          textColor="white" // Truyền textColor vào header
+          title={
+            <div className="header-title">
+              <Input.Search
+                style={{
+                  width: "70%",
+                  height: "36px",
+                  border: "1px solid ",
+                  borderRadius: "8px",
+                  padding: "0 12px",
+                  fontSize: "14px",
+                  outline: "none",
+                  background: "transparent", // Đặt nền của input thành trong suốt
+                  color: "white",
+                }}
+                type="text"
+                placeholder="Tìm kiếm danh mục nghề nghiệp..."
+                value={searchValue}
+                onChange={handleSearchChange}
+                className="header-search-input"
+              />
+            </div>
+          }
+        />
+        {/* <Box
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -219,66 +226,67 @@ const Occupation = () => {
         ))}
 
       </Box> */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          //  gap: "10px",
-        }}
-      >
-        {occupationGroup
-          .filter((occupationGroup) => occupationGroup?.status)
-          .map((group) => (
-            <Link
-              to={`/occupation/${group.id}`}
-              key={group.id}
-              style={{ textDecoration: "none" }}
-            >
-              <Box
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            //  gap: "10px",
+          }}
+        >
+          {occupationGroup
+            .filter((occupationGroup) => occupationGroup?.status)
+            .map((group) => (
+              <Link
+                to={`/occupation/${group.id}`}
                 key={group.id}
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "10px",
-                  padding: "10px",
-                  backgroundColor: "#fff",
-                  borderBottom: "1px solid #e0e0e0",
-
-                  // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                }}
+                style={{ textDecoration: "none" }}
               >
-                {/* Icon */}
-                <img
-                  src={group.image}
-                  alt={group.name}
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    objectFit: "cover",
-                    borderRadius: "10%",
-                  }}
-                />
-
-                {/* Nội dung */}
                 <Box
+                  key={group.id}
                   style={{
-                    width: "100%", // Đảm bảo Box chiếm hết chiều rộng
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "10px",
+                    padding: "10px",
+                    backgroundColor: "#fff",
+                    borderBottom: "1px solid #e0e0e0",
+
+                    // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                   }}
                 >
-                  <Text size="small" bold style={{ marginBottom: "5px" }}>
-                    {group.name}
-                  </Text>
-                  <Text size="xxSmall" color="text.secondary">
-                    {group?.description.length > 100
-                      ? `${group.description.slice(0, 100)}...`
-                      : group.description}
-                  </Text>
+                  {/* Icon */}
+                  <img
+                    src={group.image}
+                    alt={group.name}
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      objectFit: "cover",
+                      borderRadius: "10%",
+                    }}
+                  />
+
+                  {/* Nội dung */}
+                  <Box
+                    style={{
+                      width: "100%", // Đảm bảo Box chiếm hết chiều rộng
+                    }}
+                  >
+                    <Text size="small" bold style={{ marginBottom: "5px" }}>
+                      {group.name}
+                    </Text>
+                    <Text size="xxSmall" color="text.secondary">
+                      {group?.description.length > 100
+                        ? `${group.description.slice(0, 100)}...`
+                        : group.description}
+                    </Text>
+                  </Box>
                 </Box>
-              </Box>
-            </Link>
-          ))}
-      </div>
-    </Page>
+              </Link>
+            ))}
+        </div>
+      </Page>
+    </>
   );
 };
 

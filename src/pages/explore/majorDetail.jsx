@@ -116,113 +116,104 @@ const MajorDetail = ({ studentId }) => {
   };
 
   return (
-    <Page className="page" style={{ marginTop: "36px" }}>
-      <Header title="Chi tiết ngành học" />
+    <>
       <Box
         style={{
-          display: "flex",
-          flexDirection: "column",
-          //alignItems: "flex-start",
-          padding: "20px",
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
         }}
-      >
-        {/* Major Image */}
-        <div
+      ></Box>
+      <Page className="page">
+        <Header title="Chi tiết ngành học" />
+        <Box
           style={{
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center", // Optional if vertical centering is needed
+            flexDirection: "column",
+            //alignItems: "flex-start",
+            padding: "20px",
           }}
         >
-          <img
-            src={
-              major.image ||
-              "https://img.freepik.com/free-vector/professional-people-labor-day_24908-56745.jpg?t=st=1730737111~exp=1730740711~hmac=9a3489f4390c2eef0e7b3f9aab0f75a4ada397baf20c3d1cb8786feff0f0113d&w=740"
-            }
-            alt={major.name}
+          {/* Major Image */}
+          <div
             style={{
-              width: "60%",
-              height: "100%",
-              borderRadius: "8px",
-              marginBottom: "16px",
-            }}
-          />
-        </div>
-        {/* Major Name */}
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between", // Ensures space between the items
-            borderBottom: "1px solid #ccc", // Adds a line below the row
-            paddingBottom: "8px", // Padding below the items to separate them from the line
-          }}
-        >
-          <Text
-            style={{
-              fontSize: "24px",
-              fontWeight: "bold",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center", // Optional if vertical centering is needed
             }}
           >
-            {major.name}
-          </Text>
-          <div style={{ display: "flex" }}>
-            <Icon
-              icon={selectedValue ? "zi-heart-solid" : "zi-heart"}
-              onClick={handleVeryCare}
-              style={{ color: "red" }}
+            <img
+              src={
+                major.image ||
+                "https://img.freepik.com/free-vector/professional-people-labor-day_24908-56745.jpg?t=st=1730737111~exp=1730740711~hmac=9a3489f4390c2eef0e7b3f9aab0f75a4ada397baf20c3d1cb8786feff0f0113d&w=740"
+              }
+              alt={major.name}
+              style={{
+                width: "60%",
+                height: "100%",
+                borderRadius: "8px",
+                marginBottom: "16px",
+              }}
             />
+          </div>
+          {/* Major Name */}
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between", // Ensures space between the items
+              borderBottom: "1px solid #ccc", // Adds a line below the row
+              paddingBottom: "8px", // Padding below the items to separate them from the line
+            }}
+          >
             <Text
               style={{
-                color: "grey",
-                fontSize: "16px",
-                marginLeft: "2px",
-                marginTop: "2px",
+                fontSize: "24px",
+                fontWeight: "bold",
               }}
             >
-              {major.numberCare}
+              {major.name}
             </Text>
-          </div>
-        </div>
-        <Text style={{ marginTop: "5px", fontSize: "18px", textAlign: "end" }}>
-          {major.code}
-        </Text>
-
-        {/* Major Description */}
-        <Text
-          style={{
-            fontSize: "16px",
-            color: "#666",
-            marginBottom: "24px",
-            textAlign: "justify",
-            marginTop: "10px",
-          }}
-        >
-          {truncateText(major?.description, 500)}
-          {major?.description?.length > 500 && !showMore.description && (
-            <Box style={{ display: "flex", justifyContent: "center" }}>
-              <button
-                onClick={() => handleShowMore1("description")}
+            <div style={{ display: "flex" }}>
+              <Icon
+                icon={selectedValue ? "zi-heart-solid" : "zi-heart"}
+                onClick={handleVeryCare}
+                style={{ color: "red" }}
+              />
+              <Text
                 style={{
-                  marginTop: "5px",
-                  color: "#007bff",
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  textDecoration: "underline",
+                  color: "grey",
+                  fontSize: "16px",
+                  marginLeft: "2px",
+                  marginTop: "2px",
                 }}
               >
-                Xem thêm
-              </button>
-            </Box>
-          )}
-          {showMore.description && major?.description && (
-            <>
-              {major.description}
+                {major.numberCare}
+              </Text>
+            </div>
+          </div>
+          <Text
+            style={{ marginTop: "5px", fontSize: "18px", textAlign: "end" }}
+          >
+            {major.code}
+          </Text>
+
+          {/* Major Description */}
+          <Text
+            style={{
+              fontSize: "16px",
+              color: "#666",
+              marginBottom: "24px",
+              textAlign: "justify",
+              marginTop: "10px",
+            }}
+          >
+            {truncateText(major?.description, 500)}
+            {major?.description?.length > 500 && !showMore.description && (
               <Box style={{ display: "flex", justifyContent: "center" }}>
                 <button
-                  onClick={() => handleShowLess("description")}
+                  onClick={() => handleShowMore1("description")}
                   style={{
                     marginTop: "5px",
                     color: "#007bff",
@@ -232,200 +223,227 @@ const MajorDetail = ({ studentId }) => {
                     textDecoration: "underline",
                   }}
                 >
-                  Thu gọn
+                  Xem thêm
                 </button>
               </Box>
-            </>
-          )}
-        </Text>
-        {/* Suggested Occupations */}
-        <Text
-          style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "8px" }}
-        >
-          Ngành nghề phù hợp
-        </Text>
-        <div>
-          <div
+            )}
+            {showMore.description && major?.description && (
+              <>
+                {major.description}
+                <Box style={{ display: "flex", justifyContent: "center" }}>
+                  <button
+                    onClick={() => handleShowLess("description")}
+                    style={{
+                      marginTop: "5px",
+                      color: "#007bff",
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Thu gọn
+                  </button>
+                </Box>
+              </>
+            )}
+          </Text>
+          {/* Suggested Occupations */}
+          <Text
             style={{
-              display: "flex",
-              overflowX: "auto",
-              marginBottom: "16px",
-              alignItems: "center",
+              fontSize: "18px",
+              fontWeight: "bold",
+              marginBottom: "8px",
             }}
           >
-            {major.occupations.slice(0, visibleCount).map((occupation) => (
-              <Box
-                key={occupation.id}
-                style={{
-                  background: "#f8f9fa",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                  marginBottom: "8px",
-                  flex: "0 0 auto",
-                  marginRight: "10px",
-                  width: "220px",
-                  cursor: "pointer",
-                }}
-                onClick={() => navigate(`/occupationDetail/${occupation.id}`)}
-              >
-                {/* Centered Image */}
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center", // Optional if vertical centering is needed
-                  }}
-                >
-                  <img
-                    src={
-                      occupation.image ||
-                      "https://img.freepik.com/free-vector/collection-police-illustration_23-2148521822.jpg?t=st=1730737506~exp=1730741106~hmac=435fe33a5949a8cc6d0507ede5684de43c9dc61c0549429698ee374ce71afd29&w=1060"
-                    }
-                    alt={occupation.name}
-                    style={{
-                      width: "60%",
-                      height: "120px",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                    }}
-                  />
-                </div>
-
-                {/* Occupation Name */}
+            Ngành nghề phù hợp
+          </Text>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                overflowX: "auto",
+                marginBottom: "16px",
+                alignItems: "center",
+              }}
+            >
+              {major.occupations.slice(0, visibleCount).map((occupation) => (
                 <Box
+                  key={occupation.id}
                   style={{
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    height: "50px",
-                    marginTop: "10px",
+                    background: "#f8f9fa",
+                    padding: "10px",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    marginBottom: "8px",
+                    flex: "0 0 auto",
+                    marginRight: "10px",
+                    width: "220px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate(`/occupationDetail/${occupation.id}`)}
+                >
+                  {/* Centered Image */}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center", // Optional if vertical centering is needed
+                    }}
+                  >
+                    <img
+                      src={
+                        occupation.image ||
+                        "https://img.freepik.com/free-vector/collection-police-illustration_23-2148521822.jpg?t=st=1730737506~exp=1730741106~hmac=435fe33a5949a8cc6d0507ede5684de43c9dc61c0549429698ee374ce71afd29&w=1060"
+                      }
+                      alt={occupation.name}
+                      style={{
+                        width: "60%",
+                        height: "120px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  </div>
+
+                  {/* Occupation Name */}
+                  <Box
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      height: "50px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <Text bold>{occupation.name}</Text>
+                  </Box>
+                </Box>
+              ))}
+
+              {/* Nút "Xem thêm" */}
+              {visibleCount < major.occupations.length && (
+                <button
+                  onClick={handleShowMore}
+                  style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    border: "none",
+                    borderRadius: "50%",
+                    padding: "10px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
+                    width: "40px",
+                    height: "40px",
+                    margin: "10px auto",
                   }}
                 >
-                  <Text bold>{occupation.name}</Text>
-                </Box>
-              </Box>
-            ))}
-
-            {/* Nút "Xem thêm" */}
-            {visibleCount < major.occupations.length && (
-              <button
-                onClick={handleShowMore}
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.8)",
-                  border: "none",
-                  borderRadius: "50%",
-                  padding: "10px",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
-                  width: "40px",
-                  height: "40px",
-                  margin: "10px auto",
-                }}
-              >
-                <EastIcon style={{ fontSize: "20px", color: "#007bff" }} />
-              </button>
-            )}
+                  <EastIcon style={{ fontSize: "20px", color: "#007bff" }} />
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-        {/* Suggested Universities */}
-        <Text
-          style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "8px" }}
-        >
-          Trường đại học có đào tạo
-        </Text>
-        <div>
-          <div
+          {/* Suggested Universities */}
+          <Text
             style={{
-              display: "flex",
-              overflowX: "auto",
-              marginBottom: "16px",
-              alignItems: "center",
+              fontSize: "18px",
+              fontWeight: "bold",
+              marginBottom: "8px",
             }}
           >
-            {major.universities.slice(0, visibleCount).map((university) => (
-              <Box
-                key={university.id}
-                style={{
-                  background: "#f8f9fa",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                  marginBottom: "8px",
-                  flex: "0 0 auto",
-                  marginRight: "10px",
-                  width: "220px",
-                  cursor: "pointer",
-                }}
-                onClick={() => navigate(`/universityDetail/${university.id}`)}
-              >
-                {/* Centered Image */}
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center", // Optional if vertical centering is needed
-                  }}
-                >
-                  <img
-                    src={
-                      university.image ||
-                      "https://img.freepik.com/free-photo/harvard-university-cambridge-usa_1268-14363.jpg?t=st=1730792592~exp=1730796192~hmac=42fcd53feeadc8ec715f921aebe589e40f358baeba4d390d8c58c98ee8735fcd&w=1060"
-                    }
-                    alt={university.name}
-                    style={{
-                      width: "60%",
-                      height: "120px",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                    }}
-                  />
-                </div>
-
-                {/* Occupation Name */}
+            Trường đại học có đào tạo
+          </Text>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                overflowX: "auto",
+                marginBottom: "16px",
+                alignItems: "center",
+              }}
+            >
+              {major.universities.slice(0, visibleCount).map((university) => (
                 <Box
+                  key={university.id}
                   style={{
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    height: "50px",
-                    marginTop: "10px",
+                    background: "#f8f9fa",
+                    padding: "10px",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    marginBottom: "8px",
+                    flex: "0 0 auto",
+                    marginRight: "10px",
+                    width: "220px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate(`/universityDetail/${university.id}`)}
+                >
+                  {/* Centered Image */}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center", // Optional if vertical centering is needed
+                    }}
+                  >
+                    <img
+                      src={
+                        university.image ||
+                        "https://img.freepik.com/free-photo/harvard-university-cambridge-usa_1268-14363.jpg?t=st=1730792592~exp=1730796192~hmac=42fcd53feeadc8ec715f921aebe589e40f358baeba4d390d8c58c98ee8735fcd&w=1060"
+                      }
+                      alt={university.name}
+                      style={{
+                        width: "60%",
+                        height: "120px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  </div>
+
+                  {/* Occupation Name */}
+                  <Box
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      height: "50px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <Text bold>{university.name}</Text>
+                  </Box>
+                </Box>
+              ))}
+
+              {/* Nút "Xem thêm" */}
+              {visibleCount < major.universities.length && (
+                <button
+                  onClick={handleShowMore}
+                  style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    border: "none",
+                    borderRadius: "50%",
+                    padding: "10px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
+                    width: "40px",
+                    height: "40px",
+                    margin: "10px auto",
                   }}
                 >
-                  <Text bold>{university.name}</Text>
-                </Box>
-              </Box>
-            ))}
-
-            {/* Nút "Xem thêm" */}
-            {visibleCount < major.universities.length && (
-              <button
-                onClick={handleShowMore}
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.8)",
-                  border: "none",
-                  borderRadius: "50%",
-                  padding: "10px",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
-                  width: "40px",
-                  height: "40px",
-                  margin: "10px auto",
-                }}
-              >
-                <EastIcon style={{ fontSize: "20px", color: "#007bff" }} />
-              </button>
-            )}
+                  <EastIcon style={{ fontSize: "20px", color: "#007bff" }} />
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-      </Box>
-      {/* <Modal
+        </Box>
+        {/* <Modal
         visible={visible}
         title="Mức độ quan tâm ngành học"
         onClose={() => setVisible(false)}
@@ -440,7 +458,7 @@ const MajorDetail = ({ studentId }) => {
           }}
         >
           {/* Option 1: Quan tâm */}
-      {/* <Box
+        {/* <Box
             onClick={handleCare}
             style={{
               padding: "16px 24px",
@@ -459,8 +477,8 @@ const MajorDetail = ({ studentId }) => {
               Quan tâm
             </Text>
           </Box> */}
-      {/* Option 2: Rất quan tâm */}
-      {/* <Box
+        {/* Option 2: Rất quan tâm */}
+        {/* <Box
             onClick={handleVeryCare}
             style={{
               padding: "16px 24px",
@@ -481,7 +499,8 @@ const MajorDetail = ({ studentId }) => {
           </Box>
         </Box>
       </Modal> */}
-    </Page>
+      </Page>
+    </>
   );
 };
 

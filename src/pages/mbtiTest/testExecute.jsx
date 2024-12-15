@@ -147,27 +147,32 @@ const TestExecute = ({ studentId, accountId }) => {
     (Object.keys(answers).length / questions.length) * 100;
 
   return (
-    <Page
-      className="page bg-theme-image"
-      style={{ minHeight: "100vh", marginTop: "40px" }}
-    >
-      <Box style={{ padding: "8px" }}>
-        <Box>
-          <img
-            src="https://wallpapercave.com/wp/wp1949793.jpg"
-            alt="image"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              borderRadius: "8px",
-              animation: "zoomInOut 8s infinite", // Thêm animation
-            }}
-            role="presentation"
-          />
-        </Box>
-        <style>
-          {`
+    <>
+      <Box
+        style={{
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
+        }}
+      ></Box>
+      <Page className="page">
+        <Box style={{ padding: "8px" }}>
+          <Box>
+            <img
+              src="https://wallpapercave.com/wp/wp1949793.jpg"
+              alt="image"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "8px",
+                animation: "zoomInOut 8s infinite", // Thêm animation
+              }}
+              role="presentation"
+            />
+          </Box>
+          <style>
+            {`
   @keyframes zoomInOut {
     0% {
       transform: scale(0.9); /* Thu nhỏ */
@@ -189,120 +194,128 @@ const TestExecute = ({ studentId, accountId }) => {
 }
 
   `}
-        </style>
+          </style>
 
-        {/* Progress Bar */}
-        <Box
-          style={{
-            marginTop: "12px",
-            maxWidth: "95%",
-            marginLeft: "10px",
-          }}
-        >
-          <Progress completed={progressPercentage} maxCompleted={100} />
-        </Box>
-
-        <Box
-          style={{
-            backgroundColor: "white",
-            padding: "24px",
-            borderRadius: "8px",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            height: "340px",
-            border: `2px solid ${vibrateEffect ? "#e53e3e" : "#2b6cb0"}`,
-            animation: vibrateEffect ? "shake 0.5s" : "none",
-          }}
-        >
-          <div
+          {/* Progress Bar */}
+          <Box
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "12px",
+              marginTop: "12px",
+              maxWidth: "95%",
+              marginLeft: "10px",
             }}
           >
-            <Icon
-              icon="zi-chevron-left"
-              style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
-              onClick={() =>
-                setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))
-              }
-            />
-            <Text
+            <Progress completed={progressPercentage} maxCompleted={100} />
+          </Box>
+
+          <Box
+            style={{
+              backgroundColor: "white",
+              padding: "24px",
+              borderRadius: "8px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              height: "340px",
+              border: `2px solid ${vibrateEffect ? "#e53e3e" : "#2b6cb0"}`,
+              animation: vibrateEffect ? "shake 0.5s" : "none",
+            }}
+          >
+            <div
               style={{
-                fontWeight: "bold",
-                fontSize: "18px",
-                color: "#2c5282",
-                textAlign: "center",
-                flex: 1, // Ensure the text takes up the remaining space
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "12px",
               }}
             >
-              Câu hỏi: {currentQuestionIndex + 1} trên {questions.length}
+              <Icon
+                icon="zi-chevron-left"
+                style={{
+                  color: "#003399",
+                  fontSize: "23px",
+                  fontWeight: "bold",
+                }}
+                onClick={() =>
+                  setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))
+                }
+              />
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "18px",
+                  color: "#2c5282",
+                  textAlign: "center",
+                  flex: 1, // Ensure the text takes up the remaining space
+                }}
+              >
+                Câu hỏi: {currentQuestionIndex + 1} trên {questions.length}
+              </Text>
+              <Icon
+                icon="zi-chevron-right"
+                style={{
+                  color: "#003399",
+                  fontSize: "23px",
+                  fontWeight: "bold",
+                }}
+                onClick={handleNextClick}
+              />
+            </div>
+            <Text
+              style={{
+                color: "#4a5568",
+                fontSize: "16px",
+                marginBottom: "24px",
+                height: "70px",
+                border: "2px solid #2b6cb0", // Thêm đường viền xung quanh
+                borderRadius: "8px", // Tùy chọn: bo góc
+                padding: "8px", // Tùy chọn: thêm khoảng cách bên trong viền
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {currentQuestion.content}
             </Text>
-            <Icon
-              icon="zi-chevron-right"
-              style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
-              onClick={handleNextClick}
-            />
-          </div>
-          <Text
-            style={{
-              color: "#4a5568",
-              fontSize: "16px",
-              marginBottom: "24px",
-              height: "70px",
-              border: "2px solid #2b6cb0", // Thêm đường viền xung quanh
-              borderRadius: "8px", // Tùy chọn: bo góc
-              padding: "8px", // Tùy chọn: thêm khoảng cách bên trong viền
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {currentQuestion.content}
-          </Text>
 
-          <Box>
-            {Array.isArray(currentQuestion.answers) &&
-              currentQuestion.answers.map((choice) => (
-                <label
-                  key={choice.id}
-                  style={{
-                    display: "flex",
-                    padding: "12px",
-                    border: "1px solid #cbd5e0",
-                    borderRadius: "8px",
-                    marginBottom: "12px",
-                    backgroundColor:
-                      answers[currentQuestion.id] === choice.id
-                        ? "#c3e6cb"
-                        : "#ebf4ff", // Thay đổi màu nền khi được chọn
-                  }}
-                >
-                  <Radio
-                    checked={answers[currentQuestion.id] === choice.id}
-                    onChange={() =>
-                      handleChoiceChange(currentQuestion.id, choice)
-                    }
-                  />
-                  <Text
+            <Box>
+              {Array.isArray(currentQuestion.answers) &&
+                currentQuestion.answers.map((choice) => (
+                  <label
+                    key={choice.id}
                     style={{
-                      marginLeft: "8px",
-                      color: "#2b6cb0",
-                      height: "50px",
                       display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                      padding: "12px",
+                      border: "1px solid #cbd5e0",
+                      borderRadius: "8px",
+                      marginBottom: "12px",
+                      backgroundColor:
+                        answers[currentQuestion.id] === choice.id
+                          ? "#c3e6cb"
+                          : "#ebf4ff", // Thay đổi màu nền khi được chọn
                     }}
                   >
-                    {choice.content}
-                  </Text>
-                </label>
-              ))}
+                    <Radio
+                      checked={answers[currentQuestion.id] === choice.id}
+                      onChange={() =>
+                        handleChoiceChange(currentQuestion.id, choice)
+                      }
+                    />
+                    <Text
+                      style={{
+                        marginLeft: "8px",
+                        color: "#2b6cb0",
+                        height: "50px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      {choice.content}
+                    </Text>
+                  </label>
+                ))}
+            </Box>
           </Box>
         </Box>
-      </Box>
-      {/* <Box
+        {/* <Box
         style={{
           display: "flex",
           justifyContent: "center",
@@ -349,51 +362,52 @@ const TestExecute = ({ studentId, accountId }) => {
           <Icon icon="zi-chevron-right" />
         </Button>
       </Box> */}
-      {currentQuestionIndex === questions.length - 1 && (
-        <Box
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: "10px",
-          }}
-        >
-          <Button
+        {currentQuestionIndex === questions.length - 1 && (
+          <Box
             style={{
-              backgroundColor: "#0066CC",
-              color: "white",
-              padding: "10px 20px",
-              borderRadius: "8px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              marginTop: "10px",
             }}
-            onClick={handleFinish}
           >
-            Hoàn thành
-          </Button>
-        </Box>
-      )}
-      <Modal
-        visible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        title="Thông báo"
-      >
-        <Text style={{ textAlign: "center" }}>
-          Hãy hoàn thành tất cả các câu hỏi trước khi kết thúc!
-        </Text>
-        <Box
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "16px",
-          }}
+            <Button
+              style={{
+                backgroundColor: "#0066CC",
+                color: "white",
+                padding: "10px 20px",
+                borderRadius: "8px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={handleFinish}
+            >
+              Hoàn thành
+            </Button>
+          </Box>
+        )}
+        <Modal
+          visible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          title="Thông báo"
         >
-          <Button onClick={() => setIsModalVisible(false)}>OK</Button>
-        </Box>
-      </Modal>
-    </Page>
+          <Text style={{ textAlign: "center" }}>
+            Hãy hoàn thành tất cả các câu hỏi trước khi kết thúc!
+          </Text>
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "16px",
+            }}
+          >
+            <Button onClick={() => setIsModalVisible(false)}>OK</Button>
+          </Box>
+        </Modal>
+      </Page>
+    </>
   );
 };
 

@@ -31,56 +31,65 @@ const Holland = () => {
   };
 
   return (
-    <Page className="page">
-      <Header title="Holland" />
-      <Box>
-        {" "}
-        {testList.map((test) => (
-          <Box
-            key={test.id}
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-              padding: "16px",
-              marginBottom: "16px",
-              backgroundColor: "white",
-            }}
-          >
-            {" "}
-            <img
-              src="https://letstalkscience.ca/sites/default/files/2020-10/Holland_hexagon_0.png"
-              alt={test.name}
-              style={{ width: "100%", borderRadius: "8px" }}
-            />{" "}
-            <Text
-              bold
+    <>
+      <Box
+        style={{
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
+        }}
+      ></Box>
+      <Page className="page">
+        <Header title="Holland" />
+        <Box>
+          {" "}
+          {testList.map((test) => (
+            <Box
+              key={test.id}
               style={{
-                textAlign: "center",
-                fontSize: "26px",
-                marginTop: "20px",
+                border: "1px solid #ddd",
+                borderRadius: "8px",
+                padding: "16px",
+                marginBottom: "16px",
+                backgroundColor: "white",
               }}
             >
-              {test.name}
-            </Text>
-            <Text
-              className="text-gray-600 mt-4 mb-6"
-              style={{ textAlign: "center" }}
-            >
-              {test.description}
-            </Text>{" "}
-            <Button
-              fullWidth
-              style={{
-                backgroundColor: "#0066CC",
-              }}
-              onClick={() => handleStart(test.id, test.point)} // Pass function reference here
-            >
-              Bắt đầu
-            </Button>
-          </Box>
-        ))}{" "}
-      </Box>
-    </Page>
+              {" "}
+              <img
+                src="https://letstalkscience.ca/sites/default/files/2020-10/Holland_hexagon_0.png"
+                alt={test.name}
+                style={{ width: "100%", borderRadius: "8px" }}
+              />{" "}
+              <Text
+                bold
+                style={{
+                  textAlign: "center",
+                  fontSize: "26px",
+                  marginTop: "20px",
+                }}
+              >
+                {test.name}
+              </Text>
+              <Text
+                className="text-gray-600 mt-4 mb-6"
+                style={{ textAlign: "center" }}
+              >
+                {test.description}
+              </Text>{" "}
+              <Button
+                fullWidth
+                style={{
+                  backgroundColor: "#0066CC",
+                }}
+                onClick={() => handleStart(test.id, test.point)} // Pass function reference here
+              >
+                Bắt đầu
+              </Button>
+            </Box>
+          ))}{" "}
+        </Box>
+      </Page>
+    </>
   );
 };
 

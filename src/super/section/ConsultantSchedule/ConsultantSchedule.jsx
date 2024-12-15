@@ -37,7 +37,7 @@ export default function ConsultantSchedule({ userid }) {
   const [completeSchedule, setcompleteSchedule] = useState([]);
   const [googleMeetLink, setGoogleMeetLink] = useState("");
   const [bookings, setBookings] = useState([]);
-  console.log('booking:', bookings);
+  console.log("booking:", bookings);
   const [responseCreate, setResponseCreate] = useState("");
   console.log("completeSchedule:", completeSchedule); // Kiểm tra xem completeSchedule có thay đổi khi chọn slot không
   console.log("idConsultantTime:", idConsultantTime); // Kiểm tra xem idConsultantTime có thay đổi khi chọn slot không
@@ -45,8 +45,6 @@ export default function ConsultantSchedule({ userid }) {
   console.log("selectedTimeSlots:", selectedTimeSlots); // Kiểm tra xem selectedTimeSlots có thay đổi khi chọn slot không
   const location = useLocation();
   const initialTab = location.state?.tab || "tab1";
-
-
 
   const handleDelete = async (idConsultantTime) => {
     try {
@@ -236,238 +234,246 @@ export default function ConsultantSchedule({ userid }) {
     );
   };
 
-
   return (
-    <Page className="page" style={{ marginTop: "40px" }}>
-      <Header
-        title="Tạo lịch"
-        showBackIcon={false}
-        style={{ textAlign: "center" }}
-      />
-      <Tabs id="contact-list" defaultActiveKey={initialTab}>
-        <Tabs.Tab key="tab1" label="Lịch">
-          <List>
-            <Typography variant="h6" sx={{ pb: 2, textAlign: "center" }}>
-              Tạo lịch tư vấn
-            </Typography>
-            <Calendar onSelect={handleDateChange} cellRender={cellRender} disabledDate={(currentDate) => {
-              const today = new Date();
-              today.setHours(0, 0, 0, 0);
-              return currentDate < today;
-            }} />
-            <Grid
-              space="1rem"
-              columnCount={2}
-              style={{
-                marginTop: "10px",
-                justifyContent: "center",
-                textAlign: "center",
-              }}
-            >
-              {timeSlots.map((slot) => {
-                // const bookedSlot = slotBooked.find(booked => booked.timeSlotId === slot.id && booked.status === 0);
-                const bookedSlot = slotGroups[0].find(
-                  (booked) => booked.timeSlotId === slot.id
-                ); // Đã đặt
-                console.log("bookedSlot", bookedSlot);
-                const completedSlot = slotGroups[1].find(
-                  (booked) => booked.timeSlotId === slot.id
-                ); // Hoàn thành
-                console.log("completedSlot", completedSlot);
-                const canceledSlot = slotGroups[2].find(
-                  (booked) => booked.timeSlotId === slot.id
-                ); // Bị hủy
-                console.log("canceledSlot", canceledSlot);
-                return (
-                  <Button
-                    onClick={() => {
-                      if (bookedSlot) {
-                        // Nếu slot đã được đặt, mở modal Delete
-                        setDialogVisible("Delete");
-                        console.log("haha", bookedSlot);
-                        setIdConsultantTime(bookedSlot?.id);
-                      } else if (completedSlot) {
-                        // Nếu slot đã hoàn thành, không làm gì cả
-                      } else if (canceledSlot) {
-                        // Nếu slot bị hủy, cho phép chọn lại slot đó
-                        toggleTimeSlot(slot);
-                      } else {
-                        // Các trường hợp khác
-                        toggleTimeSlot(slot);
-                      }
-                    }}
-                    key={slot.id}
-                    style={{
-                      borderRadius: "10px",
-                      backgroundColor: completedSlot
-                        ? "#4caf50"
-                        : selectedTimeSlots.includes(slot)
+    <>
+      <Box
+        style={{
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
+        }}
+      ></Box>
+      <Page className="page">
+        <Header title="Tạo lịch" showBackIcon={false} />
+        <Tabs id="contact-list" defaultActiveKey={initialTab}>
+          <Tabs.Tab key="tab1" label="Lịch">
+            <List>
+              <Typography variant="h6" sx={{ pb: 2, textAlign: "center" }}>
+                Tạo lịch tư vấn
+              </Typography>
+              <Calendar
+                onSelect={handleDateChange}
+                cellRender={cellRender}
+                disabledDate={(currentDate) => {
+                  const today = new Date();
+                  today.setHours(0, 0, 0, 0);
+                  return currentDate < today;
+                }}
+              />
+              <Grid
+                space="1rem"
+                columnCount={2}
+                style={{
+                  marginTop: "10px",
+                  justifyContent: "center",
+                  textAlign: "center",
+                }}
+              >
+                {timeSlots.map((slot) => {
+                  // const bookedSlot = slotBooked.find(booked => booked.timeSlotId === slot.id && booked.status === 0);
+                  const bookedSlot = slotGroups[0].find(
+                    (booked) => booked.timeSlotId === slot.id
+                  ); // Đã đặt
+                  console.log("bookedSlot", bookedSlot);
+                  const completedSlot = slotGroups[1].find(
+                    (booked) => booked.timeSlotId === slot.id
+                  ); // Hoàn thành
+                  console.log("completedSlot", completedSlot);
+                  const canceledSlot = slotGroups[2].find(
+                    (booked) => booked.timeSlotId === slot.id
+                  ); // Bị hủy
+                  console.log("canceledSlot", canceledSlot);
+                  return (
+                    <Button
+                      onClick={() => {
+                        if (bookedSlot) {
+                          // Nếu slot đã được đặt, mở modal Delete
+                          setDialogVisible("Delete");
+                          console.log("haha", bookedSlot);
+                          setIdConsultantTime(bookedSlot?.id);
+                        } else if (completedSlot) {
+                          // Nếu slot đã hoàn thành, không làm gì cả
+                        } else if (canceledSlot) {
+                          // Nếu slot bị hủy, cho phép chọn lại slot đó
+                          toggleTimeSlot(slot);
+                        } else {
+                          // Các trường hợp khác
+                          toggleTimeSlot(slot);
+                        }
+                      }}
+                      key={slot.id}
+                      style={{
+                        borderRadius: "10px",
+                        backgroundColor: completedSlot
+                          ? "#4caf50"
+                          : selectedTimeSlots.includes(slot)
                           ? "#e0e0e0"
                           : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
-                      color: "#000000",
-                      padding: "10px",
-                      textAlign: "center",
-                      cursor: "pointer",
-                      border: "1px solid #ccc",
-                      transition: "background-color 0.2s",
-                      marginRight: "10px",
-                      marginLeft: "10px",
-                      marginBottom: "10px",
-                      opacity: bookedSlot ? 0.5 : completedSlot ? 0.1 : 1, // Đặt opacity mặc định là 1 cho các trạng thái chưa đặt và đã hủy
-                    }}
-                    size="medium"
-                  >
-                    <Text>{`${slot.startTime.slice(
-                      0,
-                      5
-                    )} - ${slot.endTime.slice(0, 5)}`}</Text>
-                  </Button>
-                );
-              })}
-            </Grid>
-            <Grid
-              space="1rem"
-              style={{
-                marginTop: "10%",
-                justifyContent: "end",
-                display: "flex",
-              }}
-            >
-              <Box>
-                <button
-                  onClick={() => setDialogVisible("Create")}
-                  size="small"
-                  style={{
-                    width: "50px", // Đảm bảo chiều rộng và chiều cao bằng nhau
-                    height: "50px",
-                    borderRadius: "50%", // Tạo viền tròn
-                    padding: 0, // Loại bỏ khoảng đệm mặc định
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden", // Đảm bảo hình tròn không bị lệch
-                    border: "1px solid #ccc", // Viền xám
-                    marginRight: "10px",
-                  }}
-                >
-                  <Icon icon="zi-plus" />
-                </button>
-              </Box>
-            </Grid>
-            <Box>
-              <Modal
-                visible={dialogVisible === "Create"}
-                title="Ban có chắc chắn muốn Tạo lịch không?"
-                onClose={() => {
-                  setDialogVisible(false);
-                  setGoogleMeetLink("");
-                }}
-                actions={[
-                  {
-                    text: "Hủy bỏ",
-                    close: true,
-                  },
-                  {
-                    text: "Tạo mới",
-                    // close: true,
-                    highLight: true,
-                    onClick: () => {
-                      handleCreate(); // Gọi handleCreate khi bấm "Tạo mới"
-                    },
-                  },
-                ]}
-                description={`Bạn đã chọn lịch vào ngày ${selectedDate} cho các khung giờ ${selectedTimeSlots
-                  .map(
-                    (slot) =>
-                      `${slot.startTime.slice(0, 5)} - ${slot.endTime.slice(
+                        color: "#000000",
+                        padding: "10px",
+                        textAlign: "center",
+                        cursor: "pointer",
+                        border: "1px solid #ccc",
+                        transition: "background-color 0.2s",
+                        marginRight: "10px",
+                        marginLeft: "10px",
+                        marginBottom: "10px",
+                        opacity: bookedSlot ? 0.5 : completedSlot ? 0.1 : 1, // Đặt opacity mặc định là 1 cho các trạng thái chưa đặt và đã hủy
+                      }}
+                      size="medium"
+                    >
+                      <Text>{`${slot.startTime.slice(
                         0,
                         5
-                      )}`
-                  )
-                  .join(", ")}`}
+                      )} - ${slot.endTime.slice(0, 5)}`}</Text>
+                    </Button>
+                  );
+                })}
+              </Grid>
+              <Grid
+                space="1rem"
+                style={{
+                  marginTop: "10%",
+                  justifyContent: "end",
+                  display: "flex",
+                }}
               >
-                <Input
-                  clearable
-                  type="text"
-                  placeholder="Nhập link Google Meet"
-                  value={googleMeetLink}
-                  onChange={(e) => setGoogleMeetLink(e.target.value)}
-                  style={{ width: "100%", marginTop: "10px" }}
-                />
-              </Modal>
-              <Modal
-                visible={dialogVisible === "CreateSuccess"}
-                title="Chúc mừng bạn đã tạo lịch thành công"
-                onClose={() => setDialogVisible(false)}
-                actions={[
-                  {
-                    text: "Đóng",
-                    close: true,
-                    justifyContent: "center",
-                  },
-                ]}
-              >
-                {" "}
-                <Text>{responseCreate}</Text>
-              </Modal>
-              <Modal
-                visible={dialogVisible === "CreateFail"}
-                title="Đặt lịch thất bại"
-                onClose={() => setDialogVisible(false)}
-                actions={[
-                  {
-                    text: "Đóng",
-                    close: true,
-                    justifyContent: "center",
-                  },
-                ]}
-              >
-                <Text>{responseCreate}</Text>
-              </Modal>
-              <Modal
-                visible={dialogVisible === "Delete"}
-                title="Bạn có chắc chắn muốn xóa lịch không?"
-                onClose={() => setDialogVisible(false)}
-                actions={[
-                  {
-                    text: "Hủy bỏ",
-                    close: true,
-                  },
-                  {
-                    text: "Xóa",
-                    highLight: true,
-                    onClick: () => {
-                      handleDelete(idConsultantTime); // Gọi handleDelete khi bấm "Xóa"
+                <Box>
+                  <button
+                    onClick={() => setDialogVisible("Create")}
+                    size="small"
+                    style={{
+                      width: "50px", // Đảm bảo chiều rộng và chiều cao bằng nhau
+                      height: "50px",
+                      borderRadius: "50%", // Tạo viền tròn
+                      padding: 0, // Loại bỏ khoảng đệm mặc định
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      overflow: "hidden", // Đảm bảo hình tròn không bị lệch
+                      border: "1px solid #ccc", // Viền xám
+                      marginRight: "10px",
+                    }}
+                  >
+                    <Icon icon="zi-plus" />
+                  </button>
+                </Box>
+              </Grid>
+              <Box>
+                <Modal
+                  visible={dialogVisible === "Create"}
+                  title="Ban có chắc chắn muốn Tạo lịch không?"
+                  onClose={() => {
+                    setDialogVisible(false);
+                    setGoogleMeetLink("");
+                  }}
+                  actions={[
+                    {
+                      text: "Hủy bỏ",
+                      close: true,
                     },
-                  },
-                ]}
-                description="Bạn đã chọn lịch đã đặt, bạn có chắc chắn muốn xóa không?"
-              />
+                    {
+                      text: "Tạo mới",
+                      // close: true,
+                      highLight: true,
+                      onClick: () => {
+                        handleCreate(); // Gọi handleCreate khi bấm "Tạo mới"
+                      },
+                    },
+                  ]}
+                  description={`Bạn đã chọn lịch vào ngày ${selectedDate} cho các khung giờ ${selectedTimeSlots
+                    .map(
+                      (slot) =>
+                        `${slot.startTime.slice(0, 5)} - ${slot.endTime.slice(
+                          0,
+                          5
+                        )}`
+                    )
+                    .join(", ")}`}
+                >
+                  <Input
+                    clearable
+                    type="text"
+                    placeholder="Nhập link Google Meet"
+                    value={googleMeetLink}
+                    onChange={(e) => setGoogleMeetLink(e.target.value)}
+                    style={{ width: "100%", marginTop: "10px" }}
+                  />
+                </Modal>
+                <Modal
+                  visible={dialogVisible === "CreateSuccess"}
+                  title="Chúc mừng bạn đã tạo lịch thành công"
+                  onClose={() => setDialogVisible(false)}
+                  actions={[
+                    {
+                      text: "Đóng",
+                      close: true,
+                      justifyContent: "center",
+                    },
+                  ]}
+                >
+                  {" "}
+                  <Text>{responseCreate}</Text>
+                </Modal>
+                <Modal
+                  visible={dialogVisible === "CreateFail"}
+                  title="Đặt lịch thất bại"
+                  onClose={() => setDialogVisible(false)}
+                  actions={[
+                    {
+                      text: "Đóng",
+                      close: true,
+                      justifyContent: "center",
+                    },
+                  ]}
+                >
+                  <Text>{responseCreate}</Text>
+                </Modal>
+                <Modal
+                  visible={dialogVisible === "Delete"}
+                  title="Bạn có chắc chắn muốn xóa lịch không?"
+                  onClose={() => setDialogVisible(false)}
+                  actions={[
+                    {
+                      text: "Hủy bỏ",
+                      close: true,
+                    },
+                    {
+                      text: "Xóa",
+                      highLight: true,
+                      onClick: () => {
+                        handleDelete(idConsultantTime); // Gọi handleDelete khi bấm "Xóa"
+                      },
+                    },
+                  ]}
+                  description="Bạn đã chọn lịch đã đặt, bạn có chắc chắn muốn xóa không?"
+                />
+              </Box>
+            </List>
+          </Tabs.Tab>
+          <Tabs.Tab key="tab2" label="Lịch đã đặt">
+            <Box mb={10} className="p-4 bg-white rounded-lg shadow-md">
+              {bookings?.map((booking, index) => (
+                <BookingCardConsultant
+                  key={index}
+                  studentId={booking.studentId}
+                  studentName={booking.studentName}
+                  startTime={booking.startTime}
+                  endTime={booking.endTime}
+                  consultationDay={booking.consultationDay}
+                  status={booking.status}
+                  dayId={booking.consultationTimeId}
+                  id={booking.id}
+                  onStatusChange={reloadPage} // Truyền hàm reloadPage
+                />
+              ))}
             </Box>
-          </List>
-        </Tabs.Tab>
-        <Tabs.Tab key="tab2" label="Lịch đã đặt">
-          <Box mb={10} className="p-4 bg-white rounded-lg shadow-md">
-            {bookings?.map((booking, index) => (
-              <BookingCardConsultant
-                key={index}
-                studentId={booking.studentId}
-                studentName={booking.studentName}
-                startTime={booking.startTime}
-                endTime={booking.endTime}
-                consultationDay={booking.consultationDay}
-                status={booking.status}
-                dayId={booking.consultationTimeId}
-                id={booking.id}
-                onStatusChange={reloadPage} // Truyền hàm reloadPage
-              />
-            ))}
-          </Box>
-        </Tabs.Tab>
-        {/* <Tabs.Tab key="tab3" label="Tab 3">
+          </Tabs.Tab>
+          {/* <Tabs.Tab key="tab3" label="Tab 3">
           Tab 3 content
         </Tabs.Tab> */}
-      </Tabs>
-    </Page>
+        </Tabs>
+      </Page>
+    </>
   );
 }

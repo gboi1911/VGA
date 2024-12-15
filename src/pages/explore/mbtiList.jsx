@@ -31,56 +31,65 @@ const MBTI = () => {
   };
 
   return (
-    <Page className="page">
-      <Header title="MBTI" />
-      <Box>
-        {" "}
-        {testList.map((test) => (
-          <Box
-            key={test.id}
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-              padding: "16px",
-              marginBottom: "16px",
-              backgroundColor: "white",
-            }}
-          >
-            {" "}
-            <img
-              src="https://www.themyersbriggs.com/-/media/Myers-Briggs/Images/GLOBAL/Support/MBTI_Facts.png?h=364&iar=0&w=472&hash=1031E9C0EB3FF9164E8CA73705689B75"
-              alt={test.name}
-              style={{ width: "100%", borderRadius: "8px" }}
-            />{" "}
-            <Text
-              bold
+    <>
+      <Box
+        style={{
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
+        }}
+      ></Box>
+      <Page className="page">
+        <Header title="MBTI" />
+        <Box>
+          {" "}
+          {testList.map((test) => (
+            <Box
+              key={test.id}
               style={{
-                textAlign: "center",
-                fontSize: "26px",
-                marginTop: "20px",
+                border: "1px solid #ddd",
+                borderRadius: "8px",
+                padding: "16px",
+                marginBottom: "16px",
+                backgroundColor: "white",
               }}
             >
-              {test.name}
-            </Text>
-            <Text
-              className="text-gray-600 mt-4 mb-6"
-              style={{ textAlign: "center" }}
-            >
-              {test.description}
-            </Text>{" "}
-            <Button
-              fullWidth
-              style={{
-                backgroundColor: "#0066CC",
-              }}
-              onClick={() => handleStart(test.id, test.point)} // Pass function reference here
-            >
-              Bắt đầu
-            </Button>
-          </Box>
-        ))}{" "}
-      </Box>
-    </Page>
+              {" "}
+              <img
+                src="https://www.themyersbriggs.com/-/media/Myers-Briggs/Images/GLOBAL/Support/MBTI_Facts.png?h=364&iar=0&w=472&hash=1031E9C0EB3FF9164E8CA73705689B75"
+                alt={test.name}
+                style={{ width: "100%", borderRadius: "8px" }}
+              />{" "}
+              <Text
+                bold
+                style={{
+                  textAlign: "center",
+                  fontSize: "26px",
+                  marginTop: "20px",
+                }}
+              >
+                {test.name}
+              </Text>
+              <Text
+                className="text-gray-600 mt-4 mb-6"
+                style={{ textAlign: "center" }}
+              >
+                {test.description}
+              </Text>{" "}
+              <Button
+                fullWidth
+                style={{
+                  backgroundColor: "#0066CC",
+                }}
+                onClick={() => handleStart(test.id, test.point)} // Pass function reference here
+              >
+                Bắt đầu
+              </Button>
+            </Box>
+          ))}{" "}
+        </Box>
+      </Page>
+    </>
   );
 };
 
