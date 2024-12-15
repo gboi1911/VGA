@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { App, ZMPRouter, AnimationRoutes, SnackbarProvider } from "zmp-ui";
 import { RecoilRoot } from "recoil";
@@ -26,9 +26,13 @@ import HollandTest from "pages/explore/holland";
 import Major from "pages/explore/major";
 import Majorbycategory from "pages/explore/majorbycategory";
 import MajorDetail from "pages/explore/majorDetail";
-import Occupation from "pages/explore/occupation";
+// import Occupation from "pages/explore/occupation";
+// react lazy
+const Occupation = React.lazy(() => import("pages/explore/occupation"));
 import Occupationbygroup from "pages/explore/occupationbygroup";
-import University from "pages/explore/university";
+// import University from "pages/explore/university";
+// react lazy
+const University = React.lazy(() => import("pages/explore/university"));
 import UniversityDetail from "pages/explore/universityDetail";
 import Personal from "pages/explore/personal";
 import PersonalOccupation from "pages/explore/personalOccupation";
@@ -45,6 +49,7 @@ import OccupationCareList from "pages/explore/occupationCareList";
 import UserInfo from "pages/userInfo";
 import UserInfoConst from "super/pages/userInfoConst";
 import * as signalR from "@microsoft/signalr";
+import LoadingPage from "components/loading";
 
 import {
   getDataAccessToken,
@@ -112,7 +117,7 @@ const MyApp = () => {
           // zaloId: userInfo.userInfo.id,
           // phone: phone,
           // image_Url: userInfo.userInfo.avatar,
-          zaloId: "string",
+          zaloId: "12345",
           phone: "84347707045",
           image_Url: "string",
         });
@@ -177,141 +182,167 @@ const MyApp = () => {
         <SnackbarProvider>
           <ZMPRouter>
             {/* <HeaderBar /> */}
-            <Routes>
-              {role === 2 ? (
-                <>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/news" element={<News />} />
-                  <Route
-                    path="/notification"
-                    element={<Notification accountId={accountid} role={role} />}
-                  />
-                  <Route path="/newsdetail/:id" element={<NewDetail />} />
-                  <Route
-                    path="/expert"
-                    element={<ExpertPage studentId={userid} />}
-                  />
-                  <Route path="/allexpert/:id" element={<AllExpert />} />
-                  <Route
-                    path="/expertDetail/:id"
-                    element={<ExpertDetailPage studentId={userid} />}
-                  />
-                  <Route
-                    path="/user"
-                    element={
-                      <User
-                        studentId={userid}
-                        accountId={accountid}
-                        info={userInfo}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/transaction"
-                    element={<Transaction accountId={accountid} />}
-                  />
-                  <Route path="/test" element={<TestPage />} />
-                  <Route
-                    path="/testExecute"
-                    element={
-                      <TestExecute studentId={userid} accountId={accountid} />
-                    }
-                  />
-                  <Route path="/testResult" element={<TestResult />} />
-                  <Route path="/explore" element={<Explore />} />
-                  <Route
-                    path="/mbtiTest"
-                    element={<MBTITest studentId={userid} />}
-                  />
-                  <Route path="/mbtiList" element={<MBTI />} />
-                  <Route path="/hollandList" element={<Holland />} />
-                  <Route
-                    path="/hollandTest"
-                    element={<HollandTest studentId={userid} />}
-                  />
-                  <Route path="/major" element={<Major />} />
-                  <Route path="/major/:id" element={<Majorbycategory />} />
-                  <Route
-                    path="/majorCare"
-                    element={<MajorCareList studentId={userid} />}
-                  />
-                  <Route
-                    path="/occupationCare"
-                    element={<OccupationCareList studentId={userid} />}
-                  />
-                  <Route
-                    path="/majorDetail/:id"
-                    element={<MajorDetail studentId={userid} />}
-                  />
-                  <Route path="/occupation" element={<Occupation />} />
-                  <Route
-                    path="/occupation/:id"
-                    element={<Occupationbygroup />}
-                  />
-                  <Route path="/university" element={<University />} />
-                  <Route
-                    path="/universityDetail/:id"
-                    element={<UniversityDetail />}
-                  />
-                  <Route path="/personal" element={<Personal />} />
-                  <Route
-                    path="/personalOccupation"
-                    element={<PersonalOccupation studentId={userid} />}
-                  />
-                  <Route
-                    path="/personality"
-                    element={<Personality studentId={userid} />}
-                  />
-                  <Route path="/userInfo" element={<UserInfo />} />
-                  <Route
-                    path="/testExecuteHolland"
-                    element={
-                      <TestExecuteHolland
-                        studentId={userid}
-                        accountId={accountid}
-                      />
-                    }
-                  />
-                  <Route path="/ratingMajor" element={<RatingMajor />} />
-                  <Route
-                    path="/filterMajorUniversity"
-                    element={<FilterMajorUniversity />}
-                  />
-                  <Route
-                    path="/testResultHolland"
-                    element={<TestResultHolland />}
-                  />
-                  <Route
-                    path="/occupationDetail/:id"
-                    element={<OccupationDetail studentId={userid} />}
-                  />
-                </>
-              ) : role === 4 ? (
-                <>
-                  <Route path="/" element={<News />} />
+            <Suspense fallback={<LoadingPage />}>
 
-                  <Route
-                    path="/consultantScheldule"
-                    element={<ConsultantSchedulePage userid={userid} />}
-                  />
-                  <Route path="/userInfoConst" element={<UserInfoConst />} />
-                  <Route
-                    path="/transaction"
-                    element={<Transaction accountId={accountid} />}
-                  />
-                  {/* <Route path="/consultantpage/:id" element={<ConsultantPage consultantId={userid} accountId={accountid} />} /> */}
-                  <Route path="/major" element={<Major />} />
-                  <Route path="/major/:id" element={<Majorbycategory />} />
-                  <Route path="/majorDetail/:id" element={<MajorDetail />} />
-                  <Route path="/occupation" element={<Occupation />} />
-                  <Route
-                    path="/notification"
-                    element={<Notification accountId={accountid} role={role} />}
-                  />
-                  <Route
-                    path="/occupation/:id"
-                    element={<Occupationbygroup />}
-                  />
+              <Routes>
+                {role === 2 ? (
+                  <>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/news" element={<News />} />
+                    <Route
+                      path="/notification"
+                      element={<Notification accountId={accountid} role={role} />}
+                    />
+                    <Route path="/newsdetail/:id" element={<NewDetail />} />
+                    <Route
+                      path="/expert"
+                      element={<ExpertPage studentId={userid} />}
+                    />
+                    <Route path="/allexpert/:id" element={<AllExpert />} />
+                    <Route
+                      path="/expertDetail/:id"
+                      element={<ExpertDetailPage studentId={userid} />}
+                    />
+                    <Route
+                      path="/user"
+                      element={
+                        <User
+                          studentId={userid}
+                          accountId={accountid}
+                          info={userInfo}
+                        />
+                      }
+                    />
+                    <Route
+                      path="/transaction"
+                      element={<Transaction accountId={accountid} />}
+                    />
+                    <Route path="/test" element={<TestPage />} />
+                    <Route
+                      path="/testExecute"
+                      element={
+                        <TestExecute studentId={userid} accountId={accountid} />
+                      }
+                    />
+                    <Route path="/testResult" element={<TestResult />} />
+                    <Route path="/explore" element={<Explore />} />
+                    <Route
+                      path="/mbtiTest"
+                      element={<MBTITest studentId={userid} />}
+                    />
+                    <Route path="/mbtiList" element={<MBTI />} />
+                    <Route path="/hollandList" element={<Holland />} />
+                    <Route
+                      path="/hollandTest"
+                      element={<HollandTest studentId={userid} />}
+                    />
+                    <Route path="/major" element={<Major />} />
+                    <Route path="/major/:id" element={<Majorbycategory />} />
+                    <Route
+                      path="/majorCare"
+                      element={<MajorCareList studentId={userid} />}
+                    />
+                    <Route
+                      path="/occupationCare"
+                      element={<OccupationCareList studentId={userid} />}
+                    />
+                    <Route
+                      path="/majorDetail/:id"
+                      element={<MajorDetail studentId={userid} />}
+                    />
+                    <Route
+                      path="/occupation"
+                      element={
+                        <Suspense fallback={<LoadingPage />}>
+                          <Occupation />
+                        </Suspense>
+                      } />
+                    <Route
+                      path="/occupation/:id"
+                      element={<Occupationbygroup />}
+                    />
+                    <Route
+                      path="/university"
+                      element={
+                        <Suspense fallback={<LoadingPage />}>
+                          <University />
+                        </Suspense>
+                      } />
+                    <Route
+                      path="/universityDetail/:id"
+                      element={<UniversityDetail />}
+                    />
+                    <Route path="/personal" element={<Personal />} />
+                    <Route
+                      path="/personalOccupation"
+                      element={<PersonalOccupation studentId={userid} />}
+                    />
+                    <Route
+                      path="/personality"
+                      element={<Personality studentId={userid} />}
+                    />
+                    <Route path="/userInfo" element={<UserInfo />} />
+                    <Route
+                      path="/testExecuteHolland"
+                      element={
+                        <TestExecuteHolland
+                          studentId={userid}
+                          accountId={accountid}
+                        />
+                      }
+                    />
+                    <Route path="/ratingMajor" element={<RatingMajor />} />
+                    <Route
+                      path="/filterMajorUniversity"
+                      element={<FilterMajorUniversity />}
+                    />
+                    <Route
+                      path="/testResultHolland"
+                      element={<TestResultHolland />}
+                    />
+                    <Route
+                      path="/occupationDetail/:id"
+                      element={<OccupationDetail studentId={userid} />}
+                    />
+                  </>
+                ) : role === 4 ? (
+                  <>
+                    <Route path="/" element={<News />} />
+                    <Route
+                      path="/consultantScheldule"
+                      element={<ConsultantSchedulePage userid={userid} />}
+                    />
+                    <Route path="/userInfoConst" element={<UserInfoConst />} />
+                    <Route
+                      path="/transaction"
+                      element={<Transaction accountId={accountid} />}
+                    />
+                    {/* <Route path="/consultantpage/:id" element={<ConsultantPage consultantId={userid} accountId={accountid} />} /> */}
+                    <Route path="/major" element={<Major />} />
+                    <Route path="/major/:id" element={<Majorbycategory />} />
+                    <Route path="/majorDetail/:id" element={<MajorDetail />} />
+                    <Route path="/occupation" element={<Occupation />} />
+                    <Route
+                      path="/notification"
+                      element={<Notification accountId={accountid} role={role} />}
+                    />
+                    <Route
+                      path="/occupation/:id"
+                      element={<Occupationbygroup />}
+                    />
+                    <Route
+                      path="/consultantpage"
+                      element={
+                        <ConsultantPage
+                          consultantId={userid}
+                          accountId={accountid}
+                        />
+                      }
+                    />
+                    <Route path="/news" element={<News />} />
+                    <Route path="/newsdetail/:id" element={<NewDetail />} />
+                  </>
+                ) : (
                   <Route
                     path="/consultantpage"
                     element={
@@ -320,22 +351,10 @@ const MyApp = () => {
                         accountId={accountid}
                       />
                     }
-                  />
-                  <Route path="/news" element={<News />} />
-                  <Route path="/newsdetail/:id" element={<NewDetail />} />
-                </>
-              ) : (
-                <Route
-                  path="/consultantpage"
-                  element={
-                    <ConsultantPage
-                      consultantId={userid}
-                      accountId={accountid}
-                    />
-                  }
-                /> // Đường dẫn mặc định nếu role không hợp lệ
-              )}
-            </Routes>
+                  /> // Đường dẫn mặc định nếu role không hợp lệ
+                )}
+              </Routes>
+            </Suspense>
             {role === 4 ? (
               <>
                 <CustomBottomNavigation
