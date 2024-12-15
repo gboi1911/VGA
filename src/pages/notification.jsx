@@ -95,71 +95,74 @@ const Notification = ({ accountId, role }) => {
   };
 
   return (
-    <Page>
-      <Header
-        title="Thông báo"
-        showBackIcon={false}
-        style={{ textAlign: "center" }}
-      />
-
-      <Box style={{ padding: "16px", textAlign: "center" }}>
-        <Text>{status}</Text>
-      </Box>
-
-      <Box style={{ padding: "16px" }}>
-        {notiList.length > 0 ? (
-          notiList.map((noti, index) => (
-            <Box
-              key={index}
-              onClick={() => handleNotificationClick(noti)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                border: "1px solid #ddd",
-                borderRadius: "8px",
-                padding: "12px",
-                marginBottom: "4px",
-                backgroundColor: noti.status === 0 ? "#66CCFF" : "#fff",
-                // animation: noti.status === 0 ? "twinkle 2s infinite" : "none",
-              }}
-            >
-              <img
-                src="https://cdn-icons-png.freepik.com/256/9187/9187529.png?ga=GA1.1.1580058560.1730717628&semt=ais_hybrid"
+    <>
+      <Box
+        style={{
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
+        }}
+      ></Box>
+      <Page className="page">
+        <Header title="Thông báo" showBackIcon={false} />
+        <Box style={{ padding: "16px" }}>
+          {notiList.length > 0 ? (
+            notiList.map((noti, index) => (
+              <Box
+                key={index}
+                onClick={() => handleNotificationClick(noti)}
                 style={{
-                  height: "50px",
-                  width: "50px",
+                  display: "flex",
+                  alignItems: "center",
+                  border: "1px solid #ddd",
+                  borderRadius: "8px",
+                  padding: "12px",
+                  marginBottom: "4px",
+                  backgroundColor: noti.status === 0 ? "#66CCFF" : "#fff",
+                  // animation: noti.status === 0 ? "twinkle 2s infinite" : "none",
                 }}
-              />
-              <div style={{ marginLeft: "10px" }}>
-                <Text
+              >
+                <img
+                  src="https://cdn-icons-png.freepik.com/256/9187/9187529.png?ga=GA1.1.1580058560.1730717628&semt=ais_hybrid"
                   style={{
-                    fontWeight: "bold",
-                    marginBottom: "8px",
-                    fontSize: "16px",
+                    height: "50px",
+                    width: "50px",
                   }}
-                >
-                  {noti.title}
-                </Text>
-                <Text style={{ marginBottom: "4px" }}>
-                  {noti.message.split("|")[0]} {/* Display text before `|` */}
-                </Text>
+                />
+                <div style={{ marginLeft: "10px" }}>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      marginBottom: "8px",
+                      fontSize: "16px",
+                    }}
+                  >
+                    {noti.title}
+                  </Text>
+                  <Text style={{ marginBottom: "4px" }}>
+                    {noti.message.split("|")[0]} {/* Display text before `|` */}
+                  </Text>
 
-                <Text
-                  style={{ fontSize: "12px", color: "#888", textAlign: "end" }}
-                >
-                  {new Date(noti.createdAt).toLocaleString("vi-VN")}
-                </Text>
-              </div>
-            </Box>
-          ))
-        ) : (
-          <Text style={{ textAlign: "center", color: "#888" }}>
-            Chưa có thông báo nào.
-          </Text>
-        )}
-      </Box>
+                  <Text
+                    style={{
+                      fontSize: "12px",
+                      color: "#888",
+                      textAlign: "end",
+                    }}
+                  >
+                    {new Date(noti.createdAt).toLocaleString("vi-VN")}
+                  </Text>
+                </div>
+              </Box>
+            ))
+          ) : (
+            <Text style={{ textAlign: "center", color: "#888" }}>
+              Chưa có thông báo nào.
+            </Text>
+          )}
+        </Box>
 
-      {/* <style>
+        {/* <style>
         {`
           @keyframes twinkle {
             0%, 100% { background-color: #99FFFF; }
@@ -167,7 +170,8 @@ const Notification = ({ accountId, role }) => {
           }
         `}
       </style> */}
-    </Page>
+      </Page>
+    </>
   );
 };
 

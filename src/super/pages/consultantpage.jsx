@@ -159,100 +159,107 @@ const ConsultantPage = ({ consultantId, accountId }) => {
   }
 
   return (
-    <Page className="page" style={{ marginTop: "40px" }}>
-      <Header
-        title="Thông tin cá nhân"
-        showBackIcon={false}
-        style={{ textAlign: "center" }}
-      />
+    <>
       <Box
         style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "20px",
-          padding: "20px",
-          borderRadius: "5px",
-          backgroundColor: "white", // White background
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
         }}
-      >
-        <Avatar
-          src={userInfo?.image_Url}
-          size="large"
-          style={{ width: "80px", height: "80px" }}
-        />
-        <div>
-          <Text size="Normal" style={{ fontWeight: "bold", fontSize: "20px" }}>
-            {userInfo?.name}
-          </Text>
-          <Text
-            style={{ color: "grey", marginTop: "6px" }}
-            onClick={() =>
-              navigate("/userInfoConst", {
-                state: {
-                  gender: userInfo?.gender,
-                  schoolName: userInfo?.consultantRelations,
-                  date: userInfo?.dateOfBirth,
-                  name: userInfo?.name,
-                  phone: userInfo?.phone,
-                  avatar: userInfo?.image_Url,
-                  email: userInfo?.email,
-                  description: userInfo?.description,
-                },
-              })
-            }
-          >
-            Xem thông tin
-          </Text>
-        </div>
-      </Box>
-      <Box
-        style={{
-          display: "flex",
-          alignItems: "center",
-          padding: "10px",
-          backgroundImage:
-            "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-3bjkd32XySUSA_7HFCvui8pjysieOdWfUA&s)",
-          gap: "80px",
-          borderRadius: "5px",
-          backgroundColor: "white", // White background
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
-          borderBottom: "1px solid #ddd", // Divider line
-          marginTop: "10px",
-        }}
-      >
+      ></Box>
+      <Page className="page">
+        <Header title="Thông tin cá nhân" showBackIcon={false} />
         <Box
           style={{
             display: "flex",
-            backgroundColor: "white",
-            borderRadius: "20px",
-            marginLeft: "30px",
-            padding: "10px",
-            boxShadow: "inset -2px 2px 4px rgba(0, 0, 0, 0.1)",
+            alignItems: "center",
+            gap: "20px",
+            padding: "20px",
+            borderRadius: "5px",
+            backgroundColor: "white", // White background
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
           }}
         >
-          <Text bold size="large" style={{ color: "#FFCC00" }}>
-            {/* {userInfo?.account.wallet.goldBalance} */}
-            {goldBallance.goldBalance}
-          </Text>
-          <FontAwesomeIcon
-            icon={faCoins}
-            size="xl"
-            style={{
-              marginRight: "10px",
-              color: "#FFD700",
-              marginLeft: "15px",
-            }}
+          <Avatar
+            src={userInfo?.image_Url}
+            size="large"
+            style={{ width: "80px", height: "80px" }}
           />
+          <div>
+            <Text
+              size="Normal"
+              style={{ fontWeight: "bold", fontSize: "20px" }}
+            >
+              {userInfo?.name}
+            </Text>
+            <Text
+              style={{ color: "grey", marginTop: "6px" }}
+              onClick={() =>
+                navigate("/userInfoConst", {
+                  state: {
+                    gender: userInfo?.gender,
+                    schoolName: userInfo?.consultantRelations,
+                    date: userInfo?.dateOfBirth,
+                    name: userInfo?.name,
+                    phone: userInfo?.phone,
+                    avatar: userInfo?.image_Url,
+                    email: userInfo?.email,
+                    description: userInfo?.description,
+                  },
+                })
+              }
+            >
+              Xem thông tin
+            </Text>
+          </div>
         </Box>
-        <Button
-          style={{ backgroundColor: "#FF6600", color: "white" }}
-          onClick={() => setIsInputModalOpen(true)}
+        <Box
+          style={{
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+            backgroundImage:
+              "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-3bjkd32XySUSA_7HFCvui8pjysieOdWfUA&s)",
+            gap: "80px",
+            borderRadius: "5px",
+            backgroundColor: "white", // White background
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Subtle shadow
+            borderBottom: "1px solid #ddd", // Divider line
+            marginTop: "10px",
+          }}
         >
-          Đổi điểm
-        </Button>
-      </Box>
-      {/* <Box
+          <Box
+            style={{
+              display: "flex",
+              backgroundColor: "white",
+              borderRadius: "20px",
+              marginLeft: "30px",
+              padding: "10px",
+              boxShadow: "inset -2px 2px 4px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <Text bold size="large" style={{ color: "#FFCC00" }}>
+              {/* {userInfo?.account.wallet.goldBalance} */}
+              {goldBallance.goldBalance}
+            </Text>
+            <FontAwesomeIcon
+              icon={faCoins}
+              size="xl"
+              style={{
+                marginRight: "10px",
+                color: "#FFD700",
+                marginLeft: "15px",
+              }}
+            />
+          </Box>
+          <Button
+            style={{ backgroundColor: "#FF6600", color: "white" }}
+            onClick={() => setIsInputModalOpen(true)}
+          >
+            Đổi điểm
+          </Button>
+        </Box>
+        {/* <Box
         style={{
           padding: "10px",
           borderRadius: "5px",
@@ -322,8 +329,8 @@ const ConsultantPage = ({ consultantId, accountId }) => {
         </div>
       </Box> */}
 
-      {/* User Details Section (Following Boxes) */}
-      {/* <Box
+        {/* User Details Section (Following Boxes) */}
+        {/* <Box
         style={{
           display: "flex",
           alignItems: "center",
@@ -425,137 +432,140 @@ const ConsultantPage = ({ consultantId, accountId }) => {
           {userInfo?.university?.account?.name}
         </Text>
       </Box> */}
-      <Box style={{ backgroundColor: "white", marginTop: "10px" }}>
-        <List>
-          <Item
-            style={{ marginBottom: "0px" }}
-            title="Lịch sử giao dịch"
-            prefix={<Icon icon="zi-poll" style={{ color: "blue" }} />}
-            suffix={<Icon icon="zi-chevron-right" />}
-            onClick={() => navigate("/transaction")}
-          />
-        </List>
-      </Box>
-      {/* Input Modal */}
-      <Modal
-        visible={isInputModalOpen}
-        onClose={() => {
-          setIsInputModalOpen(false); // Close the modal
-          setGoldAmount(""); // Clear the input
-          setErrorText(""); // Clear the error message
-          setStatus("");
-        }}
-        title="Đổi điểm"
-      >
-        <Box mt={5}>
-          <Input
-            type="text"
-            value={goldAmount}
-            onChange={(e) => {
-              const value = e.target.value;
-              const numericValue = value.replace(/[^0-9]/g, "");
+        <Box style={{ backgroundColor: "white", marginTop: "10px" }}>
+          <List>
+            <Item
+              style={{ marginBottom: "0px" }}
+              title="Lịch sử giao dịch"
+              prefix={<Icon icon="zi-poll" style={{ color: "blue" }} />}
+              suffix={<Icon icon="zi-chevron-right" />}
+              onClick={() => navigate("/transaction")}
+            />
+          </List>
+        </Box>
+        {/* Input Modal */}
+        <Modal
+          visible={isInputModalOpen}
+          onClose={() => {
+            setIsInputModalOpen(false); // Close the modal
+            setGoldAmount(""); // Clear the input
+            setErrorText(""); // Clear the error message
+            setStatus("");
+          }}
+          title="Đổi điểm"
+        >
+          <Box mt={5}>
+            <Input
+              type="text"
+              value={goldAmount}
+              onChange={(e) => {
+                const value = e.target.value;
+                const numericValue = value.replace(/[^0-9]/g, "");
 
-              if (numericValue.length <= 6) {
-                setGoldAmount(numericValue);
-                setErrorText("");
-                setStatus("");
-              } else {
-                setStatus("error");
-                setErrorText("Chỉ được nhập tối đa 6 chữ số.");
-              }
+                if (numericValue.length <= 6) {
+                  setGoldAmount(numericValue);
+                  setErrorText("");
+                  setStatus("");
+                } else {
+                  setStatus("error");
+                  setErrorText("Chỉ được nhập tối đa 6 chữ số.");
+                }
 
-              if (value !== numericValue) {
-                setStatus("error");
-                setErrorText("Chỉ được nhập số.");
-              }
-            }}
-            placeholder="Nhập số điểm"
-            label="Nhập số điểm muốn đổi"
-            helperText="1 điểm = 1.000 VNĐ"
-            errorText={errorText}
-            status={status}
-          />
+                if (value !== numericValue) {
+                  setStatus("error");
+                  setErrorText("Chỉ được nhập số.");
+                }
+              }}
+              placeholder="Nhập số điểm"
+              label="Nhập số điểm muốn đổi"
+              helperText="1 điểm = 1.000 VNĐ"
+              errorText={errorText}
+              status={status}
+            />
 
+            <Box
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "30px",
+              }}
+            >
+              <Button
+                onClick={() => {
+                  const normalizedGoldAmount = goldAmount.replace(/^0+/, "");
+
+                  if (
+                    !normalizedGoldAmount ||
+                    parseInt(normalizedGoldAmount) <= 0
+                  ) {
+                    setErrorText("Số điểm phải lớn hơn 0.");
+                    setStatus("error");
+                    return;
+                  }
+
+                  setGoldAmount(normalizedGoldAmount);
+                  handleGoldAmountInput();
+                }}
+              >
+                Xác nhận
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
+
+        {/* Confirm Modal */}
+        <Modal
+          visible={isConfirmModalOpen}
+          title="Xác nhận"
+          onClose={() => setIsConfirmModalOpen(false)}
+        >
           <Box
             style={{
               display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
               justifyContent: "center",
-              marginTop: "30px",
+              marginTop: "20px",
             }}
           >
-            <Button
-              onClick={() => {
-                const normalizedGoldAmount = goldAmount.replace(/^0+/, "");
-
-                if (
-                  !normalizedGoldAmount ||
-                  parseInt(normalizedGoldAmount) <= 0
-                ) {
-                  setErrorText("Số điểm phải lớn hơn 0.");
-                  setStatus("error");
-                  return;
-                }
-
-                setGoldAmount(normalizedGoldAmount);
-                handleGoldAmountInput();
-              }}
-            >
-              Xác nhận
-            </Button>
+            <Text size="large">
+              Bạn có xác nhận muốn đổi {goldAmount} điểm ?
+            </Text>
+            <Box style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+              <Button
+                style={{
+                  marginTop: "10px",
+                  backgroundColor: "red",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setIsConfirmModalOpen(false); // Close Confirm modal
+                  setIsInputModalOpen(true); // Reopen Input modal
+                }}
+              >
+                Hủy
+              </Button>
+              <Button style={{ marginTop: "10px" }} onClick={handleWithdraw}>
+                Đồng ý
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      </Modal>
+        </Modal>
 
-      {/* Confirm Modal */}
-      <Modal
-        visible={isConfirmModalOpen}
-        title="Xác nhận"
-        onClose={() => setIsConfirmModalOpen(false)}
-      >
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
+        {/* Result Modal */}
+        <Modal
+          visible={resultModal.open}
+          title="Thông báo"
+          onClose={handleModalClose}
         >
-          <Text size="large">Bạn có xác nhận muốn đổi {goldAmount} điểm ?</Text>
-          <Box style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            <Button
-              style={{
-                marginTop: "10px",
-                backgroundColor: "red",
-                color: "white",
-              }}
-              onClick={() => {
-                setIsConfirmModalOpen(false); // Close Confirm modal
-                setIsInputModalOpen(true); // Reopen Input modal
-              }}
-            >
-              Hủy
-            </Button>
-            <Button style={{ marginTop: "10px" }} onClick={handleWithdraw}>
-              Đồng ý
-            </Button>
+          <Box>
+            <Text size="large" style={{ textAlign: "center" }}>
+              {resultModal.message}
+            </Text>
           </Box>
-        </Box>
-      </Modal>
-
-      {/* Result Modal */}
-      <Modal
-        visible={resultModal.open}
-        title="Thông báo"
-        onClose={handleModalClose}
-      >
-        <Box>
-          <Text size="large" style={{ textAlign: "center" }}>
-            {resultModal.message}
-          </Text>
-        </Box>
-      </Modal>
-    </Page>
+        </Modal>
+      </Page>
+    </>
   );
 };
 

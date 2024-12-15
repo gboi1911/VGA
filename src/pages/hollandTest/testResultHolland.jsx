@@ -486,187 +486,197 @@ const TestResultHolland = () => {
 
   if (!resultData) {
     return (
-      <Page
-        className="page"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text size="large" style={{ color: "red", textAlign: "center" }}>
-          Error: No result data available.
-        </Text>
-      </Page>
+      <>
+        <Box
+          style={{
+            position: "relative",
+            height: "42px",
+            backgroundColor: "#0369a1",
+          }}
+        ></Box>
+        <Page
+          className="page"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text size="large" style={{ color: "red", textAlign: "center" }}>
+            Error: No result data available.
+          </Text>
+        </Page>
+      </>
     );
   }
 
   return (
-    <Page
-      className="page"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        overflow: "hidden",
-      }}
-    >
-      {showConfetti && <Confetti />}
+    <>
       <Box
         style={{
-          backgroundColor: "rgba(255, 255, 255, 0.9)",
-          borderRadius: "15px",
-          maxWidth: "350px",
-          width: "100%",
-          padding: "30px",
-          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
-          textAlign: "center",
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
         }}
-      >
-        <img
-          src="https://asiasociety.org/sites/default/files/styles/1200w/public/C/cte-career-planning-tools-980x650.png"
-          alt="Result"
+      ></Box>
+      <Page className="page">
+        {showConfetti && <Confetti />}
+        <Box
           style={{
-            width: "100%",
-            height: "300px",
-            objectFit: "cover",
-            borderRadius: "15px 15px 0 0",
-          }}
-        />
-        <Text
-          bold
-          size="xLarge"
-          style={{
-            color: "#00697F",
-            fontSize: "2em",
-            marginTop: "20px",
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "15px",
+            padding: "30px",
+            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+            textAlign: "center",
           }}
         >
-          {resultData.code}
-        </Text>
-        <Text
-          style={{
-            color: "#34495E",
-            fontSize: "1.1em",
-            marginTop: "10px",
-            padding: "0 20px",
-            lineHeight: "1.6",
-          }}
-        >
-          {resultData.des}
-        </Text>
-        <Box>
-          {displayedGroups.map((group, index) => (
-            <Box key={index} className="career-group-section">
-              <Text
-                bold
-                className="mt-12"
-                style={{ fontSize: "2em", lineHeight: "1" }}
-              >
-                {careerGroupData[group].name}
-              </Text>
-              <img src={careerGroupData[group].image} alt={`${group} image`} />
-              <div
-                style={{
-                  backgroundColor: "#EBE6E0",
-                  borderRadius: "8px",
-                  padding: "10px",
-                  marginTop: "10px",
-                }}
-              >
-                <Text>{careerGroupData[group].characterist[0].content}</Text>
-              </div>
-              <Button
-                onClick={() => toggleExpand(index)}
-                style={{ marginTop: 20, marginBottom: 10 }}
-              >
-                {expandedGroupIndex === index ? (
-                  <>
-                    Ẩn
-                    <Icon icon="zi-chevron-up" />
-                  </>
-                ) : (
-                  <>
-                    Xem thêm
-                    <Icon icon="zi-chevron-down" />
-                  </>
-                )}
-              </Button>
-              {expandedGroupIndex === index && (
-                <Box className="expanded-content">
-                  {/* "Đặc điểm nổi bật" Text */}
-                  <Text
-                    bold
-                    className="mb-4 mt-2"
-                    style={{ fontSize: "1.5em" }}
-                  >
-                    Đặc điểm nổi bật:
-                  </Text>
-                  <div
-                    style={{
-                      backgroundColor: "#DE5B87",
-                      padding: "10px",
-                      borderRadius: "8px",
-                      marginBottom: "1em",
-                    }}
-                  >
-                    <Text>
-                      {careerGroupData[group].characterist[0].content}
+          <img
+            src="https://asiasociety.org/sites/default/files/styles/1200w/public/C/cte-career-planning-tools-980x650.png"
+            alt="Result"
+            style={{
+              width: "100%",
+              height: "300px",
+              objectFit: "cover",
+              borderRadius: "15px 15px 0 0",
+            }}
+          />
+          <Text
+            bold
+            size="xLarge"
+            style={{
+              color: "#00697F",
+              fontSize: "2em",
+              marginTop: "20px",
+            }}
+          >
+            {resultData.code}
+          </Text>
+          <Text
+            style={{
+              color: "#34495E",
+              fontSize: "1.1em",
+              marginTop: "10px",
+              padding: "0 20px",
+              lineHeight: "1.6",
+            }}
+          >
+            {resultData.des}
+          </Text>
+          <Box>
+            {displayedGroups.map((group, index) => (
+              <Box key={index} className="career-group-section">
+                <Text
+                  bold
+                  className="mt-12"
+                  style={{ fontSize: "2em", lineHeight: "1" }}
+                >
+                  {careerGroupData[group].name}
+                </Text>
+                <img
+                  src={careerGroupData[group].image}
+                  alt={`${group} image`}
+                />
+                <div
+                  style={{
+                    backgroundColor: "#EBE6E0",
+                    borderRadius: "8px",
+                    padding: "10px",
+                    marginTop: "10px",
+                  }}
+                >
+                  <Text>{careerGroupData[group].characterist[0].content}</Text>
+                </div>
+                <Button
+                  onClick={() => toggleExpand(index)}
+                  style={{ marginTop: 20, marginBottom: 10 }}
+                >
+                  {expandedGroupIndex === index ? (
+                    <>
+                      Ẩn
+                      <Icon icon="zi-chevron-up" />
+                    </>
+                  ) : (
+                    <>
+                      Xem thêm
+                      <Icon icon="zi-chevron-down" />
+                    </>
+                  )}
+                </Button>
+                {expandedGroupIndex === index && (
+                  <Box className="expanded-content">
+                    {/* "Đặc điểm nổi bật" Text */}
+                    <Text
+                      bold
+                      className="mb-4 mt-2"
+                      style={{ fontSize: "1.5em" }}
+                    >
+                      Đặc điểm nổi bật:
                     </Text>
-                  </div>
+                    <div
+                      style={{
+                        backgroundColor: "#DE5B87",
+                        padding: "10px",
+                        borderRadius: "8px",
+                        marginBottom: "1em",
+                      }}
+                    >
+                      <Text>
+                        {careerGroupData[group].characterist[0].content}
+                      </Text>
+                    </div>
 
-                  <Text
-                    bold
-                    className="mb-4 mt-6"
-                    style={{ fontSize: "1.5em" }}
-                  >
-                    Điều bạn cần cải thiện:
-                  </Text>
-                  <div className="flex flex-col space-y-4">
-                    {careerGroupData[group].improvements.map(
-                      (improvement, index) => {
-                        // Define 4 different background colors
-                        const bgColors = [
-                          "#E44C4E",
-                          "#7FCAAC",
-                          "#FED28B",
-                          "#F29B70",
-                        ];
+                    <Text
+                      bold
+                      className="mb-4 mt-6"
+                      style={{ fontSize: "1.5em" }}
+                    >
+                      Điều bạn cần cải thiện:
+                    </Text>
+                    <div className="flex flex-col space-y-4">
+                      {careerGroupData[group].improvements.map(
+                        (improvement, index) => {
+                          // Define 4 different background colors
+                          const bgColors = [
+                            "#E44C4E",
+                            "#7FCAAC",
+                            "#FED28B",
+                            "#F29B70",
+                          ];
 
-                        return (
-                          <div
-                            key={improvement.id}
-                            className={`flex items-center p-4 rounded-lg`}
-                            style={{
-                              backgroundColor: bgColors[index % 4], // Assign color based on index (4 colors)
-                              flexDirection:
-                                index % 2 === 0 ? "row" : "row-reverse", // Alternate layout between left and right
-                            }}
-                          >
-                            {/* ID number */}
-                            <div className="text-4xl font-bold w-12 flex-shrink-0 text-center">
-                              {improvement.id}
+                          return (
+                            <div
+                              key={improvement.id}
+                              className={`flex items-center p-4 rounded-lg`}
+                              style={{
+                                backgroundColor: bgColors[index % 4], // Assign color based on index (4 colors)
+                                flexDirection:
+                                  index % 2 === 0 ? "row" : "row-reverse", // Alternate layout between left and right
+                              }}
+                            >
+                              {/* ID number */}
+                              <div className="text-4xl font-bold w-12 flex-shrink-0 text-center">
+                                {improvement.id}
+                              </div>
+
+                              {/* Title and Content */}
+                              <div className="ml-4">
+                                <Text
+                                  bold
+                                  className="mb-2"
+                                  style={{ fontSize: "1.2em" }}
+                                >
+                                  {improvement.title}
+                                </Text>
+                                <p>{improvement.content}</p>
+                              </div>
                             </div>
+                          );
+                        }
+                      )}
+                    </div>
 
-                            {/* Title and Content */}
-                            <div className="ml-4">
-                              <Text
-                                bold
-                                className="mb-2"
-                                style={{ fontSize: "1.2em" }}
-                              >
-                                {improvement.title}
-                              </Text>
-                              <p>{improvement.content}</p>
-                            </div>
-                          </div>
-                        );
-                      }
-                    )}
-                  </div>
-
-                  {/* Majors */}
-                  {/*<Text
+                    {/* Majors */}
+                    {/*<Text
                     bold
                     className="mb-4 mt-6"
                     style={{ fontSize: "1.5em" }}
@@ -688,8 +698,8 @@ const TestResultHolland = () => {
                     </ul>
                   </div>*/}
 
-                  {/* Careers */}
-                  {/*<Text
+                    {/* Careers */}
+                    {/*<Text
                     bold
                     className="mb-4 mt-6"
                     style={{ fontSize: "1.5em" }}
@@ -710,31 +720,32 @@ const TestResultHolland = () => {
                       ))}
                     </ul>
                   </div>*/}
-                </Box>
-              )}
-            </Box>
-          ))}
+                  </Box>
+                )}
+              </Box>
+            ))}
+          </Box>
+          <Button
+            style={{
+              backgroundColor: "#FF6600",
+              color: "#FFF",
+              borderRadius: "8px",
+              padding: "12px 24px",
+              marginTop: "30px",
+              fontSize: "1.2em",
+              width: "100%",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+              transition: "transform 0.2s",
+            }}
+            onClick={handleBack}
+            onMouseOver={(e) => (e.target.style.transform = "scale(1.05)")}
+            onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
+          >
+            Tiếp theo
+          </Button>
         </Box>
-        <Button
-          style={{
-            backgroundColor: "#FF6600",
-            color: "#FFF",
-            borderRadius: "8px",
-            padding: "12px 24px",
-            marginTop: "30px",
-            fontSize: "1.2em",
-            width: "100%",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-            transition: "transform 0.2s",
-          }}
-          onClick={handleBack}
-          onMouseOver={(e) => (e.target.style.transform = "scale(1.05)")}
-          onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
-        >
-          Tiếp theo
-        </Button>
-      </Box>
-    </Page>
+      </Page>
+    </>
   );
 };
 

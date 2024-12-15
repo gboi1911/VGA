@@ -70,128 +70,135 @@ const UserPage = ({ studentId, accountId, info }) => {
   }
 
   return (
-    <Page className="page" style={{ marginBottom: "48px", marginTop: "40px" }}>
-      <Header
-        title="Thông tin cá nhân"
-        showBackIcon={false}
-        style={{ textAlign: "center" }}
-      />
+    <>
       <Box
         style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "20px",
-          padding: "20px",
-          borderRadius: "5px",
-          backgroundColor: "white",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
         }}
-      >
-        <Modal
-          visible={visible}
-          title="Nạp điểm"
-          onClose={() => setVisible(false)}
-        >
-          <Text style={{ marginBottom: "10px" }}>
-            Để nạp điểm, hãy copy link dưới đây và dán vào trình duyệt để thực
-            hiện nạp điểm.
-          </Text>
-          <Box
-            style={{
-              display: "flex",
-              alignItems: "center",
-              padding: "10px",
-              backgroundColor: "#F9F9F9",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text>{paymentLink}</Text>
-            <CopyToClipboard text={paymentLink}>
-              <Icon icon="zi-copy" onClick={() => alert("Đã sao chép link!")} />
-            </CopyToClipboard>
-          </Box>
-        </Modal>
-        <Avatar
-          src={info?.userInfo?.avatar || "default-avatar-url"}
-          size="large"
-          style={{ width: "80px", height: "80px" }}
-        />
-
-        <div>
-          <Text size="large" style={{ fontWeight: "bold", fontSize: "20px" }}>
-            {userInfo.data.account.name}
-          </Text>
-          <Text
-            style={{ color: "grey", marginTop: "6px" }}
-            onClick={() =>
-              navigate("/userInfo", {
-                state: {
-                  gender: userInfo.data.gender,
-                  schoolName: schoolName?.data?.account?.name,
-                  schoolYears: userInfo.data.schoolYears,
-                  date: userInfo.data.dateOfBirth,
-                  name: userInfo.data.account.name,
-                  phone: userInfo.data.account.phone,
-                  avatar: info?.userInfo?.avatar || "default-avatar-url",
-                },
-              })
-            }
-          >
-            Xem thông tin
-          </Text>
-        </div>
-      </Box>
-      <Box
-        style={{
-          display: "flex",
-          alignItems: "center",
-          padding: "10px",
-          backgroundImage:
-            "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-3bjkd32XySUSA_7HFCvui8pjysieOdWfUA&s)",
-          gap: "80px",
-          backgroundColor: "white",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-          borderBottom: "1px solid #ddd",
-          marginTop: "10px",
-        }}
-      >
+      ></Box>
+      <Page className="page">
+        <Header title="Thông tin cá nhân" showBackIcon={false} />
         <Box
           style={{
             display: "flex",
+            alignItems: "center",
+            gap: "20px",
+            padding: "20px",
+            borderRadius: "5px",
             backgroundColor: "white",
-            borderRadius: "20px",
-            marginLeft: "30px",
-            padding: "10px",
-            boxShadow: "inset -2px 2px 4px rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Text bold size="large" style={{ color: "#FFCC00" }}>
-            {userInfo.data.account.wallet.goldBalance}
-          </Text>
-          <FontAwesomeIcon
-            icon={faCoins}
-            size="xl"
-            style={{
-              marginRight: "10px",
-              color: "#FFD700",
-              marginLeft: "15px",
-            }}
+          <Modal
+            visible={visible}
+            title="Nạp điểm"
+            onClose={() => setVisible(false)}
+          >
+            <Text style={{ marginBottom: "10px" }}>
+              Để nạp điểm, hãy copy link dưới đây và dán vào trình duyệt để thực
+              hiện nạp điểm.
+            </Text>
+            <Box
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "10px",
+                backgroundColor: "#F9F9F9",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text>{paymentLink}</Text>
+              <CopyToClipboard text={paymentLink}>
+                <Icon
+                  icon="zi-copy"
+                  onClick={() => alert("Đã sao chép link!")}
+                />
+              </CopyToClipboard>
+            </Box>
+          </Modal>
+          <Avatar
+            src={info?.userInfo?.avatar || "default-avatar-url"}
+            size="large"
+            style={{ width: "80px", height: "80px" }}
           />
-        </Box>
-        <Button
-          style={{ backgroundColor: "#FF6600", color: "white" }}
-          onClick={() => {
-            setVisible(true);
-          }}
-          // onClick={() =>
-          //   (window.location.href = "https://vga-payment.vercel.app")
-          // }
-        >
-          Nạp điểm
-        </Button>
-      </Box>
 
-      {/* <div style={{ overflowY: "auto", maxHeight: "300px" }}>
+          <div>
+            <Text size="large" style={{ fontWeight: "bold", fontSize: "20px" }}>
+              {userInfo.data.account.name}
+            </Text>
+            <Text
+              style={{ color: "grey", marginTop: "6px" }}
+              onClick={() =>
+                navigate("/userInfo", {
+                  state: {
+                    gender: userInfo.data.gender,
+                    schoolName: schoolName?.data?.account?.name,
+                    schoolYears: userInfo.data.schoolYears,
+                    date: userInfo.data.dateOfBirth,
+                    name: userInfo.data.account.name,
+                    phone: userInfo.data.account.phone,
+                    avatar: info?.userInfo?.avatar || "default-avatar-url",
+                  },
+                })
+              }
+            >
+              Xem thông tin
+            </Text>
+          </div>
+        </Box>
+        <Box
+          style={{
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+            backgroundImage:
+              "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-3bjkd32XySUSA_7HFCvui8pjysieOdWfUA&s)",
+            gap: "80px",
+            backgroundColor: "white",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            borderBottom: "1px solid #ddd",
+            marginTop: "10px",
+          }}
+        >
+          <Box
+            style={{
+              display: "flex",
+              backgroundColor: "white",
+              borderRadius: "20px",
+              marginLeft: "30px",
+              padding: "10px",
+              boxShadow: "inset -2px 2px 4px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <Text bold size="large" style={{ color: "#FFCC00" }}>
+              {userInfo.data.account.wallet.goldBalance}
+            </Text>
+            <FontAwesomeIcon
+              icon={faCoins}
+              size="xl"
+              style={{
+                marginRight: "10px",
+                color: "#FFD700",
+                marginLeft: "15px",
+              }}
+            />
+          </Box>
+          <Button
+            style={{ backgroundColor: "#FF6600", color: "white" }}
+            onClick={() => {
+              setVisible(true);
+            }}
+            // onClick={() =>
+            //   (window.location.href = "https://vga-payment.vercel.app")
+            // }
+          >
+            Nạp điểm
+          </Button>
+        </Box>
+
+        {/* <div style={{ overflowY: "auto", maxHeight: "300px" }}>
           {loadingTransactions ? ( // Show loading spinner or message
             <div style={{ textAlign: "center", padding: "20px" }}>
               <Spinner size="large" color="primary" />
@@ -257,7 +264,7 @@ const UserPage = ({ studentId, accountId, info }) => {
             ))
           )}
         </div> */}
-      {/* <Box
+        {/* <Box
         style={{
           padding: "10px",
           backgroundColor: "white",
@@ -359,46 +366,46 @@ const UserPage = ({ studentId, accountId, info }) => {
           style={{ color: "grey", fontSize: "30px" }}
         />
       </Box> */}
-      <Box style={{ backgroundColor: "white", marginTop: "10px" }}>
-        <List>
-          <Item
-            style={{ marginBottom: "0px" }}
-            title="Lịch sử giao dịch"
-            prefix={<Icon icon="zi-poll" style={{ color: "orange" }} />}
-            suffix={<Icon icon="zi-chevron-right" />}
-            onClick={() => navigate("/transaction")}
-          />
-          <Item
-            style={{ marginBottom: "0px" }}
-            title="Lịch sử đã đặt tư vấn"
-            prefix={<Icon icon="zi-calendar" style={{ color: "green" }} />}
-            suffix={<Icon icon="zi-chevron-right" />}
-            onClick={() => navigate("/expert")}
-          />
-          <Item
-            style={{ marginBottom: "0px" }}
-            title="Tính cách cá nhân"
-            prefix={<Icon icon="zi-stranger" style={{ color: "blue" }} />}
-            suffix={<Icon icon="zi-chevron-right" />}
-            onClick={() => navigate("/personal")}
-          />
-          <Item
-            style={{ marginBottom: "0px" }}
-            title="Ngành học quan tâm"
-            prefix={<Icon icon="zi-heart" style={{ color: "red" }} />}
-            suffix={<Icon icon="zi-chevron-right" />}
-            onClick={() => navigate("/majorCare")}
-          />
-          <Item
-            title="Nghề nghiệp quan tâm"
-            prefix={<Icon icon="zi-star" style={{ color: "darkmagenta" }} />}
-            suffix={<Icon icon="zi-chevron-right" />}
-            onClick={() => navigate("/occupationCare")}
-          />
-        </List>
-      </Box>
+        <Box style={{ backgroundColor: "white", marginTop: "10px" }}>
+          <List>
+            <Item
+              style={{ marginBottom: "0px" }}
+              title="Lịch sử giao dịch"
+              prefix={<Icon icon="zi-poll" style={{ color: "orange" }} />}
+              suffix={<Icon icon="zi-chevron-right" />}
+              onClick={() => navigate("/transaction")}
+            />
+            <Item
+              style={{ marginBottom: "0px" }}
+              title="Lịch sử đã đặt tư vấn"
+              prefix={<Icon icon="zi-calendar" style={{ color: "green" }} />}
+              suffix={<Icon icon="zi-chevron-right" />}
+              onClick={() => navigate("/expert")}
+            />
+            <Item
+              style={{ marginBottom: "0px" }}
+              title="Tính cách cá nhân"
+              prefix={<Icon icon="zi-stranger" style={{ color: "blue" }} />}
+              suffix={<Icon icon="zi-chevron-right" />}
+              onClick={() => navigate("/personal")}
+            />
+            <Item
+              style={{ marginBottom: "0px" }}
+              title="Ngành học quan tâm"
+              prefix={<Icon icon="zi-heart" style={{ color: "red" }} />}
+              suffix={<Icon icon="zi-chevron-right" />}
+              onClick={() => navigate("/majorCare")}
+            />
+            <Item
+              title="Nghề nghiệp quan tâm"
+              prefix={<Icon icon="zi-star" style={{ color: "darkmagenta" }} />}
+              suffix={<Icon icon="zi-chevron-right" />}
+              onClick={() => navigate("/occupationCare")}
+            />
+          </List>
+        </Box>
 
-      {/* <Box
+        {/* <Box
         style={{
           display: "flex",
           alignItems: "center",
@@ -462,7 +469,8 @@ const UserPage = ({ studentId, accountId, info }) => {
         <Text bold>Năm học: </Text>
         <Text style={{ marginLeft: "5px" }}>{userInfo.data.schoolYears}</Text>
       </Box> */}
-    </Page>
+      </Page>
+    </>
   );
 };
 

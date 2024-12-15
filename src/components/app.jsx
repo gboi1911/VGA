@@ -139,39 +139,35 @@ const MyApp = () => {
     fetchLogin();
   }, [userInfo, phone]); // Add dependencies
 
-  // useEffect(() => {
-  //   const connection = new signalR.HubConnectionBuilder()
-  //     .withUrl(
-  //       `http://14.225.253.85:8080/notification_hub`,
-  //       {
-  //         accessTokenFactory: () => token,
-  //       }
-  //     )
-  //     .withAutomaticReconnect()
-  //     .build();
+  useEffect(() => {
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl(`https://vgacareerguidance.id.vn/notification_hub`, {
+        accessTokenFactory: () => token,
+      })
+      .withAutomaticReconnect()
+      .build();
 
-  //   connection
-  //     .start()
-  //     .then(() => {
-  //       setStatus("Connected to SignalR");
-  //       console.log("Connected to SignalR hub.");
+    connection
+      .start()
+      .then(() => {
+        setStatus("Connected to SignalR");
+        console.log("Connected to SignalR hub.");
 
-  //       connection.on("ReceiveNotification", (message) => {
-  //         console.log("Received notification:", message);
-  //         setMessages((prevMessages) => [...prevMessages, message]);
-  //         setHasNewNotification(true);
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       setStatus(`Connection failed: ${err}`);
-  //       console.error(err);
-  //     });
+        connection.on("ReceiveNotification", (message) => {
+          console.log("Received notification:", message);
+          setMessages((prevMessages) => [...prevMessages, message]);
+          setHasNewNotification(true);
+        });
+      })
+      .catch((err) => {
+        setStatus(`Connection failed: ${err}`);
+        console.error(err);
+      });
 
-  //   return () => {
-  //     connection.stop();
-  //   };
-  // }, [token]);
-
+    return () => {
+      connection.stop();
+    };
+  }, [token]);
 
   console.log("userid", userid);
   console.log("role", role);
@@ -182,167 +178,144 @@ const MyApp = () => {
         <SnackbarProvider>
           <ZMPRouter>
             {/* <HeaderBar /> */}
-            <Suspense fallback={<LoadingPage />}>
+            <Routes>
+              {role === 2 ? (
+                <>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/news" element={<News />} />
+                  <Route
+                    path="/notification"
+                    element={<Notification accountId={accountid} role={role} />}
+                  />
+                  <Route path="/newsdetail/:id" element={<NewDetail />} />
+                  <Route
+                    path="/expert"
+                    element={<ExpertPage studentId={userid} />}
+                  />
+                  <Route path="/allexpert/:id" element={<AllExpert />} />
+                  <Route
+                    path="/expertDetail/:id"
+                    element={<ExpertDetailPage studentId={userid} />}
+                  />
+                  <Route
+                    path="/user"
+                    element={
+                      <User
+                        studentId={userid}
+                        accountId={accountid}
+                        info={userInfo}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/transaction"
+                    element={<Transaction accountId={accountid} />}
+                  />
+                  <Route path="/test" element={<TestPage />} />
+                  <Route
+                    path="/testExecute"
+                    element={
+                      <TestExecute studentId={userid} accountId={accountid} />
+                    }
+                  />
+                  <Route path="/testResult" element={<TestResult />} />
+                  <Route path="/explore" element={<Explore />} />
+                  <Route
+                    path="/mbtiTest"
+                    element={<MBTITest studentId={userid} />}
+                  />
+                  <Route path="/mbtiList" element={<MBTI />} />
+                  <Route path="/hollandList" element={<Holland />} />
+                  <Route
+                    path="/hollandTest"
+                    element={<HollandTest studentId={userid} />}
+                  />
+                  <Route path="/major" element={<Major />} />
+                  <Route path="/major/:id" element={<Majorbycategory />} />
+                  <Route
+                    path="/majorCare"
+                    element={<MajorCareList studentId={userid} />}
+                  />
+                  <Route
+                    path="/occupationCare"
+                    element={<OccupationCareList studentId={userid} />}
+                  />
+                  <Route
+                    path="/majorDetail/:id"
+                    element={<MajorDetail studentId={userid} />}
+                  />
+                  <Route path="/occupation" element={<Occupation />} />
+                  <Route
+                    path="/occupation/:id"
+                    element={<Occupationbygroup />}
+                  />
+                  <Route path="/university" element={<University />} />
+                  <Route
+                    path="/universityDetail/:id"
+                    element={<UniversityDetail />}
+                  />
+                  <Route path="/personal" element={<Personal />} />
+                  <Route
+                    path="/personalOccupation"
+                    element={<PersonalOccupation studentId={userid} />}
+                  />
+                  <Route
+                    path="/personality"
+                    element={<Personality studentId={userid} />}
+                  />
+                  <Route path="/userInfo" element={<UserInfo />} />
+                  <Route
+                    path="/testExecuteHolland"
+                    element={
+                      <TestExecuteHolland
+                        studentId={userid}
+                        accountId={accountid}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/ratingMajor"
+                    element={<RatingMajor studentId={userid} />}
+                  />
+                  <Route
+                    path="/filterMajorUniversity"
+                    element={<FilterMajorUniversity />}
+                  />
+                  <Route
+                    path="/testResultHolland"
+                    element={<TestResultHolland />}
+                  />
+                  <Route
+                    path="/occupationDetail/:id"
+                    element={<OccupationDetail studentId={userid} />}
+                  />
+                </>
+              ) : role === 4 ? (
+                <>
+                  <Route path="/" element={<News />} />
 
-              <Routes>
-                {role === 2 ? (
-                  <>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/news" element={<News />} />
-                    <Route
-                      path="/notification"
-                      element={<Notification accountId={accountid} role={role} />}
-                    />
-                    <Route path="/newsdetail/:id" element={<NewDetail />} />
-                    <Route
-                      path="/expert"
-                      element={<ExpertPage studentId={userid} />}
-                    />
-                    <Route path="/allexpert/:id" element={<AllExpert />} />
-                    <Route
-                      path="/expertDetail/:id"
-                      element={<ExpertDetailPage studentId={userid} />}
-                    />
-                    <Route
-                      path="/user"
-                      element={
-                        <User
-                          studentId={userid}
-                          accountId={accountid}
-                          info={userInfo}
-                        />
-                      }
-                    />
-                    <Route
-                      path="/transaction"
-                      element={<Transaction accountId={accountid} />}
-                    />
-                    <Route path="/test" element={<TestPage />} />
-                    <Route
-                      path="/testExecute"
-                      element={
-                        <TestExecute studentId={userid} accountId={accountid} />
-                      }
-                    />
-                    <Route path="/testResult" element={<TestResult />} />
-                    <Route path="/explore" element={<Explore />} />
-                    <Route
-                      path="/mbtiTest"
-                      element={<MBTITest studentId={userid} />}
-                    />
-                    <Route path="/mbtiList" element={<MBTI />} />
-                    <Route path="/hollandList" element={<Holland />} />
-                    <Route
-                      path="/hollandTest"
-                      element={<HollandTest studentId={userid} />}
-                    />
-                    <Route path="/major" element={<Major />} />
-                    <Route path="/major/:id" element={<Majorbycategory />} />
-                    <Route
-                      path="/majorCare"
-                      element={<MajorCareList studentId={userid} />}
-                    />
-                    <Route
-                      path="/occupationCare"
-                      element={<OccupationCareList studentId={userid} />}
-                    />
-                    <Route
-                      path="/majorDetail/:id"
-                      element={<MajorDetail studentId={userid} />}
-                    />
-                    <Route
-                      path="/occupation"
-                      element={
-                        <Suspense fallback={<LoadingPage />}>
-                          <Occupation />
-                        </Suspense>
-                      } />
-                    <Route
-                      path="/occupation/:id"
-                      element={<Occupationbygroup />}
-                    />
-                    <Route
-                      path="/university"
-                      element={
-                        <Suspense fallback={<LoadingPage />}>
-                          <University />
-                        </Suspense>
-                      } />
-                    <Route
-                      path="/universityDetail/:id"
-                      element={<UniversityDetail />}
-                    />
-                    <Route path="/personal" element={<Personal />} />
-                    <Route
-                      path="/personalOccupation"
-                      element={<PersonalOccupation studentId={userid} />}
-                    />
-                    <Route
-                      path="/personality"
-                      element={<Personality studentId={userid} />}
-                    />
-                    <Route path="/userInfo" element={<UserInfo />} />
-                    <Route
-                      path="/testExecuteHolland"
-                      element={
-                        <TestExecuteHolland
-                          studentId={userid}
-                          accountId={accountid}
-                        />
-                      }
-                    />
-                    <Route path="/ratingMajor" element={<RatingMajor />} />
-                    <Route
-                      path="/filterMajorUniversity"
-                      element={<FilterMajorUniversity />}
-                    />
-                    <Route
-                      path="/testResultHolland"
-                      element={<TestResultHolland />}
-                    />
-                    <Route
-                      path="/occupationDetail/:id"
-                      element={<OccupationDetail studentId={userid} />}
-                    />
-                  </>
-                ) : role === 4 ? (
-                  <>
-                    <Route path="/" element={<News />} />
-                    <Route
-                      path="/consultantScheldule"
-                      element={<ConsultantSchedulePage userid={userid} />}
-                    />
-                    <Route path="/userInfoConst" element={<UserInfoConst />} />
-                    <Route
-                      path="/transaction"
-                      element={<Transaction accountId={accountid} />}
-                    />
-                    {/* <Route path="/consultantpage/:id" element={<ConsultantPage consultantId={userid} accountId={accountid} />} /> */}
-                    <Route path="/major" element={<Major />} />
-                    <Route path="/major/:id" element={<Majorbycategory />} />
-                    <Route path="/majorDetail/:id" element={<MajorDetail />} />
-                    <Route path="/occupation" element={<Occupation />} />
-                    <Route
-                      path="/notification"
-                      element={<Notification accountId={accountid} role={role} />}
-                    />
-                    <Route
-                      path="/occupation/:id"
-                      element={<Occupationbygroup />}
-                    />
-                    <Route
-                      path="/consultantpage"
-                      element={
-                        <ConsultantPage
-                          consultantId={userid}
-                          accountId={accountid}
-                        />
-                      }
-                    />
-                    <Route path="/news" element={<News />} />
-                    <Route path="/newsdetail/:id" element={<NewDetail />} />
-                  </>
-                ) : (
+                  <Route
+                    path="/consultantScheldule"
+                    element={<ConsultantSchedulePage userid={userid} />}
+                  />
+                  <Route path="/userInfoConst" element={<UserInfoConst />} />
+                  <Route
+                    path="/transaction"
+                    element={<Transaction accountId={accountid} />}
+                  />
+                  {/* <Route path="/consultantpage/:id" element={<ConsultantPage consultantId={userid} accountId={accountid} />} /> */}
+                  <Route path="/major" element={<Major />} />
+                  <Route path="/major/:id" element={<Majorbycategory />} />
+                  <Route path="/majorDetail/:id" element={<MajorDetail />} />
+                  <Route path="/occupation" element={<Occupation />} />
+                  <Route
+                    path="/notification"
+                    element={<Notification accountId={accountid} role={role} />}
+                  />
+                  <Route
+                    path="/occupation/:id"
+                    element={<Occupationbygroup />}
+                  />
                   <Route
                     path="/consultantpage"
                     element={
@@ -351,10 +324,22 @@ const MyApp = () => {
                         accountId={accountid}
                       />
                     }
-                  /> // Đường dẫn mặc định nếu role không hợp lệ
-                )}
-              </Routes>
-            </Suspense>
+                  />
+                  <Route path="/news" element={<News />} />
+                  <Route path="/newsdetail/:id" element={<NewDetail />} />
+                </>
+              ) : (
+                <Route
+                  path="/consultantpage"
+                  element={
+                    <ConsultantPage
+                      consultantId={userid}
+                      accountId={accountid}
+                    />
+                  }
+                /> // Đường dẫn mặc định nếu role không hợp lệ
+              )}
+            </Routes>
             {role === 4 ? (
               <>
                 <CustomBottomNavigation

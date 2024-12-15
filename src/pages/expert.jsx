@@ -52,17 +52,25 @@ const ExpertPage = ({ studentId }) => {
   };
 
   return (
-    <Page className="page w-full" style={{ marginTop: "40px" }}>
-      <Header title="Lịch sử đã đặt tư vấn" />
-      {bookings && bookings.length > 0 ? (
-        <Box
-          style={{
-            backgroundColor: "#FFFFFF",
-            padding: "10px",
-            borderRadius: "8px",
-          }}
-        >
-          {/* <Box className="mb-6">
+    <>
+      <Box
+        style={{
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
+        }}
+      ></Box>
+      <Page className="page w-full">
+        <Header title="Lịch sử đã đặt tư vấn" />
+        {bookings && bookings.length > 0 ? (
+          <Box
+            style={{
+              backgroundColor: "#FFFFFF",
+              padding: "10px",
+              borderRadius: "8px",
+            }}
+          >
+            {/* <Box className="mb-6">
           <Text
             bold
             className="text-center mb-8 mt-4"
@@ -74,29 +82,29 @@ const ExpertPage = ({ studentId }) => {
             Tư vấn
           </Text>
         </Box> */}
-          <Box
-            style={{
-              padding: "10px",
-              borderRadius: "8px",
-            }}
-          >
-            <Box mb={10} className="p-4 bg-white rounded-lg shadow-md">
-              {bookings.map((booking, index) => (
-                <BookingCard
-                  key={index}
-                  consultantName={booking.consultantName}
-                  startTime={booking.startTime}
-                  endTime={booking.endTime}
-                  consultationDay={booking.consultationDay}
-                  status={booking.status}
-                  dayId={booking.consultationTimeId}
-                  id={booking.id}
-                  onImageChange={(e) => handleImageChange(1, e)}
-                />
-              ))}
-            </Box>
-            {/* <Tabs defaultActiveKey={initialTab}> */}
-            {/* <Tabs.Tab key="consultant" label="Tư vấn viên">
+            <Box
+              style={{
+                padding: "10px",
+                borderRadius: "8px",
+              }}
+            >
+              <Box mb={10} className="p-4 bg-white rounded-lg shadow-md">
+                {bookings.map((booking, index) => (
+                  <BookingCard
+                    key={index}
+                    consultantName={booking.consultantName}
+                    startTime={booking.startTime}
+                    endTime={booking.endTime}
+                    consultationDay={booking.consultationDay}
+                    status={booking.status}
+                    dayId={booking.consultationTimeId}
+                    id={booking.id}
+                    onImageChange={(e) => handleImageChange(1, e)}
+                  />
+                ))}
+              </Box>
+              {/* <Tabs defaultActiveKey={initialTab}> */}
+              {/* <Tabs.Tab key="consultant" label="Tư vấn viên">
               <Input.Search
                 label="Label"
                 placeholder="Tư vấn viên bạn muốn tìm?"
@@ -115,7 +123,7 @@ const ExpertPage = ({ studentId }) => {
                 )}
               </Box>
             </Tabs.Tab> */}
-            {/* <Tabs.Tab key="history" label="Lịch sử đặt lịch">
+              {/* <Tabs.Tab key="history" label="Lịch sử đặt lịch">
               <Box mb={10} className="p-4 bg-white rounded-lg shadow-md">
                 {bookings.map((booking) => (
                   <BookingCard
@@ -130,15 +138,16 @@ const ExpertPage = ({ studentId }) => {
                 ))}
               </Box>
             </Tabs.Tab> */}
-            {/* </Tabs> */}
+              {/* </Tabs> */}
+            </Box>
           </Box>
-        </Box>
-      ) : (
-        <Text style={{ textAlign: "center", marginTop: "20px" }}>
-          Hiện chưa có lịch đã đặt
-        </Text>
-      )}
-    </Page>
+        ) : (
+          <Text style={{ textAlign: "center", marginTop: "20px" }}>
+            Hiện chưa có lịch đã đặt
+          </Text>
+        )}
+      </Page>
+    </>
   );
 };
 

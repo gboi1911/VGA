@@ -89,60 +89,69 @@ const University = () => {
     //     ))}
     //   </Box>
     // </Page>
-    <Page className="page" style={{ marginTop: "40px" }}>
-      <Header title="Đại học" />
+    <>
       <Box
         style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "16px",
-          padding: "16px",
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
         }}
-      >
-        {universities.map((university) => (
-          <Link
-            to={`/universityDetail/${university.id}`}
-            key={university.id}
-            style={{ textDecoration: "none" }}
-          >
-            <Box
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                borderRadius: "8px",
-                overflow: "hidden",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-              }}
+      ></Box>
+      <Page className="page">
+        <Header title="Đại học" />
+        <Box
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "16px",
+            padding: "16px",
+          }}
+        >
+          {universities.map((university) => (
+            <Link
+              to={`/universityDetail/${university.id}`}
+              key={university.id}
+              style={{ textDecoration: "none" }}
             >
-              <img
-                src={
-                  university.account.image_Url ||
-                  "https://img.freepik.com/free-photo/harvard-university-cambridge-usa_1268-14363.jpg?t=st=1730792592~exp=1730796192~hmac=42fcd53feeadc8ec715f921aebe589e40f358baeba4d390d8c58c98ee8735fcd&w=1060"
-                }
-                alt="hello"
+              <Box
                 style={{
-                  width: "100%",
-                  height: "150px",
-                  objectFit: "cover",
-                }}
-              />
-              <Text
-                style={{
-                  padding: "10px",
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  height: "50px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                 }}
               >
-                {university.account.name}
-              </Text>
-            </Box>
-          </Link>
-        ))}
-      </Box>
-    </Page>
+                <img
+                  src={
+                    university.account.image_Url ||
+                    "https://img.freepik.com/free-photo/harvard-university-cambridge-usa_1268-14363.jpg?t=st=1730792592~exp=1730796192~hmac=42fcd53feeadc8ec715f921aebe589e40f358baeba4d390d8c58c98ee8735fcd&w=1060"
+                  }
+                  alt="hello"
+                  style={{
+                    width: "100%",
+                    height: "150px",
+                    objectFit: "cover",
+                  }}
+                />
+                <Text
+                  style={{
+                    padding: "10px",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    height: "50px",
+                  }}
+                >
+                  {university.account.name}
+                </Text>
+              </Box>
+            </Link>
+          ))}
+        </Box>
+      </Page>
+    </>
   );
 };
 

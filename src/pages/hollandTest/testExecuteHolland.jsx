@@ -126,29 +126,36 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
   }
 
   return (
-    <Page
-      className="page bg-theme-image3"
-      style={{
-        position: "relative",
-        fontFamily: "Arial, sans-serif",
-        marginTop: "40px",
-      }}
-    >
-      <Box>
-        <img
-          src="https://www.premiumschools.org/wp-content/uploads/2021/09/Happiest-Careers-That-Pay-Well-Divider.png"
-          alt="image"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            animation: "zoomInOut 8s infinite",
-          }}
-          role="presentation"
-        />
-      </Box>
-      <style>
-        {`
+    <>
+      <Box
+        style={{
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
+        }}
+      ></Box>
+      <Page
+        className="page"
+        style={{
+          position: "relative",
+          fontFamily: "Arial, sans-serif",
+        }}
+      >
+        <Box>
+          <img
+            src="https://www.premiumschools.org/wp-content/uploads/2021/09/Happiest-Careers-That-Pay-Well-Divider.png"
+            alt="image"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              animation: "zoomInOut 8s infinite",
+            }}
+            role="presentation"
+          />
+        </Box>
+        <style>
+          {`
   @keyframes zoomInOut {
     0% {
       transform: scale(0.9); /* Thu nhỏ */
@@ -169,124 +176,128 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
   100% { transform: translateX(0); }
 }
   `}
-      </style>
-      <Box
-        style={{
-          marginTop: "12px",
-          maxWidth: "95%",
-          marginLeft: "10px",
-        }}
-      >
-        <Progress completed={progress} maxCompleted={100} />
-      </Box>
-      <Box
-        style={{
-          padding: "20px",
-          backgroundColor: "rgba(255, 255, 255, 0.9)",
-          borderRadius: "10px",
-          maxWidth: "600px",
-          textAlign: "center",
-          height: "180px",
-          border: `2px solid ${vibrateEffect ? "#e53e3e" : "#2b6cb0"}`,
-          animation: vibrateEffect ? "shake 0.5s" : "none",
-        }}
-      >
+        </style>
+        <Box
+          style={{
+            marginTop: "12px",
+            maxWidth: "95%",
+            marginLeft: "10px",
+          }}
+        >
+          <Progress completed={progress} maxCompleted={100} />
+        </Box>
+        <Box
+          style={{
+            padding: "20px",
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "10px",
+            maxWidth: "600px",
+            textAlign: "center",
+            height: "180px",
+            border: `2px solid ${vibrateEffect ? "#e53e3e" : "#2b6cb0"}`,
+            animation: vibrateEffect ? "shake 0.5s" : "none",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "12px",
+            }}
+          >
+            <Icon
+              icon="zi-chevron-left"
+              style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
+              onClick={handleBack}
+            />
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: "18px",
+                color: "#2c5282",
+                marginLeft: "10px",
+                marginRight: "10px",
+              }}
+            >
+              Câu hỏi: {currentQuestionIndex + 1} trên {questions.length}
+            </Text>
+            <Icon
+              icon="zi-chevron-right"
+              style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
+              onClick={handleNextClick}
+            />
+          </div>
+          <Text
+            style={{
+              border: "2px solid #0066cc",
+              padding: "15px",
+              borderRadius: "8px",
+              backgroundColor: "#f2f2f2",
+              color: "#333",
+              fontSize: "1.1em",
+              height: "110px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            {currentQuestion.content}
+          </Text>
+        </Box>
+
+        {/* Nút Dung và Sai */}
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "12px",
-          }}
-        >
-          <Icon
-            icon="zi-chevron-left"
-            style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
-            onClick={handleBack}
-          />
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: "18px",
-              color: "#2c5282",
-              marginLeft: "10px",
-              marginRight: "10px",
-            }}
-          >
-            Câu hỏi: {currentQuestionIndex + 1} trên {questions.length}
-          </Text>
-          <Icon
-            icon="zi-chevron-right"
-            style={{ color: "#003399", fontSize: "23px", fontWeight: "bold" }}
-            onClick={handleNextClick}
-          />
-        </div>
-        <Text
-          style={{
-            border: "2px solid #0066cc",
-            padding: "15px",
-            borderRadius: "8px",
-            backgroundColor: "#f2f2f2",
-            color: "#333",
-            fontSize: "1.1em",
-            height: "110px",
-            display: "flex",
             justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
+            gap: "20px", // Gần nhau hơn
+            marginTop: "20px",
           }}
         >
-          {currentQuestion.content}
-        </Text>
-      </Box>
+          <Button
+            style={{
+              backgroundColor:
+                selectedAnswer[currentQuestion.id] === "yes"
+                  ? "#4CAF50"
+                  : "grey",
+              color: "#fff",
+              borderRadius: "10px",
+              padding: "40px 60px", // Nút lớn hơn
+              fontSize: "1.2em",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              display: "flex", // Đảm bảo dùng flexbox
+              justifyContent: "center", // Căn giữa theo chiều ngang
+              alignItems: "center", // Căn giữa theo chiều dọc
+            }}
+            onClick={() => handleSelectAnswer("yes")}
+          >
+            Đúng
+          </Button>
 
-      {/* Nút Dung và Sai */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "20px", // Gần nhau hơn
-          marginTop: "20px",
-        }}
-      >
-        <Button
-          style={{
-            backgroundColor:
-              selectedAnswer[currentQuestion.id] === "yes" ? "#4CAF50" : "grey",
-            color: "#fff",
-            borderRadius: "10px",
-            padding: "40px 60px", // Nút lớn hơn
-            fontSize: "1.2em",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            display: "flex", // Đảm bảo dùng flexbox
-            justifyContent: "center", // Căn giữa theo chiều ngang
-            alignItems: "center", // Căn giữa theo chiều dọc
-          }}
-          onClick={() => handleSelectAnswer("yes")}
-        >
-          Đúng
-        </Button>
+          <Button
+            style={{
+              backgroundColor:
+                selectedAnswer[currentQuestion.id] === "no"
+                  ? "#dc3545"
+                  : "grey",
+              color: "#fff",
+              borderRadius: "10px",
+              padding: "40px 70px", // Nút lớn hơn
+              fontSize: "1.2em",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              display: "flex", // Đảm bảo dùng flexbox
+              justifyContent: "center", // Căn giữa theo chiều ngang
+              alignItems: "center",
+            }}
+            onClick={() => handleSelectAnswer("no")}
+          >
+            Sai
+          </Button>
+        </div>
 
-        <Button
-          style={{
-            backgroundColor:
-              selectedAnswer[currentQuestion.id] === "no" ? "#dc3545" : "grey",
-            color: "#fff",
-            borderRadius: "10px",
-            padding: "40px 70px", // Nút lớn hơn
-            fontSize: "1.2em",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            display: "flex", // Đảm bảo dùng flexbox
-            justifyContent: "center", // Căn giữa theo chiều ngang
-            alignItems: "center",
-          }}
-          onClick={() => handleSelectAnswer("no")}
-        >
-          Sai
-        </Button>
-      </div>
-
-      {/* <div
+        {/* <div
         style={{
           display: "flex",
           justifyContent: "center",
@@ -329,29 +340,30 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
         </Button>
       </div> */}
 
-      {testCompleted && (
-        <div
-          style={{
-            textAlign: "center",
-            marginTop: "10px",
-          }}
-        >
-          <Button
+        {testCompleted && (
+          <div
             style={{
-              backgroundColor: "#0066CC",
-              color: "#fff",
-              borderRadius: "10px",
-              padding: "12px 126px",
-              fontSize: "1.2em",
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              textAlign: "center",
+              marginTop: "10px",
             }}
-            onClick={handleFinish}
           >
-            Hoàn thành
-          </Button>
-        </div>
-      )}
-    </Page>
+            <Button
+              style={{
+                backgroundColor: "#0066CC",
+                color: "#fff",
+                borderRadius: "10px",
+                padding: "12px 126px",
+                fontSize: "1.2em",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              }}
+              onClick={handleFinish}
+            >
+              Hoàn thành
+            </Button>
+          </div>
+        )}
+      </Page>
+    </>
   );
 };
 

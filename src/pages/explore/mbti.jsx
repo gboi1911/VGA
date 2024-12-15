@@ -80,17 +80,18 @@ const MBTITest = ({ studentId }) => {
     console.log("User clicked No");
   }, []);
   return (
-    <Page
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        marginTop: "150px",
-        marginBottom: "40px",
-      }}
-    >
-      <Header title="MBTI" />
-      <Box style={{ width: "70%" }}>
-        {/* <img
+    <>
+      <Box
+        style={{
+          position: "relative",
+          height: "42px",
+          backgroundColor: "#0369a1",
+        }}
+      ></Box>
+      <Page>
+        <Header title="MBTI" />
+        <Box style={{ marginTop: 20 }}>
+          {/* <img
           src="https://png.pngtree.com/element_our/20200702/ourmid/pngtree-cartoon-illustration-blue-light-bulb-image_2284830.jpg"
           alt="image"
           style={{
@@ -101,112 +102,113 @@ const MBTITest = ({ studentId }) => {
           }}
           role="presentation"
         /> */}
-        <TipsAndUpdatesIcon
-          style={{
-            width: "100%",
-            height: "200px",
-            objectFit: "cover",
-            borderRadius: "8px",
-            color: "#0066CC",
-            marginLeft: "20px",
-          }}
-        />
-        <div className="p-4">
-          <Text bold style={{ textAlign: "center", fontSize: "26px" }}>
-            Bài kiểm tra MBTI
-          </Text>
-          <Text
-            className="text-gray-600 mt-4 mb-6"
-            style={{ textAlign: "center" }}
-          >
-            Bài kiểm tra tính cách Myers-Briggs Type Indicator (MBTI) là một
-            công cụ đánh giá tâm lý, dựa trên lý thuyết phân loại của Carl
-            Gustav Jung, được phát triển bởi Isabel Briggs Myers và mẹ bà,
-            Katharine Cook Briggs. Bài kiểm tra này phân loại tính cách con
-            người thành 16 nhóm.
-          </Text>
-          <Button
-            fullWidth
-            onClick={() => handleStartTest("mbti")}
+          <TipsAndUpdatesIcon
             style={{
-              backgroundColor: "#0066CC",
+              width: "100%",
+              height: "200px",
+              objectFit: "cover",
+              borderRadius: "8px",
+              color: "#0066CC",
+              marginLeft: "20px",
             }}
-          >
-            Bắt đầu
-          </Button>
-        </div>
-      </Box>
-      <Modal
-        visible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        title="Thông báo"
-      >
-        <div className="p-4">
-          <Text
-            className="text-lg"
-            style={{
-              textAlign: "center",
-            }}
-          >
-            Thực hiện bài kiểm tra này sẽ tốn {point} điểm. Bạn đã sẵn sàng ?
-          </Text>
-          <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
-            <Button className="mr-2" type="danger" onClick={handleNo}>
-              Hủy
-            </Button>
+          />
+          <div className="p-4">
+            <Text bold style={{ textAlign: "center", fontSize: "26px" }}>
+              Bài kiểm tra MBTI
+            </Text>
+            <Text
+              className="text-gray-600 mt-4 mb-6"
+              style={{ textAlign: "center" }}
+            >
+              Bài kiểm tra tính cách Myers-Briggs Type Indicator (MBTI) là một
+              công cụ đánh giá tâm lý, dựa trên lý thuyết phân loại của Carl
+              Gustav Jung, được phát triển bởi Isabel Briggs Myers và mẹ bà,
+              Katharine Cook Briggs. Bài kiểm tra này phân loại tính cách con
+              người thành 16 nhóm.
+            </Text>
             <Button
-              className="mr-2"
-              type="primary"
-              onClick={handleYes}
+              fullWidth
+              onClick={() => handleStartTest("mbti")}
               style={{
                 backgroundColor: "#0066CC",
               }}
             >
-              Đồng ý
+              Bắt đầu
             </Button>
           </div>
-        </div>
-      </Modal>
-      <Modal
-        visible={isBalanceModalVisible}
-        onClose={() => setIsBalanceModalVisible(false)}
-        title="Thông báo"
-      >
-        <div className="p-4">
-          <Text
-            className="text-lg"
-            style={{
-              textAlign: "center",
-            }}
-          >
-            Số dư không đủ để thực hiện bài kiểm tra này. Vui lòng nạp thêm
-            điểm.
-          </Text>
-          <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
-            <Button
-              className="mr-2"
-              type="primary"
-              onClick={() => navigate("/user")}
+        </Box>
+        <Modal
+          visible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          title="Thông báo"
+        >
+          <div className="p-4">
+            <Text
+              className="text-lg"
               style={{
-                backgroundColor: "#f26d0f",
+                textAlign: "center",
               }}
             >
-              Nạp ngay
-            </Button>
-            <Button
-              className="mr-2"
-              type="primary"
-              onClick={() => setIsBalanceModalVisible(false)}
-              style={{
-                backgroundColor: "#0066CC",
-              }}
-            >
-              Đóng
-            </Button>
+              Thực hiện bài kiểm tra này sẽ tốn {point} điểm. Bạn đã sẵn sàng ?
+            </Text>
+            <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
+              <Button className="mr-2" type="danger" onClick={handleNo}>
+                Hủy
+              </Button>
+              <Button
+                className="mr-2"
+                type="primary"
+                onClick={handleYes}
+                style={{
+                  backgroundColor: "#0066CC",
+                }}
+              >
+                Đồng ý
+              </Button>
+            </div>
           </div>
-        </div>
-      </Modal>
-    </Page>
+        </Modal>
+        <Modal
+          visible={isBalanceModalVisible}
+          onClose={() => setIsBalanceModalVisible(false)}
+          title="Thông báo"
+        >
+          <div className="p-4">
+            <Text
+              className="text-lg"
+              style={{
+                textAlign: "center",
+              }}
+            >
+              Số dư không đủ để thực hiện bài kiểm tra này. Vui lòng nạp thêm
+              điểm.
+            </Text>
+            <div className="flex justify-end mt-4" style={{ gap: "10px" }}>
+              <Button
+                className="mr-2"
+                type="primary"
+                onClick={() => navigate("/user")}
+                style={{
+                  backgroundColor: "#f26d0f",
+                }}
+              >
+                Nạp ngay
+              </Button>
+              <Button
+                className="mr-2"
+                type="primary"
+                onClick={() => setIsBalanceModalVisible(false)}
+                style={{
+                  backgroundColor: "#0066CC",
+                }}
+              >
+                Đóng
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      </Page>
+    </>
   );
 };
 
