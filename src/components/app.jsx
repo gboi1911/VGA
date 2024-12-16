@@ -117,8 +117,8 @@ const MyApp = () => {
           // zaloId: userInfo.userInfo.id,
           // phone: phone,
           // image_Url: userInfo.userInfo.avatar,
-          zaloId: "12345",
-          phone: "84347707045",
+          zaloId: "string",
+          phone: "84918107843",
           image_Url: "string",
         });
         console.log(resposneLogin);
@@ -224,8 +224,14 @@ const MyApp = () => {
                     path="/mbtiTest"
                     element={<MBTITest studentId={userid} />}
                   />
-                  <Route path="/mbtiList" element={<MBTI />} />
-                  <Route path="/hollandList" element={<Holland />} />
+                  <Route
+                    path="/mbtiList"
+                    element={<MBTI studentId={userid} />}
+                  />
+                  <Route
+                    path="/hollandList"
+                    element={<Holland studentId={userid} />}
+                  />
                   <Route
                     path="/hollandTest"
                     element={<HollandTest studentId={userid} />}

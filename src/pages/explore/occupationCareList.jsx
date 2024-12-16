@@ -31,7 +31,10 @@ const OccupationCareList = ({ studentId }) => {
         }}
       ></Box>
       <Page className="page">
-        <Header title="Danh sách nghề nghiệp quan tâm" />
+        <Header
+          title="Danh sách nghề nghiệp quan tâm"
+          style={{ textAlign: "start" }}
+        />
         <div
           style={{
             display: "flex",

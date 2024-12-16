@@ -32,6 +32,9 @@ export default function NewDetail() {
       <Page>
         <Header title="Tin tức" />
         <Box style={{ padding: 10 }}>
+          <Text size="large" bold style={{ marginBottom: 10 }}>
+            {newsDetail?.title}
+          </Text>
           {newsDetail?._HashTag?.map((tag, index) => (
             <Link
               to={`/majorDetail/${tag?.keys}`}
@@ -41,18 +44,13 @@ export default function NewDetail() {
               <Text
                 className="text-gray-500"
                 style={{
-                  marginTop: "5px",
                   textAlign: "justify",
-                  color: "blue",
                 }}
               >
                 {`# ${tag?.values}`}
               </Text>
             </Link>
           ))}
-          <Text size="large" bold>
-            {newsDetail?.title}
-          </Text>
           <Text
             style={{ marginTop: "10px", marginBottom: "10px" }}
             size="small"

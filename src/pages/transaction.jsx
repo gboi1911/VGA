@@ -35,7 +35,7 @@ const Transaction = ({ accountId }) => {
         }}
       ></Box>
       <Page className="page">
-        <Header title="Lịch sử giao dịch" />
+        <Header title="Lịch sử giao dịch" style={{ textAlign: "start" }} />
         <Box>
           {loadingTransactions ? ( // Show loading spinner or message
             <div style={{ textAlign: "center", padding: "20px" }}>
@@ -46,59 +46,74 @@ const Transaction = ({ accountId }) => {
             </div>
           ) : (
             transactions.map((transaction) => (
-              <Box
-                key={transaction.id}
+              <div
                 style={{
-                  justifyContent: "space-between",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
                   alignItems: "center",
-                  padding: "10px",
-                  borderBottom: "1px solid #ddd",
-                  marginTop: "5px",
-                  backgroundColor: "#F9F9F9",
-                  borderRadius: "5px",
                 }}
               >
                 <Box
+                  key={transaction.id}
                   style={{
                     display: "flex",
+                    flexDirection: "column", // Ensures content is stacked vertically
                     justifyContent: "space-between",
-                    alignItems: "center",
+                    alignItems: "flex-start",
+                    padding: "15px",
+                    border: "1px solid #ddd", // Adds border around each box
+                    borderRadius: "8px", // Rounded corners
+                    marginTop: "5px", // Space between boxes
+                    backgroundColor: "#F9F9F9",
+                    width: "95%",
                   }}
                 >
-                  <Text style={{ fontWeight: "bold", color: "#FFCC00" }}>
-                    {transaction?.transactionType === 1
-                      ? "+"
-                      : transaction?.transactionType === 7
-                      ? "+"
-                      : transaction?.transactionType === 4
-                      ? " "
-                      : transaction?.transactionType === 5
-                      ? " "
-                      : "-"}
-                    {transaction?.goldAmount}{" "}
-                    <FontAwesomeIcon
-                      icon={faCoins}
-                      size="xl"
-                      style={{
-                        marginRight: "10px",
-                        color: "#FFD700",
-                        marginLeft: "5px",
-                      }}
-                    />
-                  </Text>
-                  <Text
-                    size="small"
-                    style={{ color: "#888", textAlign: "right" }}
+                  <Box
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
                   >
-                    {moment(transaction.transactionDateTime).format(
-                      "DD/MM/YYYY HH:mm"
-                    )}
+                    <Text style={{ fontWeight: "bold", color: "#FFCC00" }}>
+                      {transaction?.transactionType === 1
+                        ? "+"
+                        : transaction?.transactionType === 7
+                        ? "+"
+                        : transaction?.transactionType === 4
+                        ? " "
+                        : transaction?.transactionType === 5
+                        ? " "
+                        : "-"}
+                      {transaction?.goldAmount}{" "}
+                      <FontAwesomeIcon
+                        icon={faCoins}
+                        size="xl"
+                        style={{
+                          marginRight: "10px",
+                          color: "#FFD700",
+                          marginLeft: "5px",
+                        }}
+                      />
+                    </Text>
+                    <Text
+                      size="small"
+                      style={{ color: "#888", textAlign: "right" }}
+                    >
+                      {moment(transaction.transactionDateTime).format(
+                        "DD/MM/YYYY HH:mm"
+                      )}
+                    </Text>
+                  </Box>
+                  <Text
+                    size="large"
+                    style={{ color: "#555", marginTop: "8px" }}
+                  >
+                    {transaction.description}
                   </Text>
                 </Box>
-                <Text size="large" style={{ color: "#555", marginTop: "8px" }}>
-                  {transaction.description}
-                </Text>
-              </Box>
+              </div>
             ))
           )}
         </Box>

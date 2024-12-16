@@ -28,7 +28,7 @@ const Personality = ({ studentId }) => {
         }}
       ></Box>
       <Page>
-        <Header title="Tính cách cá nhân" />
+        <Header title="Tính cách cá nhân" style={{ textAlign: "start" }} />
         {personality?.historyTests?.map((test) => (
           <Box
             key={test.personalTestId}

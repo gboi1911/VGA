@@ -91,10 +91,10 @@ const HollandTest = ({ studentId }) => {
       ></Box>
       <Page
         className="page"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
+        // style={{
+        //   display: "flex",
+        //   justifyContent: "center",
+        // }}
       >
         <Header title="Holland" />
         <Box style={{ marginTop: 20 }}>

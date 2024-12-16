@@ -121,6 +121,10 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
     });
   };
 
+  if (!id) {
+    return <Text>ko tim thay bai test</Text>;
+  }
+
   if (!currentQuestion) {
     return <Text>Loading...</Text>;
   }
