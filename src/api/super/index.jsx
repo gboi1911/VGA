@@ -30,7 +30,6 @@ export const createSchedule = async (formData) => {
   }
 };
 export const createComment = async ({ formDataComment, id }) => {
-  debugger;
   try {
     const response = await axios.put(`${url}/booking/${id}`, formDataComment, {
       headers: {
