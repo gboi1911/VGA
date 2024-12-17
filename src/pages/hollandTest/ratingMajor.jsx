@@ -313,14 +313,7 @@ const RatingMajor = ({ studentId }) => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
-      <Page className="page">
+      <Page className="page page-content">
         {/* Conditional Rendering for Major List or Rating View */}
         {!isRatingView ? (
           <>
@@ -518,6 +511,7 @@ const RatingMajor = ({ studentId }) => {
                   // backgroundColor: "#FFFFFF",
                   padding: "10px",
                   borderRadius: "8px",
+                  marginTop: 150,
                 }}
               >
                 <Text bold style={{ textAlign: "center", fontSize: "20px" }}>

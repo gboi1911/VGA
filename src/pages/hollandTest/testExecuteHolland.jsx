@@ -131,15 +131,8 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page
-        className="page"
+        className="page page-content"
         style={{
           position: "relative",
           fontFamily: "Arial, sans-serif",

@@ -66,18 +66,23 @@ const UserPage = ({ studentId, accountId, info }) => {
   }, []);
 
   if (!userInfo) {
-    return <div>Loading user info...</div>;
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner />
+        <Text>Đang tải...</Text>
+      </Box>
+    );
   }
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page">
         <Header title="Thông tin cá nhân" showBackIcon={false} />
         <Box

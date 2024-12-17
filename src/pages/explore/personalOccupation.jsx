@@ -51,24 +51,17 @@ const PersonalOccupation = ({ studentId }) => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page">
         <Header title="Ngành học phù hợp" style={{ textAlign: "start" }} />
-        <Box
+        {/* <Box
           style={{
             textAlign: "center",
             marginBottom: "10px",
             width: "100%",
             padding: "20px 0",
           }}
-        >
-          {/* <Text
+        > */}
+        {/* <Text
             style={{
               fontSize: "2rem",
               fontWeight: "bold",
@@ -78,7 +71,7 @@ const PersonalOccupation = ({ studentId }) => {
           >
             Kết quả đánh giá
           </Text> */}
-        </Box>
+        {/* </Box> */}
 
         {!occupation?.historyMajor?.length &&
         !occupation?.majorByHollandResult?.length ? (

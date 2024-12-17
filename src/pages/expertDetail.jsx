@@ -164,6 +164,15 @@ const ExpertDetailPage = ({ studentId }) => {
     }
   };
 
+  const disablePastSlots = (slot) => {
+    const currentTime = moment();
+    const slotStart = moment(
+      `${moment(date).format("YYYY-MM-DD")} ${slot.startTime}`,
+      "YYYY-MM-DD HH:mm"
+    );
+    return slotStart.isBefore(currentTime, "minute");
+  };
+
   if (!expert) {
     return <Text>Error: Expert not found</Text>;
   }
@@ -172,15 +181,11 @@ const ExpertDetailPage = ({ studentId }) => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page">
-        <Header style={{ display: "flex" }} title="Thông tin & Đặt lịch" />
+        <Header
+          style={{ display: "flex", textAlign: "initial" }}
+          title="Thông tin & Đặt lịch"
+        />
         <Box style={{ padding: "10px" }}>
           <Text
             className="text-center mb-6 mt-2"
@@ -375,13 +380,22 @@ const ExpertDetailPage = ({ studentId }) => {
                       value={`${slot.startTime} - ${slot.endTime}`}
                       style={{
                         backgroundColor:
-                          slot.status !== 0 ? "#f8d7da" : "white", // Red background for booked slots
-                        color: slot.status !== 0 ? "#721c24" : "black", // Dark red text for booked slots
+                          disablePastSlots(slot) || slot.status === 1
+                            ? "#f8d7da"
+                            : "white",
+                        color:
+                          disablePastSlots(slot) || slot.status === 1
+                            ? "#721c24"
+                            : "black",
                       }}
-                      disabled={slot.status !== 0} // Disable booked slots
+                      disabled={disablePastSlots(slot) || slot.status !== 0}
                     >
                       {`${slot.startTime} - ${slot.endTime}`}{" "}
-                      {slot.status !== 0 && "(Đã đặt)"}
+                      {slot.status === 1
+                        ? "(Đã đặt)"
+                        : disablePastSlots(slot)
+                        ? "(Đã quá hạn!)"
+                        : ""}
                     </option>
                   ))
                 ) : (
@@ -391,7 +405,6 @@ const ExpertDetailPage = ({ studentId }) => {
                 )}
               </select>
             </Box>
-
             <div className="mt-4 mb-4 p-4 flex justify-center">
               <Button className="w-80" onClick={handleConfirm} color="primary">
                 Xác Nhận

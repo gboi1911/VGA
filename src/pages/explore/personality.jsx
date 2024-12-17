@@ -20,13 +20,6 @@ const Personality = ({ studentId }) => {
   }, [studentId]);
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page>
         <Header title="Tính cách cá nhân" style={{ textAlign: "start" }} />
         {personality?.historyTests?.map((test) => (

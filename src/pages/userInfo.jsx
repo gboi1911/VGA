@@ -19,15 +19,10 @@ const UserInfo = () => {
     }
   }, [date]);
 
+  console.log(dateVn);
+
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page">
         <Header title="Thông tin cá nhân" style={{ textAlign: "start" }} />
         <Box

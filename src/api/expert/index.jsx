@@ -7,9 +7,9 @@ const MAX_RETRIES = 3;
 // retries = 0
 export const getExpert = async ({ idUniversity }) => {
   try {
-    const params = {}
+    const params = {};
     if (idUniversity) {
-      params["university-id"] = idUniversity
+      params["university-id"] = idUniversity;
     }
     const response = await axios.get(`${url}/consultants`, {
       headers: {
@@ -185,5 +185,6 @@ export const putReport = async (id, payload) => {
     return response;
   } catch (error) {
     console.log("Error in put report: ", error);
+    throw error;
   }
 };

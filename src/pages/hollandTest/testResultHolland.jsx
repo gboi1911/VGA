@@ -512,14 +512,7 @@ const TestResultHolland = () => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
-      <Page className="page">
+      <Page className="page page-content">
         {showConfetti && <Confetti />}
         <Box
           style={{

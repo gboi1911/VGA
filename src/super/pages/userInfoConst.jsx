@@ -23,13 +23,6 @@ const UserInfoConst = () => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page>
         <Header title="Thông tin cá nhân" />
         <Box

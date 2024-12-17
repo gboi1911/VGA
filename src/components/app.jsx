@@ -26,13 +26,13 @@ import HollandTest from "pages/explore/holland";
 import Major from "pages/explore/major";
 import Majorbycategory from "pages/explore/majorbycategory";
 import MajorDetail from "pages/explore/majorDetail";
-// import Occupation from "pages/explore/occupation";
+import Occupation from "pages/explore/occupation";
 // react lazy
-const Occupation = React.lazy(() => import("pages/explore/occupation"));
+// const Occupation = React.lazy(() => import("pages/explore/occupation"));
 import Occupationbygroup from "pages/explore/occupationbygroup";
-// import University from "pages/explore/university";
+import University from "pages/explore/university";
 // react lazy
-const University = React.lazy(() => import("pages/explore/university"));
+// const University = React.lazy(() => import("pages/explore/university"));
 import UniversityDetail from "pages/explore/universityDetail";
 import Personal from "pages/explore/personal";
 import PersonalOccupation from "pages/explore/personalOccupation";
@@ -49,6 +49,7 @@ import OccupationCareList from "pages/explore/occupationCareList";
 import UserInfo from "pages/userInfo";
 import UserInfoConst from "super/pages/userInfoConst";
 import * as signalR from "@microsoft/signalr";
+import HomeConst from "super/pages/homeConsultpage";
 import LoadingPage from "components/loading";
 
 import {
@@ -117,7 +118,7 @@ const MyApp = () => {
           // zaloId: userInfo.userInfo.id,
           // phone: phone,
           // image_Url: userInfo.userInfo.avatar,
-          zaloId: "string",
+          zaloId: "stringstring",
           phone: "84918107843",
           image_Url: "string",
         });
@@ -298,7 +299,7 @@ const MyApp = () => {
                 </>
               ) : role === 4 ? (
                 <>
-                  <Route path="/" element={<News />} />
+                  <Route path="/" element={<HomeConst />} />
 
                   <Route
                     path="/consultantScheldule"

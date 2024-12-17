@@ -115,7 +115,7 @@ export const getNotification = async (accountId) => {
 export const updateNotificationStatus = async (id, status) => {
   try {
     const response = await axios.put(
-      `https://vgasystem-emf5a7bqfec2fjh9.southeastasia-01.azurewebsites.net/api/Notification?id=${id}&status=${status}`,
+      `https://vgacareerguidance.id.vn/api/Notification?id=${id}&status=${status}`,
       {},
       {
         headers: {

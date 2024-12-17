@@ -3,7 +3,7 @@ import { Page, Box, Text, Input, Grid, Header, Swiper } from "zmp-ui";
 import { Link } from "react-router-dom";
 import { getNews } from "api/news";
 
-export default function News() {
+export default function HomeConst() {
   const [news, setNews] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
@@ -29,7 +29,7 @@ export default function News() {
     <>
       <Page className="page">
         <Header
-          showBackIcon={true}
+          showBackIcon={false}
           textColor="white" // Truyền textColor vào header
           title={
             <div className="header-title">
@@ -44,6 +44,7 @@ export default function News() {
                   outline: "none",
                   background: "transparent", // Đặt nền của input thành trong suốt
                   color: "white",
+                  marginLeft: "10px",
                 }}
                 type="text"
                 placeholder="Tìm kiếm tin tức..."

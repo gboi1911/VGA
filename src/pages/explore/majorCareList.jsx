@@ -23,13 +23,6 @@ const MajorCareList = ({ studentId }) => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page>
         <Header
           title="Danh sách ngành học quan tâm"

@@ -5,13 +5,6 @@ import { Link } from "react-router-dom";
 const Personal = () => {
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page">
         <Header title="Mục cá nhân" style={{ textAlign: "start" }} />
         <Box

@@ -90,15 +90,8 @@ const University = () => {
     //   </Box>
     // </Page>
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page">
-        <Header title="Đại học" />
+        <Header title="Đại học" style={{ textAlign: "initial" }} />
         <Box
           style={{
             display: "grid",

@@ -105,15 +105,8 @@ const MBTI = ({ studentId }) => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page">
-        <Header title="MBTI" />
+        <Header title="MBTI" style={{ textAlign: "initial" }} />
         <Box>
           {" "}
           {testList.map((test) => (
