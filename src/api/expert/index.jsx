@@ -1,5 +1,5 @@
-import { ErrorOutline } from "@mui/icons-material";
 import axios from "axios";
+import api from "../interceptors/api";
 
 const url = import.meta.env.VITE_APP_BASE_API;
 let token = localStorage.getItem("token");
@@ -11,7 +11,7 @@ export const getExpert = async ({ idUniversity }) => {
     if (idUniversity) {
       params["university-id"] = idUniversity;
     }
-    const response = await axios.get(`${url}/consultants`, {
+    const response = await api.get(`/consultants`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -33,7 +33,7 @@ export const getExpert = async ({ idUniversity }) => {
 
 export const getDay = async (id) => {
   try {
-    const response = await axios.get(`${url}/consultation-days`, {
+    const response = await api.get(`/consultation-days`, {
       params: { "consultant-id": id },
       headers: {
         Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ export const getDay = async (id) => {
 
 export const postBook = async (studId, timeId) => {
   try {
-    const response = await axios.post(`${url}/bookings`, null, {
+    const response = await api.post(`/bookings`, null, {
       params: {
         consultationTimeId: timeId,
         studentId: studId,
@@ -66,8 +66,8 @@ export const postBook = async (studId, timeId) => {
 
 export const getBooking = async (stuId) => {
   try {
-    const response = await axios.get(
-      `${url}/bookings?student-id=${stuId}&sort-by-day=true&descending=true`,
+    const response = await api.get(
+      `/bookings?student-id=${stuId}&sort-by-day=true&descending=true`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -82,8 +82,8 @@ export const getBooking = async (stuId) => {
 };
 export const getBookingConsul = async (userId) => {
   try {
-    const response = await axios.get(
-      `${url}/bookings?consultant-id=${userId}&sort-by-day=true&descending=true`,
+    const response = await api.get(
+      `/bookings?consultant-id=${userId}&sort-by-day=true&descending=true`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -99,7 +99,7 @@ export const getBookingConsul = async (userId) => {
 
 export const getExpertById = async (id) => {
   try {
-    const response = await axios.get(`${url}/consultant/${id}`, {
+    const response = await api.get(`/consultant/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -113,7 +113,7 @@ export const getExpertById = async (id) => {
 
 export const getTimebyId = async (id) => {
   try {
-    const response = await axios.get(`${url}/consultation-time/${id}`, {
+    const response = await api.get(`/consultation-time/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -127,7 +127,7 @@ export const getTimebyId = async (id) => {
 
 export const getBookingConsultant = async (constId, day) => {
   try {
-    const response = await axios.get(`${url}/bookings`, {
+    const response = await api.get(`/bookings`, {
       params: {
         "consultant-id": constId,
         "day-in-week": day,
@@ -145,7 +145,7 @@ export const getBookingConsultant = async (constId, day) => {
 
 export const getTimeslotSelected = async (id, selectedDate) => {
   try {
-    const response = await axios.get(`${url}/consultation-days`, {
+    const response = await api.get(`/consultation-days`, {
       params: { "consultant-id": id, day: selectedDate },
       headers: {
         Authorization: `Bearer ${token}`,
@@ -160,7 +160,7 @@ export const getTimeslotSelected = async (id, selectedDate) => {
 
 export const getCompleteBooking = async (selectedDate) => {
   try {
-    const response = await axios.get(`${url}/consultation-days`, {
+    const response = await api.get(`/consultation-days`, {
       params: {
         day: selectedDate,
       },
@@ -177,7 +177,7 @@ export const getCompleteBooking = async (selectedDate) => {
 
 export const putReport = async (id, payload) => {
   try {
-    const response = await axios.put(`${url}/booking/report/${id}`, payload, {
+    const response = await api.put(`/booking/report/${id}`, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

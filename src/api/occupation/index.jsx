@@ -1,11 +1,12 @@
 import axios from "axios";
+import api from "../interceptors/api";
 
 const url = import.meta.env.VITE_APP_BASE_API;
 let token = localStorage.getItem("token");
 
 export const getOccupation = async () => {
   try {
-    const response = await axios.get(`${url}/occupations`, {
+    const response = await api.get(`/occupations`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -19,7 +20,7 @@ export const getOccupation = async () => {
 
 export const getOccupationalGroup = async (searchValue) => {
   try {
-    const response = await axios.get(`${url}/occupational-groups`, {
+    const response = await api.get(`/occupational-groups`, {
       params: {
         name: searchValue,
       },
@@ -36,8 +37,8 @@ export const getOccupationalGroup = async (searchValue) => {
 
 export const getOccupationById = async (id, studentId) => {
   try {
-    const response = await axios.get(
-      `${url}/occupation/${id}?studentId=${studentId}`,
+    const response = await api.get(
+      `occupation/${id}?studentId=${studentId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,7 +54,7 @@ export const getOccupationById = async (id, studentId) => {
 
 export const getOccupationGroupId = async (occupationGroupId, searchValue) => {
   try {
-    const response = await axios.get(`${url}/occupations`, {
+    const response = await api.get(`/occupations`, {
       params: {
         "occupational-group-id": occupationGroupId,
         name: searchValue,

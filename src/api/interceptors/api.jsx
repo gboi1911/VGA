@@ -1,4 +1,5 @@
 import axios from 'axios';
+const url = import.meta.env.VITE_APP_BASE_API;
 
 // Tạo một instance của axios
 const api = axios.create({
