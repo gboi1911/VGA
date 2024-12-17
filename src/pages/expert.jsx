@@ -15,16 +15,16 @@ const ExpertPage = ({ studentId }) => {
   const initialTab = location.state?.tab || "consultant";
 
   useEffect(() => {
-    const fetchExpert = async () => {
-      try {
-        const data = await getExpert();
-        setExperts(data.consultants);
-        setFilteredExperts(data.consultants);
-        console.log("Get data consultant successful");
-      } catch (error) {
-        console.log("Error in fetch expert:", error);
-      }
-    };
+    // const fetchExpert = async () => {
+    //   try {
+    //     const data = await getExpert();
+    //     setExperts(data.consultants);
+    //     setFilteredExperts(data.consultants);
+    //     console.log("Get data consultant successful");
+    //   } catch (error) {
+    //     console.log("Error in fetch expert:", error);
+    //   }
+    // };
 
     const fetchBookings = async () => {
       try {
@@ -35,7 +35,7 @@ const ExpertPage = ({ studentId }) => {
       }
     };
 
-    fetchExpert();
+    // fetchExpert();
     fetchBookings();
   }, []);
 
@@ -61,7 +61,7 @@ const ExpertPage = ({ studentId }) => {
         }}
       ></Box>
       <Page className="page w-full">
-        <Header title="Lịch sử đã đặt tư vấn" />
+        <Header title="Lịch sử đã đặt tư vấn" style={{ textAlign: "start" }} />
         {bookings && bookings.length > 0 ? (
           <Box
             style={{

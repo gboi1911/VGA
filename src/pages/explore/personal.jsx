@@ -13,7 +13,7 @@ const Personal = () => {
         }}
       ></Box>
       <Page className="page">
-        <Header title="Mục cá nhân" />
+        <Header title="Mục cá nhân" style={{ textAlign: "start" }} />
         <Box
           style={{
             backgroundColor: "#FFFFFF",

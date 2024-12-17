@@ -59,7 +59,7 @@ const PersonalOccupation = ({ studentId }) => {
         }}
       ></Box>
       <Page className="page">
-        <Header title="Ngành học phù hợp" />
+        <Header title="Ngành học phù hợp" style={{ textAlign: "start" }} />
         <Box
           style={{
             textAlign: "center",
@@ -68,7 +68,7 @@ const PersonalOccupation = ({ studentId }) => {
             padding: "20px 0",
           }}
         >
-          <Text
+          {/* <Text
             style={{
               fontSize: "2rem",
               fontWeight: "bold",
@@ -77,7 +77,7 @@ const PersonalOccupation = ({ studentId }) => {
             }}
           >
             Kết quả đánh giá
-          </Text>
+          </Text> */}
         </Box>
 
         {!occupation?.historyMajor?.length &&
@@ -164,7 +164,7 @@ const PersonalOccupation = ({ studentId }) => {
                 padding: "20px 0",
               }}
             >
-              <Text
+              {/* <Text
                 style={{
                   fontSize: "2rem",
                   fontWeight: "bold",
@@ -173,8 +173,8 @@ const PersonalOccupation = ({ studentId }) => {
                 }}
               >
                 Ngành học phù hợp
-              </Text>
-              <Text
+              </Text> */}
+              {/* <Text
                 style={{
                   fontSize: "1.1rem",
                   color: "#7D8799",
@@ -183,7 +183,7 @@ const PersonalOccupation = ({ studentId }) => {
               >
                 Dưới đây là danh sách các ngành học phù hợp dựa theo kết quả bài
                 test bạn đã thực hiện
-              </Text>
+              </Text> */}
             </Box>
             <Box
               style={{

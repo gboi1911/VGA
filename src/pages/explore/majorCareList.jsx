@@ -31,7 +31,10 @@ const MajorCareList = ({ studentId }) => {
         }}
       ></Box>
       <Page>
-        <Header title="Danh sách ngành học quan tâm" />
+        <Header
+          title="Danh sách ngành học quan tâm"
+          style={{ textAlign: "start" }}
+        />
         <div
           style={{
             display: "flex",

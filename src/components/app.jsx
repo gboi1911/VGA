@@ -224,8 +224,14 @@ const MyApp = () => {
                     path="/mbtiTest"
                     element={<MBTITest studentId={userid} />}
                   />
-                  <Route path="/mbtiList" element={<MBTI />} />
-                  <Route path="/hollandList" element={<Holland />} />
+                  <Route
+                    path="/mbtiList"
+                    element={<MBTI studentId={userid} />}
+                  />
+                  <Route
+                    path="/hollandList"
+                    element={<Holland studentId={userid} />}
+                  />
                   <Route
                     path="/hollandTest"
                     element={<HollandTest studentId={userid} />}

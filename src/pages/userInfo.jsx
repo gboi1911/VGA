@@ -29,7 +29,7 @@ const UserInfo = () => {
         }}
       ></Box>
       <Page className="page">
-        <Header title="Thông tin cá nhân" />
+        <Header title="Thông tin cá nhân" style={{ textAlign: "start" }} />
         <Box
           style={{
             width: "100%",

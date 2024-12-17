@@ -31,7 +31,7 @@
   padding: 0px;
   background-color: #0369a1;
   color: #ffffff;
-  position: absolute; /* Keep header fixed at the top */
+  position: sticky; /* Keep header fixed at the top */
   top: 0;
   width: 100%;
   height: 50px; /* Adjust the height as necessary */
@@ -41,7 +41,7 @@
 .zaui-page {
   // margin-bottom: 48px;
   // margin-top: 90px;
-  padding-top: 50px;
+  // padding-top: 50px;
   padding-bottom: 80px;
   margin-bottom: 70px;
   position: absolute;

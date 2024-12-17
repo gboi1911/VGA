@@ -37,6 +37,7 @@ export default function ConsultantSchedule({ userid }) {
   const [completeSchedule, setcompleteSchedule] = useState([]);
   const [googleMeetLink, setGoogleMeetLink] = useState("");
   const [bookings, setBookings] = useState([]);
+  const [dayHasSlot, setDayHasSlot] = useState([]);
   console.log("booking:", bookings);
   const [responseCreate, setResponseCreate] = useState("");
   console.log("completeSchedule:", completeSchedule); // Kiểm tra xem completeSchedule có thay đổi khi chọn slot không
@@ -160,7 +161,9 @@ export default function ConsultantSchedule({ userid }) {
       if (consultationDay && consultationDay.length > 0) {
         // Lấy consultationTimes từ phần tử đầu tiên của consultationDay
         setSlotBooked(consultationDay[0].consultationTimes);
+        setDayHasSlot(consultationDay);
         console.log("consultationDay:", consultationDay[0].consultationTimes);
+        console.log("consultationDay:", consultationDay);
       } else {
         // Không có dữ liệu cho ngày đã chọn
         setSlotBooked([]);
@@ -191,14 +194,31 @@ export default function ConsultantSchedule({ userid }) {
     fetchTimeSlotSelected();
   }, [selectedDate]);
 
-  const eventDates = [
-    new Date(2024, 11, 20), // 20 tháng 12 năm 2024
-    new Date(2024, 11, 22), // 22 tháng 12 năm 2024
+  let eventDates = [
+    // new Date(2024, 11, 20), // 20 tháng 12 năm 2024
+    // new Date(2024, 11, 22), // 22 tháng 12 năm 2024
   ];
+
+  // console.log(eventDates);
+
+  dayHasSlot.forEach((slot) => {
+    if (slot.day) {
+      eventDates.push(slot.day);
+    }
+  });
+
+  console.log(eventDates);
+
+  const formattedDates = eventDates.map((dateString) => {
+    const [year, month, day] = dateString.split("-").map(Number);
+    return new Date(year, month - 1, day); // month is 0-indexed
+  });
+
+  console.log(formattedDates);
 
   // Hàm render cell
   const cellRender = (currentDate) => {
-    const isEventDay = eventDates.some(
+    const isEventDay = formattedDates.some(
       (eventDate) =>
         currentDate.getDate() === eventDate.getDate() &&
         currentDate.getMonth() === eventDate.getMonth() &&
@@ -307,8 +327,8 @@ export default function ConsultantSchedule({ userid }) {
                         backgroundColor: completedSlot
                           ? "#4caf50"
                           : selectedTimeSlots.includes(slot)
-                            ? "#e0e0e0"
-                            : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
+                          ? "#e0e0e0"
+                          : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
                         color: "#000000",
                         padding: "10px",
                         textAlign: "center",
