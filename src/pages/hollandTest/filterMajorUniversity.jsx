@@ -50,15 +50,8 @@ const FilterMajorUniversity = () => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page
-        className="page"
+        className="page page-content"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -72,6 +65,7 @@ const FilterMajorUniversity = () => {
           style={{
             textAlign: "center",
             marginBottom: "10px",
+            marginTop: "20px",
             width: "100%",
             padding: "20px 0",
           }}

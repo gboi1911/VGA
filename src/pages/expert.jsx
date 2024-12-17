@@ -53,13 +53,6 @@ const ExpertPage = ({ studentId }) => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page w-full">
         <Header title="Lịch sử đã đặt tư vấn" style={{ textAlign: "start" }} />
         {bookings && bookings.length > 0 ? (

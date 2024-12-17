@@ -21,6 +21,7 @@ import {
   getBookingConsul,
   getTimeslotSelected,
   getCompleteBooking,
+  getDay,
 } from "api/expert";
 import BookingCardConsultant from "../../../components/bookingCardConsultant";
 import { useLocation } from "react-router-dom";
@@ -94,6 +95,7 @@ export default function ConsultantSchedule({ userid }) {
         fetchBookings();
         getCompleteSchedule();
         fetchTimeSlotSelected();
+        fetchSchedule();
       } else {
         setDialogVisible("CreateFail"); // Show fail modal if response is not successful
         setResponseCreate(response.message);
@@ -152,6 +154,21 @@ export default function ConsultantSchedule({ userid }) {
       console.error("Error fetching time slot:", error);
     }
   };
+  const fetchSchedule = async () => {
+    try {
+      const response = await getDay(userid);
+      console.log("API Response:", response); // Check the actual response structure
+      const consultationDay = response.consultationDay;
+      console.log("consultationDay:", consultationDay);
+      setDayHasSlot(consultationDay);
+    } catch (error) {
+      console.error("Error fetching schedule:", error.message || error);
+      console.error("Error details:", error.response || error);
+    }
+  };
+  useEffect(() => {
+    fetchSchedule();
+  }, []);
   const fetchTimeSlotSelected = async () => {
     try {
       const response = await getTimeslotSelected(userid, selectedDate);
@@ -161,9 +178,9 @@ export default function ConsultantSchedule({ userid }) {
       if (consultationDay && consultationDay.length > 0) {
         // Lấy consultationTimes từ phần tử đầu tiên của consultationDay
         setSlotBooked(consultationDay[0].consultationTimes);
-        setDayHasSlot(consultationDay);
+        // setDayHasSlot(consultationDay);
         console.log("consultationDay:", consultationDay[0].consultationTimes);
-        console.log("consultationDay:", consultationDay);
+        // console.log("consultationDay:", consultationDay);
       } else {
         // Không có dữ liệu cho ngày đã chọn
         setSlotBooked([]);
@@ -256,13 +273,6 @@ export default function ConsultantSchedule({ userid }) {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page">
         <Header title="Tạo lịch" showBackIcon={false} />
         <Tabs id="contact-list" defaultActiveKey={initialTab}>

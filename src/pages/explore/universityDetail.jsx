@@ -70,15 +70,8 @@ const UniversityDetail = () => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page">
-        <Header title="Thông tin trường" />
+        <Header title="Thông tin trường" style={{ textAlign: "initial" }} />
         <Box
           style={{
             display: "flex",

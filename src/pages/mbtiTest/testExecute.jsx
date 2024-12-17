@@ -148,14 +148,7 @@ const TestExecute = ({ studentId, accountId }) => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
-      <Page className="page">
+      <Page className="page page-content">
         <Box style={{ padding: "8px" }}>
           <Box>
             <img

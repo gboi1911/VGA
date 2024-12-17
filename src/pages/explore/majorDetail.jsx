@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import EastIcon from "@mui/icons-material/East";
-import { Page, Text, Box, Header, Icon, Modal, Radio } from "zmp-ui";
+import { Page, Text, Box, Header, Icon, Modal, Radio, Spinner } from "zmp-ui";
 import { useParams, useNavigate } from "react-router-dom";
 import { getMajorById, postStudentCare } from "api/major";
 
@@ -52,10 +52,6 @@ const MajorDetail = ({ studentId }) => {
   useEffect(() => {
     fetchMajorDetail();
   }, [id]);
-
-  if (!major) {
-    return <Text>Đang tải...</Text>;
-  }
 
   // const handleCare = () => {
   //   // Update the selectedValue state
@@ -115,17 +111,26 @@ const MajorDetail = ({ studentId }) => {
     postStudentCareData();
   };
 
-  return (
-    <>
+  if (!major) {
+    return (
       <Box
         style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
         }}
-      ></Box>
+      >
+        <Spinner />
+        <Text>Đang tải...</Text>
+      </Box>
+    );
+  }
+
+  return (
+    <>
       <Page className="page">
-        <Header title="Chi tiết ngành học" />
+        <Header title="Chi tiết ngành học" style={{ textAlign: "initial" }} />
         <Box
           style={{
             display: "flex",

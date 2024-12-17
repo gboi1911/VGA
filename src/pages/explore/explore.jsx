@@ -96,13 +96,6 @@ const exploreCardData = [
 const Explore = () => {
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page">
         <Header title="Khám phá" showBackIcon={false} />
         {/* <Box

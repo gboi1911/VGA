@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text, Header, Icon, Modal } from "zmp-ui";
+import { Page, Box, Text, Header, Icon, Modal, Spinner } from "zmp-ui";
 import { getOccupationById } from "api/occupation";
 import { useParams } from "react-router-dom";
 import { postStudentCare } from "api/major";
@@ -245,17 +245,26 @@ const OccupationDetail = ({ studentId }) => {
     postStudentCareData();
   };
 
-  return (
-    <>
+  if (!occupation) {
+    return (
       <Box
         style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
         }}
-      ></Box>
+      >
+        <Spinner />
+        <Text>Đang tải...</Text>
+      </Box>
+    );
+  }
+
+  return (
+    <>
       <Page className="page">
-        <Header title="Chi tiết nghề nghiệp" />
+        <Header title="Chi tiết nghề nghiệp" style={{ textAlign: "initial" }} />
         <Box
           style={{
             borderRadius: "10px",
@@ -276,6 +285,7 @@ const OccupationDetail = ({ studentId }) => {
             <img
               src={occupation.image}
               alt={occupation?.name || "Occupation"}
+              loading="lazy"
               style={{
                 width: "60%",
                 height: "auto",

@@ -48,7 +48,7 @@ const CustomBottomNavigation = ({ userid, accountid, hasNewNotification }) => {
 
     switch (key) {
       case "homepage":
-        targetPath = "/news";
+        targetPath = "/";
         break;
       case "schedule":
         targetPath = "/consultantScheldule";
@@ -76,10 +76,10 @@ const CustomBottomNavigation = ({ userid, accountid, hasNewNotification }) => {
             key === "homepage"
               ? "Trang chủ"
               : key === "notify"
-                ? "Thông báo"
-                : key === "schedule"
-                  ? "Tạo lịch"
-                  : "Cá nhân"
+              ? "Thông báo"
+              : key === "schedule"
+              ? "Tạo lịch"
+              : "Cá nhân"
           }
           icon={
             key === "notify" ? (
@@ -89,10 +89,10 @@ const CustomBottomNavigation = ({ userid, accountid, hasNewNotification }) => {
                     key === "homepage"
                       ? "zi-home"
                       : key === "notify"
-                        ? "zi-notif"
-                        : key === "schedule"
-                          ? "zi-clock-1-solid"
-                          : "zi-user"
+                      ? "zi-notif"
+                      : key === "schedule"
+                      ? "zi-clock-1-solid"
+                      : "zi-user"
                   }
                 />
                 {notificationState && (
@@ -105,10 +105,10 @@ const CustomBottomNavigation = ({ userid, accountid, hasNewNotification }) => {
                   key === "homepage"
                     ? "zi-home"
                     : key === "notify"
-                      ? "zi-notif"
-                      : key === "schedule"
-                        ? "zi-clock-1-solid"
-                        : "zi-user"
+                    ? "zi-notif"
+                    : key === "schedule"
+                    ? "zi-clock-1-solid"
+                    : "zi-user"
                 }
               />
             )
@@ -119,10 +119,10 @@ const CustomBottomNavigation = ({ userid, accountid, hasNewNotification }) => {
                 key === "homepage"
                   ? "zi-home"
                   : key === "notify"
-                    ? "zi-notif"
-                    : key === "schedule"
-                      ? "zi-clock-1-solid"
-                      : "zi-user-solid"
+                  ? "zi-notif"
+                  : key === "schedule"
+                  ? "zi-clock-1-solid"
+                  : "zi-user-solid"
               }
             />
           }

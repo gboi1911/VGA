@@ -14,15 +14,8 @@ const TestResult = () => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page
-        className="page"
+        className="page page-content"
         style={{ justifyContent: "center", display: "flex", padding: 10 }}
       >
         <Box
@@ -56,31 +49,44 @@ const TestResult = () => {
           >
             {resultData.name} - {resultData.code}
           </Text>
-          <Text
-            bold
-            size="large"
+          <Box
             style={{
-              color: "#26966b",
-              fontSize: "1em",
-              marginTop: "30px",
-              textAlign: "justify",
+              backgroundColor: "white",
+              padding: 10,
+              borderRadius: 8,
+              boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.2)",
+              marginTop: 10,
             }}
           >
-            {resultData.about.split(/\(\d+\)/).map(
-              (part, index) =>
-                part.trim() && (
-                  <React.Fragment key={index}>
-                    <span style={{ display: "block", marginBottom: "10px" }}>
-                      {part.trim()}
-                    </span>
-                  </React.Fragment>
-                )
-            )}
-          </Text>
+            <Text size="xLarge" style={{ textAlign: "center" }}>
+              Giải thích
+            </Text>
+            <Text
+              bold
+              size="large"
+              style={{
+                color: "black",
+                // fontSize: "1em",
+                marginTop: "10px",
+                textAlign: "justify",
+              }}
+            >
+              {resultData.about.split(/\(\d+\)/).map(
+                (part, index) =>
+                  part.trim() && (
+                    <React.Fragment key={index}>
+                      <span style={{ display: "block", marginBottom: "10px" }}>
+                        {part.trim()}
+                      </span>
+                    </React.Fragment>
+                  )
+              )}
+            </Text>
+          </Box>
           <Text
+            size="xLarge"
             style={{
               color: "#34495E",
-              fontSize: "1.3em",
               marginTop: "30px",
               lineHeight: "1.2",
               textAlign: "justify",
@@ -94,11 +100,12 @@ const TestResult = () => {
               color: "#FFF",
               borderRadius: "8px",
               padding: "12px 24px",
-              marginTop: "30px",
+              marginTop: "20px",
               fontSize: "1.2em",
               width: "100%",
               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
               transition: "transform 0.2s",
+              marginBottom: "10px",
             }}
             onClick={handleBack}
             onMouseOver={(e) => (e.target.style.transform = "scale(1.05)")}

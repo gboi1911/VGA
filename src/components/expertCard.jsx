@@ -27,6 +27,7 @@ const ExpertCard = ({ expert }) => {
           "https://img.freepik.com/premium-photo/confident-business-expert-attractive-smiling-young-woman-typing-laptop-ang-holding-digital-tablet-desk-creative-office_1070994-7488.jpg?w=1060"
         }
         alt={expert.name}
+        loading="lazy"
         className="w-full h-32 object-cover rounded-md"
       />
       <Text

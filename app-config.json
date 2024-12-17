@@ -11,7 +11,7 @@
     "selfControlLoading": false,
     "actionBarHidden": true,
     "hideAndroidBottomNavigationBar": true,
-    "hideIOSSafeAreaBottom": true,
+    "hideIOSSafeAreaBottom": false,
     "actionBarHidden": true
   },
   "debug": false,

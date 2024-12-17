@@ -79,7 +79,10 @@ const Notification = ({ accountId, role }) => {
     if (newsId) {
       // Navigate to the news page
       navigate(`/newsdetail/${newsId.trim()}`);
-    } else if (notification.title.includes("cập nhật thông tin điểm")) {
+    } else if (
+      notification.title.includes("cập nhật thông tin điểm") ||
+      notification.title.includes("đã sử dụng điểm")
+    ) {
       if (role === 2) {
         navigate("/transaction");
       } else if (role === 4) {
@@ -96,13 +99,6 @@ const Notification = ({ accountId, role }) => {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page className="page">
         <Header title="Thông báo" showBackIcon={false} />
         <Box style={{ padding: "16px" }}>

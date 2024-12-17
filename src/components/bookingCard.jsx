@@ -25,19 +25,21 @@ const BookingCard = ({
   const [image, setImage] = useState(); // State for storing uploaded image
   const [dialogVisible, setDialogVisible] = useState("");
   const [inputText, setInputText] = useState(""); // State for input text
+  const [errorMessage, setErrorMessage] = useState("");
   const [isUploading, setIsUploading] = useState(false);
 
+  const fetchLink = async () => {
+    try {
+      const response = await getTimebyId(dayId); // Fetch data using dayId
+      // Assuming the note contains the Google Meet link
+      const meetLink = response.data.data.note;
+      setLink(meetLink); // Set the Google Meet link to state
+    } catch (error) {
+      console.log("Error in fetch link: ", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchLink = async () => {
-      try {
-        const response = await getTimebyId(dayId); // Fetch data using dayId
-        // Assuming the note contains the Google Meet link
-        const meetLink = response.data.data.note;
-        setLink(meetLink); // Set the Google Meet link to state
-      } catch (error) {
-        console.log("Error in fetch link: ", error);
-      }
-    };
     fetchLink();
   }, [dayId]);
 
@@ -77,18 +79,21 @@ const BookingCard = ({
     const apiPutReport = async () => {
       try {
         const response = await putReport(id, payload);
-        if (response.status === 200) {
+        if (response && response.status === 200) {
           setDialogVisible("CreateReport");
-        } else {
-          setDialogVisible("CreateReportFail");
         }
-        console.log(response);
       } catch (error) {
-        console.error("Error in put report: ", error);
+        console.error("Error in create report: ", error.response);
+        setErrorMessage(error.response.data.message);
+        setDialogVisible("CreateReportFail");
+        setInputText("");
+        setImage(null);
       }
     };
+
     apiPutReport();
-    toggleModal(); // Close the modal after reporting
+    toggleModal();
+    fetchLink();
   };
 
   return (
@@ -119,24 +124,40 @@ const BookingCard = ({
         )}
         <Text
           bold
-          className={status ? "text-green-600" : "text-red-600"}
+          className={
+            status === 1
+              ? "text-yellow-600"
+              : status === 2
+              ? "text-green-600"
+              : status === 3
+              ? "text-red-600"
+              : "text-orange-600"
+          }
           style={{ marginTop: "5px" }}
         >
-          {status ? "Thành công" : "Thất bại"}
+          {status === 1
+            ? "Chưa diễn ra"
+            : status === 2
+            ? "Đã diễn ra"
+            : status === 3
+            ? "Đã hủy"
+            : "Đã tố cáo"}
         </Text>
       </div>
 
       {/* Warning Icon in the top-right corner */}
-      <div
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-        }}
-        onClick={toggleModal} // Open the modal when clicked
-      >
-        <Icon icon="zi-exclamation" style={{ color: "orange" }} />
-      </div>
+      {(status === 1 || status === 2) && (
+        <div
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+          }}
+          onClick={toggleModal} // Open the modal when clicked
+        >
+          <Icon icon="zi-exclamation" style={{ color: "orange" }} />
+        </div>
+      )}
 
       {/* Modal for report */}
       <Modal
@@ -242,7 +263,7 @@ const BookingCard = ({
       </Modal>
       <Modal
         visible={dialogVisible === "CreateReport"}
-        title="Chúc mừng bạn tố cáo thành công"
+        title="Tố cáo thành công"
         onClose={() => setDialogVisible(false)}
         actions={[
           {
@@ -253,8 +274,8 @@ const BookingCard = ({
         ]}
       >
         {" "}
-        <Text>
-          Tố cáo thành công. Chúng tôi sẽ gửi kết quả sớm nhất cho các bạn.
+        <Text style={{ textAlign: "center" }}>
+          Tố cáo thành công. Chúng tôi sẽ gửi kết quả sớm nhất cho bạn.
         </Text>
       </Modal>
       <Modal
@@ -269,7 +290,9 @@ const BookingCard = ({
           },
         ]}
       >
-        <Text>Tố cáo thất bại. Vui lòng thử lại sau.</Text>
+        <Text style={{ textAlign: "center" }}>
+          {errorMessage || "Tố cáo thất bại. Vui lòng thử lại sau."}
+        </Text>
       </Modal>
     </Box>
   );

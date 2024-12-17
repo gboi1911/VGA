@@ -10,6 +10,13 @@
   // flex-direction: column;
   // min-height: 100vh;
   // box-sizing: border-box;
+  // padding-top: var(--zaui-safe-area-inset-top, 16px);
+  // padding-bottom: var(--zaui-safe-area-inset-bottom, 16px);
+}
+
+.page-content {
+  padding-top: var(--zaui-safe-area-inset-top, 16px);
+  padding-bottom: var(--zaui-safe-area-inset-bottom, 16px);
 }
 
 .section-container {
@@ -34,9 +41,11 @@
   position: sticky; /* Keep header fixed at the top */
   top: 0;
   width: 100%;
-  height: 50px; /* Adjust the height as necessary */
+  // height: 50px; /* Adjust the height as necessary */
   z-index: 1000; /* Ensure the header is above other content */
   text-align: center;
+  padding-top: var(--zaui-safe-area-inset-top, 16px);
+  padding-bottom: var(--zaui-safe-area-inset-bottom, 16px);
 }
 .zaui-page {
   // margin-bottom: 48px;

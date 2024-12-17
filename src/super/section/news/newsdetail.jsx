@@ -22,13 +22,6 @@ export default function NewDetail() {
 
   return (
     <>
-      <Box
-        style={{
-          position: "relative",
-          height: "42px",
-          backgroundColor: "#0369a1",
-        }}
-      ></Box>
       <Page>
         <Header title="Tin tức" />
         <Box style={{ padding: 10 }}>
