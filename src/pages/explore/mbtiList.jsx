@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Page, Text, Box, Modal, Button, Header } from "zmp-ui";
+import { Page, Text, Box, Modal, Button, Header, Spinner } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getTestList } from "api/test";
 import { getStudentInfo } from "api/userInfo";
@@ -102,6 +102,21 @@ const MBTI = ({ studentId }) => {
     setIsModalVisible(false);
     console.log("User clicked No");
   }, []);
+  if (!testList) {
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner />
+        <Text>Đang tảitải...</Text>
+      </Box>
+    );
+  }
 
   return (
     <>

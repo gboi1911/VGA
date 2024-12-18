@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Page, Text, Box, Input, Header } from "zmp-ui";
+import { Page, Text, Box, Input, Header, Spinner } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getUniversity } from "api/university";
 import { Link } from "react-router-dom";
@@ -33,6 +33,22 @@ const University = () => {
       setFilteredUniversity(results);
     }
   };
+
+  if (!universities) {
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner />
+        <Text>Loading...</Text>
+      </Box>
+    );
+  }
 
   return (
     // <Page className="page">

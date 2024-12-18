@@ -32,7 +32,14 @@ const Transaction = ({ accountId }) => {
         <Header title="Lịch sử giao dịch" style={{ textAlign: "start" }} />
         <Box>
           {loadingTransactions ? (
-            <div style={{ textAlign: "center", padding: "20px" }}>
+            <div
+              style={{
+                display: "flex",
+                padding: "20px",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Spinner size="large" color="primary" />
               <Text size="medium" style={{ marginTop: "10px" }}>
                 Đang tải giao dịch...

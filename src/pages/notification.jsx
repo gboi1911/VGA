@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as signalR from "@microsoft/signalr";
-import { Page, Box, Text, Header } from "zmp-ui";
+import { Page, Box, Text, Header, Spinner } from "zmp-ui";
 import { getNotification, updateNotificationStatus } from "api/userInfo";
 import { useNavigate } from "react-router-dom";
 
@@ -152,9 +152,16 @@ const Notification = ({ accountId, role }) => {
               </Box>
             ))
           ) : (
-            <Text style={{ textAlign: "center", color: "#888" }}>
-              Chưa có thông báo nào.
-            </Text>
+            <Box
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Spinner />
+              <Text>Đang tải...</Text>
+            </Box>
           )}
         </Box>
 

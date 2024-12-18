@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Page, Text, List, Box, Header } from "zmp-ui";
+import { Page, Text, List, Box, Header, Spinner } from "zmp-ui";
 import { Link, Route, useParams } from "react-router-dom";
 import { getNewsDetail } from "api/news";
 
@@ -19,6 +19,22 @@ export default function NewDetail() {
     };
     fetchNewsDetail();
   }, [id]);
+
+  if (!newsDetail) {
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner />
+        <Text>Loading...</Text>
+      </Box>
+    );
+  }
 
   return (
     <>

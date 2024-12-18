@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Page, Text, Box, Header } from "zmp-ui";
+import { Page, Text, Box, Header, Spinner } from "zmp-ui";
 import EastIcon from "@mui/icons-material/East";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { getUniversityById, getRegionById } from "api/university";
@@ -65,7 +65,19 @@ const UniversityDetail = () => {
   }, [id]);
 
   if (!university) {
-    return <Text>Đang tải...</Text>;
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner />
+        <Text>Loading...</Text>
+      </Box>
+    );
   }
 
   return (

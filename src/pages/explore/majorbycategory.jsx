@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Page, Text, Box, Header, Input } from "zmp-ui";
+import { Page, Text, Box, Header, Input, Spinner } from "zmp-ui";
 
 import { getMajorCategoryId } from "api/major";
 
@@ -15,7 +15,7 @@ export default function Majorbycategory() {
     const getmajorbycategory = async () => {
       try {
         const response = await getMajorCategoryId(id, searchValue);
-        setMajor(response.data.majors || []);
+        setMajor(response.data.majors);
       } catch (error) {
         console.error("Error fetching major details:", error);
       }
@@ -27,6 +27,22 @@ export default function Majorbycategory() {
     setSearchValue(e.target.value);
     console.log("Search value:", e.target.value); // Thay bằng logic xử lý tìm kiếm
   };
+
+  if (!major) {
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner />
+        <Text>Loading...</Text>
+      </Box>
+    );
+  }
 
   return (
     <>

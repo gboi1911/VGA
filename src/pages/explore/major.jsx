@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Page, Text, Box, Header, Input } from "zmp-ui";
+import { Page, Text, Box, Header, Input, Spinner } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { getMajor, getMajorCategory } from "api/major";
 import { Link } from "react-router-dom";
@@ -31,6 +31,21 @@ const Major = () => {
   // const filteredMajors = selectedCategoryId
   //   ? majors.filter((major) => major.majorCategoryId === selectedCategoryId)
   //   : majors;
+  if (!majorCategories) {
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner />
+        <Text>Loading...</Text>
+      </Box>
+    );
+  }
 
   return (
     // <Page className="page">

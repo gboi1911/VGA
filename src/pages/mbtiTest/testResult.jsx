@@ -16,7 +16,7 @@ const TestResult = () => {
     <>
       <Page
         className="page page-content"
-        style={{ justifyContent: "center", display: "flex", padding: 10 }}
+        style={{ justifyContent: "center", padding: 10 }}
       >
         <Box
           style={{
@@ -25,6 +25,8 @@ const TestResult = () => {
             padding: "10px",
             boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
             marginTop: "50px",
+            overflow: "visible", // Ensure content is not clipped
+            width: "100%",
           }}
         >
           <img
@@ -32,8 +34,8 @@ const TestResult = () => {
             alt="Result"
             style={{
               width: "100%",
-              height: "300px",
-              objectFit: "fill",
+              height: "auto",
+              objectFit: "cover",
               borderRadius: "15px 15px 0 0",
             }}
           />
@@ -49,6 +51,17 @@ const TestResult = () => {
           >
             {resultData.name} - {resultData.code}
           </Text>
+          <Text
+            size="xLarge"
+            style={{
+              color: "#34495E",
+              marginTop: "10px",
+              lineHeight: "1.2",
+              textAlign: "justify",
+            }}
+          >
+            {resultData.des}
+          </Text>
           <Box
             style={{
               backgroundColor: "white",
@@ -56,6 +69,7 @@ const TestResult = () => {
               borderRadius: 8,
               boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.2)",
               marginTop: 10,
+              overflow: "visible",
             }}
           >
             <Text size="xLarge" style={{ textAlign: "center" }}>
@@ -66,9 +80,9 @@ const TestResult = () => {
               size="large"
               style={{
                 color: "black",
-                // fontSize: "1em",
                 marginTop: "10px",
                 textAlign: "justify",
+                wordWrap: "break-word",
               }}
             >
               {resultData.about.split(/\(\d+\)/).map(
@@ -83,17 +97,6 @@ const TestResult = () => {
               )}
             </Text>
           </Box>
-          <Text
-            size="xLarge"
-            style={{
-              color: "#34495E",
-              marginTop: "30px",
-              lineHeight: "1.2",
-              textAlign: "justify",
-            }}
-          >
-            {resultData.des}
-          </Text>
           <Button
             style={{
               backgroundColor: "#FF6600",
@@ -108,8 +111,6 @@ const TestResult = () => {
               marginBottom: "10px",
             }}
             onClick={handleBack}
-            onMouseOver={(e) => (e.target.style.transform = "scale(1.05)")}
-            onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
           >
             Kết thúc
           </Button>

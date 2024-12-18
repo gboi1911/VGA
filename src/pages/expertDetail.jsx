@@ -9,6 +9,7 @@ import {
   Modal,
   Header,
   ImageViewer,
+  Spinner,
 } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -126,11 +127,23 @@ const ExpertDetailPage = ({ studentId }) => {
 
   const isDateAvailable = (date) => {
     const formattedDate = moment(date).format("YYYY-MM-DD");
-    return availableDays.some((day) => day.date === formattedDate);
-  };
+    const selectedDayData = availableDays.find(
+      (day) => day.date === formattedDate
+    );
 
-  const handleDateSelect = (newDate) => {
+    // If the day exists in availableDays and all slots are booked, disable the day
+    if (selectedDayData) {
+      const allSlotsBooked = selectedDayData.consultationTimes.every(
+        (slot) => slot.status === 1
+      );
+      return !allSlotsBooked; // Disable the day if all slots are booked
+    }
+
+    return false; // Return false if the day isn't available in the list
+  };
+  const handleDateSelect = async (newDate) => {
     setDate(newDate);
+
     const formattedDate = moment(newDate).format("YYYY-MM-DD");
     const selectedDayData = availableDays.find(
       (day) => day.date === formattedDate
@@ -143,6 +156,9 @@ const ExpertDetailPage = ({ studentId }) => {
       setConsultationTimes([]);
       setTime("");
     }
+
+    // Fetch updated time slots for the selected day
+    await fetchExpertDay();
   };
 
   const handleConfirm = () => {
@@ -155,14 +171,20 @@ const ExpertDetailPage = ({ studentId }) => {
         (slot) => `${slot.startTime} - ${slot.endTime}` === time
       ).id;
       const response = await postBook(studentId, timeId);
-      setBookingConfirmation(response.data); // Set booking confirmation data
+
+      // Display booking confirmation
+      setBookingConfirmation(response.data);
       setBookingError(null); // Clear any previous error
       setModalOpen(false);
-      fetchExpertDay();
+
+      // Reload time slots for the selected day
+      setDate(moment(date).toDate()); // This will trigger the Calendar to update
+      await handleDateSelect(date);
+      await fetchExpertDay();
     } catch (error) {
       console.error("Error during booking:", error);
-      setBookingError(error.response?.data?.message || "Đặt lịch thất bại"); // Set error message
-      setModalOpen(false); // Close the confirmation modal
+      setBookingError(error.response?.data?.message || "Đặt lịch thất bại");
+      setModalOpen(false);
     }
   };
 
@@ -176,7 +198,19 @@ const ExpertDetailPage = ({ studentId }) => {
   };
 
   if (!expert) {
-    return <Text>Error: Expert not found</Text>;
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner />
+        <Text>Loading...</Text>
+      </Box>
+    );
   }
 
   console.log(image);
@@ -360,7 +394,11 @@ const ExpertDetailPage = ({ studentId }) => {
               tileClassName={({ date }) =>
                 isDateAvailable(date) ? "bg-green-200" : "bg-red-200"
               }
-              disabledDate={(date) => !isDateAvailable(date)}
+              disabledDate={(date) => {
+                const today = moment().startOf("day");
+                const selectedDate = moment(date).startOf("day");
+                return selectedDate.isBefore(today) || !isDateAvailable(date);
+              }}
             />
 
             <Box style={{ display: "flex" }}>

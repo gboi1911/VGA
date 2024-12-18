@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Page, Box, Text, Button, Progress, Icon, Header } from "zmp-ui";
+import {
+  Page,
+  Box,
+  Text,
+  Button,
+  Progress,
+  Icon,
+  Header,
+  Spinner,
+} from "zmp-ui";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test"; // Điều chỉnh API nếu cần
 import moment from "moment";
@@ -11,6 +20,8 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
   const [selectedAnswer, setSelectedAnswer] = useState({}); // Quản lý trạng thái đã chọn
   const [testCompleted, setTestCompleted] = useState(false);
   const [vibrateEffect, setVibrateEffect] = useState(false);
+  const [currentStartIndex, setCurrentStartIndex] = useState(0); // Track starting index of displayed questions
+  const questionsPerPage = 10;
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = location.state || {};
@@ -51,7 +62,23 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
     }
 
     // Automatically move to next question after a delay
-    setTimeout(handleNextQuestion, 1000);
+    setTimeout(() => {
+      setCurrentQuestionIndex((prevIndex) => {
+        const nextIndex = prevIndex + 1;
+
+        // Check if the next question is in a new batch
+        if (nextIndex % questionsPerPage === 0) {
+          setCurrentStartIndex(
+            (prevStartIndex) => prevStartIndex + questionsPerPage
+          );
+        }
+
+        if (nextIndex >= questions.length) {
+          setTestCompleted(true);
+        }
+        return Math.min(nextIndex, questions.length - 1);
+      });
+    }, 1000);
   };
 
   const handleNextQuestion = () => {
@@ -64,9 +91,10 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
     });
   };
 
+  const answeredQuestionsCount = Object.keys(selectedAnswer).length;
   const progress =
     questions.length > 0
-      ? ((currentQuestionIndex + 1) / questions.length) * 100
+      ? ((answeredQuestionsCount + 1) / questions.length) * 100
       : 0;
 
   const handleNextClick = () => {
@@ -77,6 +105,18 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
       setCurrentQuestionIndex((prev) =>
         Math.min(prev + 1, questions.length - 1)
       );
+    }
+  };
+
+  const handleNext = () => {
+    if (currentStartIndex + questionsPerPage < questions.length) {
+      setCurrentStartIndex(currentStartIndex + questionsPerPage); // Move to next set of questions
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStartIndex > 0) {
+      setCurrentStartIndex(currentStartIndex - questionsPerPage); // Move to previous set of questions
     }
   };
 
@@ -126,19 +166,32 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
   }
 
   if (!currentQuestion) {
-    return <Text>Loading...</Text>;
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner />
+        <Text>Loading questions...</Text>
+      </Box>
+    );
   }
 
   return (
     <>
       <Page
-        className="page page-content"
+        className="page"
         style={{
           position: "relative",
           fontFamily: "Arial, sans-serif",
         }}
       >
-        <Box>
+        <Header title="Holland" showBackIcon={false} />
+        {/* <Box>
           <img
             src="https://www.premiumschools.org/wp-content/uploads/2021/09/Happiest-Careers-That-Pay-Well-Divider.png"
             alt="image"
@@ -150,7 +203,7 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
             }}
             role="presentation"
           />
-        </Box>
+        </Box> */}
         <style>
           {`
   @keyframes zoomInOut {
@@ -174,15 +227,7 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
 }
   `}
         </style>
-        <Box
-          style={{
-            marginTop: "12px",
-            maxWidth: "95%",
-            marginLeft: "10px",
-          }}
-        >
-          <Progress completed={progress} maxCompleted={100} />
-        </Box>
+
         <Box
           style={{
             padding: "20px",
@@ -190,9 +235,9 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
             borderRadius: "10px",
             maxWidth: "600px",
             textAlign: "center",
-            height: "180px",
             border: `2px solid ${vibrateEffect ? "#e53e3e" : "#2b6cb0"}`,
             animation: vibrateEffect ? "shake 0.5s" : "none",
+            marginTop: 10,
           }}
         >
           <div
@@ -225,6 +270,15 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
               onClick={handleNextClick}
             />
           </div>
+          <Box
+            style={{
+              marginTop: "12px",
+              maxWidth: "95%",
+              marginLeft: "10px",
+            }}
+          >
+            <Progress completed={progress} maxCompleted={100} />
+          </Box>
           <Text
             style={{
               border: "2px solid #0066cc",
@@ -242,57 +296,124 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
           >
             {currentQuestion.content}
           </Text>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "20px", // Gần nhau hơn
+              marginTop: "20px",
+            }}
+          >
+            <Button
+              style={{
+                backgroundColor:
+                  selectedAnswer[currentQuestion.id] === "yes"
+                    ? "#4CAF50"
+                    : "grey",
+                color: "#fff",
+                borderRadius: "10px",
+                padding: "40px 60px", // Nút lớn hơn
+                fontSize: "1.2em",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                display: "flex", // Đảm bảo dùng flexbox
+                justifyContent: "center", // Căn giữa theo chiều ngang
+                alignItems: "center", // Căn giữa theo chiều dọc
+              }}
+              onClick={() => handleSelectAnswer("yes")}
+            >
+              Đúng
+            </Button>
+
+            <Button
+              style={{
+                backgroundColor:
+                  selectedAnswer[currentQuestion.id] === "no"
+                    ? "#dc3545"
+                    : "grey",
+                color: "#fff",
+                borderRadius: "10px",
+                padding: "40px 70px", // Nút lớn hơn
+                fontSize: "1.2em",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                display: "flex", // Đảm bảo dùng flexbox
+                justifyContent: "center", // Căn giữa theo chiều ngang
+                alignItems: "center",
+              }}
+              onClick={() => handleSelectAnswer("no")}
+            >
+              Sai
+            </Button>
+          </div>
         </Box>
 
-        {/* Nút Dung và Sai */}
-        <div
+        <Box
           style={{
             display: "flex",
+            flexWrap: "wrap",
+            gap: "8px",
             justifyContent: "center",
-            gap: "20px", // Gần nhau hơn
-            marginTop: "20px",
+            margin: "16px 0",
+            border: "2px solid #2b6cb0",
+            padding: 10,
+            backgroundColor: "white",
           }}
         >
-          <Button
+          {questions
+            .slice(currentStartIndex, currentStartIndex + questionsPerPage)
+            .map((q, index) => (
+              <Box
+                key={q.id}
+                style={{
+                  flexBasis: "calc(20% - 8px)", // Ensures 5 items per line, taking into account the gap
+                  height: "36px",
+                  borderRadius: "4px",
+                  backgroundColor: selectedAnswer[q.id] ? "#28a745" : "#ccc", // Corrected line
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  transition: "background-color 0.3s",
+                  border:
+                    currentQuestionIndex === index + currentStartIndex // Adjusted logic
+                      ? "2px solid #2b6cb0"
+                      : "none",
+                }}
+                onClick={() =>
+                  setCurrentQuestionIndex(index + currentStartIndex)
+                }
+              >
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                  }}
+                >
+                  {index + 1 + currentStartIndex}
+                </Text>
+              </Box>
+            ))}
+          <Icon
+            icon="zi-chevron-left"
             style={{
-              backgroundColor:
-                selectedAnswer[currentQuestion.id] === "yes"
-                  ? "#4CAF50"
-                  : "grey",
-              color: "#fff",
-              borderRadius: "10px",
-              padding: "40px 60px", // Nút lớn hơn
-              fontSize: "1.2em",
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              display: "flex", // Đảm bảo dùng flexbox
-              justifyContent: "center", // Căn giữa theo chiều ngang
-              alignItems: "center", // Căn giữa theo chiều dọc
+              color: "#003399",
+              fontSize: "23px",
+              fontWeight: "bold",
+              cursor: "pointer",
             }}
-            onClick={() => handleSelectAnswer("yes")}
-          >
-            Đúng
-          </Button>
-
-          <Button
+            onClick={handlePrevious} // Go to previous set of questions
+          />
+          <Icon
+            icon="zi-chevron-right"
             style={{
-              backgroundColor:
-                selectedAnswer[currentQuestion.id] === "no"
-                  ? "#dc3545"
-                  : "grey",
-              color: "#fff",
-              borderRadius: "10px",
-              padding: "40px 70px", // Nút lớn hơn
-              fontSize: "1.2em",
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              display: "flex", // Đảm bảo dùng flexbox
-              justifyContent: "center", // Căn giữa theo chiều ngang
-              alignItems: "center",
+              color: "#003399",
+              fontSize: "23px",
+              fontWeight: "bold",
+              cursor: "pointer",
             }}
-            onClick={() => handleSelectAnswer("no")}
-          >
-            Sai
-          </Button>
-        </div>
+            onClick={handleNext} // Go to next set of questions
+          />
+        </Box>
 
         {/* <div
         style={{

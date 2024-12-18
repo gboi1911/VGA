@@ -9,6 +9,7 @@ import {
   Modal,
   Spinner,
   Progress,
+  Header,
 } from "zmp-ui"; // Import Progress
 import { useNavigate, useLocation } from "react-router-dom";
 import { getTestData, postMBTIResult } from "../../api/test";
@@ -21,6 +22,8 @@ const TestExecute = ({ studentId, accountId }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [vibrateEffect, setVibrateEffect] = useState(false);
+  const [currentStartIndex, setCurrentStartIndex] = useState(0); // Track starting index of displayed questions
+  const questionsPerPage = 10;
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = location.state || {};
@@ -71,6 +74,10 @@ const TestExecute = ({ studentId, accountId }) => {
     setTimeout(() => {
       setCurrentQuestionIndex((prevIndex) => {
         const nextQuestionIndex = prevIndex + 1;
+        if (currentQuestionIndex === 10) {
+          // Check if it's the 11th question (index 10)
+          handleNext();
+        }
         if (nextQuestionIndex < questions.length) {
           return nextQuestionIndex;
         }
@@ -91,6 +98,18 @@ const TestExecute = ({ studentId, accountId }) => {
       setCurrentQuestionIndex((prev) =>
         Math.min(prev + 1, questions.length - 1)
       );
+    }
+  };
+
+  const handleNext = () => {
+    if (currentStartIndex + questionsPerPage < questions.length) {
+      setCurrentStartIndex(currentStartIndex + questionsPerPage); // Move to next set of questions
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStartIndex > 0) {
+      setCurrentStartIndex(currentStartIndex - questionsPerPage); // Move to previous set of questions
     }
   };
 
@@ -148,9 +167,10 @@ const TestExecute = ({ studentId, accountId }) => {
 
   return (
     <>
-      <Page className="page page-content">
+      <Page className="page">
+        <Header title="MBTI" showBackIcon={false} />
         <Box style={{ padding: "8px" }}>
-          <Box>
+          {/* <Box>
             <img
               src="https://wallpapercave.com/wp/wp1949793.jpg"
               alt="image"
@@ -163,7 +183,7 @@ const TestExecute = ({ studentId, accountId }) => {
               }}
               role="presentation"
             />
-          </Box>
+          </Box> */}
           <style>
             {`
   @keyframes zoomInOut {
@@ -188,25 +208,21 @@ const TestExecute = ({ studentId, accountId }) => {
 
   `}
           </style>
-
-          {/* Progress Bar */}
+          {/* Navigation Icons */}
           <Box
             style={{
-              marginTop: "12px",
-              maxWidth: "95%",
-              marginLeft: "10px",
+              display: "flex",
+              justifyContent: "center",
+              gap: "16px",
+              marginTop: "10px",
             }}
-          >
-            <Progress completed={progressPercentage} maxCompleted={100} />
-          </Box>
-
+          ></Box>
           <Box
             style={{
               backgroundColor: "white",
               padding: "24px",
               borderRadius: "8px",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              height: "340px",
               border: `2px solid ${vibrateEffect ? "#e53e3e" : "#2b6cb0"}`,
               animation: vibrateEffect ? "shake 0.5s" : "none",
             }}
@@ -251,6 +267,15 @@ const TestExecute = ({ studentId, accountId }) => {
                 onClick={handleNextClick}
               />
             </div>
+            {/* Progress Bar */}
+            <Box
+              style={{
+                maxWidth: "95%",
+                marginLeft: "10px",
+              }}
+            >
+              <Progress completed={progressPercentage} maxCompleted={100} />
+            </Box>
             <Text
               style={{
                 color: "#4a5568",
@@ -306,6 +331,73 @@ const TestExecute = ({ studentId, accountId }) => {
                   </label>
                 ))}
             </Box>
+          </Box>
+          <Box
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "8px",
+              justifyContent: "center",
+              margin: "16px 0",
+              border: "2px solid #2b6cb0",
+              padding: 10,
+              backgroundColor: "white",
+            }}
+          >
+            {questions
+              .slice(currentStartIndex, currentStartIndex + questionsPerPage)
+              .map((q, index) => (
+                <Box
+                  key={q.id}
+                  style={{
+                    flexBasis: "calc(20% - 8px)", // Ensures 5 items per line, taking into account the gap
+                    height: "36px",
+                    borderRadius: "4px",
+                    backgroundColor: answers[q.id] ? "#28a745" : "#ccc",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    transition: "background-color 0.3s",
+                    border:
+                      currentQuestionIndex === index + currentStartIndex
+                        ? "2px solid #2b6cb0"
+                        : "none",
+                  }}
+                  onClick={() =>
+                    setCurrentQuestionIndex(index + currentStartIndex)
+                  }
+                >
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                    }}
+                  >
+                    {index + 1 + currentStartIndex}
+                  </Text>
+                </Box>
+              ))}
+            <Icon
+              icon="zi-chevron-left"
+              style={{
+                color: "#003399",
+                fontSize: "23px",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+              onClick={handlePrevious} // Go to previous set of questions
+            />
+            <Icon
+              icon="zi-chevron-right"
+              style={{
+                color: "#003399",
+                fontSize: "23px",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+              onClick={handleNext} // Go to next set of questions
+            />
           </Box>
         </Box>
         {/* <Box

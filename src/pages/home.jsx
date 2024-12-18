@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text, Input, Grid, Swiper, Header, Icon } from "zmp-ui";
+import {
+  Page,
+  Box,
+  Text,
+  Input,
+  Grid,
+  Swiper,
+  Header,
+  Icon,
+  Spinner,
+} from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import EastIcon from "@mui/icons-material/East";
 import { Link } from "react-router-dom";
@@ -210,66 +220,79 @@ const HomePage = () => {
         <div
           style={{
             display: "grid",
-            gridTemplateRows: "1fr 1fr", // Chia thành 2 hàng
-            gridAutoFlow: "column", // Bố trí theo chiều ngang
-            gap: "10px", // Khoảng cách giữa các phần tử
-            overflowX: "auto", // Cho phép cuộn ngang
-            width: "100%", // Chiều rộng container
-            height: "220px", // Chiều cao cố định
+            gridTemplateRows: "1fr 1fr", // Split into 2 rows
+            gridAutoFlow: "column", // Layout horizontally
+            gap: "10px", // Space between items
+            overflowX: "auto", // Allow horizontal scrolling
+            width: "100%", // Container width
+            height: "220px", // Fixed height
             justifyContent: "center",
           }}
         >
-          {occupationGroup
-            .filter((group) => group?.status)
-            .slice(0, 10)
-            .map((group) => (
-              <Link
-                to={`/occupation/${group.id}`}
-                key={group.id}
-                style={{ textDecoration: "none" }}
-              >
-                <Box
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    width: "60px", // Chiều rộng cố định
-                    gap: "5px", // Khoảng cách giữa ảnh và chữ
-                    overflow: "hidden", // Ngăn chữ vượt quá container
-                    textAlign: "center",
-                  }}
+          {occupationGroup && occupationGroup.length > 0 ? (
+            occupationGroup
+              .filter((group) => group?.status)
+              .slice(0, 10)
+              .map((group) => (
+                <Link
+                  to={`/occupation/${group.id}`}
+                  key={group.id}
+                  style={{ textDecoration: "none" }}
                 >
-                  <img
-                    src={group.image}
-                    alt={group.name}
+                  <Box
                     style={{
-                      width: "100%",
-                      height: "60px", // Chiều cao cố định cho ảnh
-                      objectFit: "cover",
-                      borderRadius: "10%", // Bo tròn ảnh
-                      backgroundColor: "rgba(0, 0, 0, 0.1)", // Màu nền ảnh
-                      padding: 5,
-                    }}
-                  />
-                  <Text
-                    size="xxxSmall M"
-                    bold
-                    style={{
-                      textAlign: "center", // Căn giữa chữ
-                      wordWrap: "break-word", // Tự động xuống dòng
-                      wordBreak: "break-word", // Ngắt từ dài
-                      width: "100%", // Giới hạn chiều rộng
-                      overflow: "hidden", // Giới hạn nội dung bên trong
-                      display: "-webkit-box",
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      width: "60px", // Fixed width
+                      gap: "5px", // Space between image and text
+                      overflow: "hidden", // Prevent text from overflowing
+                      textAlign: "center",
                     }}
                   >
-                    {group.name}
-                  </Text>
-                </Box>
-              </Link>
-            ))}
+                    <img
+                      src={group.image}
+                      alt={group.name}
+                      style={{
+                        width: "100%",
+                        height: "60px", // Fixed height for image
+                        objectFit: "cover",
+                        borderRadius: "10%", // Round the image
+                        backgroundColor: "rgba(0, 0, 0, 0.1)", // Background color for image
+                        padding: 5,
+                      }}
+                    />
+                    <Text
+                      size="xxxSmall M"
+                      bold
+                      style={{
+                        textAlign: "center", // Center the text
+                        wordWrap: "break-word", // Automatically wrap long words
+                        wordBreak: "break-word", // Break long words
+                        width: "100%", // Limit text width
+                        overflow: "hidden", // Prevent overflow
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                      }}
+                    >
+                      {group.name}
+                    </Text>
+                  </Box>
+                </Link>
+              ))
+          ) : (
+            <Box
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Spinner />
+              <Text>Loading...</Text>
+            </Box>
+          )}
         </div>
       </Box>
       <Box style={{ padding: "10px" }}>
