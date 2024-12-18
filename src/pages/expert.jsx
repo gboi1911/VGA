@@ -14,6 +14,15 @@ const ExpertPage = ({ studentId }) => {
   const location = useLocation();
   const initialTab = location.state?.tab || "consultant";
 
+  const fetchBookings = async () => {
+    try {
+      const response = await getBooking(studentId);
+      setBookings(response.data.bookings);
+    } catch (error) {
+      console.log("Error fetching bookings:", error);
+    }
+  };
+
   useEffect(() => {
     // const fetchExpert = async () => {
     //   try {
@@ -25,16 +34,6 @@ const ExpertPage = ({ studentId }) => {
     //     console.log("Error in fetch expert:", error);
     //   }
     // };
-
-    const fetchBookings = async () => {
-      try {
-        const response = await getBooking(studentId);
-        setBookings(response.data.bookings);
-      } catch (error) {
-        console.log("Error fetching bookings:", error);
-      }
-    };
-
     // fetchExpert();
     fetchBookings();
   }, []);
@@ -50,6 +49,10 @@ const ExpertPage = ({ studentId }) => {
       setFilteredExperts(results);
     }
   };
+
+  const reloadPage = () => {
+    fetchBookings();
+  }
 
   return (
     <>
@@ -93,6 +96,7 @@ const ExpertPage = ({ studentId }) => {
                     dayId={booking.consultationTimeId}
                     id={booking.id}
                     onImageChange={(e) => handleImageChange(1, e)}
+                    onStatusChange={reloadPage} // Truyền hàm reloadPage
                   />
                 ))}
               </Box>

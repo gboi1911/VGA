@@ -247,7 +247,14 @@ export default function BookingCardConsultant({
         {link && (
           <div className="flex items-center">
             <Text>Link Google Meet: </Text>
-            <Text className="ml-2 text-blue-500 cursor-pointer">{link}</Text>
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-2 text-blue-500 cursor-pointer"
+            >
+              Link
+            </a>
             <CopyToClipboard text={link}>
               <Icon icon="zi-copy" onClick={() => alert("Đã sao chép link!")} />
             </CopyToClipboard>
@@ -270,11 +277,12 @@ export default function BookingCardConsultant({
               status === 1
                 ? "text-yellow-600"
                 : status === 2
-                ? "text-green-600"
-                : "text-red-600"
+                  ? "text-green-600" :
+                  status === 3 ?
+                    "text-red-600" : "text-red-600"
             }
           >
-            {status === 1 ? "Đang chờ" : status === 2 ? "Thành công" : "Đã hủy"}
+            {status === 1 ? "Đang chờ" : status === 2 ? "Thành công" : status === 3 ? "Đã hủy" : "Bị tố cáo"}
           </Text>
         </div>
       </div>
