@@ -39,12 +39,7 @@ export default function ConsultantSchedule({ userid }) {
   const [googleMeetLink, setGoogleMeetLink] = useState("");
   const [bookings, setBookings] = useState([]);
   const [dayHasSlot, setDayHasSlot] = useState([]);
-  console.log("booking:", bookings);
   const [responseCreate, setResponseCreate] = useState("");
-  console.log("completeSchedule:", completeSchedule); // Kiểm tra xem completeSchedule có thay đổi khi chọn slot không
-  console.log("idConsultantTime:", idConsultantTime); // Kiểm tra xem idConsultantTime có thay đổi khi chọn slot không
-  console.log("slotBooked:", slotBooked); // Kiểm tra xem slotBooked có thay đổi khi chọn slot không
-  console.log("selectedTimeSlots:", selectedTimeSlots); // Kiểm tra xem selectedTimeSlots có thay đổi khi chọn slot không
   const location = useLocation();
   const initialTab = location.state?.tab || "tab1";
 
@@ -157,9 +152,7 @@ export default function ConsultantSchedule({ userid }) {
   const fetchSchedule = async () => {
     try {
       const response = await getDay(userid);
-      console.log("API Response:", response); // Check the actual response structure
       const consultationDay = response.consultationDay;
-      console.log("consultationDay:", consultationDay);
       setDayHasSlot(consultationDay);
     } catch (error) {
       console.error("Error fetching schedule:", error.message || error);
@@ -179,8 +172,6 @@ export default function ConsultantSchedule({ userid }) {
         // Lấy consultationTimes từ phần tử đầu tiên của consultationDay
         setSlotBooked(consultationDay[0].consultationTimes);
         // setDayHasSlot(consultationDay);
-        console.log("consultationDay:", consultationDay[0].consultationTimes);
-        // console.log("consultationDay:", consultationDay);
       } else {
         // Không có dữ liệu cho ngày đã chọn
         setSlotBooked([]);
@@ -231,10 +222,19 @@ export default function ConsultantSchedule({ userid }) {
     return new Date(year, month - 1, day); // month is 0-indexed
   });
 
-  console.log(formattedDates);
+  console.log('formattedDates', formattedDates);
 
-  // Hàm render cell
   const cellRender = (currentDate) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Đặt giờ về đầu ngày hôm nay
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1); // Tính ngày mai
+
+    // Chỉ xử lý từ ngày mai trở đi
+    if (currentDate < tomorrow) {
+      return null; // Không hiển thị nội dung cho ngày hôm nay và trước đó
+    }
+
     const isEventDay = formattedDates.some(
       (eventDate) =>
         currentDate.getDate() === eventDate.getDate() &&
@@ -286,8 +286,10 @@ export default function ConsultantSchedule({ userid }) {
                 cellRender={cellRender}
                 disabledDate={(currentDate) => {
                   const today = new Date();
-                  today.setHours(0, 0, 0, 0);
-                  return currentDate < today;
+                  today.setHours(0, 0, 0, 0); // Đặt giờ về đầu ngày hôm nay
+                  const tomorrow = new Date(today);
+                  tomorrow.setDate(today.getDate() + 1); // Tính ngày mai
+                  return !currentDate || currentDate < tomorrow; // Loại bỏ ngày hôm nay và các ngày trước đó
                 }}
               />
               <Grid
@@ -337,8 +339,8 @@ export default function ConsultantSchedule({ userid }) {
                         backgroundColor: completedSlot
                           ? "#4caf50"
                           : selectedTimeSlots.includes(slot)
-                          ? "#e0e0e0"
-                          : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
+                            ? "#e0e0e0"
+                            : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
                         color: "#000000",
                         padding: "10px",
                         textAlign: "center",

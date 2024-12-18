@@ -19,6 +19,7 @@ const BookingCard = ({
   consultationDay,
   dayId,
   id,
+  onStatusChange,
 }) => {
   const [link, setLink] = useState(""); // Store the link state
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
@@ -81,6 +82,9 @@ const BookingCard = ({
         const response = await putReport(id, payload);
         if (response && response.status === 200) {
           setDialogVisible("CreateReport");
+          if (onStatusChange) {
+            onStatusChange();
+          }
         }
       } catch (error) {
         console.error("Error in create report: ", error.response);
@@ -111,12 +115,14 @@ const BookingCard = ({
         {link && (
           <div className="flex items-center">
             <Text>Link Google Meet: </Text>
-            <Text
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
               className="ml-2 text-blue-500 cursor-pointer"
-              // Optional: Show an alert when copied
             >
-              {link}
-            </Text>
+              Link
+            </a>
             <CopyToClipboard text={link}>
               <Icon icon="zi-copy" onClick={() => alert("Đã sao chép link!")} />
             </CopyToClipboard>
@@ -128,20 +134,20 @@ const BookingCard = ({
             status === 1
               ? "text-yellow-600"
               : status === 2
-              ? "text-green-600"
-              : status === 3
-              ? "text-red-600"
-              : "text-orange-600"
+                ? "text-green-600"
+                : status === 3
+                  ? "text-red-600"
+                  : "text-orange-600"
           }
           style={{ marginTop: "5px" }}
         >
           {status === 1
             ? "Chưa diễn ra"
             : status === 2
-            ? "Đã diễn ra"
-            : status === 3
-            ? "Đã hủy"
-            : "Đã tố cáo"}
+              ? "Đã diễn ra"
+              : status === 3
+                ? "Đã hủy"
+                : "Đã tố cáo"}
         </Text>
       </div>
 

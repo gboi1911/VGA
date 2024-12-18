@@ -129,6 +129,8 @@ const ExpertDetailPage = ({ studentId }) => {
     return availableDays.some((day) => day.date === formattedDate);
   };
 
+  console.log("availableDays", availableDays);
+
   const handleDateSelect = (newDate) => {
     setDate(newDate);
     const formattedDate = moment(newDate).format("YYYY-MM-DD");
@@ -396,8 +398,8 @@ const ExpertDetailPage = ({ studentId }) => {
                       {slot.status === 1
                         ? "(Đã đặt)"
                         : disablePastSlots(slot)
-                        ? "(Đã quá hạn!)"
-                        : ""}
+                          ? "(Đã quá hạn!)"
+                          : ""}
                     </option>
                   ))
                 ) : (
