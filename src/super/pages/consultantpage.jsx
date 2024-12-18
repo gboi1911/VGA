@@ -10,6 +10,7 @@ import {
   Modal,
   Input,
   Icon,
+  Spinner,
 } from "zmp-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
@@ -155,7 +156,19 @@ const ConsultantPage = ({ consultantId, accountId }) => {
   };
 
   if (!userInfo) {
-    return <div>Loading...</div>;
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner />
+        <Text>Đang tải...</Text>
+      </Box>
+    );
   }
 
   return (

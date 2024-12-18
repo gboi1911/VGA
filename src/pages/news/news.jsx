@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Page, Box, Text, Input, Grid, Header, Swiper } from "zmp-ui";
+import { Page, Box, Text, Input, Grid, Header, Swiper, Spinner } from "zmp-ui";
 import { Link } from "react-router-dom";
 import { getNews } from "api/news";
 
@@ -24,6 +24,22 @@ export default function News() {
     setSearchValue(e.target.value);
     console.log("Search value:", e.target.value); // Thay bằng logic xử lý tìm kiếm
   };
+
+  if (!news) {
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner />
+        <Text>Đang tải...</Text>
+      </Box>
+    );
+  }
 
   return (
     <>

@@ -33,8 +33,7 @@ const UserPage = ({ studentId, accountId, info }) => {
   const navigate = useNavigate();
   const { Item } = List;
 
-  console.log('userInfo', userInfo)
-
+  console.log("userInfo", userInfo);
 
   const paymentLink = "https://vga-payment.vercel.app";
 
@@ -127,7 +126,7 @@ const UserPage = ({ studentId, accountId, info }) => {
             </Box>
           </Modal>
           <Avatar
-            src={userInfo?.data?.image_Url || "default-avatar-url"}
+            src={userInfo?.data?.account?.image_Url || "default-avatar-url"}
             size="large"
             style={{ width: "80px", height: "80px" }}
           />
@@ -147,7 +146,9 @@ const UserPage = ({ studentId, accountId, info }) => {
                     date: userInfo.data.dateOfBirth,
                     name: userInfo.data.account.name,
                     phone: userInfo.data.account.phone,
-                    avatar: userInfo?.data?.image_Url || "default-avatar-url",
+                    avatar:
+                      userInfo?.data?.account?.image_Url ||
+                      "default-avatar-url",
                   },
                 })
               }
@@ -198,9 +199,9 @@ const UserPage = ({ studentId, accountId, info }) => {
             onClick={() => {
               setVisible(true);
             }}
-          // onClick={() =>
-          //   (window.location.href = "https://vga-payment.vercel.app")
-          // }
+            // onClick={() =>
+            //   (window.location.href = "https://vga-payment.vercel.app")
+            // }
           >
             Nạp điểm
           </Button>
