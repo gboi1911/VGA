@@ -1,11 +1,12 @@
 const url = import.meta.env.VITE_APP_BASE_API;
 import axios from "axios";
+import api from "../interceptors/api";
 
 let token = localStorage.getItem("token");
 
 export const getTestData = async (id, accountId) => {
   try {
-    const response = await axios.get(`${url}/personal-test/${id}`, {
+    const response = await api.get(`/personal-test/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -23,7 +24,7 @@ export const getTestData = async (id, accountId) => {
 
 export const postMBTIResult = async (payload) => {
   try {
-    const response = await axios.post(`${url}/personal-test-result`, payload, {
+    const response = await api.post(`/personal-test-result`, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -48,7 +49,7 @@ export const postMBTIResult = async (payload) => {
 
 export const getRatingMajor = async (id) => {
   try {
-    const response = await axios.get(`${url}/majors-by-personality/${id}`, {
+    const response = await api.get(`/majors-by-personality/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -62,7 +63,7 @@ export const getRatingMajor = async (id) => {
 
 export const getRegion = async () => {
   try {
-    const response = await axios.get(`${url}/regions`, {
+    const response = await api.get(`/regions`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -76,8 +77,8 @@ export const getRegion = async () => {
 
 export const postMajor = async (payload) => {
   try {
-    const response = await axios.post(
-      `${url}/filter-major-university`,
+    const response = await api.post(
+      `/filter-major-university`,
       payload,
       {
         headers: {
@@ -94,7 +95,7 @@ export const postMajor = async (payload) => {
 
 export const getAdmissionMethod = async () => {
   try {
-    const response = await axios.get(`${url}/admission-methods`, {
+    const response = await api.get(`/admission-methods`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -108,7 +109,7 @@ export const getAdmissionMethod = async () => {
 
 export const getTestType = async (id) => {
   try {
-    const response = await axios.get(`${url}/test-type/${id}`, {
+    const response = await api.get(`test-type/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -122,7 +123,7 @@ export const getTestType = async (id) => {
 
 export const getTestList = async () => {
   try {
-    const response = await axios.get(`${url}/personal-tests`, {
+    const response = await api.get(`/personal-tests`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

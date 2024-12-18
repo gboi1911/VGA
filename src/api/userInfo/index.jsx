@@ -1,4 +1,5 @@
 const url = import.meta.env.VITE_APP_BASE_API;
+import api from "api/interceptors/api";
 
 import axios from "axios";
 
@@ -6,7 +7,7 @@ let token = localStorage.getItem("token");
 
 export const getStudentInfo = async (id) => {
   try {
-    const response = await axios.get(`${url}/student/${id}`, {
+    const response = await api.get(`/student/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -20,7 +21,7 @@ export const getStudentInfo = async (id) => {
 
 export const getSchoolName = async (id) => {
   try {
-    const response = await axios.get(`${url}/high-school/${id}`, {
+    const response = await api.get(`/high-school/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -34,8 +35,8 @@ export const getSchoolName = async (id) => {
 
 export const getTransaction = async (accountId) => {
   try {
-    const response = await axios.get(
-      `${url}/transactions/?account-id=${accountId}&sort-by-date-time=true&descending=true`,
+    const response = await api.get(
+      `/transactions/?account-id=${accountId}&sort-by-date-time=true&descending=true`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -51,7 +52,7 @@ export const getTransaction = async (accountId) => {
 
 export const getConsultantInfo = async (id) => {
   try {
-    const response = await axios.get(`${url}/consultant/${id}`, {
+    const response = await api.get(`/consultant/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -65,8 +66,8 @@ export const getConsultantInfo = async (id) => {
 
 export const postWithdrawRequest = async (id, goldAmount) => {
   try {
-    const response = await axios.post(
-      `${url}/transaction/withdraw/${id}?goldAmount=${goldAmount}`,
+    const response = await api.post(
+      `/transaction/withdraw/${id}?goldAmount=${goldAmount}`,
       { goldAmount },
       {
         headers: {
@@ -83,7 +84,7 @@ export const postWithdrawRequest = async (id, goldAmount) => {
 
 export const getGoldBallanceConsultant = async (accountId) => {
   try {
-    const response = await axios.get(`${url}/wallet/${accountId}`, {
+    const response = await api.get(`/wallet/${accountId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -97,8 +98,8 @@ export const getGoldBallanceConsultant = async (accountId) => {
 
 export const getNotification = async (accountId) => {
   try {
-    const response = await axios.get(
-      `${url}/notification/account/${accountId}`,
+    const response = await api.get(
+      `/notification/account/${accountId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -114,7 +115,7 @@ export const getNotification = async (accountId) => {
 
 export const updateNotificationStatus = async (id, status) => {
   try {
-    const response = await axios.put(
+    const response = await api.put(
       `https://vgacareerguidance.id.vn/api/Notification?id=${id}&status=${status}`,
       {},
       {

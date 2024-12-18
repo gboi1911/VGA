@@ -118,7 +118,7 @@ const MyApp = () => {
           // zaloId: userInfo.userInfo.id,
           // phone: phone,
           // image_Url: userInfo.userInfo.avatar,
-          zaloId: "12312313",
+          zaloId: "12321",
           phone: "84347707045",
           image_Url: "string",
         });

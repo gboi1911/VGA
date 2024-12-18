@@ -3,7 +3,6 @@ import { Page, Spinner, Box, Text } from "zmp-ui";
 
 export default function LoadingPage() {
     const [isLoading, setIsLoading] = useState(true);
-    debugger
 
 
     useEffect(() => {

@@ -1,11 +1,12 @@
 import axios from "axios";
+import api from "../interceptors/api";
 
 const url = import.meta.env.VITE_APP_BASE_API;
 let token = localStorage.getItem("token");
 
 export const getMajor = async () => {
   try {
-    const response = await axios.get(`${url}/majors`, {
+    const response = await api.get(`/majors`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -19,7 +20,7 @@ export const getMajor = async () => {
 
 export const getMajorCategory = async (searchValue) => {
   try {
-    const response = await axios.get(`${url}/major-categories`, {
+    const response = await api.get(`/major-categories`, {
       params: {
         name: searchValue,
       },
@@ -36,8 +37,8 @@ export const getMajorCategory = async (searchValue) => {
 
 export const getMajorById = async (id, studentId) => {
   try {
-    const response = await axios.get(
-      `${url}/major-and-relation/${id}?studentId=${studentId}`,
+    const response = await api.get(
+      `/major-and-relation/${id}?studentId=${studentId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,7 +54,7 @@ export const getMajorById = async (id, studentId) => {
 
 export const getMajorCategoryId = async (majorCategoryId, searchValue) => {
   try {
-    const response = await axios.get(`${url}/majors`, {
+    const response = await api.get(`/majors`, {
       params: {
         "major-category-id": majorCategoryId,
         name: searchValue,
@@ -71,7 +72,7 @@ export const getMajorCategoryId = async (majorCategoryId, searchValue) => {
 
 export const postStudentCare = async (payload) => {
   try {
-    const response = await axios.post(`${url}/student-care`, payload, {
+    const response = await api.post(`/student-care`, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -85,7 +86,7 @@ export const postStudentCare = async (payload) => {
 
 export const getListCare = async (studentId) => {
   try {
-    const response = await axios.get(`${url}/student-care/${studentId}`, {
+    const response = await api.get(`/student-care/${studentId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
