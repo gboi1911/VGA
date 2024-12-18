@@ -149,7 +149,7 @@ const ConsultantPage = ({ consultantId, accountId }) => {
     // Reload the page if the exchange was successful
     if (resultModal.message === "Yêu cầu đổi điểm của bạn đã thành công!") {
       // window.location.reload();
-      fetchTransactions();
+      // fetchTransactions();
     }
     setResultModal({ open: false, message: "" });
   };

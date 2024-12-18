@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Text, Icon, Modal, Button, Input } from "zmp-ui"; // Import Modal and Button
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { getTimebyId } from "api/expert";
 import { getHistoryTest } from "api/personal";
 import { createComment } from "api/super";
-import { getDay } from '../api/expert/index'
-
-
+import { getDay } from "../api/expert/index";
 
 export default function BookingCardConsultant({
   studentName,
@@ -21,17 +19,18 @@ export default function BookingCardConsultant({
   dayId,
   studentId,
   id,
-  onStatusChange
+  onStatusChange,
 }) {
-
-  console.log('consultationDay', consultationDay);
+  console.log("consultationDay", consultationDay);
 
   const [link, setLink] = useState(""); // Store the Google Meet link
   const [dataStudent, setDataStudent] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
   const [dialogVisible, setDialogVisible] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [onDialogVisible, setOnDialogVisible] = useState("");
   const [comment, setComment] = useState("");
-  console.log('dialogVisible', dialogVisible);
+  console.log("dialogVisible", dialogVisible);
   const ITEM_HEIGHT = 48;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -63,26 +62,33 @@ export default function BookingCardConsultant({
     }
   };
 
-
   const handleCreateComment = async () => {
-    const response = await createComment({ formDataComment, id });
-    if (response.status === 200) {
-      setDialogVisible(false);
+    try {
+      const response = await createComment({ formDataComment, id });
+      if (response.status === 200) {
+        setDialogVisible(false);
+        setFormDataComment({
+          comment: "",
+          type: "",
+        });
+        if (onStatusChange) {
+          onStatusChange(); // Gọi callback để thông báo lên component cha
+        }
+      }
+    } catch (error) {
+      console.error("Error in change status:", error.response);
+      setErrorMessage(error.response.data.message);
+      setOnDialogVisible("Fail");
       setFormDataComment({
         comment: "",
-        type: '',
+        type: "",
       });
-      if (onStatusChange) {
-        onStatusChange(); // Gọi callback để thông báo lên component cha
-      }
-    } else {
-      console.log('error');
     }
   };
 
   const [formDataComment, setFormDataComment] = useState({
     comment: "",
-    type: '',
+    type: "",
   });
 
   const handleChangeComment = (e) => {
@@ -90,7 +96,7 @@ export default function BookingCardConsultant({
       ...formDataComment,
       comment: e.target.value,
     });
-  }
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -128,27 +134,27 @@ export default function BookingCardConsultant({
   const handleModalClose = () => setIsModalVisible(false);
 
   return (
-
-
     <Box className="booking-card rounded-lg shadow-md" mt={2}>
       <div className="p-2 ml-2">
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Text bold>Học sinh: {studentName}</Text>
           <div>
-            <IconButton
-              aria-label="more"
-              id="long-button"
-              aria-controls={open ? 'long-menu' : undefined}
-              aria-expanded={open ? 'true' : undefined}
-              aria-haspopup="true"
-              onClick={handleClick}
-            >
-              <MoreVertIcon />
-            </IconButton>
+            {status === 1 && (
+              <IconButton
+                aria-label="more"
+                id="long-button"
+                aria-controls={open ? "long-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-haspopup="true"
+                onClick={handleClick}
+              >
+                <MoreVertIcon />
+              </IconButton>
+            )}
             <Menu
               id="long-menu"
               MenuListProps={{
-                'aria-labelledby': 'long-button',
+                "aria-labelledby": "long-button",
               }}
               anchorEl={anchorEl}
               open={open}
@@ -157,13 +163,17 @@ export default function BookingCardConsultant({
                 paper: {
                   style: {
                     maxHeight: ITEM_HEIGHT * 4.5,
-                    width: '20ch',
+                    width: "20ch",
                   },
                 },
               }}
             >
               {options.map((option, index) => (
-                <MenuItem key={index} selected={option === 'Pyxis'} onClick={() => handleStatus(option?.value)}>
+                <MenuItem
+                  key={index}
+                  selected={option === "Pyxis"}
+                  onClick={() => handleStatus(option?.value)}
+                >
                   {option?.name}
                 </MenuItem>
               ))}
@@ -185,7 +195,7 @@ export default function BookingCardConsultant({
                 text: "Tạo mới",
                 highLight: true,
                 onClick: () => {
-                  handleCreateComment()// Gọi handleCreate khi bấm "Tạo mới"
+                  handleCreateComment(); // Gọi handleCreate khi bấm "Tạo mới"
                 },
               },
             ]}
@@ -199,6 +209,13 @@ export default function BookingCardConsultant({
               onChange={handleChangeComment}
               style={{ width: "100%", marginTop: "10px" }}
             />
+          </Modal>
+          <Modal
+            title="Thông báo"
+            visible={onDialogVisible === "Fail"}
+            onClose={() => setOnDialogVisible(false)}
+          >
+            <Text style={{ textAlign: "center" }}>{errorMessage}</Text>
           </Modal>
           {/* <Modal
             visible={dialogVisible === "Cancel"}
@@ -249,9 +266,15 @@ export default function BookingCardConsultant({
           <Text>Tình trạng:&nbsp;</Text>
           <Text
             bold
-            className={status === 1 ? "text-yellow-600" : status === 2 ? "text-green-600" : "text-red-600"}
+            className={
+              status === 1
+                ? "text-yellow-600"
+                : status === 2
+                ? "text-green-600"
+                : "text-red-600"
+            }
           >
-            {status === 1 ? 'Đang chờ' : status === 2 ? "Thành công" : "Thất bại"}
+            {status === 1 ? "Đang chờ" : status === 2 ? "Thành công" : "Đã hủy"}
           </Text>
         </div>
       </div>
@@ -280,5 +303,4 @@ export default function BookingCardConsultant({
       </Modal>
     </Box>
   );
-
-};
+}

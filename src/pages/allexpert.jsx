@@ -26,7 +26,7 @@ export default function AllExpert() {
   return (
     <>
       <Page className="page">
-        <Header title="Đại học" />
+        <Header title="Đại học" style={{ textAlign: "initial" }} />
         <Box
           style={{
             display: "grid",

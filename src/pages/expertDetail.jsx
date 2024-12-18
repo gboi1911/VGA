@@ -100,26 +100,27 @@ const ExpertDetailPage = ({ studentId }) => {
     fetchExpert();
   }, [id]);
 
+  const fetchExpertDay = async () => {
+    try {
+      const data = await getDay(expert.id); // Ensure expert.id is available here
+      console.log("Get data consultant day successful", data);
+
+      const days = data.consultationDay.map((day) => ({
+        id: day.id,
+        date: day.day,
+        consultationTimes: day.consultationTimes,
+      }));
+
+      setAvailableDays(days);
+      setTime("");
+    } catch (error) {
+      console.log("Error in fetch expert day:", error);
+    }
+  };
+
   useEffect(() => {
     if (!expert) return; // Only run if expert is defined
 
-    const fetchExpertDay = async () => {
-      try {
-        const data = await getDay(expert.id); // Ensure expert.id is available here
-        console.log("Get data consultant day successful", data);
-
-        const days = data.consultationDay.map((day) => ({
-          id: day.id,
-          date: day.day,
-          consultationTimes: day.consultationTimes,
-        }));
-
-        setAvailableDays(days);
-        setTime("");
-      } catch (error) {
-        console.log("Error in fetch expert day:", error);
-      }
-    };
     fetchExpertDay();
   }, [expert]); // Only runs when expert is set
 
@@ -157,6 +158,7 @@ const ExpertDetailPage = ({ studentId }) => {
       setBookingConfirmation(response.data); // Set booking confirmation data
       setBookingError(null); // Clear any previous error
       setModalOpen(false);
+      fetchExpertDay();
     } catch (error) {
       console.error("Error during booking:", error);
       setBookingError(error.response?.data?.message || "Đặt lịch thất bại"); // Set error message

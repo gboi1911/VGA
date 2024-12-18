@@ -118,8 +118,8 @@ const MyApp = () => {
           // zaloId: userInfo.userInfo.id,
           // phone: phone,
           // image_Url: userInfo.userInfo.avatar,
-          zaloId: "stringstring",
-          phone: "84918107843",
+          zaloId: "12312313",
+          phone: "84347707045",
           image_Url: "string",
         });
         console.log(resposneLogin);
