@@ -334,7 +334,7 @@ const RatingMajor = ({ studentId }) => {
                   letterSpacing: "0.5px",
                 }}
               >
-                Ngành nghề phù hợp
+                Ngành học phù hợp
               </Text>
               <Text
                 style={{

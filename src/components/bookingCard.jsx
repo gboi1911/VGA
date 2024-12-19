@@ -115,14 +115,10 @@ const BookingCard = ({
         {link && (
           <div className="flex items-center">
             <Text>Link Google Meet: </Text>
-            <a
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-2 text-blue-500 cursor-pointer"
-            >
+            <Text style={{ color: "blue", textDecoration: "underline" }}>
+              {" "}
               Link
-            </a>
+            </Text>
             <CopyToClipboard text={link}>
               <Icon icon="zi-copy" onClick={() => alert("Đã sao chép link!")} />
             </CopyToClipboard>
@@ -134,20 +130,20 @@ const BookingCard = ({
             status === 1
               ? "text-yellow-600"
               : status === 2
-                ? "text-green-600"
-                : status === 3
-                  ? "text-red-600"
-                  : "text-orange-600"
+              ? "text-green-600"
+              : status === 3
+              ? "text-red-600"
+              : "text-orange-600"
           }
           style={{ marginTop: "5px" }}
         >
           {status === 1
             ? "Chưa diễn ra"
             : status === 2
-              ? "Đã diễn ra"
-              : status === 3
-                ? "Đã hủy"
-                : "Đã tố cáo"}
+            ? "Đã diễn ra"
+            : status === 3
+            ? "Đã hủy"
+            : "Đã tố cáo"}
         </Text>
       </div>
 

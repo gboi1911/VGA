@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Icon, BottomNavigation } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
+import * as signalR from "@microsoft/signalr";
+import { getNotification } from "api/userInfo";
 import useVirtualKeyboardVisible from "./useVirtualKeyboardVisible";
 
 export const NO_BOTTOM_NAVIGATION_PAGES = [
@@ -26,16 +28,114 @@ const matchNoBottomNavPages = (pathname) => {
   });
 };
 
-const BottomNavigationPage = ({ hasNewNotification }) => {
+const BottomNavigationPage = () => {
   const location = useLocation();
   const keyboardVisible = useVirtualKeyboardVisible();
   const navigate = useNavigate();
   const { pathname } = location;
-  const [on, setOn] = useState(hasNewNotification);
+  // const [on, setOn] = useState(hasNewNotification);
+  // const [hasNewNotification, setHasNewNotification] = useState(false);
+  const [notification, setNotification] = useState([]);
+  const [test, setTest] = useState(false);
+  console.log("notification", notification);
+  const token = localStorage.getItem("token");
+  const accountId = localStorage.getItem("accountId");
+
+  // useEffect(() => {
+  //   setOn(hasNewNotification);
+  // }, [hasNewNotification]);
+  // useEffect(() => {
+  //   const connection = new signalR.HubConnectionBuilder()
+  //     .withUrl(`https://vgacareerguidance.id.vn/notification_hub`, {
+  //       accessTokenFactory: () => token,
+  //     })
+  //     .withAutomaticReconnect()
+  //     .build();
+
+  //   connection
+  //     .start()
+  //     .then(() => {
+  //       setStatus("Connected to SignalR");
+  //       console.log("Connected to SignalR hub.");
+
+  //       connection.on("ReceiveNotification", (message) => {
+  //         console.log("Received notification:", message);
+  //         setMessages((prevMessages) => [...prevMessages, message]);
+  //         setHasNewNotification(true);
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       setStatus(`Connection failed: ${err}`);
+  //       console.error(err);
+  //     });
+
+  //   return () => {
+  //     connection.stop();
+  //   };
+  // }, [token]);
+  useEffect(() => {
+    const fetchNotification = async () => {
+      try {
+        const response = await getNotification(accountId);
+        setNotification(response.data);
+      } catch (error) {
+        console.error("Error fetching notification list:", error);
+      }
+    };
+
+    fetchNotification();
+  }, [accountId, test]);
+
+  const access_token = token;
+  console.log("access_token", access_token);
 
   useEffect(() => {
-    setOn(hasNewNotification);
-  }, [hasNewNotification]);
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl(`https://vgacareerguidance.id.vn/notification_hub`, {
+        accessTokenFactory: () => access_token,
+      })
+      .withAutomaticReconnect()
+      .build();
+
+    // Kết nối SignalR
+    connection
+      .start()
+      .then(() => {
+        // setStatus("Connected to SignalR");
+        console.log("Connected to SignalR hub.");
+
+        // Nhận thông báo từ server
+        connection.on("ReceiveNotification", (notitfycation) => {
+          console.log("Received notification:", notitfycation);
+          setNotification((prevMessages) => [...prevMessages, notitfycation]);
+          console.log("hello");
+          setTest((pre) => !pre);
+          // setNotification((prevMessages) => {
+          //   // Kiểm tra nếu thông báo mới không trùng `createdAt` với thông báo cũ
+          //   const isDuplicate = prevMessages.some(
+          //     (message1) =>
+          //       new Date(message1.createdAt).getTime() ===
+          //       new Date(notitfycation.createdAt).getTime()
+          //   );
+
+          //   // Chỉ thêm vào nếu không trùng
+          //   return isDuplicate
+          //     ? prevMessages
+          //     : [...prevMessages, notitfycation];
+          // });
+        });
+      })
+      .catch((err) => {
+        setStatus(`Connection failed: ${err}`);
+        console.error(err);
+      });
+
+    // Clean up khi component unmount
+    return () => {
+      connection.stop();
+      console.log("connection stop");
+    };
+  }, [access_token, token]);
 
   const getTabFromPath = (path) => {
     if (
@@ -90,7 +190,7 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
         break;
       case "notify":
         targetPath = "/notification";
-        setOn(false);
+        // setOn(false);
         break;
       default:
         targetPath = "/";
@@ -153,7 +253,9 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
             key === "notify" ? (
               <div className="relative">
                 <Icon icon={getIcon(key, activeTab === key)} />
-                {on && (
+                {/* {on && ( */}
+                {notification.filter((item) => item.status === 0).length >
+                  0 && (
                   <span className="absolute top-0 right-0 h-2.5 w-2.5 bg-red-500 rounded-full border border-white"></span>
                 )}
               </div>
@@ -165,7 +267,9 @@ const BottomNavigationPage = ({ hasNewNotification }) => {
             key === "notify" ? (
               <div className="relative">
                 <Icon icon={getIcon(key, true)} />
-                {on && (
+                {/* {on && ( */}
+                {notification.filter((item) => item.status === 0).length >
+                  0 && (
                   <span className="absolute top-0 right-0 h-2.5 w-2.5 bg-red-500 rounded-full border border-white"></span>
                 )}
               </div>

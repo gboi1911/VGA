@@ -71,7 +71,6 @@ const MyApp = () => {
   const [phone, setPhone] = useState(null);
   const [messages, setMessages] = useState([]);
   const [status, setStatus] = useState("");
-  const [hasNewNotification, setHasNewNotification] = useState(false);
   const userID = localStorage.setItem("userID", userid);
   const token = localStorage.getItem("token");
 
@@ -79,6 +78,11 @@ const MyApp = () => {
     const fetchToken = async () => {
       try {
         const token = await getDataAccessToken();
+
+        const data = await authorizeUser();
+        console.log(data);
+        console.log(data["scope.userInfo"]);
+
         const phoneNumber = await getPhoneNumberUser();
 
         var config = {
@@ -94,8 +98,8 @@ const MyApp = () => {
         console.log(response);
 
         const phone = response.data.data.number; // Ensure this is valid
-        const userId = await getUserIDUser();
-        const userInfo1 = await getUser();
+        // const userId = await getUserIDUser();
+        const userInfo1 = await getUser(data["scope.userInfo"]);
 
         console.log("userinfo", userInfo1);
         setUserInfo(userInfo1); // This updates userInfo state
@@ -129,6 +133,7 @@ const MyApp = () => {
         setRole(role);
         setUserId(userId);
         setAccountId(accountId);
+        localStorage.setItem("accountId", accountId);
 
         console.log("token:", accessToken);
         localStorage.setItem("token", accessToken);
@@ -139,36 +144,6 @@ const MyApp = () => {
 
     fetchLogin();
   }, [userInfo, phone]); // Add dependencies
-
-  useEffect(() => {
-    const connection = new signalR.HubConnectionBuilder()
-      .withUrl(`https://vgacareerguidance.id.vn/notification_hub`, {
-        accessTokenFactory: () => token,
-      })
-      .withAutomaticReconnect()
-      .build();
-
-    connection
-      .start()
-      .then(() => {
-        setStatus("Connected to SignalR");
-        console.log("Connected to SignalR hub.");
-
-        connection.on("ReceiveNotification", (message) => {
-          console.log("Received notification:", message);
-          setMessages((prevMessages) => [...prevMessages, message]);
-          setHasNewNotification(true);
-        });
-      })
-      .catch((err) => {
-        setStatus(`Connection failed: ${err}`);
-        console.error(err);
-      });
-
-    return () => {
-      connection.stop();
-    };
-  }, [token]);
 
   console.log("userid", userid);
   console.log("role", role);
@@ -351,11 +326,13 @@ const MyApp = () => {
               <>
                 <CustomBottomNavigation
                   userid={userid}
-                  hasNewNotification={hasNewNotification}
+                  // hasNewNotification={hasNewNotification}
                 />
               </>
             ) : (
-              <BottomNavigationPage hasNewNotification={hasNewNotification} />
+              <BottomNavigationPage
+              // hasNewNotification={hasNewNotification}
+              />
             )}
           </ZMPRouter>
         </SnackbarProvider>

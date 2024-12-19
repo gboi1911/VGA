@@ -169,7 +169,12 @@ const TestExecute = ({ studentId, accountId }) => {
     <>
       <Page className="page">
         <Header title="MBTI" showBackIcon={false} />
-        <Box style={{ padding: "8px" }}>
+        <Box
+          style={{
+            padding: "8px",
+            marginTop: 100,
+          }}
+        >
           {/* <Box>
             <img
               src="https://wallpapercave.com/wp/wp1949793.jpg"

@@ -50,9 +50,11 @@ export const getUserIDUser = async () => {
   }
 };
 
-export const getUser = async () => {
+export const getUser = async (request) => {
   try {
-    const data = await getUserInfo({});
+    const data = await getUserInfo({
+      params: { autoRequestPermission: request },
+    });
     return data;
   } catch (error) {
     // xử lý khi gọi api thất bại

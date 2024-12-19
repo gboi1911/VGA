@@ -237,7 +237,7 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
             textAlign: "center",
             border: `2px solid ${vibrateEffect ? "#e53e3e" : "#2b6cb0"}`,
             animation: vibrateEffect ? "shake 0.5s" : "none",
-            marginTop: 10,
+            marginTop: 120,
           }}
         >
           <div
@@ -344,6 +344,10 @@ const TestExecuteHolland = ({ studentId, accountId }) => {
               Sai
             </Button>
           </div>
+          <Text style={{ color: "grey", marginTop: 10 }}>
+            (*Lưu ý: các câu hỏi không có đáp án đồng nghĩa với câu trả lời
+            "Sai")
+          </Text>
         </Box>
 
         <Box
