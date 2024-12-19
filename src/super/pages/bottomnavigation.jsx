@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { BottomNavigation, Icon } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
+import * as signalR from "@microsoft/signalr";
+import { getNotification } from "api/userInfo";
 
-const CustomBottomNavigation = ({ userid, accountid, hasNewNotification }) => {
+const CustomBottomNavigation = ({ userid, accountid }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
@@ -20,13 +22,63 @@ const CustomBottomNavigation = ({ userid, accountid, hasNewNotification }) => {
   };
 
   const [activeTab, setActiveTab] = useState(getTabFromPath(pathname));
-  const [notificationState, setNotificationState] =
-    useState(hasNewNotification);
 
-  // Synchronize notification state with prop `hasNewNotification`
+  const [notification, setNotification] = useState([]);
+  const [test, setTest] = useState(false);
+  console.log("notification", notification);
+  const token = localStorage.getItem("token");
+  const accountId = localStorage.getItem("accountId");
+
   useEffect(() => {
-    setNotificationState(hasNewNotification);
-  }, [hasNewNotification]);
+    const fetchNotification = async () => {
+      try {
+        const response = await getNotification(accountId);
+        setNotification(response.data);
+      } catch (error) {
+        console.error("Error fetching notification list:", error);
+      }
+    };
+
+    fetchNotification();
+  }, [accountId, test]);
+
+  const access_token = token;
+  console.log("access_token", access_token);
+
+  useEffect(() => {
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl(`https://vgacareerguidance.id.vn/notification_hub`, {
+        accessTokenFactory: () => access_token,
+      })
+      .withAutomaticReconnect()
+      .build();
+
+    // Kết nối SignalR
+    connection
+      .start()
+      .then(() => {
+        // setStatus("Connected to SignalR");
+        console.log("Connected to SignalR hub.");
+
+        // Nhận thông báo từ server
+        connection.on("ReceiveNotification", (notitfycation) => {
+          console.log("Received notification:", notitfycation);
+          setNotification((prevMessages) => [...prevMessages, notitfycation]);
+          console.log("hello");
+          setTest((pre) => !pre);
+        });
+      })
+      .catch((err) => {
+        setStatus(`Connection failed: ${err}`);
+        console.error(err);
+      });
+
+    // Clean up khi component unmount
+    return () => {
+      connection.stop();
+      console.log("connection stop");
+    };
+  }, [access_token, token]);
 
   const handleTabClick = (key) => {
     if (activeTab === key) {
@@ -55,7 +107,6 @@ const CustomBottomNavigation = ({ userid, accountid, hasNewNotification }) => {
         break;
       case "notify":
         targetPath = "/notification";
-        setNotificationState(false); // Reset notification state when navigating to notifications
         break;
       case "me":
         targetPath = "/consultantpage";
@@ -95,7 +146,8 @@ const CustomBottomNavigation = ({ userid, accountid, hasNewNotification }) => {
                       : "zi-user"
                   }
                 />
-                {notificationState && (
+                {notification.filter((item) => item.status === 0).length >
+                  0 && (
                   <span className="absolute top-0 right-0 h-2.5 w-2.5 bg-red-500 rounded-full border border-white"></span>
                 )}
               </div>

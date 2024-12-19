@@ -215,14 +215,10 @@ export default function ConsultantSchedule({ userid }) {
     }
   });
 
-  console.log(eventDates);
-
   const formattedDates = eventDates.map((dateString) => {
     const [year, month, day] = dateString.split("-").map(Number);
     return new Date(year, month - 1, day); // month is 0-indexed
   });
-
-  console.log('formattedDates', formattedDates);
 
   const cellRender = (currentDate) => {
     const today = new Date();
@@ -306,22 +302,18 @@ export default function ConsultantSchedule({ userid }) {
                   const bookedSlot = slotGroups[0].find(
                     (booked) => booked.timeSlotId === slot.id
                   ); // Đã đặt
-                  console.log("bookedSlot", bookedSlot);
                   const completedSlot = slotGroups[1].find(
                     (booked) => booked.timeSlotId === slot.id
                   ); // Hoàn thành
-                  console.log("completedSlot", completedSlot);
                   const canceledSlot = slotGroups[2].find(
                     (booked) => booked.timeSlotId === slot.id
                   ); // Bị hủy
-                  console.log("canceledSlot", canceledSlot);
                   return (
                     <Button
                       onClick={() => {
                         if (bookedSlot) {
                           // Nếu slot đã được đặt, mở modal Delete
                           setDialogVisible("Delete");
-                          console.log("haha", bookedSlot);
                           setIdConsultantTime(bookedSlot?.id);
                         } else if (completedSlot) {
                           // Nếu slot đã hoàn thành, không làm gì cả
@@ -339,8 +331,8 @@ export default function ConsultantSchedule({ userid }) {
                         backgroundColor: completedSlot
                           ? "#4caf50"
                           : selectedTimeSlots.includes(slot)
-                            ? "#e0e0e0"
-                            : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
+                          ? "#e0e0e0"
+                          : "#FFFFFF", // nền sáng khi chọn, trắng khi chưa đặt hoặc đã hủy
                         color: "#000000",
                         padding: "10px",
                         textAlign: "center",

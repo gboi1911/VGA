@@ -28,6 +28,7 @@ import moment from "moment";
 const ExpertDetailPage = ({ studentId }) => {
   const { id } = useParams();
   const [date, setDate] = useState(new Date());
+  const [datevisal, setDatevisal] = useState(new Date());
   console.log("date", date);
   const [time, setTime] = useState("");
   const [availableDays, setAvailableDays] = useState([]);
@@ -88,6 +89,8 @@ const ExpertDetailPage = ({ studentId }) => {
   //   // };
   // }, [id]);
 
+  // Hàm định dạng ngày
+
   useEffect(() => {
     const fetchExpert = async () => {
       try {
@@ -143,6 +146,7 @@ const ExpertDetailPage = ({ studentId }) => {
   };
   const handleDateSelect = async (newDate) => {
     setDate(newDate);
+    setDatevisal(newDate);
 
     const formattedDate = moment(newDate).format("YYYY-MM-DD");
     const selectedDayData = availableDays.find(
@@ -461,7 +465,7 @@ const ExpertDetailPage = ({ studentId }) => {
             <div className="p-4">
               <Text className="text-lg" style={{ textAlign: "center" }}>
                 Bạn có chắc chắn muốn đặt lịch hẹn vào ngày{" "}
-                {date.toDateString("vi-VN")} vào lúc {time}?
+                {moment(datevisal).format("DD/MM/YYYY")} vào lúc {time}?
               </Text>
               <Text className="text-lg" style={{ textAlign: "center" }}>
                 Đặt lịch sẽ tốn {expert.consultantLevel.priceOnSlot}{" "}

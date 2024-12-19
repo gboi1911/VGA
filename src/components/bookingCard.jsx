@@ -22,7 +22,7 @@ const BookingCard = ({
   onStatusChange,
 }) => {
   const [link, setLink] = useState(""); // Store the link state
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+  // const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const [image, setImage] = useState(); // State for storing uploaded image
   const [dialogVisible, setDialogVisible] = useState("");
   const [inputText, setInputText] = useState(""); // State for input text
@@ -45,7 +45,7 @@ const BookingCard = ({
   }, [dayId]);
 
   // Handle modal opening/closing
-  const toggleModal = () => setIsModalOpen(!isModalOpen);
+  // const toggleModal = () => setIsModalOpen(!isModalOpen);
   const handleImageChange = async (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -96,7 +96,7 @@ const BookingCard = ({
     };
 
     apiPutReport();
-    toggleModal();
+    // toggleModal();
     fetchLink();
   };
 
@@ -155,7 +155,7 @@ const BookingCard = ({
             top: "10px",
             right: "10px",
           }}
-          onClick={toggleModal} // Open the modal when clicked
+          onClick={() => setDialogVisible("warning")} // Open the modal when clicked
         >
           <Icon icon="zi-exclamation" style={{ color: "orange" }} />
         </div>
@@ -163,8 +163,8 @@ const BookingCard = ({
 
       {/* Modal for report */}
       <Modal
-        visible={isModalOpen}
-        onClose={toggleModal}
+        visible={dialogVisible === "report"}
+        onClose={() => setDialogVisible(false)}
         title="Báo cáo buổi tư vấn"
       >
         <div className="p-4">
@@ -279,6 +279,101 @@ const BookingCard = ({
         <Text style={{ textAlign: "center" }}>
           Tố cáo thành công. Chúng tôi sẽ gửi kết quả sớm nhất cho bạn.
         </Text>
+      </Modal>
+      <Modal
+        visible={dialogVisible === "warning"}
+        title="Lưu ý"
+        onClose={() => setDialogVisible(false)}
+        // actions={[
+        //   {
+        //     text: "Đóng",
+        //     close: true,
+        //     justifyContent: "center",
+        //   },
+        // ]}
+      >
+        <Modal
+          visible={dialogVisible === "warning"}
+          title="Lưu ý"
+          onClose={() => setDialogVisible(false)}
+          actions={[
+            {
+              text: "Đóng",
+              close: true,
+              justifyContent: "center",
+            },
+            {
+              text: "Đồng ý",
+              onClick: () => setDialogVisible("report"),
+            },
+          ]}
+        >
+          <Text
+            style={{
+              fontWeight: "bold",
+              textAlign: "center",
+              marginBottom: 10,
+            }}
+          >
+            Luật Báo Cáo Vi Phạm Tư Vấn Viên
+          </Text>
+
+          <Text style={{ fontWeight: "bold", marginBottom: 5 }}>
+            1. Thời gian gửi báo cáo:
+          </Text>
+          <Text style={{ marginBottom: 10 }}>
+            - Báo cáo chỉ được chấp nhận sau khi buổi tư vấn chính thức bắt đầu.
+          </Text>
+          <Text style={{ marginBottom: 10 }}>
+            - Các báo cáo gửi trước thời gian bắt đầu buổi tư vấn sẽ bị từ chối.
+          </Text>
+
+          <Text style={{ fontWeight: "bold", marginBottom: 5 }}>
+            2. Yêu cầu về nội dung và hình ảnh minh chứng:
+          </Text>
+          <Text style={{ marginBottom: 10 }}>
+            - Báo cáo phải chứa đầy đủ thông tin mô tả rõ ràng hành vi vi phạm
+            của tư vấn viên.
+          </Text>
+          <Text style={{ marginBottom: 10 }}>
+            - Hình ảnh cung cấp phải có nội dung liên quan trực tiếp đến báo cáo
+            vi phạm, cụ thể:
+          </Text>
+          <Text style={{ marginLeft: 10, marginBottom: 5 }}>
+            - Hình ảnh cần thể hiện được bằng chứng vi phạm (ví dụ: đoạn chat,
+            ảnh màn hình, hình ảnh hoặc tài liệu khác).
+          </Text>
+          <Text style={{ marginLeft: 10, marginBottom: 10 }}>
+            - Nội dung trên hình ảnh phải rõ ràng, không bị chỉnh sửa, mờ hoặc
+            cắt xén.
+          </Text>
+
+          <Text style={{ fontWeight: "bold", marginBottom: 5 }}>
+            3. Quy trình xử lý báo cáo:
+          </Text>
+          <Text style={{ marginBottom: 10 }}>
+            - Sau khi gửi báo cáo, hệ thống hoặc quản trị viên sẽ kiểm tra và
+            xác minh tính chính xác của báo cáo dựa trên nội dung và hình ảnh
+            cung cấp.
+          </Text>
+          <Text style={{ marginBottom: 10 }}>
+            - Báo cáo thiếu thông tin hoặc không đáp ứng yêu cầu trên sẽ bị từ
+            chối mà không cần thông báo thêm.
+          </Text>
+
+          <Text style={{ fontWeight: "bold", marginBottom: 5 }}>
+            4. Hậu quả của báo cáo không hợp lệ:
+          </Text>
+          <Text style={{ marginBottom: 10 }}>
+            - Người gửi báo cáo sai sự thật hoặc báo cáo không đúng quy định sẽ
+            bị cảnh cáo hoặc bị hạn chế quyền sử dụng ứng dụng.
+          </Text>
+
+          <Text style={{ fontStyle: "italic", marginTop: 10 }}>
+            Lưu ý: Hãy đảm bảo cung cấp đầy đủ và trung thực thông tin để bảo vệ
+            quyền lợi của bạn và đảm bảo tính công bằng trong ứng dụng.
+          </Text>
+        </Modal>
       </Modal>
       <Modal
         visible={dialogVisible === "CreateReportFail"}

@@ -41,38 +41,6 @@ const BottomNavigationPage = () => {
   const token = localStorage.getItem("token");
   const accountId = localStorage.getItem("accountId");
 
-  // useEffect(() => {
-  //   setOn(hasNewNotification);
-  // }, [hasNewNotification]);
-  // useEffect(() => {
-  //   const connection = new signalR.HubConnectionBuilder()
-  //     .withUrl(`https://vgacareerguidance.id.vn/notification_hub`, {
-  //       accessTokenFactory: () => token,
-  //     })
-  //     .withAutomaticReconnect()
-  //     .build();
-
-  //   connection
-  //     .start()
-  //     .then(() => {
-  //       setStatus("Connected to SignalR");
-  //       console.log("Connected to SignalR hub.");
-
-  //       connection.on("ReceiveNotification", (message) => {
-  //         console.log("Received notification:", message);
-  //         setMessages((prevMessages) => [...prevMessages, message]);
-  //         setHasNewNotification(true);
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       setStatus(`Connection failed: ${err}`);
-  //       console.error(err);
-  //     });
-
-  //   return () => {
-  //     connection.stop();
-  //   };
-  // }, [token]);
   useEffect(() => {
     const fetchNotification = async () => {
       try {

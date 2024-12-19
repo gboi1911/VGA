@@ -21,8 +21,6 @@ export default function BookingCardConsultant({
   id,
   onStatusChange,
 }) {
-  console.log("consultationDay", consultationDay);
-
   const [link, setLink] = useState(""); // Store the Google Meet link
   const [dataStudent, setDataStudent] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
@@ -30,7 +28,6 @@ export default function BookingCardConsultant({
   const [errorMessage, setErrorMessage] = useState("");
   const [onDialogVisible, setOnDialogVisible] = useState("");
   const [comment, setComment] = useState("");
-  console.log("dialogVisible", dialogVisible);
   const ITEM_HEIGHT = 48;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
