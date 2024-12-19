@@ -2,24 +2,12 @@ import React from "react";
 import { Avatar, List, Text, Box, Page, Header } from "zmp-ui";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import moment from "moment";
-import "moment/locale/vi";
 
 const UserInfo = () => {
   const [dateVn, setDateVn] = useState("");
   const location = useLocation();
   const { gender, schoolName, schoolYears, name, date, phone, avatar } =
     location.state || {};
-
-  useEffect(() => {
-    moment.locale("vi"); // Set locale to Vietnamese
-    if (date) {
-      const formattedDate = moment(date).format("LL"); // Format the date
-      setDateVn(formattedDate);
-    }
-  }, [date]);
-
-  console.log(dateVn);
 
   return (
     <>
@@ -103,7 +91,7 @@ const UserInfo = () => {
                 }}
               >
                 <Text style={{ color: "grey" }}>Ngày sinh</Text>
-                <Text>{dateVn}</Text>
+                <Text>{date.split("T")[0]}</Text>
               </Box>
             </List.Item>
             <List.Item style={{ marginBottom: "0px" }}>

@@ -275,12 +275,12 @@ const RatingMajor = ({ studentId }) => {
           type: 1,
         })),
       },
-      filterInfor: {
-        admissionMethodId: selectedAdmissionMethod?.method?.value,
-        tuitionFee: selectedTuitionFee?.tuition?.value,
-        year: selectedYear?.academicYear?.value,
-        region: selectedRegion?.region?.value,
-      },
+      // filterInfor: {
+      //   admissionMethodId: selectedAdmissionMethod?.method?.value,
+      //   tuitionFee: selectedTuitionFee?.tuition?.value,
+      //   year: selectedYear?.academicYear?.value,
+      //   region: selectedRegion?.region?.value,
+      // },
     };
     try {
       const response = await postMajor(payload);
@@ -564,22 +564,28 @@ const RatingMajor = ({ studentId }) => {
                   />
                 </div>
                 {completedRatings != 0 && (
-                  <Text
+                  <Button
                     style={{
-                      textAlign: "center",
-                      color: "blue",
-                      textDecoration: "underline",
+                      backgroundColor: "#FF6600",
+                      color: "#FFF",
+                      borderRadius: "8px",
+                      padding: "12px 24px",
+                      marginTop: "30px",
+                      fontSize: "1.2em",
+                      width: "90%",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                      marginLeft: "15px",
                     }}
-                    onClick={() => setIsDisplay(true)}
+                    onClick={handleFinish} // Call handleFinish on button click
                   >
-                    Bỏ qua
-                  </Text>
+                    Tiếp theo
+                  </Button>
                 )}
               </Box>
             )}
 
             {/* Other Rating Components */}
-            {(completedRatings === ratingMajors.length || isDisplay) && (
+            {/* {(completedRatings === ratingMajors.length || isDisplay) && (
               <Box
                 mt={8}
                 style={{
@@ -685,24 +691,9 @@ const RatingMajor = ({ studentId }) => {
                     onChange={(value) => setSelectedAdmissionMethod(value)} // Capture selected year
                   />
                 </Box>
-                <Button
-                  style={{
-                    backgroundColor: "#FF6600",
-                    color: "#FFF",
-                    borderRadius: "8px",
-                    padding: "12px 24px",
-                    marginTop: "30px",
-                    fontSize: "1.2em",
-                    width: "90%",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                    marginLeft: "15px",
-                  }}
-                  onClick={handleFinish} // Call handleFinish on button click
-                >
-                  Tiếp theo
-                </Button>
+                
               </Box>
-            )}
+            )} */}
             <Modal
               visible={showModal}
               onClose={handleCloseModal}
